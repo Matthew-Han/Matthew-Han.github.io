@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-07-16T03:01:28.205Z</updated>
+  <updated>2019-07-16T03:01:28.206Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,55 +17,13 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2019/07/16/hello-world/"/>
-    <id>http://yoursite.com/2019/07/16/hello-world/</id>
-    <published>2019-07-16T03:01:28.205Z</published>
-    <updated>2019-07-16T03:01:28.205Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>travis-ci-deploy-blog</title>
-    <link href="http://yoursite.com/2019/07/15/travis-ci-deploy-blog/"/>
-    <id>http://yoursite.com/2019/07/15/travis-ci-deploy-blog/</id>
-    <published>2019-07-15T08:06:21.000Z</published>
-    <updated>2019-07-16T04:27:12.721Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>入职浙江广电一年的感悟（真）</title>
     <link href="http://yoursite.com/2019/07/15/%E5%85%A5%E8%81%8C%E6%B5%99%E6%B1%9F%E5%B9%BF%E7%94%B5%E4%B8%80%E5%B9%B4%E7%9A%84%E6%84%9F%E6%82%9F%EF%BC%88%E7%9C%9F%EF%BC%89/"/>
     <id>http://yoursite.com/2019/07/15/入职浙江广电一年的感悟（真）/</id>
     <published>2019-07-15T02:05:06.000Z</published>
     <updated>2019-07-16T03:01:28.206Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script><div id="hbe-security">  <div class="hbe-input-container">  <input type="password" class="hbe-form-control" id="pass" placeholder="password其实gayhub上hexo分支就能看到" />    <label for="pass">password其实gayhub上hexo分支就能看到</label>    <div class="bottom-line"></div>  </div></div><div id="decryptionError" style="display: none;">Incorrect Password!</div><div id="noContentError" style="display: none;">No content to display!</div><div id="encrypt-blog" style="display:none">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</div><script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script><div id="hbe-security">  <div class="hbe-input-container">  <input type="password" class="hbe-form-control" id="pass" placeholder="password其实gayhub上hexo分支就能看到" />    <label for="pass">password其实gayhub上hexo分支就能看到</label>    <div class="bottom-line"></div>  </div></div><div id="decryptionError" style="display: none;">Incorrect Password!</div><div id="noContentError" style="display: none;">No content to display!</div><div id="encrypt-blog" style="display:none">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</div><script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
     
     <summary type="html">
     
