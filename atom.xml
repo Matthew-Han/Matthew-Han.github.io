@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Matthew-Han.github.io/"/>
-  <updated>2019-07-18T04:42:27.741Z</updated>
+  <updated>2019-07-22T10:01:46.692Z</updated>
   <id>http://Matthew-Han.github.io/</id>
   
   <author>
@@ -17,9 +17,33 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Quick Sort思想以及Java代码实现</title>
+    <link href="http://Matthew-Han.github.io/post/Quick-Sort%E6%80%9D%E6%83%B3%E4%BB%A5%E5%8F%8AJava%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://Matthew-Han.github.io/post/Quick-Sort思想以及Java代码实现/</id>
+    <published>2019-07-19T07:18:15.000Z</published>
+    <updated>2019-07-22T10:01:46.692Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote><p>封面是发明快速算法的大佬 —— C. A. R. Hoare</p></blockquote><br><p><strong><em>对于算法仅限于Baidu+Google+CSDN的我来说，记忆里最深刻还是大一的水仙花数。<br>但其实先理解并牢记思想，代码就不难写出来。并且代码写错也没关系，实在写不出还能解释一下快排原理。</em></strong></p><h3 id="快速排序概要"><a href="#快速排序概要" class="headerlink" title="快速排序概要"></a>快速排序概要</h3><p>快排的三个步骤：</p><ul><li>选择基准：在待排序列中，按照某种方式挑出一个元素，作为 “基准”（pivot）；</li><li>分割操作：以该基准在序列中的实际位置，把序列分成两个子序列。此时，在基准左边的元素都比该基准小，在基准右边的元素都比基准大；</li><li>递归地对两个序列进行快速排序，直到序列为空或者只有一个元素；</li></ul><p>其实快排实现的核心思想就是分治和递归，接下来用大白话解释下快排的原理，用词和说明可能不是那么正确，但是能够先听懂它的实现，我觉得这更重要。</p><p>我们假设这样杂乱无序不重复的数组<code>[21, 5, 44, 63, 3]</code>，设定他的<code>基准pivot</code>为第一位<code>Array[0]</code>，则<code>pivot</code>就是<code>21</code>，当然不一定都是第一位，并且<code>low</code>指针指向最左边，<code>high</code>指针指向最后边。</p><p>当<code>low</code>指针指向的值大于<code>pivot</code>就赋值给<code>high</code>指针，若当前指向的值不大于<code>pivot</code>，则一直向右移动，直到两个指针重合或者找到比<code>pivot</code>大的值。</p><p><code>high</code>指针则反之，一直找寻比<code>pivot</code>小的值，找到则赋值给<code>low</code>指针，否则一直向左移动，直到两个指针重合或者找到比<code>pivot</code>小的值。</p><h3 id="快排原理解释"><a href="#快排原理解释" class="headerlink" title="快排原理解释"></a>快排原理解释</h3><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs1.png" alt="待排序数组"></p><p><strong><code>high</code>指针先于<code>low</code>指针比较和移动</strong>，<code>high</code>指针所指向的<code>value</code>是<code>3</code>，比<code>pivot</code>小，则赋值给<code>low</code>指针所指向的<code>21</code>，并且<code>high</code>指针不动。</p><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs2.png" alt="low指针指向的值已被改写"></p><p>这时，轮到<code>low</code>指针向右移动了。</p><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs3.png" alt="low指针向右移动"></p><p>此时<code>low</code>指针向右移动发现比<code>pivot</code>小，则继续向右移动。</p><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs4.png" alt="low指针向右移动"></p><p>这时候lei了，<code>low</code>指针指向的<code>44</code>比<code>pivot</code>大，辣么就赋值给<code>high</code>指针指向的<code>3</code>，并且<code>low</code>指针保持不动。</p><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs5.png" alt="high指针改写low指针所指向的值"></p><p><code>high</code>指针向左移动。</p><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs6.png" alt="high指针向左移动"></p><p>发现比<code>pivot</code>大，这继续向左移动。</p><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs7.png" alt="两指针重合"></p><p>传说当两指针重合的时候，夜晚将是血红之月🌛，野性驱使的人类将会幻化成狼人嗥叫，暗黑之礁的邪恶鱼人也会登上瓜哇岛，残忍猎杀大量秃头程序猿。emmmmm，当然更重要的是当两指针重合的时候，此时指向的<code>44</code>将会被<code>基准</code>值改写。</p><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs8.png" alt="44被改写"></p><p>这时候一轮分治就OJBK了。可以清楚地看到（<del>好像这个例子不是很清楚的看到，果然是<code>size</code>太短了吗</del>），在<code>基准</code>值的左边数组大小都是小于<code>基准</code>值的，而右边数组都是大于<code>基准</code>值。这个时候就体现了快排的分治思想，相当于从<code>基准</code>中切一刀，左边的数组单独去排序，右边的数组单独去排序。这时候就变成了<code>[3, 5]</code>和<code>[63, 44]</code>继续递归快速排序，所以说快排实现的核心思想就是分治和递归。</p><h3 id="Java代码实现"><a href="#Java代码实现" class="headerlink" title="Java代码实现"></a>Java代码实现</h3><h3 id="快排的一些知识点和时空复杂度"><a href="#快排的一些知识点和时空复杂度" class="headerlink" title="快排的一些知识点和时空复杂度"></a>快排的一些知识点和时空复杂度</h3>]]></content>
+    
+    <summary type="html">
+    
+      20世纪最牛的算法之一
+    
+    </summary>
+    
+      <category term="算法" scheme="http://Matthew-Han.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="算法" scheme="http://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="快速排序" scheme="http://Matthew-Han.github.io/tags/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>阿里云对象存储使用</title>
-    <link href="http://Matthew-Han.github.io/2019/07/17/%E9%98%BF%E9%87%8C%E4%BA%91%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%BD%BF%E7%94%A8/"/>
-    <id>http://Matthew-Han.github.io/2019/07/17/阿里云对象存储使用/</id>
+    <link href="http://Matthew-Han.github.io/post/%E9%98%BF%E9%87%8C%E4%BA%91%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%BD%BF%E7%94%A8/"/>
+    <id>http://Matthew-Han.github.io/post/阿里云对象存储使用/</id>
     <published>2019-07-17T07:25:18.000Z</published>
     <updated>2019-07-18T04:42:27.741Z</updated>
     
@@ -44,8 +68,8 @@
   
   <entry>
     <title>Swagger初体验</title>
-    <link href="http://Matthew-Han.github.io/2019/07/16/Swagger%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
-    <id>http://Matthew-Han.github.io/2019/07/16/Swagger初体验/</id>
+    <link href="http://Matthew-Han.github.io/post/Swagger%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
+    <id>http://Matthew-Han.github.io/post/Swagger初体验/</id>
     <published>2019-07-16T09:48:15.000Z</published>
     <updated>2019-07-17T08:19:02.869Z</updated>
     
@@ -66,12 +90,12 @@
   
   <entry>
     <title>入职浙江广电一年的感悟（真）</title>
-    <link href="http://Matthew-Han.github.io/2019/07/15/%E5%85%A5%E8%81%8C%E6%B5%99%E6%B1%9F%E5%B9%BF%E7%94%B5%E4%B8%80%E5%B9%B4%E7%9A%84%E6%84%9F%E6%82%9F%EF%BC%88%E7%9C%9F%EF%BC%89/"/>
-    <id>http://Matthew-Han.github.io/2019/07/15/入职浙江广电一年的感悟（真）/</id>
+    <link href="http://Matthew-Han.github.io/post/%E5%85%A5%E8%81%8C%E6%B5%99%E6%B1%9F%E5%B9%BF%E7%94%B5%E4%B8%80%E5%B9%B4%E7%9A%84%E6%84%9F%E6%82%9F%EF%BC%88%E7%9C%9F%EF%BC%89/"/>
+    <id>http://Matthew-Han.github.io/post/入职浙江广电一年的感悟（真）/</id>
     <published>2019-07-15T02:05:06.000Z</published>
     <updated>2019-07-17T06:50:27.791Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script><div id="hbe-security">  <div class="hbe-input-container">  <input type="password" class="hbe-form-control" id="pass" placeholder="password其实gayhub上hexo分支就能看到" />    <label for="pass">password其实gayhub上hexo分支就能看到</label>    <div class="bottom-line"></div>  </div></div><div id="decryptionError" style="display: none;">Incorrect Password!</div><div id="noContentError" style="display: none;">No content to display!</div><div id="encrypt-blog" style="display:none">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</div><script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script><div id="hbe-security">  <div class="hbe-input-container">  <input type="password" class="hbe-form-control" id="pass" placeholder="password其实gayhub上hexo分支就能看到" />    <label for="pass">password其实gayhub上hexo分支就能看到</label>    <div class="bottom-line"></div>  </div></div><div id="decryptionError" style="display: none;">Incorrect Password!</div><div id="noContentError" style="display: none;">No content to display!</div><div id="encrypt-blog" style="display:none">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</div><script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
     
     <summary type="html">
     
@@ -88,8 +112,8 @@
   
   <entry>
     <title>Shiro学习一</title>
-    <link href="http://Matthew-Han.github.io/2019/07/12/Shiro%E5%AD%A6%E4%B9%A0%E4%B8%80/"/>
-    <id>http://Matthew-Han.github.io/2019/07/12/Shiro学习一/</id>
+    <link href="http://Matthew-Han.github.io/post/Shiro%E5%AD%A6%E4%B9%A0%E4%B8%80/"/>
+    <id>http://Matthew-Han.github.io/post/Shiro学习一/</id>
     <published>2019-07-12T09:01:35.000Z</published>
     <updated>2019-07-18T01:06:53.134Z</updated>
     
@@ -110,8 +134,8 @@
   
   <entry>
     <title>Spring-ldap</title>
-    <link href="http://Matthew-Han.github.io/2019/07/11/Spring-ldap/"/>
-    <id>http://Matthew-Han.github.io/2019/07/11/Spring-ldap/</id>
+    <link href="http://Matthew-Han.github.io/post/Spring-ldap/"/>
+    <id>http://Matthew-Han.github.io/post/Spring-ldap/</id>
     <published>2019-07-11T10:06:15.000Z</published>
     <updated>2019-07-18T01:09:05.331Z</updated>
     
