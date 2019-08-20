@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>《码出高效》系列笔记：面向对象 | Espada</title><meta name="description" content="向代码致敬，寻找你的第[83]行。"><meta name="keywords" content="代码风格,笔记,系统规范,Eazy Coding"><meta name="author" content="MatthewHan"><meta name="copyright" content="MatthewHan"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_ico.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="https://Matthew-Han.github.io/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="《码出高效》系列笔记：面向对象"><meta name="twitter:description" content="向代码致敬，寻找你的第[83]行。"><meta name="twitter:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/eazy%20coding/Eazy%20Coding.jpg"><meta property="og:type" content="article"><meta property="og:title" content="《码出高效》系列笔记：面向对象"><meta property="og:url" content="https://Matthew-Han.github.io/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/"><meta property="og:site_name" content="Espada"><meta property="og:description" content="向代码致敬，寻找你的第[83]行。"><meta property="og:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/eazy%20coding/Eazy%20Coding.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="next" title="8月近期学习计划" href="https://Matthew-Han.github.io/post/fae94450-bd9c-11e9-bafd-2904b28e3726/"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="dns-prefetch" href="https://www.google-analytics.com"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-144172266-1', 'auto');
+ga('send', 'pageview');
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://Matthew-Han.github.io","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'true',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集成IDE"><span class="toc-number">2.</span> <span class="toc-text">集成IDE</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#面向对象"><span class="toc-number">3.</span> <span class="toc-text">面向对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#面向过程和面向对象"><span class="toc-number">3.1.</span> <span class="toc-text">面向过程和面向对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象类与接口"><span class="toc-number">3.2.</span> <span class="toc-text">抽象类与接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部类"><span class="toc-number">3.3.</span> <span class="toc-text">内部类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#未完待续…"><span class="toc-number">4.</span> <span class="toc-text">未完待续…</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/eazy%20coding/Eazy%20Coding.jpg)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">Espada</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/friend_404.gif'"><div class="mobile_author-info__description">虚夜宫的恶魔</div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-inbox"></i><span> 留言板</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title"><div class="posttitle">《码出高效》系列笔记：面向对象</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-08-19<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-08-20</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Java技术/">Java技术</a></span><div class="post-meta-wordcount"><span>字数总计: </span><span class="word-count">1.6k</span><span class="post-meta__separator">|</span><span>阅读时长: 4 分钟</span><span class="post-meta__separator">|</span><span>阅读量: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+<p>良好的编码风格和完善统一的规约是最高效的方式。</p>
+</blockquote>
+<br>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>虽然在<a href="https://github.com/alibaba/p3c" target="_blank" rel="noopener">GitHub</a>有着17000+的star和大量的学习者，这本书即使涵盖的知识点对于很多入行较久developer来说并没有太大深入研究的价值，但是当时刚刚出炉的开发手册PDF精简版却一点一点的影响了我。也许是知乎上关注的技术话题下孤尽先生发布的回答吸引到了我，我开始注意到了平时编码中的那些事。</p>
+<p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者，作为本系列里的第一篇章：面向对象。</p>
+<h1 id="集成IDE"><a href="#集成IDE" class="headerlink" title="集成IDE"></a>集成IDE</h1><p>《码出高效》不但有实体书，同时在IDE中有对应的插件，可以帮助你在实际开发中扫描代码编写存在的问题和可能会引发的隐患。</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/eazy%20coding/plugins.png/wm" alt="在Intellij IDEA中集成"></p>
+<p>Intellij IDEA在Plugins中直接搜索alibaba，如图所示的第一个点击install即可，第二个名为cloud Toolkit是阿里中间件团队出品的Apache dubbo快速开发部署的插件，可以快速创建Apache Dubbo工程。<a href="http://jm.taobao.org/tags/" target="_blank" rel="noopener">阿里中间件团队博客</a></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/eazy%20coding/plugins2.png/wm" alt="代码扫描"></p>
+<p>在需要扫描的地方邮件，最后有个编码规约扫描，当然也可以将整个工程扫描。</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/eazy%20coding/plugins3.png/wm" alt="扫描结果"></p>
+<p>扫描的结果，可以根据tips进行代码的整改，当然这个插件也没有那么智能，有些特定场景不需要这些提示，可以将自行定义。</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/eazy%20coding/plugins4.png/wm" alt="edit"></p>
+<h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><blockquote>
+<p>一切万物皆对象</p>
+</blockquote>
+<p>面向过程让计算机有步骤地按照顺次做一件事情，是一种过程化的叙事思维。但是在大型软件开发中，流程互相穿插，模块互相耦合，往往牵一发动全身。面向对象就是计算机世界里解决复杂软件工程的方法论，拆解问题复杂度。</p>
+<h2 id="面向过程和面向对象"><a href="#面向过程和面向对象" class="headerlink" title="面向过程和面向对象"></a>面向过程和面向对象</h2><blockquote>
+<p>两者很优秀</p>
+</blockquote>
+<p>面向过程的结构相对松散，强调如何流程化地解决问题；面向对象的思维旺旺更加内聚，强调低耦合，高内聚，先抽象模型，定义共性行为，再解决实际问题。<br>传统意义上，面向对象有三大特性：<code>封装</code>、<code>继承</code>、<code>多态</code>。在《码出高效》这本书中将<code>抽象</code>也作为面向对象的特性之一，进而成为四大特性。<br>OOP（Object Oriented Programming）</p>
+<ul>
+<li>第一特性<code>封装</code>：使模块之间的耦合度变低，增强复用性，更具有维护性。例如多个业务类中<code>socket</code>对象需要对请求消息体的对象转化成字节数组并且计算消息体长度，在多个业务类中分别去实现是不合适的，不但低效而且一旦需求变更将会更改大量的代码，抽象出共性的行为特征封装成专门维护请求消息对象的类才是正确的选择。</li>
+<li>第二特性<code>继承</code>：在代码中广泛存在，子类继承父类，获得父类的部分属性和行为，也是增强复用性的体现。例如我们最常见的集合中的<code>List</code>，<code>Set</code>接口就是继承于<code>Collection</code>接口，而<code>Collection</code>则继承于<code>Iterable</code>接口。假如自定义的一个<code>exception</code>类，我们可以将它继承<code>RuntimeException</code>，通过<code>super</code>方法去<code>个性化</code>构建一个我们想要catch到的异常格式。</li>
+<li>第三特性<code>多态</code>：多态使得模块在复用性的基础上更加具有扩展性，让运行期更具有想象空间。可以进行覆写<code>Override</code>和重载<code>Overload</code>就是很好地体现了多态的意义。前面篇章中的工厂模式也是很好体验了多态的作用。</li>
+<li>第四特性<code>抽象</code>：抽象其实是完全囊括了以上三种特性，应该是所有程序员的核心素养之一。体现出程序员对业务的建模能力，以及对架构的宏观掌控力，从抽象到具体，逐步形象化的过程。比如Object类，是任何类的默认父类，是对万事万物的抽象，高度概括事物的自然行为和社会行为。<br>我们在写代码中会常见到这些：<code>getClass()</code>是用来说明本质上是谁；<code>toString()</code>是当前名片；<code>finalize()</code>是再度向销毁时触发的方法；<code>clone()</code>是繁殖对象的一种方式；<code>hashCode</code>和<code>equals()</code>是判断你其他元素是否相等的身份证。</li>
+</ul>
+<h2 id="抽象类与接口"><a href="#抽象类与接口" class="headerlink" title="抽象类与接口"></a>抽象类与接口</h2><table>
+<thead>
+<tr>
+<th align="left">语法维度</th>
+<th align="center">抽象类</th>
+<th align="left">接口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">定义关键字</td>
+<td align="center">abstract</td>
+<td align="left">interface</td>
+</tr>
+<tr>
+<td align="left">子类继承或实现的关键字</td>
+<td align="center">extends</td>
+<td align="left">extends</td>
+</tr>
+<tr>
+<td align="left">方法访问控制符</td>
+<td align="center">无限制</td>
+<td align="left">有限制，默认是public abstract类型</td>
+</tr>
+<tr>
+<td align="left">属性访问控制符</td>
+<td align="center">无限制</td>
+<td align="left">有限制，默认是public abstract类型</td>
+</tr>
+<tr>
+<td align="left">静态方法</td>
+<td align="center">可以有</td>
+<td align="left">不能有</td>
+</tr>
+<tr>
+<td align="left">static{静态代码块}</td>
+<td align="center">可以有</td>
+<td align="left">不能有</td>
+</tr>
+<tr>
+<td align="left">本类型之间扩展</td>
+<td align="center">单继承</td>
+<td align="left">多继承</td>
+</tr>
+<tr>
+<td align="left">本类型之间扩展的关键字</td>
+<td align="center">extends</td>
+<td align="left">extends</td>
+</tr>
+</tbody></table>
+<p>总结：抽象类在被<code>继承</code>时体现的是<code>is-a</code>关系，而接口被实现时是<code>can-do</code>关系。抽象类可以包含抽象方法、属性变量、实体方法。抽象方法与接口一样，继承他的类必须要覆写实现。抽象类往往是用作同类食物的抽象，比如各类排行榜（常见的土豪排行榜、天台排行榜、天梯排行榜）他们中有着相似的特征。飞机会飞，鸟类也会飞，而<code>fly()</code>不应该被定义在抽象类中，因为飞机和鸟类除了都会飞以外很难再找到其他的共同特征。<br>抽象类是模板式设计，类似一个模具，而接口是契约式设计，更像一个合同。</p>
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>在一个.java源文件中，只能定义一个类名与文件名完全一致的公开类，使用<code>public class</code>关键字来修饰，我们可以在这个类的内部和外部分别去定义另外的类，前者就叫内部类，后者叫外部类，内部类就成了这个类本身的一个属性，与其他属性的定义方式一致，可以使用<code>public</code>，<code>private</code>，<code>protected</code>访问权限关键字。可以定义成<code>static</code>静态内部类，当然类型也可以定义成<code>class</code>，<code>interface</code>和<code>enum</code>。</p>
+<h1 id="未完待续…"><a href="#未完待续…" class="headerlink" title="未完待续…"></a>未完待续…</h1></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">MatthewHan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://Matthew-Han.github.io/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">https://Matthew-Han.github.io/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Matthew-Han.github.io">Espada</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/代码风格/">代码风格    </a><a class="post-meta__tags" href="/tags/笔记/">笔记    </a><a class="post-meta__tags" href="/tags/系统规范/">系统规范    </a><a class="post-meta__tags" href="/tags/Eazy-Coding/">Eazy Coding    </a></div><div class="post_share"><div class="social-share" data-image="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/eazy%20coding/Eazy%20Coding.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-buttom"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lozad post-qr-code__img"><div class="post-qr-code__desc">打赏你🐴呢！给爷爬！</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/post/fae94450-bd9c-11e9-bafd-2904b28e3726/"><img class="next_cover lozad" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/planning/planning.jpg" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>8月近期学习计划</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i> <span>评论</span></div><div id="disqus_thread"></div><script>var unused = null;
+var disqus_config = function () {
+  this.page.url = 'https://Matthew-Han.github.io/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/';
+  this.page.identifier = 'post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/';
+  this.page.title = '《码出高效》系列笔记：面向对象';
+}
+var d = document, s = d.createElement('script');
+s.src = "https://" + 'MatthewHan' +".disqus.com/embed.js";
+s.setAttribute('data-timestamp', '' + +new Date());
+(d.head || d.body).appendChild(s);</script></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2019 By MatthewHan</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">ばんかい,げつがてんしょう!</div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="阅读模式"> </i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">繁</a><i class="fa fa-moon-o nightshift" id="nightshift" title="夜间模式"></i></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script src="/js/baidupush.js"> </script><script src="/js/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
+POWERMODE.shake = true; // turn off shake
+document.body.addEventListener('input', POWERMODE);
+</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
+
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618},"display":{"superSample":2,"width":125,"height":250,"position":"left","hOffset":40,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
