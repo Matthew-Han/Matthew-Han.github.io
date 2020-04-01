@@ -1,102 +1,172 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="day"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>千千万万设计模式之工厂模式 | Espada</title><meta name="description" content="禁止私下搞对象，对象统一由工厂发放！"><meta name="keywords" content="设计模式,工厂模式"><meta name="author" content="MatthewHan"><meta name="copyright" content="MatthewHan"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_ico.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="千千万万设计模式之工厂模式"><meta name="twitter:description" content="禁止私下搞对象，对象统一由工厂发放！"><meta name="twitter:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip"><meta property="og:type" content="article"><meta property="og:title" content="千千万万设计模式之工厂模式"><meta property="og:url" content="https://Matthew-Han.github.io/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/"><meta property="og:site_name" content="Espada"><meta property="og:description" content="禁止私下搞对象，对象统一由工厂发放！"><meta property="og:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
-var t = Cookies.get("theme");
-if (autoChangeMode == '1'){
-const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
-const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
-const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-if (t === undefined){
-  if (isLightMode) activateLightMode()
-  else if (isDarkMode) activateDarkMode()
-  else if (isNotSpecified || hasNoSupport){
-    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-    now = new Date();
-    hour = now.getHours();
-    isNight = hour < 6 || hour >= 18
-    isNight ? activateDarkMode() : activateLightMode()
-}
-} else if (t == 'light') activateLightMode()
-else activateDarkMode()
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>千千万万设计模式之工厂模式 - Espada</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="MatthewHan Espada,"> 
+    <meta name="description" content="极度理性，爱憎分明,
+对了，让厂子偷偷给你定制一个对象吧！乔碧萝怎么样？
 
 
-} else if (autoChangeMode == '2'){
-  now = new Date();
-  hour = now.getHours();
-  isNight = hour < 6 || hour >= 18
-  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode() 
-} else {
-  if ( t == 'dark' ) activateDarkMode()
-  else if ( t == 'light') activateLightMode()
-}
+本系列已经开源至GitHub，repository地址。
+最初只是为了做个人笔记，参考了前人的笔记和博客，在这里我用更接潮流、更接地气的例子,"> 
+    <meta name="author" content="MatthewHan"> 
+    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
 
-function activateDarkMode(){
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
-  }
-}
-function activateLightMode(){
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
-  }
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.css"><link rel="canonical" href="https://Matthew-Han.github.io/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/"><link rel="prev" title="2019.08.08" href="https://Matthew-Han.github.io/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/"><link rel="next" title="Apache Maven标签详解" href="https://Matthew-Han.github.io/post/faabc62a-bd9c-11e9-b52a-878085b5c0f3/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
-  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://Matthew-Han.github.io","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
-  highlight_copy: 'true',
-  highlight_lang: 'true',
-  highlight_shrink: 'false',
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  bookmark: {
-    title: 'Snackbar.bookmark.title',
-    message_prev: '按',
-    message_next: '键将本页加入书签'
-  },
-  runtime_unit: '天',
-  copyright: undefined,
-  copy_copyright_js: false,
-  ClickShowText: undefined,
-  medium_zoom: 'false',
-  Snackbar: {"bookmark":{"title":"Snackbar.bookmark.title","message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"}
-  
-}</script></head><body><div id="header"> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Espada</a></span><i class="fa fa-bars fa-fw toggle-menu pull_right close" aria-hidden="true"></i><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-inbox"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/emotion/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 世界</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 多个你</span></a></li><li><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 一个我</span></a></li></ul></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="lazyload avatar_img" src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/friend_404.gif'"></div><div class="mobile_post_data"><div class="mobile_data_item is_center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is_center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">65</div></a></div></div><div class="mobile_data_item is_center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">6</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-inbox"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/emotion/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 世界</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 多个你</span></a></li><li><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 一个我</span></a></li></ul></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#设计模式的思想"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text"> 设计模式的思想</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#血汗工厂的由来"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text"> 血汗工厂的由来</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#工厂模式"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text"> 工厂模式</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#抽象类的解释"><span class="toc_mobile_items-number">3.1.</span> <span class="toc_mobile_items-text"> 抽象类的解释</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#具体实现"><span class="toc_mobile_items-number">3.2.</span> <span class="toc_mobile_items-text"> 具体实现</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#避免滥用"><span class="toc_mobile_items-number">4.</span> <span class="toc_mobile_items-text"> 避免滥用</span></a></li></ol></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式的思想"><span class="toc-number">1.</span> <span class="toc-text"> 设计模式的思想</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#血汗工厂的由来"><span class="toc-number">2.</span> <span class="toc-text"> 血汗工厂的由来</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工厂模式"><span class="toc-number">3.</span> <span class="toc-text"> 工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象类的解释"><span class="toc-number">3.1.</span> <span class="toc-text"> 抽象类的解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体实现"><span class="toc-number">3.2.</span> <span class="toc-text"> 具体实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免滥用"><span class="toc-number">4.</span> <span class="toc-text"> 避免滥用</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip)"><div id="post-info"><div id="post-title"><div class="posttitle">千千万万设计模式之工厂模式</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-08-01<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-11-28</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/设计模式/">设计模式</a></span><div class="post-meta-wordcount"><i class="fa fa-file-word-o post-meta__icon" aria-hidden="true"></i><span>字数总计: </span><span class="word-count">2.8k</span><span class="post-meta__separator">|</span><i class="fa fa-clock-o post-meta__icon" aria-hidden="true"></i><span>阅读时长: 9 分钟</span><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true">       </i><span>阅读量: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+
+    
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+
+    
+<link rel="stylesheet" href="/css/obsidian.css">
+
+    
+<link rel="stylesheet" href="/css/ball-atom.min.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Espada</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">千千万万设计模式之工厂模式</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
+<div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="/categories/设计模式"><b>「
+                    </b>设计模式<b> 」</b></a>
+                
+                八月 01, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/" title="千千万万设计模式之工厂模式" class="">千千万万设计模式之工厂模式</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    16k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    14 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" rel="tag">工厂模式</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
 <p>对了，让厂子偷偷给你定制一个对象吧！乔碧萝怎么样？</p>
 </blockquote>
-<br>
+<br />
 <p><em>本系列已经开源至GitHub，repository<a href="https://github.com/Matthew-Han/java-design-pattern" target="_blank" rel="noopener">地址</a>。</em></p>
 <p><em>最初只是为了做个人笔记，参考了前人的笔记和博客，在这里我用更接潮流、更接地气的例子来帮助加深理解记忆。</em></p>
 <p><em>由于本人技术水平也有限，着重点在于思想的理解，若出现任何错误、不恰当内容，欢迎各位前来<a href="https://github.com/Matthew-Han/java-design-pattern/issues" target="_blank" rel="noopener">issues</a>指正。</em></p>
 <p><em>感谢任何分享、开源学习教程的前辈，正是有你们这一群乐于奉献的人才让整个生态变得生机勃勃、让这个行业日新月异。</em></p>
 <h1 id="设计模式的思想"><a class="markdownIt-Anchor" href="#设计模式的思想"></a> 设计模式的思想</h1>
 <p><em>新开个系列，把前人写的设计模式好好地学习钻研下，这里做点笔记。这里参考的博文<a href="https://www.jianshu.com/p/43bfb4516dd8" target="_blank" rel="noopener">地址</a></em></p>
-<p>什么是设计模式？放在两年前的我，不但不了解它，也不会去重视它。我只在乎能够猥琐实现，程序运行不报错。但是在版本快速迭代、需求明天就改、框架稳定升级的现在，自己也写了不少代码，积累了一些经验和知识，在快速成长的过程中，愈发觉得优秀的开发工程师就是会比平庸的开发工程师在设计、建模的过程中去花更多时间去思考、去推理。<s>其实我觉得我也算是考虑问题比较全面、比较细致的人了（大雾</s>）。<br>
-这里又可以引申出面向对象和面向过程，优秀的开发工程师可以把面向过程的程序写得非常内聚、可扩展性好、具备一定的复用性；而平庸的程序员用面向对象的语言一样也能把程序写得松散随意、毫无抽象与建模、模块耦合严重、维护性差。而设计模式也是考究程序员对业务的建模能力，以及对架构的宏观掌握能力，面向对象来说，以对象模型为核心，丰富模型的内涵，扩展模型的外延，通过模型的行为组合去共同解决某一力问题，抽象的能力必不可少。<br>
+<p>什么是设计模式？放在两年前的我，不但不了解它，也不会去重视它。我只在乎能够猥琐实现，程序运行不报错。但是在版本快速迭代、需求明天就改、框架稳定升级的现在，自己也写了不少代码，积累了一些经验和知识，在快速成长的过程中，愈发觉得优秀的开发工程师就是会比平庸的开发工程师在设计、建模的过程中去花更多时间去思考、去推理。<s>其实我觉得我也算是考虑问题比较全面、比较细致的人了（大雾</s>）。<br />
+这里又可以引申出面向对象和面向过程，优秀的开发工程师可以把面向过程的程序写得非常内聚、可扩展性好、具备一定的复用性；而平庸的程序员用面向对象的语言一样也能把程序写得松散随意、毫无抽象与建模、模块耦合严重、维护性差。而设计模式也是考究程序员对业务的建模能力，以及对架构的宏观掌握能力，面向对象来说，以对象模型为核心，丰富模型的内涵，扩展模型的外延，通过模型的行为组合去共同解决某一力问题，抽象的能力必不可少。<br />
 啥是面向对象？总结就是四大特性：封装、继承、多态、抽象。这里不细讲了，留到之后在总结一篇post吧。</p>
 <h1 id="血汗工厂的由来"><a class="markdownIt-Anchor" href="#血汗工厂的由来"></a> 血汗工厂的由来</h1>
-<p>大家在写代码的时候都知道要注意解耦、增加复用性，但是偶尔也许会<code>ctrl+c</code>，<code>ctrl+v</code>大法来覆写代码片，包括Intellij IDEA编辑器发现有重复代码片也有用黄色波浪线来提醒。然而网上的教程都是如何教你去掉该死的黄色波浪线，1️⃣0️⃣🐭弟弟行为。实际上出现这种问题，你更应该去关注你的代码设计的是否合理，是否符合开闭原则，有共性的地方能否提取出来？<br>
-工厂模式一共有三种，其中<code>简单工厂模式</code>是比较特殊的实现，首先它违背了开闭原则，根据工厂类的静态方法通过<code>if...else...</code>或者<code>switch...case...</code>来判断分支，一旦需要增减改分支都要去改代码。<br>
+<p>大家在写代码的时候都知道要注意解耦、增加复用性，但是偶尔也许会<code>ctrl+c</code>，<code>ctrl+v</code>大法来覆写代码片，包括Intellij IDEA编辑器发现有重复代码片也有用黄色波浪线来提醒。然而网上的教程都是如何教你去掉该死的黄色波浪线，1️⃣0️⃣🐭弟弟行为。实际上出现这种问题，你更应该去关注你的代码设计的是否合理，是否符合开闭原则，有共性的地方能否提取出来？<br />
+工厂模式一共有三种，其中<code>简单工厂模式</code>是比较特殊的实现，首先它违背了开闭原则，根据工厂类的静态方法通过<code>if...else...</code>或者<code>switch...case...</code>来判断分支，一旦需要增减改分支都要去改代码。<br />
 工厂模式是适用性最广也是应用最多的一种工厂模式，该模式强调，每一个对象都有一个对应管理的工厂（<s>你的对象其实是工具人</s>）。</p>
 <h1 id="工厂模式"><a class="markdownIt-Anchor" href="#工厂模式"></a> 工厂模式</h1>
 <h2 id="抽象类的解释"><a class="markdownIt-Anchor" href="#抽象类的解释"></a> 抽象类的解释</h2>
 <p>一般我们需要对象时候，通常的做法是<code>new</code>一个对象，工厂模式则是强调由具体的工厂来生产一个对象给你使用。</p>
 <p>首先最好解释一下<code>抽象类</code>，我当初就是一直不太能理解，可能对于很多初学者来说也是。简单来说，抽象类像是一个模板，比如说Apple的MacBook Pro产品线，基本上历年迭代一次。而最新2019年MacBook Pro产品线中，包含着几款配置不同的产品。这些产品的屏幕、键盘、CPU、内存、金属一体外壳是抽象出来的共同特征，每一款具体的产品都离不开这些属性。而不同型号的产品又存在差异化和卖点，比如15inch和13inch的屏幕，低中高配的CPU、显卡、存储，特有的touch bar和触控ID等等。</p>
-<p><img alt="2019 MacBook Pro" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-3.png/wm" class="lazyload"></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-3.png/wm" alt="2019 MacBook Pro" /></p>
 <p>为了方便举例，我们理想化的认为这些不同型号产品的诞生都是由一个MacBook Pro<code>模具</code>从抽象到具体的过程，针对不同需求的人群差异化的结果。抽象类也是如此，它通过类的继承可以有不同版本的实现，不同版本都会做相应的增删改。</p>
 <h2 id="具体实现"><a class="markdownIt-Anchor" href="#具体实现"></a> 具体实现</h2>
 <p>什么时候用工厂模式比较好？它能解决什么问题？</p>
@@ -111,62 +181,532 @@ function activateLightMode(){
 <li><strong>抽象产品(AbstractProduct)角色</strong>：工厂方法模式所创建的对象的超类型，也就是产品对象的共同父类或共同拥有的接口。</li>
 <li><strong>具体产品(Concrete Product)角色</strong>：这个角色实现了抽象产品角色所定义的接口。某具体产品有专门的具体工厂创建，它们之间往往一一对应。</li>
 </ul>
-<p><img alt="本文实例" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-2.png/wm" class="lazyload"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> MacBookFactory</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> MacBook的抽象工厂类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/8/1 18:01</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MacBookFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * MacBook抽象工厂</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">AbstractMacBookProduct <span class="title">createMacBook</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-2.png/wm" alt="本文实例" /></p>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> MacBookFactory
+ * <span class="hljs-doctag">@Description</span> MacBook的抽象工厂类
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/8/1 18:01
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MacBookFactory</span> </span>{
+
+    <span class="hljs-comment">/**
+     * MacBook抽象工厂
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function">AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span></span>;
+}
+</code></pre>
 <center>MacBook的抽象工厂类，用于描述所有具体型号生产的MacBook工厂的抽象基类。</center>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> AbstractMacBookProduct</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 所有MacBook抽象产品类，可以理解成各种型号的MacBook笔记本</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/8/1 18:02</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">@Setter</span>(value = AccessLevel.PUBLIC)</span><br><span class="line"><span class="meta">@Getter</span>(value = AccessLevel.PUBLIC)</span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractMacBookProduct</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String sn;</span><br><span class="line">    <span class="keyword">private</span> String type;</span><br><span class="line">    <span class="keyword">private</span> String display;</span><br><span class="line">    <span class="keyword">private</span> String keyboard;</span><br><span class="line">    <span class="keyword">private</span> String weight;</span><br><span class="line">    <span class="keyword">private</span> Double price;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 打印结账语</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">printSlogan</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> AbstractMacBookProduct
+ * <span class="hljs-doctag">@Description</span> 所有MacBook抽象产品类，可以理解成各种型号的MacBook笔记本
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/8/1 18:02
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)
+<span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)
+<span class="hljs-meta">@ToString</span>
+<span class="hljs-meta">@AllArgsConstructor</span>
+<span class="hljs-meta">@NoArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{
+    <span class="hljs-keyword">private</span> String sn;
+    <span class="hljs-keyword">private</span> String type;
+    <span class="hljs-keyword">private</span> String display;
+    <span class="hljs-keyword">private</span> String keyboard;
+    <span class="hljs-keyword">private</span> String weight;
+    <span class="hljs-keyword">private</span> Double price;
+
+    <span class="hljs-comment">/**
+     * 打印结账语
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span></span>;
+}
+</code></pre>
 <center>一类MacBook产品的抽象产品，差异化的产品配置。</center>
 <p>抽象二兄弟的实现比较简单，其中抽象工厂接口定义的是<code>生产MacBook</code>的方法，就像是和各个工厂之间签了一份略有差别的合同，那么在具体生产的工厂中需要严格按照这份合同执行。抽象产品类则是体现<code>is-a</code>关系，更像是把这类产品的雏形给雕琢出来的模具，是具体产品的爹，具体工厂按照合同去生产合规的产品。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> MacBook13Factory</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> MacBook 13-inch的具体工厂</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/8/2 09:12</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacBook13Factory</span> <span class="keyword">implements</span> <span class="title">MacBookFactory</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AbstractMacBookProduct <span class="title">createMacBook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MacBook13Product macBook13 = <span class="keyword">new</span> MacBook13Product();</span><br><span class="line">        macBook13.setSn(RandomUtil.getStr());</span><br><span class="line">        macBook13.setType(<span class="string">"MacBook Pro 13-inch"</span>);</span><br><span class="line">        macBook13.setDisplay(<span class="string">"13-inch"</span>);</span><br><span class="line">        macBook13.setKeyboard(<span class="string">"new keyboard"</span>);</span><br><span class="line">        macBook13.setPrice(<span class="number">999</span>D);</span><br><span class="line">        macBook13.setWeight(<span class="string">"88kg"</span>);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 游戏大礼包竟然是！</span></span><br><span class="line"><span class="comment">         * 《坦克大战乔碧萝》</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        macBook13.setGameGiftBag(<span class="string">"《坦克大战乔碧萝》"</span>);</span><br><span class="line">        <span class="keyword">return</span> macBook13;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> MacBook13Product</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> MacBook 13-inch具体产品类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/8/2 09:37</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">@Setter</span>(value = AccessLevel.PUBLIC)</span><br><span class="line"><span class="meta">@Getter</span>(value = AccessLevel.PUBLIC)</span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacBook13Product</span> <span class="keyword">extends</span> <span class="title">AbstractMacBookProduct</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 13-inch MacBook附赠游♂戏大礼包</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String gameGiftBag;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">printSlogan</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"This is your new MacBook 13-inch."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> MacBook13Factory
+ * <span class="hljs-doctag">@Description</span> MacBook 13-inch的具体工厂
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/8/2 09:12
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook13Factory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MacBookFactory</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{
+        MacBook13Product macBook13 = <span class="hljs-keyword">new</span> MacBook13Product();
+        macBook13.setSn(RandomUtil.getStr());
+        macBook13.setType(<span class="hljs-string">"MacBook Pro 13-inch"</span>);
+        macBook13.setDisplay(<span class="hljs-string">"13-inch"</span>);
+        macBook13.setKeyboard(<span class="hljs-string">"new keyboard"</span>);
+        macBook13.setPrice(<span class="hljs-number">999</span>D);
+        macBook13.setWeight(<span class="hljs-string">"88kg"</span>);
+        <span class="hljs-comment">/*
+         * 游戏大礼包竟然是！
+         * 《坦克大战乔碧萝》
+         */</span>
+        macBook13.setGameGiftBag(<span class="hljs-string">"《坦克大战乔碧萝》"</span>);
+        <span class="hljs-keyword">return</span> macBook13;
+    }
+}
+</code></pre>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> MacBook13Product
+ * <span class="hljs-doctag">@Description</span> MacBook 13-inch具体产品类
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/8/2 09:37
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)
+<span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)
+<span class="hljs-meta">@ToString</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook13Product</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{
+
+    <span class="hljs-comment">/**
+     * 13-inch MacBook附赠游♂戏大礼包
+     */</span>
+    <span class="hljs-keyword">private</span> String gameGiftBag;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"This is your new MacBook 13-inch."</span>;
+    }
+}
+</code></pre>
 <center>13-inch MacBook的具体工厂和他生产的具体产品13-inch MacBook</center>
 13-inch MacBook具体工厂也按照`合同`和`模具`对MacBook进行批量生产组装加工，`MacBook13Product`通过`extend`的方式，完全继承了模具的属性和行为，其中《坦克大战乔碧萝》这个游戏礼包是该产品的特有属性。
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> MacBook15Factory</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> MacBook 15-inch具体工厂</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/8/2 09:30</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacBook15Factory</span> <span class="keyword">implements</span> <span class="title">MacBookFactory</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AbstractMacBookProduct <span class="title">createMacBook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MacBook15Product macBook15 = <span class="keyword">new</span> MacBook15Product();</span><br><span class="line">        macBook15.setSn(RandomUtil.getStr());</span><br><span class="line">        macBook15.setType(<span class="string">"MacBook Pro 15-inch"</span>);</span><br><span class="line">        macBook15.setDisplay(<span class="string">"15-inch"</span>);</span><br><span class="line">        macBook15.setKeyboard(<span class="string">"new keyboard"</span>);</span><br><span class="line">        macBook15.setPrice(<span class="number">1999</span>D);</span><br><span class="line">        macBook15.setWeight(<span class="string">"88kg"</span>);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * 蕴含着神秘力量的密码</span></span><br><span class="line"><span class="comment">         * 带你找回丢失的纯真时光</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        macBook15.setCode(<span class="string">"magnet:?xt=urn:btih:36AAB086D9AF39A323082CBAD452D6BDC42147D1"</span>);</span><br><span class="line">        <span class="keyword">return</span> macBook15;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> MacBook15Product</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> MacBook 15-inch具体产品类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/8/2 09:37</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">@Setter</span>(value = AccessLevel.PUBLIC)</span><br><span class="line"><span class="meta">@Getter</span>(value = AccessLevel.PUBLIC)</span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MacBook15Product</span> <span class="keyword">extends</span> <span class="title">AbstractMacBookProduct</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 15-inch MacBook附赠的神秘代♂码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> String code;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">printSlogan</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"This is your new MacBook 15-inch."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> MacBook15Factory
+ * <span class="hljs-doctag">@Description</span> MacBook 15-inch具体工厂
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/8/2 09:30
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook15Factory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MacBookFactory</span> </span>{
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{
+        MacBook15Product macBook15 = <span class="hljs-keyword">new</span> MacBook15Product();
+        macBook15.setSn(RandomUtil.getStr());
+        macBook15.setType(<span class="hljs-string">"MacBook Pro 15-inch"</span>);
+        macBook15.setDisplay(<span class="hljs-string">"15-inch"</span>);
+        macBook15.setKeyboard(<span class="hljs-string">"new keyboard"</span>);
+        macBook15.setPrice(<span class="hljs-number">1999</span>D);
+        macBook15.setWeight(<span class="hljs-string">"88kg"</span>);
+        <span class="hljs-comment">/*
+         * 蕴含着神秘力量的密码
+         * 带你找回丢失的纯真时光
+         */</span>
+        macBook15.setCode(<span class="hljs-string">"magnet:?xt=urn:btih:36AAB086D9AF39A323082CBAD452D6BDC42147D1"</span>);
+        <span class="hljs-keyword">return</span> macBook15;
+    }
+}
+
+</code></pre>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> MacBook15Product
+ * <span class="hljs-doctag">@Description</span> MacBook 15-inch具体产品类
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/8/2 09:37
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)
+<span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)
+<span class="hljs-meta">@ToString</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook15Product</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{
+
+    <span class="hljs-comment">/**
+     * 15-inch MacBook附赠的神秘代♂码
+     */</span>
+    <span class="hljs-keyword">private</span> String code;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"This is your new MacBook 15-inch."</span>;
+    }
+}
+
+</code></pre>
 <center>15-inch MacBook的具体工厂和他生产的具体产品15-inch MacBook</center>
 15-inch MacBook具体工厂也按照`合同`和`模具`对MacBook进行批量生产组装加工，`MacBook13Product`通过`extend`的方式，完全继承了模具的属性和行为，其中神秘代码是该产品的特有属性。
 <p>来测试一下这些代工厂996生产的产品到底合不合规：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createMacBook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 抽象==================&gt;具体</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    MacBookFactory macBook13Factory = <span class="keyword">new</span> MacBook13Factory();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 13-inch MacBook实例化对象就由MacBook13Factory创建</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    AbstractMacBookProduct mac13WithMatthew = macBook13Factory.createMacBook();</span><br><span class="line">     </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 具体工厂生产的对象与具体产品类实例化的产品</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    MacBook13Product c = <span class="keyword">new</span> MacBook13Product();</span><br><span class="line">    assertEquals(c.getClass(), mac13WithMatthew.getClass());</span><br><span class="line">    </span><br><span class="line">    System.out.println(mac13WithMatthew.getClass());</span><br><span class="line">    System.out.println(mac13WithMatthew.printSlogan());</span><br><span class="line">    System.out.println(mac13WithMatthew);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createMacBook</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 抽象==================&gt;具体</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    MacBookFactory macBook15Factory = <span class="keyword">new</span> MacBook15Factory();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 15-inch MacBook实例化对象就由MacBook15Factory创建</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    AbstractMacBookProduct mac15WithMatthew = macBook15Factory.createMacBook();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 具体工厂生产的对象与具体产品类实例化的产品</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    MacBook15Product c = <span class="keyword">new</span> MacBook15Product();</span><br><span class="line">    assertEquals(c.getClass(), mac15WithMatthew.getClass());</span><br><span class="line">    </span><br><span class="line">    System.out.println(mac15WithMatthew.getClass());</span><br><span class="line">    System.out.println(mac15WithMatthew.printSlogan());</span><br><span class="line">    System.out.println(mac15WithMatthew);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img alt="单元测试" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-5.png/wm" class="lazyload"><br>
-<img alt="单元测试" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-6.png/wm" class="lazyload"></p>
+<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">/*
+     * 抽象==================&gt;具体
+     */</span>
+    MacBookFactory macBook13Factory = <span class="hljs-keyword">new</span> MacBook13Factory();
+    <span class="hljs-comment">/*
+     * 13-inch MacBook实例化对象就由MacBook13Factory创建
+     */</span>
+    AbstractMacBookProduct mac13WithMatthew = macBook13Factory.createMacBook();
+     
+    <span class="hljs-comment">/*
+     * 具体工厂生产的对象与具体产品类实例化的产品
+     */</span>
+    MacBook13Product c = <span class="hljs-keyword">new</span> MacBook13Product();
+    assertEquals(c.getClass(), mac13WithMatthew.getClass());
+    
+    System.out.println(mac13WithMatthew.getClass());
+    System.out.println(mac13WithMatthew.printSlogan());
+    System.out.println(mac13WithMatthew);
+}
+</code></pre>
+<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{
+
+    <span class="hljs-comment">/*
+     * 抽象==================&gt;具体
+     */</span>
+    MacBookFactory macBook15Factory = <span class="hljs-keyword">new</span> MacBook15Factory();
+    <span class="hljs-comment">/*
+     * 15-inch MacBook实例化对象就由MacBook15Factory创建
+     */</span>
+    AbstractMacBookProduct mac15WithMatthew = macBook15Factory.createMacBook();
+
+    <span class="hljs-comment">/*
+     * 具体工厂生产的对象与具体产品类实例化的产品
+     */</span>
+    MacBook15Product c = <span class="hljs-keyword">new</span> MacBook15Product();
+    assertEquals(c.getClass(), mac15WithMatthew.getClass());
+    
+    System.out.println(mac15WithMatthew.getClass());
+    System.out.println(mac15WithMatthew.printSlogan());
+    System.out.println(mac15WithMatthew);
+}
+</code></pre>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-5.png/wm" alt="单元测试" /><br />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-6.png/wm" alt="单元测试" /></p>
 <p><code>System.out.println(mac13WithMatthew)</code>打印的结果只有<code>gameGiftBag</code>是因为子类重写父类的<code>toString()</code>方法，如果把子类（<code>MacBook13Product</code>）的<code>@ToString</code>注解去掉的话，就是默认继承的父类（<code>AbstractMacBookProduct</code>）的<code>toString()</code>方法了。</p>
 <h1 id="避免滥用"><a class="markdownIt-Anchor" href="#避免滥用"></a> 避免滥用</h1>
 <p>事实上，在SpringBoot中已经用到了不少设计模式，在<a href="https://www.yuanmo.xyz/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/" target="_blank" rel="noopener">单例模式</a>那章讲过的<code>Bean</code>就用到了单例模式和今天讲的工厂模式（很怀念第一次使用Spring框架手写第一个Bean的时候），模板方法(Template Method)，<code>Jdbctempldate</code>、<code>Redistemplate</code>等等。但是切记一定不要过于拘泥与死板，为了设计模式而设计模式，忽略本身业务场景和实际情况。模式本身是对编程思想的扩展，我们在编写代码的时候还是要专注于业务本身，设计模式的初衷就是解决问题采用最优解，为了追求更高效率而诞生，保护需要加班的你。最靠谱的还是实践中慢慢总结，踩过的坑自己去总结、优化。</p>
-</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">MatthewHan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://Matthew-Han.github.io/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/">https://Matthew-Han.github.io/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Matthew-Han.github.io">Espada</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/设计模式/">设计模式    </a><a class="post-meta__tags" href="/tags/工厂模式/">工厂模式    </a></div><div class="post_share"><div class="social-share" data-image="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img"><div class="post-qr-code__desc">打赏宁 🐴 呢！给 👴 爬！</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/"><img class="prev_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/8.8/cover.jpeg/zip" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>2019.08.08</span></div></a></div><div class="next-post pull_right"><a href="/post/faabc62a-bd9c-11e9-b52a-878085b5c0f3/"><img class="next_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/maven%E6%A0%87%E7%AD%BE/maven1.png/zip" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>Apache Maven标签详解</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/" title="千千万万设计模式之单例模式"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip"><div class="relatedPosts_title">千千万万设计模式之单例模式</div></a></div><div class="relatedPosts_item"><a href="/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/" title="千千万万设计模式之适配器模式"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip"><div class="relatedPosts_title">千千万万设计模式之适配器模式</div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
-  clientID: 'f4a90d67f05027e203de',
-  clientSecret: 'b04a427204a2f33fda62a304d19401b8c3898fc2',
-  repo: 'Matthew-Han.github.io',
-  owner: 'Matthew-Han',
-  admin: 'Matthew-Han',
-  id: md5(decodeURI(location.pathname)),
-  language: 'en, zh-CN, zh-TW'
-})
-gitalk.render('gitalk-container')</script></div></div></div><footer id="footer" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip)"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By MatthewHan</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">你现在做的每一步，都是为了去接近你期望的未来。</div><div class="icp"><a href="http://www.beian.miit.gov.cn"><img class="icp-icon" src="/img/icp.png"><span>浙ICP备20000040号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-    processEscapes: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  },
-  CommonHTML: {
-    linebreaks: { automatic: true, width: "90% container" }
-  },
-  "HTML-CSS": { 
-    linebreaks: { automatic: true, width: "90% container" }
-  },
-  "SVG": { 
-    linebreaks: { automatic: true, width: "90% container" }
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='f4a90d67f05027e203de'
+        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
+        data-r='Matthew-Han.github.io'
+        data-o='Matthew-Han'
+        data-a='Matthew-Han'
+        data-d=''
+    >留言</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
+                    <p>MatthewHan</p>
+                    <span>用一行行代码去描绘出</span>
+                    <span>成长的轨迹</span>
+                    <dl>
+                        
+                        <dd><a href="" target="_blank"><span
+                                    class=" iconfont icon-empty"></span></a></dd>
+                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="" target="_blank"><span
+                                    class=" iconfont icon-empty"></span></a></dd>
+               
+                    </dl>
+                    
+                </div>
+                <ul>
+                    <li><a href="/">40 <p>文章</p></a></li>
+                    <li><a href="/categories">6 <p>分类</p></a></li>
+                    <li><a href="/tags">65 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>目录</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式的思想"><span class="toc-number">1.</span> <span class="toc-text"> 设计模式的思想</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#血汗工厂的由来"><span class="toc-number">2.</span> <span class="toc-text"> 血汗工厂的由来</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工厂模式"><span class="toc-number">3.</span> <span class="toc-text"> 工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#抽象类的解释"><span class="toc-number">3.1.</span> <span class="toc-text"> 抽象类的解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体实现"><span class="toc-number">3.2.</span> <span class="toc-text"> 具体实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免滥用"><span class="toc-number">4.</span> <span class="toc-text"> 避免滥用</span></a></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            MatthewHan
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
   }
-});
-</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
-  var all = MathJax.Hub.getAllJax(), i;
-  for (i=0; i < all.length; i += 1) {
-    all[i].SourceElement().parentNode.className += ' has-jax';
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
-});
-</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.js"></script><script src="/js/baidupush.js"> </script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
-POWERMODE.shake = true; // turn off shake
-document.body.addEventListener('input', POWERMODE);
-</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
-</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async></script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
+</script>
+
+
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+
+    
+<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+
+
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+
+    
+<script src="/js/busuanzi.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+
+
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-144172266-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["用一行行代码去描绘出", "成长的轨迹"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>

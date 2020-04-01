@@ -1,84 +1,157 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="day"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>《码出高效》系列笔记（一）：面向对象中的其他知识点 | Espada</title><meta name="description" content="向代码致敬，寻找你的第[83]行。"><meta name="keywords" content="笔记,Easy Coding,面向对象,泛型"><meta name="author" content="MatthewHan"><meta name="copyright" content="MatthewHan"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_ico.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="《码出高效》系列笔记（一）：面向对象中的其他知识点"><meta name="twitter:description" content="向代码致敬，寻找你的第[83]行。"><meta name="twitter:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip"><meta property="og:type" content="article"><meta property="og:title" content="《码出高效》系列笔记（一）：面向对象中的其他知识点"><meta property="og:url" content="https://Matthew-Han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/"><meta property="og:site_name" content="Espada"><meta property="og:description" content="向代码致敬，寻找你的第[83]行。"><meta property="og:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
-var t = Cookies.get("theme");
-if (autoChangeMode == '1'){
-const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
-const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
-const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-if (t === undefined){
-  if (isLightMode) activateLightMode()
-  else if (isDarkMode) activateDarkMode()
-  else if (isNotSpecified || hasNoSupport){
-    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-    now = new Date();
-    hour = now.getHours();
-    isNight = hour < 6 || hour >= 18
-    isNight ? activateDarkMode() : activateLightMode()
-}
-} else if (t == 'light') activateLightMode()
-else activateDarkMode()
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>《码出高效》系列笔记（一）：面向对象中的其他知识点 - Espada</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="MatthewHan Espada,"> 
+    <meta name="description" content="极度理性，爱憎分明,
+良好的编码风格和完善统一的规约是最高效的方式。
 
 
-} else if (autoChangeMode == '2'){
-  now = new Date();
-  hour = now.getHours();
-  isNight = hour < 6 || hour >= 18
-  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode() 
-} else {
-  if ( t == 'dark' ) activateDarkMode()
-  else if ( t == 'light') activateLightMode()
-}
+ 前言
+本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第三节：面向对象的其他知识点篇。
+本系列目录：
 
-function activateDarkMode(){
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
-  }
-}
-function activateLightMode(){
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
-  }
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.css"><link rel="canonical" href="https://Matthew-Han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/"><link rel="prev" title="心态的起伏" href="https://Matthew-Han.github.io/post/d6b414b0-cd29-11e9-8b45-c56f88a832c9/"><link rel="next" title="《码出高效》系列笔记（一）：面向对象中的方法" href="https://Matthew-Han.github.io/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
-  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://Matthew-Han.github.io","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
-  highlight_copy: 'true',
-  highlight_lang: 'true',
-  highlight_shrink: 'false',
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  bookmark: {
-    title: 'Snackbar.bookmark.title',
-    message_prev: '按',
-    message_next: '键将本页加入书签'
-  },
-  runtime_unit: '天',
-  copyright: undefined,
-  copy_copyright_js: false,
-  ClickShowText: undefined,
-  medium_zoom: 'false',
-  Snackbar: {"bookmark":{"title":"Snackbar.bookmark.title","message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"}
-  
-}</script></head><body><div id="header"> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Espada</a></span><i class="fa fa-bars fa-fw toggle-menu pull_right close" aria-hidden="true"></i><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-inbox"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/emotion/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 世界</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 多个你</span></a></li><li><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 一个我</span></a></li></ul></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="lazyload avatar_img" src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/friend_404.gif'"></div><div class="mobile_post_data"><div class="mobile_data_item is_center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is_center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">65</div></a></div></div><div class="mobile_data_item is_center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">6</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-inbox"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/emotion/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 世界</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 多个你</span></a></li><li><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 一个我</span></a></li></ul></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#前言"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text"> 前言</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#同步与异步"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text"> 同步与异步</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#覆写"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text"> 覆写</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#重载"><span class="toc_mobile_items-number">4.</span> <span class="toc_mobile_items-text"> 重载</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#泛型"><span class="toc_mobile_items-number">5.</span> <span class="toc_mobile_items-text"> 泛型</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#泛型使用"><span class="toc_mobile_items-number">5.1.</span> <span class="toc_mobile_items-text"> 泛型使用</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#数据类型"><span class="toc_mobile_items-number">6.</span> <span class="toc_mobile_items-text"> 数据类型</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#基本数据类型"><span class="toc_mobile_items-number">6.1.</span> <span class="toc_mobile_items-text"> 基本数据类型</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#包装类型"><span class="toc_mobile_items-number">6.2.</span> <span class="toc_mobile_items-text"> 包装类型</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#字符串"><span class="toc_mobile_items-number">6.3.</span> <span class="toc_mobile_items-text"> 字符串</span></a></li></ol></li></ol></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#同步与异步"><span class="toc-number">2.</span> <span class="toc-text"> 同步与异步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#覆写"><span class="toc-number">3.</span> <span class="toc-text"> 覆写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重载"><span class="toc-number">4.</span> <span class="toc-text"> 重载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#泛型"><span class="toc-number">5.</span> <span class="toc-text"> 泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型使用"><span class="toc-number">5.1.</span> <span class="toc-text"> 泛型使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据类型"><span class="toc-number">6.</span> <span class="toc-text"> 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本数据类型"><span class="toc-number">6.1.</span> <span class="toc-text"> 基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包装类型"><span class="toc-number">6.2.</span> <span class="toc-text"> 包装类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-number">6.3.</span> <span class="toc-text"> 字符串</span></a></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip)"><div id="post-info"><div id="post-title"><div class="posttitle">《码出高效》系列笔记（一）：面向对象中的其他知识点</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-08-27<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-03-19</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Java技术/">Java技术</a></span><div class="post-meta-wordcount"><i class="fa fa-file-word-o post-meta__icon" aria-hidden="true"></i><span>字数总计: </span><span class="word-count">4.2k</span><span class="post-meta__separator">|</span><i class="fa fa-clock-o post-meta__icon" aria-hidden="true"></i><span>阅读时长: 14 分钟</span><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true">       </i><span>阅读量: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+《码出,"> 
+    <meta name="author" content="MatthewHan"> 
+    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+
+    
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+
+    
+<link rel="stylesheet" href="/css/obsidian.css">
+
+    
+<link rel="stylesheet" href="/css/ball-atom.min.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Espada</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">《码出高效》系列笔记（一）：面向对象中的其他知识点</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
+<div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="/categories/Java技术"><b>「
+                    </b>JAVA技术<b> 」</b></a>
+                
+                八月 27, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/" title="《码出高效》系列笔记（一）：面向对象中的其他知识点" class="">《码出高效》系列笔记（一）：面向对象中的其他知识点</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    24k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    21 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Easy-Coding/" rel="tag">Easy Coding</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
 <p>良好的编码风格和完善统一的规约是最高效的方式。</p>
 </blockquote>
-<br>
+<br />
 <h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
 <p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第三节：面向对象的其他知识点篇。</p>
 <p><strong>本系列目录</strong>：</p>
@@ -92,11 +165,14 @@ function activateLightMode(){
 <li><a href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/" target="_blank" rel="noopener">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
 </ul>
 <h1 id="同步与异步"><a class="markdownIt-Anchor" href="#同步与异步"></a> 同步与异步</h1>
-<p>同步调用是刚性调用，是阻塞式操作，必须等待调用方法体执行结束。而异步调用是柔性调用，是非阻塞式操作。<br>
+<p>同步调用是刚性调用，是阻塞式操作，必须等待调用方法体执行结束。而异步调用是柔性调用，是非阻塞式操作。<br />
 举个与我们息息相关的例子，git代码提交托管时，提交代码的操作是同步调用，需要实时返回给用户结果，但是当前库代码相关活动就不是时间敏感的，在提交代码时，发送一个消息到后台的缓存队列中，后台服务器定时消费这些消息即可。</p>
 <h1 id="覆写"><a class="markdownIt-Anchor" href="#覆写"></a> 覆写</h1>
 <p>覆写是多态的一中表现，大部分人可能把它称为重写，我也遵循了本书的命名，重写可能暗示了推倒重来的过程，而覆写则更多的表达出重写一部分而覆盖。出现覆写的情况非常的多，POJO类<code>toString()</code>方法的覆写，工厂模式的抽象工厂类调用具体工厂子类的方法。通常这也被称作向上转型：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Father father = <span class="keyword">new</span> Son();</span><br><span class="line"><span class="comment">// son 覆写了此方法</span></span><br><span class="line">father.doSomething();</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="Java">Father father = <span class="hljs-keyword">new</span> Son();
+<span class="hljs-comment">// son 覆写了此方法</span>
+father.doSomething();
+</code></pre>
 <p>向上转型时，通过父类应用执行子类方法时需要注意以下两点：</p>
 <ul>
 <li>无法调用到子类中存在而父类本身不存在的方法。</li>
@@ -106,7 +182,19 @@ function activateLightMode(){
 <ul>
 <li>访问权限不能变小。具体表现为父类中public的方法，在子类继承覆写该方法时变成了private，则破坏了封装，编译也不会通过，所以不允许将访问权限缩小：</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我要逃离这里。"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="keyword">extends</span> <span class="title">Father</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 编译报错</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"用笔尖微颤歪歪扭扭的线条"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Father</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"我要逃离这里。"</span>);
+    }
+}
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Father</span> </span>{
+    <span class="hljs-comment">// 编译报错</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"用笔尖微颤歪歪扭扭的线条"</span>);
+    }
+}
+</code></pre>
 <ul>
 <li>返回类型能够向上转型称为父类的返回类型。</li>
 <li>异常也要能向上转型成为父类的异常。unchecked异常（空指针异常这些）不需要显式的向上抛出，但是checked异常只能抛出异常或者此异常的子类。</li>
@@ -120,15 +208,57 @@ function activateLightMode(){
 </ul>
 <p><strong>另外注意</strong>：子类和父类不要相互调用彼此的方法，不然会变成循环调用，最后直至JVM崩溃，产生StackOverflowError异常。</p>
 <h1 id="重载"><a class="markdownIt-Anchor" href="#重载"></a> 重载</h1>
-<p>在同一个类中，如果多个方法有相同的方法名、不同的参数，即称为重载，比如一个POJO类中多个构造方法。以及String类中的<code>valueOf</code>，它有9个方法，可以将输入的基本数据类型、数组、Object等转化成为字符串。<br>
-我们再回顾下方法签名的概念：方法名称+参数类型+参数个数，组成一个<font color="red"><strong>唯一键</strong></font>，成为方法签名，这个唯一键是⑧能重复的。JVM就是通过这个唯一键决定调用那种重载的方法。<br>
+<p>在同一个类中，如果多个方法有相同的方法名、不同的参数，即称为重载，比如一个POJO类中多个构造方法。以及String类中的<code>valueOf</code>，它有9个方法，可以将输入的基本数据类型、数组、Object等转化成为字符串。<br />
+我们再回顾下方法签名的概念：方法名称+参数类型+参数个数，组成一个<font color=red><strong>唯一键</strong></font>，成为方法签名，这个唯一键是⑧能重复的。JVM就是通过这个唯一键决定调用那种重载的方法。<br />
 以下代码就是错误的重载方式，他们都有共同的特征，就是方法签名重复冲突了。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyCoding</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译出错，返回值并不是方法签名的一部分。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">methodForOverload</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译出错，访问权限控制符也不是方法签名的一部分。</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译出错，静态标识符而不是方法签名的一部分。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译出错，final标识符一样也⑧是方法签名的一部分。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
+    
+    <span class="hljs-comment">// 编译出错，返回值并不是方法签名的一部分。</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
+    
+    <span class="hljs-comment">// 编译出错，访问权限控制符也不是方法签名的一部分。</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
+    
+    <span class="hljs-comment">// 编译出错，静态标识符而不是方法签名的一部分。</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
+    
+    <span class="hljs-comment">// 编译出错，final标识符一样也⑧是方法签名的一部分。</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
+}
+</code></pre>
 <p>那么下面这几种情况，编译器是如何判断正确调用的呢，比如下面几种重载方法，第一处和第二处的结果是什么呢：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyCoding</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"int"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">(Integer arg)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Integer"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">(Integer... args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Integer..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">(Object arg)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Object"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        EasyCoding ec = <span class="keyword">new</span> EasyCoding();</span><br><span class="line">        <span class="comment">// 第一处</span></span><br><span class="line">        ec.methodForOverload(<span class="number">996</span>);</span><br><span class="line">        <span class="comment">// 第二处</span></span><br><span class="line">        ec.methodForOverload();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>第一处答案是「<font color="red">int</font>」，第二处的答案是「<font color="red">Integer…</font>」。那么为什么<code>ec.methodForOverload(996)</code>方法编译器会匹配到<code>methodForOverload(int arg)</code>呢，而<code>ec.methodForOverload()</code>无参方法缺席的情况下却匹配到了可变参数<code>methodForOverload(Integer... args)</code>?<br>
-可变参数的个数其实是从0个到多个，所以首先它也会和其他方法抢夺匹配<code>ec.methodForOverload(996)</code>，然而他的优先级是最低的，弟中弟嗷。但是在无参方法缺席的情况，只有他符合这一条件，所以<code>ec.methodForOverload()</code>无参方法自然匹配上。而<code>int</code>和<code>Integer</code>还有<code>Object</code>的较量中胜出的原因是不需要自动装箱，假如把<code>int</code>类型改成<code>long</code>类型，编译器一定也是Match<code>long</code>类型，而优于装箱的<code>Interger</code>。<br>
-但是如果是<code>methodForOverload(null)</code>这种情况则会调用参数为<code>Integer</code>的方法，Null可以匹配任何类对象，从最底层一次向上查找，会找到<code>Integer</code>和<code>Integer...</code>这两个参数方法，但是会报错，因为他们同时Match上了。<br>
+<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arg)</span> </span>{
+        System.out.println(<span class="hljs-string">"int"</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer arg)</span> </span>{
+        System.out.println(<span class="hljs-string">"Integer"</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer... args)</span> </span>{
+        System.out.println(<span class="hljs-string">"Integer..."</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Object arg)</span> </span>{
+        System.out.println(<span class="hljs-string">"Object"</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{
+        EasyCoding ec = <span class="hljs-keyword">new</span> EasyCoding();
+        <span class="hljs-comment">// 第一处</span>
+        ec.methodForOverload(<span class="hljs-number">996</span>);
+        <span class="hljs-comment">// 第二处</span>
+        ec.methodForOverload();
+    }
+}
+</code></pre>
+<p>第一处答案是「<font color=red>int</font>」，第二处的答案是「<font color=red>Integer…</font>」。那么为什么<code>ec.methodForOverload(996)</code>方法编译器会匹配到<code>methodForOverload(int arg)</code>呢，而<code>ec.methodForOverload()</code>无参方法缺席的情况下却匹配到了可变参数<code>methodForOverload(Integer... args)</code>?<br />
+可变参数的个数其实是从0个到多个，所以首先它也会和其他方法抢夺匹配<code>ec.methodForOverload(996)</code>，然而他的优先级是最低的，弟中弟嗷。但是在无参方法缺席的情况，只有他符合这一条件，所以<code>ec.methodForOverload()</code>无参方法自然匹配上。而<code>int</code>和<code>Integer</code>还有<code>Object</code>的较量中胜出的原因是不需要自动装箱，假如把<code>int</code>类型改成<code>long</code>类型，编译器一定也是Match<code>long</code>类型，而优于装箱的<code>Interger</code>。<br />
+但是如果是<code>methodForOverload(null)</code>这种情况则会调用参数为<code>Integer</code>的方法，Null可以匹配任何类对象，从最底层一次向上查找，会找到<code>Integer</code>和<code>Integer...</code>这两个参数方法，但是会报错，因为他们同时Match上了。<br />
 JVM在重载方法的顺序如下：</p>
 <ol>
 <li>精确匹配。</li>
@@ -138,12 +268,49 @@ JVM在重载方法的顺序如下：</p>
 <li>通过可变参数匹配。</li>
 </ol>
 <p>我们程序猿心情不好的时候也会把气撒在编译器上，有时候，我们会不断挑战编译器的下限，比如这样：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyCoding</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">(<span class="keyword">int</span> arg, Integer arg2)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"int arg, Integer arg2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">(Integer arg, <span class="keyword">int</span> arg2)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Integer arg, int arg2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">(<span class="keyword">int</span>... args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"int..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodForOverload</span><span class="params">(Integer... args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Integer..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        EasyCoding ec = <span class="keyword">new</span> EasyCoding();</span><br><span class="line">        <span class="comment">// 第一处</span></span><br><span class="line">        ec.methodForOverload(<span class="number">965</span>,<span class="number">996</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arg, Integer arg2)</span> </span>{
+        System.out.println(<span class="hljs-string">"int arg, Integer arg2"</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer arg, <span class="hljs-keyword">int</span> arg2)</span> </span>{
+        System.out.println(<span class="hljs-string">"Integer arg, int arg2"</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span>... args)</span> </span>{
+        System.out.println(<span class="hljs-string">"int..."</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer... args)</span> </span>{
+        System.out.println(<span class="hljs-string">"Integer..."</span>);
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{
+        EasyCoding ec = <span class="hljs-keyword">new</span> EasyCoding();
+        <span class="hljs-comment">// 第一处</span>
+        ec.methodForOverload(<span class="hljs-number">965</span>,<span class="hljs-number">996</span>);
+    }
+}
+</code></pre>
 <p>此种方式就是完全在挑战编译器的底线了，虽然编译会通过，但是调用的时候一定会报错。</p>
-<p><img alt="编译器此刻的内心是绝望的" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Overload.png" class="lazyload"></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Overload.png" alt="编译器此刻的内心是绝望的" /></p>
 <h1 id="泛型"><a class="markdownIt-Anchor" href="#泛型"></a> 泛型</h1>
 <p>泛型也许是很多人相对陌生的领域，但是它⑧是多么神秘，本质是类型参数化，解决不确定具体对象类型的问题。Java在引入泛型之前，表示可变类型往往存在类型安全的风险，举个例子，微波炉最主要的功能是加热食物，而食物也有几十几百种可能，所以一般会像下面这样写业务设计：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyCoding</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">heat</span><span class="params">(Object food)</span> </span>&#123;</span><br><span class="line">        System.out.println(food + <span class="string">"isOK"</span>);</span><br><span class="line">        <span class="keyword">return</span> food;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Meat m = <span class="keyword">new</span> Meat();</span><br><span class="line">        m = (Meat) EasyCoding.heat(m);</span><br><span class="line">        Soup s = <span class="keyword">new</span> Soup();</span><br><span class="line">        s = (Soup) EasyCoding.heat(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title">heat</span><span class="hljs-params">(Object food)</span> </span>{
+        System.out.println(food + <span class="hljs-string">"isOK"</span>);
+        <span class="hljs-keyword">return</span> food;
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        Meat m = <span class="hljs-keyword">new</span> Meat();
+        m = (Meat) EasyCoding.heat(m);
+        Soup s = <span class="hljs-keyword">new</span> Soup();
+        s = (Soup) EasyCoding.heat(s);
+    }
+}
+</code></pre>
 <p>这里的<code>heat</code>方法就是为了避免给每个类型的食物定义一个加热方法，但是只能采用“向上转型”的方式才能具备加热任意类型食物的能力。但是会让客户端困惑，因为对加热的内容不能正确区分，在取出时进行强制类型转换就会存在类型转换风险。而泛型就是为了解决这个而生。</p>
 <h2 id="泛型使用"><a class="markdownIt-Anchor" href="#泛型使用"></a> 泛型使用</h2>
 <p>泛型可以定义在类、接口、方法中，编译器通过识别尖括号和尖括号内的字母来解析泛型。现在一般约定俗成的符号有：</p>
@@ -154,8 +321,27 @@ JVM在重载方法的顺序如下：</p>
 <li>V：代表Value，K和V用于键值对元素。</li>
 </ul>
 <p>下面这段代码可以很好地说明泛型定义的概念：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyCoding</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &lt;String, T, Object&gt; <span class="function">String <span class="title">get</span><span class="params">(String arg1, Object arg2)</span> </span>&#123;</span><br><span class="line">        System.out.println(arg1.getClass());</span><br><span class="line">        System.out.println(arg2.getClass());</span><br><span class="line">        <span class="keyword">return</span> arg1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Integer arg1 = <span class="number">996</span>;</span><br><span class="line">        Long arg2 = <span class="number">965L</span>;</span><br><span class="line">        Integer result1 = get(arg1,arg2);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] b1 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">666</span>];</span><br><span class="line">        <span class="keyword">byte</span>[] b2 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">666</span>];</span><br><span class="line">        <span class="keyword">byte</span>[] result2 = get(b1,b2);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先这段代码是完全可以通过编译的，可能没用过泛型的小伙伴会疑问为什么<code>get()</code>方法可以传入<code>Integer</code>和<code>Long</code>甚至是<code>byte[]</code>类型？而且返回的结果不应该是<code>String</code>类型吗？其实关键就在于<code>&lt;String, T, Object&gt;</code>这个泛型标识，<code>String</code>是我们常见的所熟知的包装类了，<code>Object</code>是所有类的父类，但是在泛型标识里，它就不是<code>String</code>和<code>Object</code>了，而是可以成为任意类型，属于完全未知的类型，入参的第一个参数如果是<code>Integer</code>类型，那么在方法体内的所有<code>arg1</code>就不是我们认知里的<code>java.lang.String</code>了，这个<code>String</code>就是相当于之前说明的<code>T</code>，<code>Object</code>也是一种<code>T</code>，仅仅只是一个代号。<br>
+<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span>&lt;<span class="hljs-title">T</span>&gt; </span>{
+
+    <span class="hljs-keyword">static</span> &lt;String, T, Object&gt; <span class="hljs-function">String <span class="hljs-title">get</span><span class="hljs-params">(String arg1, Object arg2)</span> </span>{
+        System.out.println(arg1.getClass());
+        System.out.println(arg2.getClass());
+        <span class="hljs-keyword">return</span> arg1;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        Integer arg1 = <span class="hljs-number">996</span>;
+        Long arg2 = <span class="hljs-number">965L</span>;
+        Integer result1 = get(arg1,arg2);
+
+        <span class="hljs-keyword">byte</span>[] b1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">666</span>];
+        <span class="hljs-keyword">byte</span>[] b2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">666</span>];
+        <span class="hljs-keyword">byte</span>[] result2 = get(b1,b2);
+        
+    }
+}
+</code></pre>
+<p>首先这段代码是完全可以通过编译的，可能没用过泛型的小伙伴会疑问为什么<code>get()</code>方法可以传入<code>Integer</code>和<code>Long</code>甚至是<code>byte[]</code>类型？而且返回的结果不应该是<code>String</code>类型吗？其实关键就在于<code>&lt;String, T, Object&gt;</code>这个泛型标识，<code>String</code>是我们常见的所熟知的包装类了，<code>Object</code>是所有类的父类，但是在泛型标识里，它就不是<code>String</code>和<code>Object</code>了，而是可以成为任意类型，属于完全未知的类型，入参的第一个参数如果是<code>Integer</code>类型，那么在方法体内的所有<code>arg1</code>就不是我们认知里的<code>java.lang.String</code>了，这个<code>String</code>就是相当于之前说明的<code>T</code>，<code>Object</code>也是一种<code>T</code>，仅仅只是一个代号。<br />
 当然我们平时编码不会也不要这样去定义泛型，确实会容易引发歧义和造成其他问题。所以我应该注意以下几点：</p>
 <ol>
 <li>尖括号里的每个元素都指代一种位置类型。<code>&lt;String&gt;</code>这里的<code>String</code>就不是我们认知上的<code>java.lang.String</code>了，仅仅只是个代号。包括类名后的<code>&lt;T&gt;</code>和get方法前的<code>&lt;T&gt;</code>是两个指代，互不影响。</li>
@@ -164,7 +350,20 @@ JVM在重载方法的顺序如下：</p>
 <li>对于编码之后的字节码指令，其实没有这些花头花脑的方法签名，充分说明了泛型只是一种编码时的语法检查。</li>
 </ol>
 <p>所以之前微波炉加热食物的例子可以用泛型这样改写：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyCoding</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">heat</span><span class="params">(T food)</span> </span>&#123;</span><br><span class="line">        System.out.println(food.getClass());</span><br><span class="line">        System.out.println(food + <span class="string">"isOK"</span>);</span><br><span class="line">        <span class="keyword">return</span> food;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        heat(<span class="keyword">new</span> Meat());</span><br><span class="line">        heat(<span class="keyword">new</span> Soup());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">heat</span><span class="hljs-params">(T food)</span> </span>{
+        System.out.println(food.getClass());
+        System.out.println(food + <span class="hljs-string">"isOK"</span>);
+        <span class="hljs-keyword">return</span> food;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        heat(<span class="hljs-keyword">new</span> Meat());
+        heat(<span class="hljs-keyword">new</span> Soup());
+    }
+}
+</code></pre>
 <p>避免使用Object作为输入和输出可以控制强制转换带来的风险。因为依据墨菲定律，只要这种风险存在，就一定会发生<code>ClassCastException</code>异常。</p>
 <h1 id="数据类型"><a class="markdownIt-Anchor" href="#数据类型"></a> 数据类型</h1>
 <h2 id="基本数据类型"><a class="markdownIt-Anchor" href="#基本数据类型"></a> 基本数据类型</h2>
@@ -256,7 +455,7 @@ JVM在重载方法的顺序如下：</p>
 </tr>
 </tbody>
 </table>
-<p><strong><font color="red">注意：其中缓存区间是个有意思的东西，估计很多人没有深究过，大厂面试很有可能就来这么一道题，所以接下来的包装类的内容要仔细看看哦~</font></strong></p>
+<p><strong><font color=red>注意：其中缓存区间是个有意思的东西，估计很多人没有深究过，大厂面试很有可能就来这么一道题，所以接下来的包装类的内容要仔细看看哦~</font></strong></p>
 <p>对象分为三块存储区域：</p>
 <ul>
 <li>对象头。对象头占用12B，其中包括：哈希码、GC标记、GC次数、同步锁标记、偏向锁持有者（反正👴⑧是很懂）。</li>
@@ -264,9 +463,14 @@ JVM在重载方法的顺序如下：</p>
 <li>对齐填充。</li>
 </ul>
 <h2 id="包装类型"><a class="markdownIt-Anchor" href="#包装类型"></a> 包装类型</h2>
-<p>包装类的存在是为了解决了基本数据类型无法做到的事情：泛型类型参数、序列化、类型转换、<code>高频区间数据缓存</code>。尤其是最后一个，因为除了Float和Double之外，其他包装类型都会缓存。拿Integer举例，缓存区间在-127~128，所以在这个区间的赋值，Integer对象会由IntegerCache.cache产生，就不会复用已有对象。<strong>因此，推荐所有包装类对象之间的比较，全都使用equals()方法。</strong><br>
+<p>包装类的存在是为了解决了基本数据类型无法做到的事情：泛型类型参数、序列化、类型转换、<code>高频区间数据缓存</code>。尤其是最后一个，因为除了Float和Double之外，其他包装类型都会缓存。拿Integer举例，缓存区间在-127~128，所以在这个区间的赋值，Integer对象会由IntegerCache.cache产生，就不会复用已有对象。<strong>因此，推荐所有包装类对象之间的比较，全都使用equals()方法。</strong><br />
 源码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">        <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Integer <span class="hljs-title">valueOf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>{
+    <span class="hljs-keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
+        <span class="hljs-keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Integer(i);
+}
+</code></pre>
 <p>各个包装类的缓存区间：</p>
 <ul>
 <li>Boolean：使用静态final变量定义，valueOf()就是返回这两个静态值。</li>
@@ -277,11 +481,38 @@ JVM在重载方法的顺序如下：</p>
 <li>Integer：表示范围hi[-2<sup>31,2</sup>31-1]。</li>
 </ul>
 <p>接下来我们看看如果不使用equals()方法去进行包装类的比较会出现什么情况</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Integer i1 = <span class="number">127</span>;</span><br><span class="line">    Integer i2 = <span class="number">127</span>;</span><br><span class="line">    Integer i3 = <span class="number">128</span>;</span><br><span class="line">    Integer i4 = <span class="number">128</span>;</span><br><span class="line"></span><br><span class="line">    Long l1 = <span class="number">127L</span>;</span><br><span class="line">    Long l2 = <span class="number">127L</span>;</span><br><span class="line">    Long l3 = <span class="number">128L</span>;</span><br><span class="line">    Long l4 = <span class="number">128L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第一处</span></span><br><span class="line">    System.out.println(i1 == i2);</span><br><span class="line">    System.out.println(i3 == i4);</span><br><span class="line">    <span class="comment">// 第二处</span></span><br><span class="line">    System.out.println(i1.equals(i2));</span><br><span class="line">    System.out.println(i3.equals(i4));</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"------------------"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 第三处</span></span><br><span class="line">    System.out.println(l1 == l2);</span><br><span class="line">    System.out.println(l3 == l4);</span><br><span class="line">    <span class="comment">// 第四处</span></span><br><span class="line">    System.out.println(l1.equals(l2));</span><br><span class="line">    System.out.println(l3.equals(l4));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>以上代码四处打印的结果是不是让人觉得都是<code>true</code>？<br>
-但是答案是第一处打印的结果是<code>true</code>和<code>flase</code>，第二处全是<code>true</code>，第三处也是<code>true</code>和<code>flase</code>，第四处全是<code>true</code>。<br>
-那么为什么<code>System.out.println(i1 == i2);</code>的结果是<code>true</code>，而<code>System.out.println(i3 == i4);</code>是<code>flase</code>呢？<br>
-该例很好地说明了Integer和Long只是缓存了-128~127之间的值，而大于或者小于区间的值没有被缓存，<code>i3</code>和<code>i4</code>是128，刚好超出了这个区间，下面的<code>l3</code>和<code>l4</code>同理。<br>
+<pre class="highlight"><code class="Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+    Integer i1 = <span class="hljs-number">127</span>;
+    Integer i2 = <span class="hljs-number">127</span>;
+    Integer i3 = <span class="hljs-number">128</span>;
+    Integer i4 = <span class="hljs-number">128</span>;
+
+    Long l1 = <span class="hljs-number">127L</span>;
+    Long l2 = <span class="hljs-number">127L</span>;
+    Long l3 = <span class="hljs-number">128L</span>;
+    Long l4 = <span class="hljs-number">128L</span>;
+
+    <span class="hljs-comment">// 第一处</span>
+    System.out.println(i1 == i2);
+    System.out.println(i3 == i4);
+    <span class="hljs-comment">// 第二处</span>
+    System.out.println(i1.equals(i2));
+    System.out.println(i3.equals(i4));
+
+    System.out.println(<span class="hljs-string">"------------------"</span>);
+    
+    <span class="hljs-comment">// 第三处</span>
+    System.out.println(l1 == l2);
+    System.out.println(l3 == l4);
+    <span class="hljs-comment">// 第四处</span>
+    System.out.println(l1.equals(l2));
+    System.out.println(l3.equals(l4));
+   }
+</code></pre>
+<p>以上代码四处打印的结果是不是让人觉得都是<code>true</code>？<br />
+但是答案是第一处打印的结果是<code>true</code>和<code>flase</code>，第二处全是<code>true</code>，第三处也是<code>true</code>和<code>flase</code>，第四处全是<code>true</code>。<br />
+那么为什么<code>System.out.println(i1 == i2);</code>的结果是<code>true</code>，而<code>System.out.println(i3 == i4);</code>是<code>flase</code>呢？<br />
+该例很好地说明了Integer和Long只是缓存了-128~127之间的值，而大于或者小于区间的值没有被缓存，<code>i3</code>和<code>i4</code>是128，刚好超出了这个区间，下面的<code>l3</code>和<code>l4</code>同理。<br />
 当然我们也可以修改包装类的缓存范围，在VM options加入参数<code>-XX:AutoBoxCacheMax=7777</code>，即可设置最大缓存值为7777，那么以上代码的打印结果全为<code>true</code>。</p>
 <p>在选择使用包装类和基本类型的时候，也不能完全按照心情，我们可以从以下几点来看：</p>
 <ol>
@@ -294,44 +525,333 @@ JVM在重载方法的顺序如下：</p>
 <ol>
 <li>String是只读字符串，典型的immutable对象，对它的任何改动，其实都是创建一个新对象，再把引用指向该对象。String对象赋值操作后，会在常量池中进行缓存，下次申请创建对象时，缓存中已经存在，则直接返回相应引用给调用者。</li>
 <li>StringBuffer可以在原对象上进行修改，是线程安全的。</li>
-<li>StringBuilder是非线程安全的，把多线程的锁的处理交给工程师（也就是宁👴）来处理，所以操作效率比较高。<br>
+<li>StringBuilder是非线程安全的，把多线程的锁的处理交给工程师（也就是宁👴）来处理，所以操作效率比较高。<br />
 线程安全的对象的产生一般是因为计算机的发展总是从单线程到多线程，从单机到分布式。</li>
 </ol>
 <p>字符串的连接方式在循环体内非常不推荐使用String类型相加，而是应该使用StringBuilder的append方法。</p>
-</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">MatthewHan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://Matthew-Han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">https://Matthew-Han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Matthew-Han.github.io">Espada</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/笔记/">笔记    </a><a class="post-meta__tags" href="/tags/Easy-Coding/">Easy Coding    </a><a class="post-meta__tags" href="/tags/面向对象/">面向对象    </a><a class="post-meta__tags" href="/tags/泛型/">泛型    </a></div><div class="post_share"><div class="social-share" data-image="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img"><div class="post-qr-code__desc">打赏宁 🐴 呢！给 👴 爬！</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/post/d6b414b0-cd29-11e9-8b45-c56f88a832c9/"><img class="prev_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/heart%20beat/heart%20beat.jpg/zip" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>心态的起伏</span></div></a></div><div class="next-post pull_right"><a href="/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/"><img class="next_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>《码出高效》系列笔记（一）：面向对象中的方法</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/" title="《码出高效》系列笔记（四）：数据结构与集合的数组和泛型"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip"><div class="relatedPosts_title">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</div></a></div><div class="relatedPosts_item"><a href="/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/" title="《码出高效》系列笔记（一）：面向对象中的方法"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip"><div class="relatedPosts_title">《码出高效》系列笔记（一）：面向对象中的方法</div></a></div><div class="relatedPosts_item"><a href="/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/" title="《码出高效》系列笔记（一）：面向对象中的类"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip"><div class="relatedPosts_title">《码出高效》系列笔记（一）：面向对象中的类</div></a></div><div class="relatedPosts_item"><a href="/post/31c8add0-69af-11ea-ad58-59a2dd622848/" title="《码出高效》系列笔记（四）：元素的比较"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip"><div class="relatedPosts_title">《码出高效》系列笔记（四）：元素的比较</div></a></div><div class="relatedPosts_item"><a href="/post/025b9630-626f-11ea-8f75-554d885c423a/" title="《码出高效》系列笔记（四）：数据结构与集合的框架篇"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip"><div class="relatedPosts_title">《码出高效》系列笔记（四）：数据结构与集合的框架篇</div></a></div><div class="relatedPosts_item"><a href="/post/43892940-eb34-11e9-8e01-011debd96741/" title="《码出高效》系列笔记（三）：异常与日志"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip"><div class="relatedPosts_title">《码出高效》系列笔记（三）：异常与日志</div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
-  clientID: 'f4a90d67f05027e203de',
-  clientSecret: 'b04a427204a2f33fda62a304d19401b8c3898fc2',
-  repo: 'Matthew-Han.github.io',
-  owner: 'Matthew-Han',
-  admin: 'Matthew-Han',
-  id: md5(decodeURI(location.pathname)),
-  language: 'en, zh-CN, zh-TW'
-})
-gitalk.render('gitalk-container')</script></div></div></div><footer id="footer" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip)"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By MatthewHan</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">你现在做的每一步，都是为了去接近你期望的未来。</div><div class="icp"><a href="http://www.beian.miit.gov.cn"><img class="icp-icon" src="/img/icp.png"><span>浙ICP备20000040号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-    processEscapes: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  },
-  CommonHTML: {
-    linebreaks: { automatic: true, width: "90% container" }
-  },
-  "HTML-CSS": { 
-    linebreaks: { automatic: true, width: "90% container" }
-  },
-  "SVG": { 
-    linebreaks: { automatic: true, width: "90% container" }
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='f4a90d67f05027e203de'
+        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
+        data-r='Matthew-Han.github.io'
+        data-o='Matthew-Han'
+        data-a='Matthew-Han'
+        data-d=''
+    >留言</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
+                    <p>MatthewHan</p>
+                    <span>用一行行代码去描绘出</span>
+                    <span>成长的轨迹</span>
+                    <dl>
+                        
+                        <dd><a href="" target="_blank"><span
+                                    class=" iconfont icon-empty"></span></a></dd>
+                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="" target="_blank"><span
+                                    class=" iconfont icon-empty"></span></a></dd>
+               
+                    </dl>
+                    
+                </div>
+                <ul>
+                    <li><a href="/">40 <p>文章</p></a></li>
+                    <li><a href="/categories">6 <p>分类</p></a></li>
+                    <li><a href="/tags">65 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>目录</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#同步与异步"><span class="toc-number">2.</span> <span class="toc-text"> 同步与异步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#覆写"><span class="toc-number">3.</span> <span class="toc-text"> 覆写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重载"><span class="toc-number">4.</span> <span class="toc-text"> 重载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#泛型"><span class="toc-number">5.</span> <span class="toc-text"> 泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型使用"><span class="toc-number">5.1.</span> <span class="toc-text"> 泛型使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据类型"><span class="toc-number">6.</span> <span class="toc-text"> 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本数据类型"><span class="toc-number">6.1.</span> <span class="toc-text"> 基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包装类型"><span class="toc-number">6.2.</span> <span class="toc-text"> 包装类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-number">6.3.</span> <span class="toc-text"> 字符串</span></a></li></ol></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            MatthewHan
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
   }
-});
-</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
-  var all = MathJax.Hub.getAllJax(), i;
-  for (i=0; i < all.length; i += 1) {
-    all[i].SourceElement().parentNode.className += ' has-jax';
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
-});
-</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.js"></script><script src="/js/baidupush.js"> </script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
-POWERMODE.shake = true; // turn off shake
-document.body.addEventListener('input', POWERMODE);
-</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
-</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async></script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
+</script>
+
+
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+
+    
+<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+
+
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+
+    
+<script src="/js/busuanzi.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+
+
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-144172266-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["用一行行代码去描绘出", "成长的轨迹"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>

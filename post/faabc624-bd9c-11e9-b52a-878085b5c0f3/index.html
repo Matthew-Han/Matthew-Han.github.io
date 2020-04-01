@@ -1,81 +1,151 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="day"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>阿里云对象存储使用 | Espada</title><meta name="description" content="提供99.9999999999%的数据可靠性，这究竟是怎么得出来的？"><meta name="keywords" content="对象存储,存储服务,阿里云"><meta name="author" content="MatthewHan"><meta name="copyright" content="MatthewHan"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_ico.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="阿里云对象存储使用"><meta name="twitter:description" content="提供99.9999999999%的数据可靠性，这究竟是怎么得出来的？"><meta name="twitter:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS.jpg/zip"><meta property="og:type" content="article"><meta property="og:title" content="阿里云对象存储使用"><meta property="og:url" content="https://Matthew-Han.github.io/post/faabc624-bd9c-11e9-b52a-878085b5c0f3/"><meta property="og:site_name" content="Espada"><meta property="og:description" content="提供99.9999999999%的数据可靠性，这究竟是怎么得出来的？"><meta property="og:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS.jpg/zip"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
-var t = Cookies.get("theme");
-if (autoChangeMode == '1'){
-const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
-const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
-const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-if (t === undefined){
-  if (isLightMode) activateLightMode()
-  else if (isDarkMode) activateDarkMode()
-  else if (isNotSpecified || hasNoSupport){
-    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-    now = new Date();
-    hour = now.getHours();
-    isNight = hour < 6 || hour >= 18
-    isNight ? activateDarkMode() : activateLightMode()
-}
-} else if (t == 'light') activateLightMode()
-else activateDarkMode()
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>阿里云对象存储使用 - Espada</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="MatthewHan Espada,"> 
+    <meta name="description" content="极度理性，爱憎分明,
+这两天僵住了，分配给我的项目是提前写完了，但是测试样例却不好弄，索性就划着，反而给了我很多时间去学习其他知识。
 
 
-} else if (autoChangeMode == '2'){
-  now = new Date();
-  hour = now.getHours();
-  isNight = hour < 6 || hour >= 18
-  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode() 
-} else {
-  if ( t == 'dark' ) activateDarkMode()
-  else if ( t == 'light') activateLightMode()
-}
+ 图床很有必要
+首先GayHub本来就不是很稳定，公司网络访问十分OK，回到家连,"> 
+    <meta name="author" content="MatthewHan"> 
+    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
 
-function activateDarkMode(){
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
-  }
-}
-function activateLightMode(){
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
-  }
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.css"><link rel="canonical" href="https://Matthew-Han.github.io/post/faabc624-bd9c-11e9-b52a-878085b5c0f3/"><link rel="prev" title="Quick Sort思想以及Java代码实现" href="https://Matthew-Han.github.io/post/faabc620-bd9c-11e9-b52a-878085b5c0f3/"><link rel="next" title="Swagger初体验" href="https://Matthew-Han.github.io/post/faabc622-bd9c-11e9-b52a-878085b5c0f3/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
-  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://Matthew-Han.github.io","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
-  highlight_copy: 'true',
-  highlight_lang: 'true',
-  highlight_shrink: 'false',
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  bookmark: {
-    title: 'Snackbar.bookmark.title',
-    message_prev: '按',
-    message_next: '键将本页加入书签'
-  },
-  runtime_unit: '天',
-  copyright: undefined,
-  copy_copyright_js: false,
-  ClickShowText: undefined,
-  medium_zoom: 'false',
-  Snackbar: {"bookmark":{"title":"Snackbar.bookmark.title","message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"}
-  
-}</script></head><body><div id="header"> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Espada</a></span><i class="fa fa-bars fa-fw toggle-menu pull_right close" aria-hidden="true"></i><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-inbox"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/emotion/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 世界</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 多个你</span></a></li><li><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 一个我</span></a></li></ul></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="lazyload avatar_img" src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/friend_404.gif'"></div><div class="mobile_post_data"><div class="mobile_data_item is_center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is_center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">65</div></a></div></div><div class="mobile_data_item is_center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">6</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-inbox"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/emotion/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 世界</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 多个你</span></a></li><li><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 一个我</span></a></li></ul></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#图床很有必要"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text"> 图床很有必要</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#开通服务"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text"> 开通服务</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#计费方式"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text"> 计费方式</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#其他工具"><span class="toc_mobile_items-number">4.</span> <span class="toc_mobile_items-text"> 其他工具</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#hexo中使用"><span class="toc_mobile_items-number">5.</span> <span class="toc_mobile_items-text"> Hexo中使用</span></a></li></ol></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#图床很有必要"><span class="toc-number">1.</span> <span class="toc-text"> 图床很有必要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开通服务"><span class="toc-number">2.</span> <span class="toc-text"> 开通服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#计费方式"><span class="toc-number">3.</span> <span class="toc-text"> 计费方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他工具"><span class="toc-number">4.</span> <span class="toc-text"> 其他工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo中使用"><span class="toc-number">5.</span> <span class="toc-text"> Hexo中使用</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS.jpg/zip)"><div id="post-info"><div id="post-title"><div class="posttitle">阿里云对象存储使用</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-07-17<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-11-28</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/其他技术/">其他技术</a></span><div class="post-meta-wordcount"><i class="fa fa-file-word-o post-meta__icon" aria-hidden="true"></i><span>字数总计: </span><span class="word-count">1.8k</span><span class="post-meta__separator">|</span><i class="fa fa-clock-o post-meta__icon" aria-hidden="true"></i><span>阅读时长: 5 分钟</span><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true">       </i><span>阅读量: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+
+    
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+
+    
+<link rel="stylesheet" href="/css/obsidian.css">
+
+    
+<link rel="stylesheet" href="/css/ball-atom.min.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Espada</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">阿里云对象存储使用</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
+<div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS.jpg/zip) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="/categories/其他技术"><b>「
+                    </b>其他技术<b> 」</b></a>
+                
+                七月 17, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/post/faabc624-bd9c-11e9-b52a-878085b5c0f3/" title="阿里云对象存储使用" class="">阿里云对象存储使用</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    4.8k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    4 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" rel="tag">存储服务</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/" rel="tag">对象存储</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91/" rel="tag">阿里云</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
 <p>这两天僵住了，分配给我的项目是提前写完了，但是测试样例却不好弄，索性就划着，反而给了我很多时间去学习其他知识。</p>
 </blockquote>
 <br>
@@ -85,9 +155,9 @@ function activateLightMode(){
 <p><code>对象存储</code>这个概念之前在带库升级的时候，各家方案和需求都有提及过，当时与百度云团队、IBM、Oracle厂商都有过交流，虽然我是完全不懂都是听个大概，但是概念和特点也略微了解了。不过这和使用这个存储服务没有什么关系，不用管底层照着阿里的文档用就vans了。</p>
 <h1 id="开通服务"><a class="markdownIt-Anchor" href="#开通服务"></a> 开通服务</h1>
 <p>猛冲成功后，点击创建一个<code>Bucket</code></p>
-<p><img alt="对新Bucket设置" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS2.png/wm" class="lazyload"></p>
-<p>其中区域选择，网上说选择香港好像有免费额度，但是普遍反映这个成本极低，所以我就冲了华东1（杭州），读写权限这里要注意<br>
-对象存储OSS提供Bucket级别的权限访问控制。<br>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS2.png/wm" alt="对新Bucket设置" /></p>
+<p>其中区域选择，网上说选择香港好像有免费额度，但是普遍反映这个成本极低，所以我就冲了华东1（杭州），读写权限这里要注意<br />
+对象存储OSS提供Bucket级别的权限访问控制。<br />
 Bucket目前有三种访问权限：<code>public-read-write</code>，<code>public-read</code>和<code>private</code>，它们的含义如下：</p>
 <table>
 <thead>
@@ -129,54 +199,343 @@ Bucket目前有三种访问权限：<code>public-read-write</code>，<code>publi
 <p>包年包月：预先购买指定资源包，之后使用资源时，扣除相应的额度。一般情况下，包年包月比按量付费更加优惠。资源包目前仅提供标准型存储包、归档型存储包、下行流量包、 回源流量包，可购买地域请参见购买对象存储OSS资源包。</p>
 </li>
 </ul>
-<p><img alt="费用组成" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS6.png/wm" class="lazyload"></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS6.png/wm" alt="费用组成" /></p>
 <blockquote>
 <p><strong>注意：</strong> OSS的所有收费项目都是单独计费的，例如：您在OSS 的存储空间内存放了100GB数据，会产生存储费用；若每天有不同的客户通过外网访问您的数据，则您还会额外产生请求费用和外网流出流量费用。</p>
 </blockquote>
 <p>简而言之就是如果你开通了包年包月服务，你实际产生的费用一般是由包年包月的服务费（数据存储、外网流出）+数据处理费用+请求费用。大头其实就是在数据存储和外网流出流量上，所以选择一个合适的套餐开通包年包月服务还是很有必要的。</p>
 <h1 id="其他工具"><a class="markdownIt-Anchor" href="#其他工具"></a> 其他工具</h1>
-<p><img alt="管理页面" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS3.png/wm" class="lazyload"></p>
-<p>管理界面和百度网盘很像，虽然底层是对象存储，但是傻瓜管理界面还是树形结构，这种最简单才是最好用的。这里可以对单一对象进行相关设置（包括获取URL、读写权限，不展开），不过推荐还是使用一款官方application来可视化管理比较好，可以直接拖拽上传下载。GayHub地址：<a href="https://github.com/aliyun/oss-browser" target="_blank" rel="noopener"><code>https://github.com/aliyun/oss-browser</code></a><br>
-其实这里应该是和HexoEditor搭配才是完美的，可惜HexoEditor只支持七牛、腾讯云，不支持阿里云OSS。HexoEditor是一款Markdown的开发工具，预览内容与Hexo生成页面内容高度相似（可以配置主题，虽然我失败了，我的主题比较特殊），并且HexoEditor对图床的支持也8️⃣错，就是不支持阿里云，如下图：<br>
-<img alt="HexoEditor图床" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS4.png/wm" class="lazyload"><br>
-<img alt="HexoEditor预览" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS5.png/wm" class="lazyload"><br>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS3.png/wm" alt="管理页面" /></p>
+<p>管理界面和百度网盘很像，虽然底层是对象存储，但是傻瓜管理界面还是树形结构，这种最简单才是最好用的。这里可以对单一对象进行相关设置（包括获取URL、读写权限，不展开），不过推荐还是使用一款官方application来可视化管理比较好，可以直接拖拽上传下载。GayHub地址：<a href="https://github.com/aliyun/oss-browser" target="_blank" rel="noopener"><code>https://github.com/aliyun/oss-browser</code></a><br />
+其实这里应该是和HexoEditor搭配才是完美的，可惜HexoEditor只支持七牛、腾讯云，不支持阿里云OSS。HexoEditor是一款Markdown的开发工具，预览内容与Hexo生成页面内容高度相似（可以配置主题，虽然我失败了，我的主题比较特殊），并且HexoEditor对图床的支持也8️⃣错，就是不支持阿里云，如下图：<br />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS4.png/wm" alt="HexoEditor图床" /><br />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS5.png/wm" alt="HexoEditor预览" /><br />
 HexoEditor的GayHub地址：<a href="https://github.com/zhuzhuyule/HexoEditor" target="_blank" rel="noopener"><code>https://github.com/zhuzhuyule/HexoEditor</code></a></p>
 <h1 id="hexo中使用"><a class="markdownIt-Anchor" href="#hexo中使用"></a> Hexo中使用</h1>
 <p>最后就可以在你的HexoEditor上编写Markdown博客辣，通过oss-browser进行备份，再次打开你的blog，应该会比原来快很多的吧！</p>
-</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">MatthewHan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://Matthew-Han.github.io/post/faabc624-bd9c-11e9-b52a-878085b5c0f3/">https://Matthew-Han.github.io/post/faabc624-bd9c-11e9-b52a-878085b5c0f3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Matthew-Han.github.io">Espada</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/对象存储/">对象存储    </a><a class="post-meta__tags" href="/tags/存储服务/">存储服务    </a><a class="post-meta__tags" href="/tags/阿里云/">阿里云    </a></div><div class="post_share"><div class="social-share" data-image="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS.jpg/zip" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img"><div class="post-qr-code__desc">打赏宁 🐴 呢！给 👴 爬！</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/post/faabc620-bd9c-11e9-b52a-878085b5c0f3/"><img class="prev_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/Hoare.jpg/zip" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>Quick Sort思想以及Java代码实现</span></div></a></div><div class="next-post pull_right"><a href="/post/faabc622-bd9c-11e9-b52a-878085b5c0f3/"><img class="next_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Swagger/swagger.jpg/zip" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>Swagger初体验</span></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
-  clientID: 'f4a90d67f05027e203de',
-  clientSecret: 'b04a427204a2f33fda62a304d19401b8c3898fc2',
-  repo: 'Matthew-Han.github.io',
-  owner: 'Matthew-Han',
-  admin: 'Matthew-Han',
-  id: md5(decodeURI(location.pathname)),
-  language: 'en, zh-CN, zh-TW'
-})
-gitalk.render('gitalk-container')</script></div></div></div><footer id="footer" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/OSS%E4%BD%BF%E7%94%A8/OSS.jpg/zip)"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By MatthewHan</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">你现在做的每一步，都是为了去接近你期望的未来。</div><div class="icp"><a href="http://www.beian.miit.gov.cn"><img class="icp-icon" src="/img/icp.png"><span>浙ICP备20000040号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-    processEscapes: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  },
-  CommonHTML: {
-    linebreaks: { automatic: true, width: "90% container" }
-  },
-  "HTML-CSS": { 
-    linebreaks: { automatic: true, width: "90% container" }
-  },
-  "SVG": { 
-    linebreaks: { automatic: true, width: "90% container" }
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='f4a90d67f05027e203de'
+        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
+        data-r='Matthew-Han.github.io'
+        data-o='Matthew-Han'
+        data-a='Matthew-Han'
+        data-d=''
+    >留言</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
+                    <p>MatthewHan</p>
+                    <span>用一行行代码去描绘出</span>
+                    <span>成长的轨迹</span>
+                    <dl>
+                        
+                        <dd><a href="" target="_blank"><span
+                                    class=" iconfont icon-empty"></span></a></dd>
+                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="" target="_blank"><span
+                                    class=" iconfont icon-empty"></span></a></dd>
+               
+                    </dl>
+                    
+                </div>
+                <ul>
+                    <li><a href="/">40 <p>文章</p></a></li>
+                    <li><a href="/categories">6 <p>分类</p></a></li>
+                    <li><a href="/tags">65 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>目录</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#图床很有必要"><span class="toc-number">1.</span> <span class="toc-text"> 图床很有必要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开通服务"><span class="toc-number">2.</span> <span class="toc-text"> 开通服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#计费方式"><span class="toc-number">3.</span> <span class="toc-text"> 计费方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其他工具"><span class="toc-number">4.</span> <span class="toc-text"> 其他工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo中使用"><span class="toc-number">5.</span> <span class="toc-text"> Hexo中使用</span></a></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            MatthewHan
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
   }
-});
-</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
-  var all = MathJax.Hub.getAllJax(), i;
-  for (i=0; i < all.length; i += 1) {
-    all[i].SourceElement().parentNode.className += ' has-jax';
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
-});
-</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.js"></script><script src="/js/baidupush.js"> </script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
-POWERMODE.shake = true; // turn off shake
-document.body.addEventListener('input', POWERMODE);
-</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
-</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async></script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
+</script>
+
+
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+
+    
+<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+
+
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+
+    
+<script src="/js/busuanzi.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+
+
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-144172266-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["用一行行代码去描绘出", "成长的轨迹"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>

@@ -1,92 +1,162 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="day"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>千千万万设计模式之适配器模式 | Espada</title><meta name="description" content="模式千万条，生命就一条，可以下班了。"><meta name="keywords" content="设计模式,适配器模式"><meta name="author" content="MatthewHan"><meta name="copyright" content="MatthewHan"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_ico.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="千千万万设计模式之适配器模式"><meta name="twitter:description" content="模式千万条，生命就一条，可以下班了。"><meta name="twitter:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip"><meta property="og:type" content="article"><meta property="og:title" content="千千万万设计模式之适配器模式"><meta property="og:url" content="https://Matthew-Han.github.io/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/"><meta property="og:site_name" content="Espada"><meta property="og:description" content="模式千万条，生命就一条，可以下班了。"><meta property="og:image" content="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
-var t = Cookies.get("theme");
-if (autoChangeMode == '1'){
-const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
-const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
-const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-if (t === undefined){
-  if (isLightMode) activateLightMode()
-  else if (isDarkMode) activateDarkMode()
-  else if (isNotSpecified || hasNoSupport){
-    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-    now = new Date();
-    hour = now.getHours();
-    isNight = hour < 6 || hour >= 18
-    isNight ? activateDarkMode() : activateLightMode()
-}
-} else if (t == 'light') activateLightMode()
-else activateDarkMode()
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>千千万万设计模式之适配器模式 - Espada</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="MatthewHan Espada,"> 
+    <meta name="description" content="极度理性，爱憎分明,
+模式千万条，生命就一条，可以下班了。
 
 
-} else if (autoChangeMode == '2'){
-  now = new Date();
-  hour = now.getHours();
-  isNight = hour < 6 || hour >= 18
-  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode() 
-} else {
-  if ( t == 'dark' ) activateDarkMode()
-  else if ( t == 'light') activateLightMode()
-}
+本系列已经开源至GitHub，repository地址。
+最初只是为了做个人笔记，参考了前人的笔记和博客，在这里我用更接潮流、更接地气的例子来帮助加深理解,"> 
+    <meta name="author" content="MatthewHan"> 
+    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
 
-function activateDarkMode(){
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
-  }
-}
-function activateLightMode(){
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
-  }
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.css"><link rel="canonical" href="https://Matthew-Han.github.io/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/"><link rel="prev" title="千千万万设计模式之单例模式" href="https://Matthew-Han.github.io/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/"><link rel="next" title="Quick Sort思想以及Java代码实现" href="https://Matthew-Han.github.io/post/faabc620-bd9c-11e9-b52a-878085b5c0f3/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
-  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://Matthew-Han.github.io","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
-  highlight_copy: 'true',
-  highlight_lang: 'true',
-  highlight_shrink: 'false',
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  bookmark: {
-    title: 'Snackbar.bookmark.title',
-    message_prev: '按',
-    message_next: '键将本页加入书签'
-  },
-  runtime_unit: '天',
-  copyright: undefined,
-  copy_copyright_js: false,
-  ClickShowText: undefined,
-  medium_zoom: 'false',
-  Snackbar: {"bookmark":{"title":"Snackbar.bookmark.title","message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"}
-  
-}</script></head><body><div id="header"> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Espada</a></span><i class="fa fa-bars fa-fw toggle-menu pull_right close" aria-hidden="true"></i><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-inbox"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/emotion/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 世界</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 多个你</span></a></li><li><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 一个我</span></a></li></ul></div></div></span><span class="pull_right" id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="lazyload avatar_img" src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/friend_404.gif'"></div><div class="mobile_post_data"><div class="mobile_data_item is_center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">40</div></a></div></div><div class="mobile_data_item is_center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">65</div></a></div></div><div class="mobile_data_item is_center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">6</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-inbox"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/emotion/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 世界</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 多个你</span></a></li><li><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 一个我</span></a></li></ul></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#设计模式的思想"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text"> 设计模式的思想</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#适配器模式"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text"> 适配器模式</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#适配器的分类"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text"> 适配器的分类</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#类适配器模式"><span class="toc_mobile_items-number">3.1.</span> <span class="toc_mobile_items-text"> 类适配器模式</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#对象适配器模式"><span class="toc_mobile_items-number">3.2.</span> <span class="toc_mobile_items-text"> 对象适配器模式</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#接口适配器模式"><span class="toc_mobile_items-number">3.3.</span> <span class="toc_mobile_items-text"> 接口适配器模式</span></a></li></ol></li></ol></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式的思想"><span class="toc-number">1.</span> <span class="toc-text"> 设计模式的思想</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#适配器模式"><span class="toc-number">2.</span> <span class="toc-text"> 适配器模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#适配器的分类"><span class="toc-number">3.</span> <span class="toc-text"> 适配器的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#类适配器模式"><span class="toc-number">3.1.</span> <span class="toc-text"> 类适配器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象适配器模式"><span class="toc-number">3.2.</span> <span class="toc-text"> 对象适配器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接口适配器模式"><span class="toc-number">3.3.</span> <span class="toc-text"> 接口适配器模式</span></a></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip)"><div id="post-info"><div id="post-title"><div class="posttitle">千千万万设计模式之适配器模式</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-07-23<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-11-28</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/设计模式/">设计模式</a></span><div class="post-meta-wordcount"><i class="fa fa-file-word-o post-meta__icon" aria-hidden="true"></i><span>字数总计: </span><span class="word-count">2.6k</span><span class="post-meta__separator">|</span><i class="fa fa-clock-o post-meta__icon" aria-hidden="true"></i><span>阅读时长: 9 分钟</span><span class="post-meta__separator">|</span><i class="fa fa-eye post-meta__icon" aria-hidden="true">       </i><span>阅读量: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+
+    
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
+
+    
+<link rel="stylesheet" href="/css/obsidian.css">
+
+    
+<link rel="stylesheet" href="/css/ball-atom.min.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body class="loading">
+    <div class="loader">
+        <div class="la-ball-atom la-2x">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <span id="config-title" style="display:none">Espada</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div class="scrollbar gradient-bg-rev"></div>
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <div class="navigation animated fadeIn fast delay-1s">
+        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
+        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
+        <h3 class="subtitle">千千万万设计模式之适配器模式</h3>
+        <div class="social">
+            <!--        <div class="like-icon">-->
+            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+            <!--        </div>-->
+            <div>
+                <div class="share">
+                    
+                        <a href="javascript:;" class="iconfont icon-share1"></a>
+                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="section">
+        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
+<div class=article-header-wrapper>
+    <div class="article-header">
+        <div class="article-cover animated fadeIn" style="
+            animation-delay: 600ms;
+            animation-duration: 1.2s;
+            background-image: 
+                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
+                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip) ">
+        </div>
+        <div class="else">
+            <p class="animated fadeInDown">
+                
+                <a href="/categories/设计模式"><b>「
+                    </b>设计模式<b> 」</b></a>
+                
+                七月 23, 2019
+            </p>
+            <h3 class="post-title animated fadeInDown"><a href="/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/" title="千千万万设计模式之适配器模式" class="">千千万万设计模式之适配器模式</a>
+            </h3>
+            
+            <p class="post-count animated fadeInDown">
+                
+                <span>
+                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
+                    24k
+                </span>
+                
+                
+                <span>
+                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
+                    22 mins.
+                </span>
+                
+                
+                
+                <span id="busuanzi_container_page_pv">
+                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
+                    <span id="busuanzi_value_page_pv">0</span>
+                </span>
+                
+            </p>
+            
+            
+            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" rel="tag">适配器模式</a></li></ul>
+            
+        </div>
+    </div>
+</div>
+
+<div class="screen-gradient-after">
+    <div class="screen-gradient-content">
+        <div class="screen-gradient-content-inside">
+            <div class="bold-underline-links screen-gradient-sponsor">
+                <p>
+                    <span class="animated fadeIn delay-1s"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="article">
+    <div class='main'>
+        <div class="content markdown animated fadeIn">
+            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
 <p>模式千万条，生命就一条，可以下班了。</p>
 </blockquote>
-<br>
+<br />
 <p><em>本系列已经开源至GitHub，repository<a href="https://github.com/Matthew-Han/java-design-pattern" target="_blank" rel="noopener">地址</a>。</em></p>
 <p><em>最初只是为了做个人笔记，参考了前人的笔记和博客，在这里我用更接潮流、更接地气的例子来帮助加深理解记忆。</em></p>
 <p><em>由于本人技术水平也有限，着重点在于思想的理解，若出现任何错误、不恰当内容，欢迎各位前来<a href="https://github.com/Matthew-Han/java-design-pattern/issues" target="_blank" rel="noopener">issues</a>指正。</em></p>
 <p><em>感谢任何分享、开源学习教程的前辈，正是有你们这一群乐于奉献的人才让整个生态变得生机勃勃、让这个行业日新月异。</em></p>
 <h1 id="设计模式的思想"><a class="markdownIt-Anchor" href="#设计模式的思想"></a> 设计模式的思想</h1>
 <p><em>新开个系列，把前人写的设计模式好好地学习钻研下，这里做点笔记。这里参考的博文<a href="https://www.jianshu.com/p/43bfb4516dd8" target="_blank" rel="noopener">地址</a></em></p>
-<p>什么是设计模式？放在两年前的我，不但不了解它，也不会去重视它。我只在乎能够猥琐实现，程序运行不报错。但是在版本快速迭代、需求明天就改、框架稳定升级的现在，自己也写了不少代码，积累了一些经验和知识，在快速成长的过程中，愈发觉得优秀的开发工程师就是会比平庸的开发工程师在设计、建模的过程中去花更多时间去思考、去推理。<s>其实我觉得我也算是考虑问题比较全面、比较细致的人了（大雾</s>）。<br>
-这里又可以引申出面向对象和面向过程，优秀的开发工程师可以把面向过程的程序写得非常内聚、可扩展性好、具备一定的复用性；而平庸的程序员用面向对象的语言一样也能把程序写得松散随意、毫无抽象与建模、模块耦合严重、维护性差。而设计模式也是考究程序员对业务的建模能力，以及对架构的宏观掌握能力，面向对象来说，以对象模型为核心，丰富模型的内涵，扩展模型的外延，通过模型的行为组合去共同解决某一力问题，抽象的能力必不可少。<br>
+<p>什么是设计模式？放在两年前的我，不但不了解它，也不会去重视它。我只在乎能够猥琐实现，程序运行不报错。但是在版本快速迭代、需求明天就改、框架稳定升级的现在，自己也写了不少代码，积累了一些经验和知识，在快速成长的过程中，愈发觉得优秀的开发工程师就是会比平庸的开发工程师在设计、建模的过程中去花更多时间去思考、去推理。<s>其实我觉得我也算是考虑问题比较全面、比较细致的人了（大雾</s>）。<br />
+这里又可以引申出面向对象和面向过程，优秀的开发工程师可以把面向过程的程序写得非常内聚、可扩展性好、具备一定的复用性；而平庸的程序员用面向对象的语言一样也能把程序写得松散随意、毫无抽象与建模、模块耦合严重、维护性差。而设计模式也是考究程序员对业务的建模能力，以及对架构的宏观掌握能力，面向对象来说，以对象模型为核心，丰富模型的内涵，扩展模型的外延，通过模型的行为组合去共同解决某一力问题，抽象的能力必不可少。<br />
 啥是面向对象？总结就是四大特性：封装、继承、多态、抽象。这里不细讲了，留到之后在总结一篇post吧。</p>
 <h1 id="适配器模式"><a class="markdownIt-Anchor" href="#适配器模式"></a> 适配器模式</h1>
 <p>适配器模式简而言之就是一个类的转接口转换成客户希望的另外一个接口，主要作用就是兼容。举个例子：中国标准220伏特的电压，日本是110伏特的电压，iPhone的充电头是5伏1安（<s>万年没有快充，iPhone 4也是5伏1安</s>），220伏特的电压没法直接给iPhone充电，就需要一个电源适配器来连接两者，所以适配器模式就是讲<code>一个类的转接口转换成客户希望的另一个接口</code>。</p>
@@ -102,79 +172,668 @@ function activateLightMode(){
 <blockquote>
 <p>原理：通过<code>继承</code>来实现适配器功能。</p>
 </blockquote>
-<p>在这里我就是拿两位德艺双馨的人民艺术家老师：坤坤和凡凡的业务能力用代码来解释类适配器模式。<br>
+<p>在这里我就是拿两位德艺双馨的人民艺术家老师：坤坤和凡凡的业务能力用代码来解释类适配器模式。<br />
 大家都知道坤坤是一位练习时长2年半的个人练习生，喜欢唱跳rap篮球：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> KunKunService</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 坤坤业务的能力</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/25 15:42</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">KunKunService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 唱</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> lyric</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">String <span class="title">singing</span><span class="params">(String lyric)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 跳</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> music</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">dance</span><span class="params">(Music music)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * rap</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">rap</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 虚假的篮球🏀</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> basketball</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">playBall</span><span class="params">(Basketball basketball)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> KunKunServiceImpl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 坤坤练习生业务能力的展现</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/25 15:58</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KunKunServiceImpl</span> <span class="keyword">implements</span> <span class="title">KunKunService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">singing</span><span class="params">(String lyric)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> lyric;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dance</span><span class="params">(Music music)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">rap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 坤坤皮球还是给个赞👍</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">playBall</span><span class="params">(Basketball basketball)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> KunKunService
+ * <span class="hljs-doctag">@Description</span> 坤坤业务的能力
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/7/25 15:42
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">KunKunService</span> </span>{
+
+    <span class="hljs-comment">/**
+     * 唱
+     * <span class="hljs-doctag">@param</span> lyric
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function">String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span></span>;
+
+    <span class="hljs-comment">/**
+     * 跳
+     * <span class="hljs-doctag">@param</span> music
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span></span>;
+
+    <span class="hljs-comment">/**
+     * rap
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span></span>;
+
+    <span class="hljs-comment">/**
+     * 虚假的篮球🏀
+     * <span class="hljs-doctag">@param</span> basketball
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span></span>;
+}
+</code></pre>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> KunKunServiceImpl
+ * <span class="hljs-doctag">@Description</span> 坤坤练习生业务能力的展现
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/7/25 15:58
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KunKunServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
+
+        <span class="hljs-keyword">return</span> lyric;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+
+    <span class="hljs-comment">/**
+     * 坤坤皮球还是给个赞👍
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+
+}
+</code></pre>
 <p>当然我们的加拿带🇨🇦电鳗凡凡业务能力也⑧差。自带auto tone放电的男人，每次看完他的Live，手机电就满了（<s>据说凡凡打算成立凡电科技公司，主营移动充电业务</s>）。恰面🍜水平也很高，而且恰面一定要大碗的。当然了，这么优秀的蓝人还是有个弱点的，就是怕苏韵锦像个石头一样欠的钱不还。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> KrisService</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 加拿带电鳗的业务水平</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/25 16:02</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">KrisService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 凡凡的充电计划√</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">String <span class="title">autoTone</span><span class="params">(String lyric)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 苏⚡️韵⚡️锦⚡️，你⚡️这⚡️里⚡️欠⚡️我⚡️的⚡️用⚡️什⚡️么⚡️还⚡️？</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">repay</span><span class="params">(<span class="keyword">long</span> id)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * size一定要大，因为是大碗宽面!</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> size</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">eatNoodles</span><span class="params">(<span class="keyword">long</span> size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 真正的篮球🏀 vs 虚假的篮球🏀</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> basketball</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">playBasketball</span><span class="params">(Basketball basketball)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> KrisServiceImpl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> U R so bad girl !</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/25 16:11</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KrisServiceImpl</span> <span class="keyword">implements</span> <span class="title">KrisService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * auto tone ⑧用麦克风就天然打开</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">autoTone</span><span class="params">(String lyric)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        StringBuilder freestyle = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        String[] str = lyric.split(<span class="string">""</span>);</span><br><span class="line">        <span class="keyword">for</span>(String c : str)&#123;</span><br><span class="line">            freestyle.append(c);</span><br><span class="line">            freestyle.append(<span class="string">" ⚡ "</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> String.valueOf(freestyle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">repay</span><span class="params">(<span class="keyword">long</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">eatNoodles</span><span class="params">(<span class="keyword">long</span> size)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">playBasketball</span><span class="params">(Basketball basketball)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> KrisService
+ * <span class="hljs-doctag">@Description</span> 加拿带电鳗的业务水平
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/7/25 16:02
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">KrisService</span> </span>{
+
+    <span class="hljs-comment">/**
+     * 凡凡的充电计划√
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function">String <span class="hljs-title">autoTone</span><span class="hljs-params">(String lyric)</span></span>;
+
+    <span class="hljs-comment">/**
+     * 苏⚡️韵⚡️锦⚡️，你⚡️这⚡️里⚡️欠⚡️我⚡️的⚡️用⚡️什⚡️么⚡️还⚡️？
+     * <span class="hljs-doctag">@param</span> id
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">repay</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id)</span></span>;
+
+    <span class="hljs-comment">/**
+     * size一定要大，因为是大碗宽面!
+     * <span class="hljs-doctag">@param</span> size
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">eatNoodles</span><span class="hljs-params">(<span class="hljs-keyword">long</span> size)</span></span>;
+
+    <span class="hljs-comment">/**
+     * 真正的篮球🏀 vs 虚假的篮球🏀
+     * <span class="hljs-doctag">@param</span> basketball
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">playBasketball</span><span class="hljs-params">(Basketball basketball)</span></span>;
+}
+</code></pre>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> KrisServiceImpl
+ * <span class="hljs-doctag">@Description</span> U R so bad girl !
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/7/25 16:11
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KrisServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KrisService</span> </span>{
+
+    <span class="hljs-comment">/**
+     * auto tone ⑧用麦克风就天然打开
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">autoTone</span><span class="hljs-params">(String lyric)</span> </span>{
+
+        StringBuilder freestyle = <span class="hljs-keyword">new</span> StringBuilder();
+        String[] str = lyric.split(<span class="hljs-string">""</span>);
+        <span class="hljs-keyword">for</span>(String c : str){
+            freestyle.append(c);
+            freestyle.append(<span class="hljs-string">" ⚡ "</span>);
+        }
+
+        <span class="hljs-keyword">return</span> String.valueOf(freestyle);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">repay</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">eatNoodles</span><span class="hljs-params">(<span class="hljs-keyword">long</span> size)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBasketball</span><span class="hljs-params">(Basketball basketball)</span></span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+
+}
+</code></pre>
 <p>有一天坤坤觉得自己的成名作《鸡你太美》虽然灵幻动听，但是还是少了点什么味道。为了充电的他打开了pilipili看了凡凡的Live后恍然大悟，原来是少了auto tone！但是坤坤自身根本没有这种天赋，于是身为带明星的坤坤就打算偷学凡凡的绝技，打算在以后的唱歌中都加入这种带电的感觉。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> ClassKunKunAdapter</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 坤の偷学</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/25 17:02</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassAdapterImpl</span> <span class="keyword">extends</span> <span class="title">KrisServiceImpl</span> <span class="keyword">implements</span> <span class="title">KunKunService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">singing</span><span class="params">(String lyric)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.autoTone(lyric);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dance</span><span class="params">(Music music)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">rap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">playBall</span><span class="params">(Basketball basketball)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img alt="类适配器" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter1-1.png/wm" class="lazyload"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">singingOfClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    KunKunService c = <span class="keyword">new</span> ClassAdapterImpl();</span><br><span class="line"></span><br><span class="line">    assertEquals(c.singing(<span class="string">"鸡你太美!"</span>),<span class="string">"鸡 ⚡ 你 ⚡ 太 ⚡ 美 ⚡ ! ⚡ "</span>);</span><br><span class="line">    </span><br><span class="line">    System.out.println(c.singing(<span class="string">"鸡你太美!"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> ClassKunKunAdapter
+ * <span class="hljs-doctag">@Description</span> 坤の偷学
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/7/25 17:02
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassAdapterImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">KrisServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.autoTone(lyric);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+
+}
+</code></pre>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter1-1.png/wm" alt="类适配器" /></p>
+<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfClass</span><span class="hljs-params">()</span> </span>{
+    KunKunService c = <span class="hljs-keyword">new</span> ClassAdapterImpl();
+
+    assertEquals(c.singing(<span class="hljs-string">"鸡你太美!"</span>),<span class="hljs-string">"鸡 ⚡ 你 ⚡ 太 ⚡ 美 ⚡ ! ⚡ "</span>);
+    
+    System.out.println(c.singing(<span class="hljs-string">"鸡你太美!"</span>));
+}
+</code></pre>
 <p>我们来测试下结果，坤坤<code>师承</code>凡凡，通过偷学凡凡的绝技成功的让自己的唱歌技巧上了几个鹿晗的level，成为young OG就是这么简单。</p>
-<p><img alt="坤坤发电了吗" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter1-2.png/wm" class="lazyload"></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter1-2.png/wm" alt="坤坤发电了吗" /></p>
 <p>但是我们也可以看到这种实现方式，需要将坤坤的所有业务能力全部覆写一遍，实属⑧够灵活，其实我们还有接口适配器模式。</p>
 <h2 id="对象适配器模式"><a class="markdownIt-Anchor" href="#对象适配器模式"></a> 对象适配器模式</h2>
 <blockquote>
 <p>原理：通过<code>组合</code>来实现适配器功能。</p>
 </blockquote>
 <p>通过将凡凡业务员初始化，<code>new</code>一个对象凡凡，让凡凡来帮忙使用auto tone，坤凡合体演绎鸡🐔你太美！</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> ObjectAdapterImpl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 对象适配器</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/26 09:53</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectAdapterImpl</span> <span class="keyword">implements</span> <span class="title">KunKunService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> KrisService krisService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ObjectAdapterImpl</span><span class="params">(KrisService krisService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.krisService = krisService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">singing</span><span class="params">(String lyric)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> krisService.autoTone(lyric);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dance</span><span class="params">(Music music)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">rap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">playBall</span><span class="params">(Basketball basketball)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> ObjectAdapterImpl
+ * <span class="hljs-doctag">@Description</span> 对象适配器
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/7/26 09:53
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ObjectAdapterImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{
+
+    <span class="hljs-keyword">private</span> KrisService krisService;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ObjectAdapterImpl</span><span class="hljs-params">(KrisService krisService)</span> </span>{
+        <span class="hljs-keyword">this</span>.krisService = krisService;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
+        <span class="hljs-keyword">return</span> krisService.autoTone(lyric);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+}
+</code></pre>
 <p>同样的，坤坤在更♂衣室也来测试下效果</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">singingOfObject</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    KrisService krisService = <span class="keyword">new</span> KrisServiceImpl();</span><br><span class="line">    KunKunService o = <span class="keyword">new</span> ObjectAdapterImpl(krisService);</span><br><span class="line"></span><br><span class="line">    assertEquals(o.singing(<span class="string">"鸡你太美~"</span>),<span class="string">"鸡 ⚡ 你 ⚡ 太 ⚡ 美 ⚡ ~ ⚡ "</span>);</span><br><span class="line">    </span><br><span class="line">    System.out.println(o.singing(<span class="string">"鸡你太美~"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img alt="对象适配器" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter2-1.png/wm" class="lazyload"></p>
-<p><img alt="坤坤假唱实锤" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter2-2.png/wm" class="lazyload"></p>
+<pre class="highlight"><code class="java">
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfObject</span><span class="hljs-params">()</span> </span>{
+    KrisService krisService = <span class="hljs-keyword">new</span> KrisServiceImpl();
+    KunKunService o = <span class="hljs-keyword">new</span> ObjectAdapterImpl(krisService);
+
+    assertEquals(o.singing(<span class="hljs-string">"鸡你太美~"</span>),<span class="hljs-string">"鸡 ⚡ 你 ⚡ 太 ⚡ 美 ⚡ ~ ⚡ "</span>);
+    
+    System.out.println(o.singing(<span class="hljs-string">"鸡你太美~"</span>));
+}
+</code></pre>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter2-1.png/wm" alt="对象适配器" /></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter2-2.png/wm" alt="坤坤假唱实锤" /></p>
 <p>虽然是坤坤的舞台，但是却有加拿带🇨🇦电流声？假唱实锤！</p>
 <h2 id="接口适配器模式"><a class="markdownIt-Anchor" href="#接口适配器模式"></a> 接口适配器模式</h2>
 <blockquote>
 <p>通过<code>抽象类</code>来实现适配，这种适配方式有别于上面两种。</p>
 </blockquote>
-<p>上面两种实现方式，毫无例外的都覆写了坤坤的所有业务能力，略显笨重，那么适配器模式可以只将坤坤的一种或多种技能进行适配强化。<br>
-自从坤坤唱歌也能发电之后，坤坤成功的选上了NBA篮球带使，但是却被广大直男们怒喷。坤坤很抑郁啊，于是就去找了当年美国校队啦啦队的队长Chaoyue Yang，希望能够从幸运光环一身的她找到点帮助。Chaoyue妹妹耐心地和坤坤说，你现在被直男们喷还是因为把篮球🏀玩出皮球的感觉，实属弟弟，篮球技术还是要偷学凡凡嗷~<br>
-于是坤坤在一个与杰伦超话流量争顶的晚上，专门虚心去请教凡凡关于篮球技巧，顺便把auto tone升级到2.0。<br>
+<p>上面两种实现方式，毫无例外的都覆写了坤坤的所有业务能力，略显笨重，那么适配器模式可以只将坤坤的一种或多种技能进行适配强化。<br />
+自从坤坤唱歌也能发电之后，坤坤成功的选上了NBA篮球带使，但是却被广大直男们怒喷。坤坤很抑郁啊，于是就去找了当年美国校队啦啦队的队长Chaoyue Yang，希望能够从幸运光环一身的她找到点帮助。Chaoyue妹妹耐心地和坤坤说，你现在被直男们喷还是因为把篮球🏀玩出皮球的感觉，实属弟弟，篮球技术还是要偷学凡凡嗷~<br />
+于是坤坤在一个与杰伦超话流量争顶的晚上，专门虚心去请教凡凡关于篮球技巧，顺便把auto tone升级到2.0。<br />
 凡凡见到坤坤没有丝毫意外，缓缓说道：你想要的一切，我都放在了抽象圣经<code>《AbstractAdapter》</code>里面了，自己去取需要的吧，别再来打扰我了，U R so bad girl！</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> AbstractAdapter</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 抽象圣经</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/26 16:18</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractAdapter</span> <span class="keyword">implements</span> <span class="title">KunKunService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">singing</span><span class="params">(String lyric)</span> </span>&#123;</span><br><span class="line">        StringBuilder freestyle = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        String[] str = lyric.split(<span class="string">""</span>);</span><br><span class="line">        <span class="keyword">for</span>(String c : str)&#123;</span><br><span class="line">            freestyle.append(c);</span><br><span class="line">            <span class="comment">// 2.0 电力加强了</span></span><br><span class="line">            freestyle.append(<span class="string">" ⚡⚡ "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> String.valueOf(freestyle);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dance</span><span class="params">(Music music)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">rap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">playBall</span><span class="params">(Basketball basketball)</span> </span>&#123; <span class="keyword">return</span> <span class="keyword">true</span>; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> InterfaceAdapterImpl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 坤の学习</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/26 16:30</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterfaceAdapterImpl</span> <span class="keyword">extends</span> <span class="title">AbstractAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">singing</span><span class="params">(String lyric)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.singing(lyric);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">playBall</span><span class="params">(Basketball basketball)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.playBall(basketball); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img alt="接口适配器" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter3-1.png/wm" class="lazyload"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">singingOfInterface</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    KunKunService i = <span class="keyword">new</span> InterfaceAdapterImpl();</span><br><span class="line"></span><br><span class="line">    assertEquals(i.singing(<span class="string">"鸡你太美..."</span>),<span class="string">"鸡 ⚡⚡ 你 ⚡⚡ 太 ⚡⚡ 美 ⚡⚡ . ⚡⚡ . ⚡⚡ . ⚡⚡ "</span>);</span><br><span class="line">    </span><br><span class="line">    System.out.println(i.singing(<span class="string">"鸡你太美..."</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">playBallOfInterface</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    KunKunService i = <span class="keyword">new</span> InterfaceAdapterImpl();</span><br><span class="line"></span><br><span class="line">    assertTrue(i.playBall(<span class="keyword">new</span> Basketball()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img alt="2.0的auto tone 电力翻倍！" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter3-2.png/wm" class="lazyload"></p>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> AbstractAdapter
+ * <span class="hljs-doctag">@Description</span> 抽象圣经
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/7/26 16:18
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractAdapter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
+        StringBuilder freestyle = <span class="hljs-keyword">new</span> StringBuilder();
+        String[] str = lyric.split(<span class="hljs-string">""</span>);
+        <span class="hljs-keyword">for</span>(String c : str){
+            freestyle.append(c);
+            <span class="hljs-comment">// 2.0 电力加强了</span>
+            freestyle.append(<span class="hljs-string">" ⚡⚡ "</span>);
+        }
+        <span class="hljs-keyword">return</span> String.valueOf(freestyle);
+    }
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+    
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>; }
+
+}
+</code></pre>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@ClassName</span> InterfaceAdapterImpl
+ * <span class="hljs-doctag">@Description</span> 坤の学习
+ * <span class="hljs-doctag">@Author</span> MatthewHan
+ * <span class="hljs-doctag">@Date</span> 2019/7/26 16:30
+ * <span class="hljs-doctag">@Version</span> 1.0
+ **/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InterfaceAdapterImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapter</span> </span>{
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.singing(lyric);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{ 
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.playBall(basketball); 
+    }
+}
+</code></pre>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter3-1.png/wm" alt="接口适配器" /></p>
+<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfInterface</span><span class="hljs-params">()</span> </span>{
+    KunKunService i = <span class="hljs-keyword">new</span> InterfaceAdapterImpl();
+
+    assertEquals(i.singing(<span class="hljs-string">"鸡你太美..."</span>),<span class="hljs-string">"鸡 ⚡⚡ 你 ⚡⚡ 太 ⚡⚡ 美 ⚡⚡ . ⚡⚡ . ⚡⚡ . ⚡⚡ "</span>);
+    
+    System.out.println(i.singing(<span class="hljs-string">"鸡你太美..."</span>));
+}
+
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">playBallOfInterface</span><span class="hljs-params">()</span> </span>{
+    KunKunService i = <span class="hljs-keyword">new</span> InterfaceAdapterImpl();
+
+    assertTrue(i.playBall(<span class="hljs-keyword">new</span> Basketball()));
+}
+</code></pre>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter3-2.png/wm" alt="2.0的auto tone 电力翻倍！" /></p>
 <p>坤坤通过研读抽象圣经<code>《AbstractAdapter》</code>后，不但学到了真正的篮球，还把auto tone成功升级到2.0，电力翻倍。</p>
-</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">MatthewHan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://Matthew-Han.github.io/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/">https://Matthew-Han.github.io/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Matthew-Han.github.io">Espada</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/设计模式/">设计模式    </a><a class="post-meta__tags" href="/tags/适配器模式/">适配器模式    </a></div><div class="post_share"><div class="social-share" data-image="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button"><i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img"><div class="post-qr-code__desc">打赏宁 🐴 呢！给 👴 爬！</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/"><img class="prev_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>千千万万设计模式之单例模式</span></div></a></div><div class="next-post pull_right"><a href="/post/faabc620-bd9c-11e9-b52a-878085b5c0f3/"><img class="next_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/Hoare.jpg/zip" onerror="onerror=null;src='https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>Quick Sort思想以及Java代码实现</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/" title="千千万万设计模式之工厂模式"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip"><div class="relatedPosts_title">千千万万设计模式之工厂模式</div></a></div><div class="relatedPosts_item"><a href="/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/" title="千千万万设计模式之单例模式"><img class="relatedPosts_cover lazyload" data-src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip"><div class="relatedPosts_title">千千万万设计模式之单例模式</div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
-  clientID: 'f4a90d67f05027e203de',
-  clientSecret: 'b04a427204a2f33fda62a304d19401b8c3898fc2',
-  repo: 'Matthew-Han.github.io',
-  owner: 'Matthew-Han',
-  admin: 'Matthew-Han',
-  id: md5(decodeURI(location.pathname)),
-  language: 'en, zh-CN, zh-TW'
-})
-gitalk.render('gitalk-container')</script></div></div></div><footer id="footer" style="background-image: url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/designPatternAdapter.png/zip)"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By MatthewHan</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div><div class="footer_custom_text">你现在做的每一步，都是为了去接近你期望的未来。</div><div class="icp"><a href="http://www.beian.miit.gov.cn"><img class="icp-icon" src="/img/icp.png"><span>浙ICP备20000040号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-    processEscapes: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-  },
-  CommonHTML: {
-    linebreaks: { automatic: true, width: "90% container" }
-  },
-  "HTML-CSS": { 
-    linebreaks: { automatic: true, width: "90% container" }
-  },
-  "SVG": { 
-    linebreaks: { automatic: true, width: "90% container" }
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls"
+                data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+            <ul id="audio-list" style="display:none">
+                
+                
+                <li title='0' data-url='/statics/chengdu.mp3'></li>
+                
+                    
+            </ul>
+            
+            
+            
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='f4a90d67f05027e203de'
+        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
+        data-r='Matthew-Han.github.io'
+        data-o='Matthew-Han'
+        data-a='Matthew-Han'
+        data-d=''
+    >留言</div>
+
+
+            
+            
+        </div>
+        <div class="sidebar">
+            <div class="box animated fadeInRight">
+                <div class="subbox">
+                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
+                    <p>MatthewHan</p>
+                    <span>用一行行代码去描绘出</span>
+                    <span>成长的轨迹</span>
+                    <dl>
+                        
+                        <dd><a href="" target="_blank"><span
+                                    class=" iconfont icon-empty"></span></a></dd>
+                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
+                                    class=" iconfont icon-github"></span></a></dd>
+                        <dd><a href="" target="_blank"><span
+                                    class=" iconfont icon-empty"></span></a></dd>
+               
+                    </dl>
+                    
+                </div>
+                <ul>
+                    <li><a href="/">40 <p>文章</p></a></li>
+                    <li><a href="/categories">6 <p>分类</p></a></li>
+                    <li><a href="/tags">65 <p>标签</p></a></li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="box sticky animated fadeInRight faster">
+                <div id="toc" class="subbox">
+                    <h4>目录</h4>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式的思想"><span class="toc-number">1.</span> <span class="toc-text"> 设计模式的思想</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#适配器模式"><span class="toc-number">2.</span> <span class="toc-text"> 适配器模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#适配器的分类"><span class="toc-number">3.</span> <span class="toc-text"> 适配器的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#类适配器模式"><span class="toc-number">3.1.</span> <span class="toc-text"> 类适配器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象适配器模式"><span class="toc-number">3.2.</span> <span class="toc-text"> 对象适配器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接口适配器模式"><span class="toc-number">3.3.</span> <span class="toc-text"> 接口适配器模式</span></a></li></ol></li></ol>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    <div id="back-to-top" class="animated fadeIn faster">
+        <div class="flow"></div>
+        <span class="percentage animated fadeIn faster">0%</span>
+        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    </div>
+</body>
+<footer>
+    <p class="copyright" id="copyright">
+        &copy; 2020
+        <span class="gradient-text">
+            MatthewHan
+        </span>.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme
+        <span class="gradient-text">
+            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
+        </span>
+        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
+    </p>
+</footer>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX", "TeX"],
+      linebreaks: {
+        automatic: true
+      },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      noUndefined: {
+        attributes: {
+          mathcolor: "red",
+          mathbackground: "#FFEEEE",
+          mathsize: "90%"
+        }
+      },
+      Macros: {
+        href: "{}"
+      }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script>
+  function initialMathJax() {
+    MathJax.Hub.Queue(function () {
+      var all = MathJax.Hub.getAllJax(),
+        i;
+      // console.log(all);
+      for (i = 0; i < all.length; i += 1) {
+        console.log(all[i].SourceElement().parentNode)
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
   }
-});
-</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
-  var all = MathJax.Hub.getAllJax(), i;
-  for (i=0; i < all.length; i += 1) {
-    all[i].SourceElement().parentNode.className += ' has-jax';
+
+  function reprocessMathJax() {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
   }
-});
-</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script async src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.15/dist/snackbar.min.js"></script><script src="/js/baidupush.js"> </script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true; // make power mode colorful
-POWERMODE.shake = true; // turn off shake
-document.body.addEventListener('input', POWERMODE);
-</script><script src="/js/tw_cn.js"></script><script>translateInitilization()
-</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async></script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
- <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
+</script>
+
+
+
+    
+<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
+
+    
+<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/obsidian.js"></script>
+<script src="/js/jquery.truncate.js"></script>
+<script src="/js/search.js"></script>
+
+
+<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
+
+
+<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
+
+
+    
+<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
+
+
+
+
+    
+<script src="/js/busuanzi.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if ($('span[id^="busuanzi_"]').length) {
+                initialBusuanzi();
+            }
+        });
+    </script>
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
+
+
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-144172266-1');
+    </script>
+
+
+
+
+
+<script>
+    function initialTyped () {
+        var typedTextEl = $('.typed-text');
+        if (typedTextEl && typedTextEl.length > 0) {
+            var typed = new Typed('.typed-text', {
+                strings: ["用一行行代码去描绘出", "成长的轨迹"],
+                typeSpeed: 90,
+                loop: true,
+                loopCount: Infinity,
+                backSpeed: 20,
+            });
+        }
+    }
+
+    if ($('.article-header') && $('.article-header').length) {
+        $(document).ready(function () {
+            initialTyped();
+        });
+    }
+</script>
+
+
+
+
+</html>
