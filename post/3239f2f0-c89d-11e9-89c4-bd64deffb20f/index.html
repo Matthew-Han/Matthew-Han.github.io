@@ -114,7 +114,7 @@
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    21 mins.
+                    22 mins.
                 </span>
                 
                 
@@ -186,12 +186,21 @@ father.doSomething();
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">()</span> </span>{
         System.out.println(<span class="hljs-string">"我要逃离这里。"</span>);
     }
+  	<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">virus</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"2020，更加爱宁！"</span>)
+    }
 }
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Father</span> </span>{
     <span class="hljs-comment">// 编译报错</span>
     <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">()</span> </span>{
         System.out.println(<span class="hljs-string">"用笔尖微颤歪歪扭扭的线条"</span>);
+    }
+  
+  	<span class="hljs-comment">// 编译通过</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">virus</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"2020，病毒横行！"</span>);
     }
 }
 </code></pre>
