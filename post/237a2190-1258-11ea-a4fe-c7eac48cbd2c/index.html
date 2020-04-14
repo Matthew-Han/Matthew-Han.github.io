@@ -173,7 +173,7 @@ l,">
 <p>所以这个需求看起来比较简单，就变成了也有麻烦的地方，主要是四个：</p>
 <ol>
 <li>由于其他业务单位的存在，本系统需要有一个缓冲池和任务执行池<code>Running Pool</code>，容量为可分配的N。</li>
-<li>业务量增加超过N时，需要有个等待队列维护出入：当目前任务执行池<code>Running Pool</code>满时，入队；当任务<code>Running Pool</code>中的任务执行完成释放空位时，则出队进入<code>Running Pool</code>。</li>
+<li>业务量增加超过N时，需要有个等待队列维护出入：当目前任务执行池<code>Running Pool</code>满载时，入队；当任务<code>Running Pool</code>中的任务执行完成释放空位时，则出队进入<code>Running Pool</code>。</li>
 <li>「实际处理」的任务并不是在本系统而是在公共服务上，也就是说任何状态只能<strong>被动</strong>地通过回调接口去查。</li>
 <li>当存在N个正在执行的任务时，单线程肯定是效率不够的。需要开启多线程去回调接口判断任务状态是否完成/失败，用于下一步操作出队。</li>
 </ol>
