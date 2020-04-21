@@ -174,13 +174,13 @@ l,">
 <ol>
 <li>由于其他业务单位的存在，本系统需要有一个缓冲池和任务执行池<code>Running Pool</code>，容量为可分配的N。</li>
 <li>业务量增加超过N时，需要有个等待队列维护出入：当目前任务执行池<code>Running Pool</code>满载时，入队；当任务<code>Running Pool</code>中的任务执行完成释放空位时，则出队进入<code>Running Pool</code>。</li>
-<li>「实际处理」的任务并不是在本系统而是在公共服务上，也就是说任何状态只能<strong>被动</strong>地通过回调接口去查。</li>
-<li>当存在N个正在执行的任务时，单线程肯定是效率不够的。需要开启多线程去回调接口判断任务状态是否完成/失败，用于下一步操作出队。</li>
+<li>「实际处理」的任务并不是执行在本系统而是在公共服务上，也就是说任何状态只能<strong>被动</strong>地通过公共服务的回调接口去查。</li>
+<li>当存在N个正在执行的任务时，单线程肯定是效率不够的。需要开启多线程去回调公共服务的接口判断任务状态是否完成/失败，用于下一步操作出入队列。</li>
 </ol>
 <h2 id="设计"><a class="markdownIt-Anchor" href="#设计"></a> 设计</h2>
 <ol>
 <li>
-<p>我们可以在Redis中规划一块任务执行池<code>Running Pool</code>，可以是Set类型也可以是List类型，容量为N。设计这样的一个队列有个好处是如果单纯的<code>PUSH/POP</code>的话，当出队之后处理这个消息的过程中发生不可抗力、宕机，消息出队之后就会就会永远的丢失掉，而这样做则是消息始终持久化在Redis中，是任务结束之后；</p>
+<p>我们可以在Redis中规划一块任务执行池<code>Running Pool</code>，可以是Set类型也可以是List类型，容量为N。设计这样的一个队列有个好处是如果单纯的<code>PUSH/POP</code>的话，当出队之后处理这个消息的过程中发生不可抗力、宕机，消息出队之后就会永远的丢失掉，而这样做则是消息始终持久化在Redis中，是任务结束之后出队；</p>
 </li>
 <li>
 <p>有一个等待队列<code>Pending Queue</code>用于缓冲，消费者需要处理上面和这一块的业务逻辑；</p>
@@ -280,9 +280,9 @@ l,">
                     
                 </div>
                 <ul>
-                    <li><a href="/">41 <p>文章</p></a></li>
-                    <li><a href="/categories">6 <p>分类</p></a></li>
-                    <li><a href="/tags">67 <p>标签</p></a></li>
+                    <li><a href="/">42 <p>文章</p></a></li>
+                    <li><a href="/categories">7 <p>分类</p></a></li>
+                    <li><a href="/tags">69 <p>标签</p></a></li>
                 </ul>
             </div>
             
