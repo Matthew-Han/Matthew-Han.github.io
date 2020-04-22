@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://Matthew-Han.github.io/"/>
-  <updated>2020-04-21T09:31:26.307Z</updated>
+  <updated>2020-04-22T02:43:30.495Z</updated>
   <id>https://Matthew-Han.github.io/</id>
   
   <author>
@@ -17,13 +17,48 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>LeetCode #155 最小栈</title>
+    <link href="https://Matthew-Han.github.io/post/51044580-839d-11ea-a80d-c79a78360d60/"/>
+    <id>https://Matthew-Han.github.io/post/51044580-839d-11ea-a80d-c79a78360d60/</id>
+    <published>2020-04-21T06:57:08.000Z</published>
+    <updated>2020-04-22T02:43:30.495Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description</h1><p>设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。</p><ul><li>push(x) —— 将元素 x 推入栈中。</li><li>pop() —— 删除栈顶的元素。</li><li>top() —— 获取栈顶元素。</li><li>getMin() —— 检索栈中的最小元素。</li></ul><h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.</h2><ol><li>MinStack minStack = new MinStack();</li><li>minStack.push(-2);</li><li>minStack.push(0);</li><li>minStack.push(-3);</li><li>minStack.getMin();   ==&gt; 返回 -3.</li><li>minStack.pop();</li><li>minStack.top();      ==&gt; 返回 0.</li><li>minStack.getMin();   ==&gt;返回 -2.</li></ol><h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution</h1><p>该题很简单，但是有意思的是，我的解法也算通过了，虽然题目说</p><blockquote><p>在常数时间内检索到最小元素的栈。</p></blockquote><p>但是这里应该指的是<code>getMin()</code>这个方法，所以即使我的<code>push(Object obj)</code>方法复杂度比较高也没关系。。</p><p>因为有删除元素（pop方法）的存在，所以最小值在push完之后还是会随时变。所以单纯使用一个变量来保存最小值是不可能的。</p><p>我使用了双栈来实现，实际不用双栈用其他的数据结构也可以。大概原理就是在push的过程中，一个标准stack正常push，另一个辅助栈从栈底到栈顶从小到大排序的插入，利用了Stack的父类（Vector）方法<code>insertElementAt(Object obj, int i)</code>，这里注意index是第二个参数。pop时，标准stack正常pop，辅助stack只需要remove标准stack刚刚pop返回的对象即可<code>minStack.remove(stack.pop());</code>。这样确保两栈移除的元素是相同的。</p><h2 id="代码如下"><a class="markdownIt-Anchor" href="#代码如下"></a> 代码如下：</h2><pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MinStack</span> </span>{      <span class="hljs-keyword">private</span> Stack&lt;Integer&gt; stack;    <span class="hljs-keyword">private</span> Stack&lt;Integer&gt; minStack;    <span class="hljs-comment">/**     * 执行用时 : 6 ms , 在所有 Java 提交中击败了 97.91% 的用户     * 内存消耗 : 41.7 MB , 在所有 Java 提交中击败了 14.46% 的用户     */</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MinStack</span><span class="hljs-params">()</span> </span>{        stack = <span class="hljs-keyword">new</span> Stack&lt;&gt;();        minStack = <span class="hljs-keyword">new</span> Stack&lt;&gt;();    }    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{        stack.push(x);        <span class="hljs-keyword">if</span> (minStack.empty()) {            minStack.push(x);        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt;= minStack.peek()) {            minStack.push(x);        } <span class="hljs-keyword">else</span> {            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= minStack.size(); i++) {                <span class="hljs-keyword">if</span> (x &lt; minStack.get(i)) {                    minStack.insertElementAt(x, i);                    <span class="hljs-keyword">break</span>;                }            }        }    }    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{        minStack.remove(stack.pop());    }    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{        <span class="hljs-keyword">return</span> stack.peek();    }    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getMin</span><span class="hljs-params">()</span> </span>{        <span class="hljs-keyword">return</span> minStack.firstElement();    }    <span class="hljs-meta">@Override</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{        <span class="hljs-keyword">return</span> <span class="hljs-string">"MinStack{"</span> +                <span class="hljs-string">"stack="</span> + stack +                <span class="hljs-string">", minStack="</span> + minStack +                <span class="hljs-string">'}'</span>;    }    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{        MinStack minStack = <span class="hljs-keyword">new</span> MinStack();        minStack.push(-<span class="hljs-number">2</span>);        minStack.push(<span class="hljs-number">0</span>);        minStack.push(-<span class="hljs-number">3</span>);        minStack.push(-<span class="hljs-number">11</span>);        minStack.push(-<span class="hljs-number">1</span>);        System.out.println(minStack.toString());        System.out.println(minStack.getMin());        minStack.pop();        minStack.top();        System.out.println(minStack.getMin());    }}</code></pre><h1 id="feature"><a class="markdownIt-Anchor" href="#feature"></a> Feature</h1><p>虽然我这样做是通过的，但其实我想的不够多，看了高赞的题解，即使是利用辅助栈push方法时间复杂度也可以不到线性级 <em>O</em>(<em>n</em>)。</p><p>因为题目是说了设计的该栈对于移除元素只有pop方法，就是从栈顶移除，也就是说next元素比当前顶部元素大的话，就没必要保留了，因为在只有pop方法的情况下，该元素一定是先被移除的。所以在条件下辅助栈可以不需要把所有元素保存。</p><p>除非题目加一个删除中间某个元素的方法的条件。</p><p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/stack/stack.png" alt="入栈过程" /></p><p>当然还有不用辅助栈的做法，利用压栈。</p><p></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text&amp;#x2F;css&quot; href=&quot;https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; 
+      
+    
+    </summary>
+    
+      <category term="leetcode" scheme="https://Matthew-Han.github.io/categories/leetcode/"/>
+    
+    
+      <category term="数据结构" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+      <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
+    
+      <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
+    
+      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
+    
+      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
+    
+  </entry>
+  
+  <entry>
     <title>数据结构：栈</title>
     <link href="https://Matthew-Han.github.io/post/3d28b600-8397-11ea-bfe6-d727069c8da8/"/>
     <id>https://Matthew-Han.github.io/post/3d28b600-8397-11ea-bfe6-d727069c8da8/</id>
     <published>2020-04-21T06:13:37.000Z</published>
-    <updated>2020-04-21T09:31:26.307Z</updated>
+    <updated>2020-04-22T00:58:23.738Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h1><p><code>last-in-first-out</code>，后进先出是它最大的特点。<code>class Stack&lt;E&gt; extends Vector&lt;E&gt;</code>作为Vector的子类。</p><p>Vector底层使用数组存储数据，所以Stack也是如此。</p><p>Stack类<strong>自身</strong>的一些方法：</p><table><thead><tr><th style="text-align:left">方法</th><th style="text-align:left">方法描述</th></tr></thead><tbody><tr><td style="text-align:left"><code>boolean empty()</code></td><td style="text-align:left">测试堆栈是否为空。</td></tr><tr><td style="text-align:left"><code>Object peek()</code></td><td style="text-align:left">查看堆栈顶部的对象，但不从堆栈中移除它。</td></tr><tr><td style="text-align:left"><code>Object pop()</code></td><td style="text-align:left">移除堆栈顶部的对象，并作为此函数的值返回该对象。</td></tr><tr><td style="text-align:left"><code>Object push(Object element)</code></td><td style="text-align:left">把项压入堆栈顶部。</td></tr><tr><td style="text-align:left"><code>int search(Object element)</code></td><td style="text-align:left">返回对象在堆栈中的位置，以 1 为基数。</td></tr></tbody></table><p>其中search方法比较特殊，返回的是该元素的位置，但是从1开始的，这个不是数组下标。源码里是这样写的：</p><pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">int</span> <span class="hljs-title">search</span><span class="hljs-params">(Object o)</span> </span>{  <span class="hljs-keyword">int</span> i = lastIndexOf(o);<span class="hljs-keyword">if</span> (i &gt;= <span class="hljs-number">0</span>) {    <span class="hljs-keyword">return</span> size() - i;  }  <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;}</code></pre><p>如果该栈不存在任何元素，使用pop和peek方法会报NPE。</p><p>以上方法都是用了<code>synchronized</code>进行修饰，确保是线程同步。</p><h1 id="父类方法未完待续"><a class="markdownIt-Anchor" href="#父类方法未完待续"></a> 父类方法（未完待续…）</h1>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h1><p><code>last-in-first-out</code>，后进先出是它最大的特点。<code>class Stack&lt;E&gt; extends Vector&lt;E&gt;</code>作为Vector的子类。</p><p>Vector底层使用数组存储数据，所以Stack也是如此。</p><p>Stack类<strong>自身</strong>的一些方法：</p><table><thead><tr><th style="text-align:left">方法</th><th style="text-align:left">方法描述</th></tr></thead><tbody><tr><td style="text-align:left"><code>boolean empty()</code></td><td style="text-align:left">测试堆栈是否为空。</td></tr><tr><td style="text-align:left"><code>Object peek()</code></td><td style="text-align:left">查看堆栈顶部的对象，但不从堆栈中移除它。</td></tr><tr><td style="text-align:left"><code>Object pop()</code></td><td style="text-align:left">移除堆栈顶部的对象，并作为此函数的值返回该对象。</td></tr><tr><td style="text-align:left"><code>Object push(Object element)</code></td><td style="text-align:left">把项压入堆栈顶部。</td></tr><tr><td style="text-align:left"><code>int search(Object element)</code></td><td style="text-align:left">返回距离栈顶最近的相同元素的距离，返回对象在堆栈中的位置，以 1 为基数。</td></tr></tbody></table><p>其中search方法比较特殊，返回的是该元素的位置，但是从1开始的，这个不是数组下标。源码里是这样写的：</p><pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">int</span> <span class="hljs-title">search</span><span class="hljs-params">(Object o)</span> </span>{  <span class="hljs-keyword">int</span> i = lastIndexOf(o);<span class="hljs-keyword">if</span> (i &gt;= <span class="hljs-number">0</span>) {    <span class="hljs-keyword">return</span> size() - i;  }  <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;}</code></pre><p>如果该栈不存在任何元素，使用pop和peek方法会报NPE。</p><p>以上方法都是用了<code>synchronized</code>进行修饰，确保线程同步。</p><h1 id="父类方法未完待续"><a class="markdownIt-Anchor" href="#父类方法未完待续"></a> 父类方法（未完待续…）</h1>]]></content>
     
     <summary type="html">
     
@@ -118,15 +153,15 @@
       <category term="Java技术" scheme="https://Matthew-Han.github.io/categories/Java%E6%8A%80%E6%9C%AF/"/>
     
     
+      <category term="数据结构" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
       <category term="笔记" scheme="https://Matthew-Han.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="Easy Coding" scheme="https://Matthew-Han.github.io/tags/Easy-Coding/"/>
     
       <category term="集合" scheme="https://Matthew-Han.github.io/tags/%E9%9B%86%E5%90%88/"/>
     
-      <category term="数据结构" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
       <category term="元素" scheme="https://Matthew-Han.github.io/tags/%E5%85%83%E7%B4%A0/"/>
-    
-      <category term="Easy Coding" scheme="https://Matthew-Han.github.io/tags/Easy-Coding/"/>
     
   </entry>
   
@@ -148,15 +183,15 @@
       <category term="Java技术" scheme="https://Matthew-Han.github.io/categories/Java%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="笔记" scheme="https://Matthew-Han.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
-    
-      <category term="集合" scheme="https://Matthew-Han.github.io/tags/%E9%9B%86%E5%90%88/"/>
-    
       <category term="数据结构" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
+    
+      <category term="笔记" scheme="https://Matthew-Han.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
     
       <category term="Easy Coding" scheme="https://Matthew-Han.github.io/tags/Easy-Coding/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
+      <category term="集合" scheme="https://Matthew-Han.github.io/tags/%E9%9B%86%E5%90%88/"/>
     
       <category term="泛型" scheme="https://Matthew-Han.github.io/tags/%E6%B3%9B%E5%9E%8B/"/>
     
@@ -180,13 +215,13 @@
       <category term="Java技术" scheme="https://Matthew-Han.github.io/categories/Java%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="笔记" scheme="https://Matthew-Han.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
-    
-      <category term="集合" scheme="https://Matthew-Han.github.io/tags/%E9%9B%86%E5%90%88/"/>
-    
       <category term="数据结构" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
+      <category term="笔记" scheme="https://Matthew-Han.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    
       <category term="Easy Coding" scheme="https://Matthew-Han.github.io/tags/Easy-Coding/"/>
+    
+      <category term="集合" scheme="https://Matthew-Han.github.io/tags/%E9%9B%86%E5%90%88/"/>
     
       <category term="HashMap" scheme="https://Matthew-Han.github.io/tags/HashMap/"/>
     
@@ -374,7 +409,7 @@
     <published>2019-12-12T14:19:05.000Z</published>
     <updated>2020-01-16T03:21:09.565Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><div id="hbe-security">  <div class="hbe-input-container">  <input type="password" class="hbe-form-control" id="pass" placeholder="心态" />    <label for="pass">心态</label>    <div class="bottom-line"></div>  </div></div><div id="decryptionError" style="display: none;">Incorrect Password!</div><div id="noContentError" style="display: none;">No content to display!</div><div id="encrypt-blog" style="display:none">U2FsdGVkX1+XoCTipg6hetBSps0sKqjVDEcKZlz1GiTHzreEwBQzgg94oA5nUAVznPA/QGl215GGnwUhdWNmbJbDj2W2bYTjm+wlcrXWZvyCO3XpAsB/VW+LVMsZSTXVpPo+I1hr/5cmzU5WDZnMlWY1wXwrosrElIPPUPjdRfgDk28h4NwEjrkGE6mPV89Cl1NU+bjUBLVwEuZk7VgOTUdCXoqzc2Y6dpuLzeUUIBCDTe2bA1Nte2nCbFatoujJL3dZ+9rtMqSgnBAYwLl9juL822iHIl+O2Fx18twcTCqWFQJEchF2BNB9aEYZj4BBbr35Hchm0+fRLiX95g6IXhVFEgPMlX73DLDzw4Rzi8bGf9/ysko7cqfdqTPRpdsZwD1msP4/2PSlkOJH0+79jlu6lO0nMqJf/bqFmboahH+0H4ZK/OgHxs4Ml+38bOaFNTdr6iZAoYFbvzq6smL1w4D1OvgaK+Vxi02b9+QW16x8nK2ecUdGzbXWIIZIWAEJL7zLxBElxgM82uEmqj3z5KNiNlwkFs8xPK7C/uhYvqlYQXxye/9LVvEiX5XLCu8np+FCoawufI+KOXtm2ciebHFxD5Gci5RxRcQyyOoki+HNqyf0w03ERvAAiSF2Trj0XTEM/0umAVmZG7cQceI4LOODYot88jbOowrdvN5LVXP2fSSjfnmdMNntC1nNmq9Q4aiDLi9yL7SAwu5ixuEQoHlzRk8Q3yDrjr2WZdJJh/Mdb5LfRRP6C/NCyMnUD7U12BAWWgIqcvf8vl6cSTPpx1USB83iNZCE/SfAOFGPhrrD7VoN1A1Aqxt63+X1TAVfdJxih/tUCR7OiS3DIpXdZPry3gnLgXnUxO109iT/YOkFenUIn0/xU8Pv5FXlztQgwq5QZ+XGlHn/+0wzK4JaoLb6HbxMaMQ/z5NNV8i2CPSY9weI1gLgV9GbxSXSgEzwgwjSq/kPNBXclTzCgJdQHggWEQCEyS/lPOqc+iwwHoZofWUn8bSlVfQXd+Xo32TTJWcScmyL+HM+2QHmnR2P8bdSCbIowISUp6hiCMsY2FiysEuf7l28Rc3bIfVZIcYKKEF8MQlr930GKqwHB7kTBFIUv+qUDztENmt5i9tRXJNgUNGA5NZIFwQykQw2NpsI/PpSptVXHwztt/f6K530rAi9Pd0vFzAgbUzTcaTb6E3Qw4vjSIFnlbFRESe/Lf1J+dJrhX43h+uhJFn+BckzYET4gUYs6KIFeGPpKNyWRcamobfaJwCLPErVHCQxhdozBEDt2Go33gycaYNWRifQ1b05aFprnEdB83PVtdmBdw2Ib3RsLhm5wWcnI2wZAKv8mvPAzD3gfoLVHVANPzeaOXxhc4kPaY5FdUngXgvXZ5n5Jed8a4JxCJlHumfXLCoNf2pNpXToHGYXWz5d4XC3ClATVHPwgbcAEkxOvpoTBs3hfIQrpjd58My2BInF7bG9exrxlZJHrLNQPaojtsT4ntW7n6dkUB4FQajhCDzwZq79DYcS/2ZoBSDL8c7o8oQ7G4KeXsFkF9D5b0pl24vHTZgLRhK5p7pPvVfipC571/ZKihDW1CoX4Fia6AyHoF1LhDXOs5C6F0LxF03UNv6QvdjHHhZlGf2T3Rm5gCw/KcXqQi3kTrdZdIf6dLCtIpUwrQ6r0Uj8wlnbaNWs7U8E6g9AU1wOSYshP+SdCaaZlDk5C8FN9Z1f55mIl2QKWnmMTP0k9Q0hGBv1kbleAg1k6aVBJH3GyMc31PTSKxBhxFzPV13lIwLyoeSKsNswoaczcEkPVYmjspqbFEvgnrqHbPRTZO1eamZAyDbB9Be3I55Wz5GJjyBNbHQQRqiynUTwYE+6W752Baz84Um7zW0ECQ5j8K/Z8glq9/NsRzWxIDA=</div><script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><div id="hbe-security">  <div class="hbe-input-container">  <input type="password" class="hbe-form-control" id="pass" placeholder="心态" />    <label for="pass">心态</label>    <div class="bottom-line"></div>  </div></div><div id="decryptionError" style="display: none;">Incorrect Password!</div><div id="noContentError" style="display: none;">No content to display!</div><div id="encrypt-blog" style="display:none">U2FsdGVkX1/B+27bMDRhOj6brxFuDLynXSlN3ECKJT8i1qK5AGuV4wpvY4nb/gfpKfdo/Ce7iCjnMpqYR23ZL98EQ3aJo/3Uk/Thd8NcgjXSATKlyq35vUuLUJJj5odhFv7x3zB/931vhHxbsrCmLfCnrfuEMhYIrOB0zmFX8eM8WyMcM5p34cGcLN8XmZ2meL0QedpGuaO+3k5ycxw/aQfLhnZjYErlEtixsPbMV28MVHnahBqBQTEAdO2i2KwuSSWuSFS3f+I46J/OZc8iewkkkbdTJLOsNk9TlWw+aZRzMU4SuOEDmQ85+es8UX06x9qOR5g42FHu7LecQ+L3VipDkAPG48vF4uxpuN4VXh5hmUmqfFYvnWyf039CtBH5v1NVs4mF3JQXNWZQb36ckmq60S04anSMpmaUjZBmFFtvFQeWMyltQqlIIw9yR/eybmR8Z4IWrPoKajAwhIwj79/Ehd5BAs45oD94Hg2dAcGx4YF2qfTPQJhc7GMMSbkAWEZFCkEuT0fDJ6lZDM1T5EYiYbwjAcjvIxp4XHDXGdWjjLFIgoT1AwwNCXCYVqbsKHmciC9ziGbJkACcEzpvE4XukH22Ta9IyDd7LXClk53l5dJ9HIO989oVbDPwmh/XFdUkcIcmQcf2AmgK3zs5XI50Z/pebHzOo6EEv+QueYVm9Z7/Ebfjokqdi4DX/25R4bGKD0sqcmdCAXy2FuxxTNpbq0J20Ew4qvcoShUcVS0k488Eu6FbcM0xH9M/DKWv0dpwvydlEAAfKIkMt2AhPPjVR8w/wKim7A3An33vazvXUMlcBvJFeMFZDMwKqmAGK65U0s+B+N8wA9/5FS5J6eGVSTMuCbxXT1KA1XjUE5s6WRxn96d1rgHglDBPLtTHTcO1kzotZSY9k3Ox6D0ZZR0VzGMEPHDVbpr/WFUN2xzTGhStSsHXofNQEEVe4j+D1lIOP2IdNHsUSQU8qYhyND+3pqRll8luG6K0eM5tFgZwjbPGqUwOaptHIboFP0HqhgYug9rFjx6LClLrjcig33dYPKi+ciukCE3mYVQZ9q1vdtK8KZyqH9+ssIQz7Ps88TFiI089V1VKtk7b/fTBxD5v3l/RXGLuS2YsYXKvD8b55rwGTjpG8mR3dC6fGwPb5veQLLpIn+MTHjNonhQkTcLDwSRKHdIwJBmaa3KhEQyyKKstWKnKYvsRg0AZj2SpRQa0kqDjjVXXxxxYui9ou0ANGC66sAERyZUCt4PNbpyiDZ9GAVR3NK6pJs0ILAMwS8YMUO97qaNdD9czspiWqYA3pl93fdgGqCRVlHZIuVk6qr6SiVaD0Oz+is31u021Xdgn5UA3GEQe25GgSV/TG9gB5Sn7QH1QsDKMg8D142/EHvplfaTGvF8+AGsrYwqX4T0XwJN339Dro8NdF7eOaAVXj8Z+ooAHDYApIotmEi0IiGMi4x63eHU6AnhPkEYJ1W3ly/MUCUX5aXAOemDNeNV4FdlrCj3o3MB+Q56/uuHDsHUsoxDUVaj9tLR99ydt8vAGUOWizOf/n3tDp0h+7aIvq4lYFF3guyXnKevkzcjKuT8uPPCqzoVmw76Kd7ch8aCRe05gGXgV2PLX/iFGIQkSeQgvmdRUVYXrf+oFOYvQdf/opYuRWOeBOW09NiNdB1x4wrYBtMy6L07RlsAUjeNBM6frQfMOgTpFkiZ2e9aw3Rqv/zEd4q0XfPVijpaTkAjIVAEdXmzhild5Gl4yzSKdlZ/e0cXiheQtCAY9GZD26sfJnJpHCwTm2PRkarHUat1oNdtWVsgWOstQQIZNmig6OelUjAUXeROrmIiswxFKtInVikN2tWptbcuDcJY8fGYkPxnsC6LrO/m1PJZAyXda3tSnehEC5PLOchE+sqU=</div><script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
     
     <summary type="html">
     
@@ -511,30 +546,6 @@
       <category term="Shiro" scheme="https://Matthew-Han.github.io/tags/Shiro/"/>
     
       <category term="CORS" scheme="https://Matthew-Han.github.io/tags/CORS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>@CurrentUser注解新配方</title>
-    <link href="https://Matthew-Han.github.io/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/"/>
-    <id>https://Matthew-Han.github.io/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/</id>
-    <published>2019-10-29T09:13:19.000Z</published>
-    <updated>2020-01-16T03:01:50.257Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h1><p>自定义<code>@CurrentUser</code>注解想实现当前已登录的用户对象在各层之间进行数据交互，在简书上有一篇比较出名的解决方法：<a href="https://www.jianshu.com/p/01a6a61d9e02" target="_blank" rel="noopener">通过自定义<code>@CurrentUser</code>获取当前登录用户</a></p><p>但是在安全框架Shiro中，通过<code>webRequest.getAttribute(&quot;currentUser&quot;, RequestAttributes.SCOPE_REQUEST)</code>却并不可行，👴也不⑧知道什么原因，也是按照该篇文章通过在登陆的业务中通过HttpServletRequest的<code>request.setAttribute()</code>方法存入需要的信息。</p><h1 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h1><p>通过对下面的一段覆写代码，可以看出：</p><pre class="highlight"><code class="java"><span class="hljs-comment">/** *  增加方法注入，将含有 <span class="hljs-doctag">@CurrentUser</span> 注解的方法参数注入当前登录用户 */</span><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CurrentUserMethodArgumentResolver</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">HandlerMethodArgumentResolver</span> </span>{    <span class="hljs-meta">@Override</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">supportsParameter</span><span class="hljs-params">(MethodParameter parameter)</span> </span>{        <span class="hljs-keyword">return</span> parameter.getParameterType().isAssignableFrom(User<span class="hljs-class">.<span class="hljs-keyword">class</span>)                &amp;&amp; <span class="hljs-title">parameter</span>.<span class="hljs-title">hasParameterAnnotation</span>(<span class="hljs-title">CurrentUser</span>.<span class="hljs-title">class</span>)</span>;    }    <span class="hljs-meta">@Override</span>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">resolveArgument</span><span class="hljs-params">(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory)</span> <span class="hljs-keyword">throws</span> Exception </span>{        User user = (User) webRequest.getAttribute(<span class="hljs-string">"currentUser"</span>, RequestAttributes.SCOPE_REQUEST);        <span class="hljs-keyword">if</span> (user != <span class="hljs-keyword">null</span>) {            <span class="hljs-keyword">return</span> user;        }        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> MissingServletRequestPartException(<span class="hljs-string">"currentUser"</span>);    }}</code></pre><p>绑定了该注解<code>@CurrentUser</code>的解析器是通过实现HandlerMethodArgumentResolver接口，然后通过<code>webRequest</code>对象获取之前在<code>request</code>作用域中的<code>currentUser</code>。</p><p>那么这个<code>NativeWebRequest</code>是如何得到这个值的呢？我们打开它的源码，发现WebRequest是Spring框架提供的统一请求访问接口，不仅仅可以访问请求相关数据（如参数区数据、请求头数据，但访问不到Cookie区数据），还可以访问会话和上下文中的数据；<code>NativeWebRequest</code>继承了<code>WebRequest</code>，并提供访问本地Servlet API的方法。</p><pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">RequestAttributes</span> </span>{    <span class="hljs-keyword">int</span> SCOPE_REQUEST = <span class="hljs-number">0</span>;    <span class="hljs-keyword">int</span> SCOPE_SESSION = <span class="hljs-number">1</span>;    String REFERENCE_REQUEST = <span class="hljs-string">"request"</span>;    String REFERENCE_SESSION = <span class="hljs-string">"session"</span>;    <span class="hljs-meta">@Nullable</span>    <span class="hljs-function">Object <span class="hljs-title">getAttribute</span><span class="hljs-params">(String var1, <span class="hljs-keyword">int</span> var2)</span></span>;</code></pre><p>而<code>ServletRequestAttributes</code>的方法则是<code>getAttribute()</code>的实现，通过对scope的不同来控制作用域。</p><pre class="highlight"><code class="java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> HttpServletRequest request;<span class="hljs-meta">@Nullable</span><span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> HttpSession session;<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;String, Object&gt; sessionAttributesToUpdate;<span class="hljs-comment">// ...</span><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getAttribute</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> scope)</span> </span>{    <span class="hljs-keyword">if</span> (scope == <span class="hljs-number">0</span>) {        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.isRequestActive()) {            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Cannot ask for request attribute - request is not active anymore!"</span>);        } <span class="hljs-keyword">else</span> {            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.request.getAttribute(name);        }    } <span class="hljs-keyword">else</span> {        HttpSession session = <span class="hljs-keyword">this</span>.getSession(<span class="hljs-keyword">false</span>);        <span class="hljs-keyword">if</span> (session != <span class="hljs-keyword">null</span>) {            <span class="hljs-keyword">try</span> {                Object value = session.getAttribute(name);                <span class="hljs-keyword">if</span> (value != <span class="hljs-keyword">null</span>) {                    <span class="hljs-keyword">this</span>.sessionAttributesToUpdate.put(name, value);                }                <span class="hljs-keyword">return</span> value;            } <span class="hljs-keyword">catch</span> (IllegalStateException var5) {            }        }        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;    }}</code></pre><ul><li>当scope为<code>RequestAttributes.SCOPE_REQUEST</code>的时候<code>getAttribute(name)</code>方法会返回当前线程的<code>HttpServletRequest</code>的对象的<code>getAttribute(name)</code>的值。</li><li>当scope为<code>RequestAttributes.SCOPE_REQUEST</code>时会把<code>session</code>对象的<code>getAttribute(name)</code>的value存入<code>Map&lt;String, Object&gt; sessionAttributesToUpdate</code>中。</li></ul><p>既然我之前没有从<code>HttpServletRequest</code>作用域中得到我想要的结果，那么为什么不试试利用session呢。我们可以在登陆的业务中将当前已登录的用户的信息存入session中。</p><pre class="highlight"><code class="java">session.setAttribute(<span class="hljs-string">"currentUser"</span>, currentUserDTO/token/id);</code></pre><p>可以是当前登录对象的数据传输对象，也可以是token或者id。</p><pre class="highlight"><code class="java"><span class="hljs-meta">@Override</span><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">resolveArgument</span><span class="hljs-params">(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory)</span> </span>{<span class="hljs-keyword">return</span> webRequest.getAttribute(<span class="hljs-string">"currentUser"</span>, RequestAttributes.SCOPE_SESSION);}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      今天办公室有点冷
-    
-    </summary>
-    
-      <category term="Java技术" scheme="https://Matthew-Han.github.io/categories/Java%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="Spring" scheme="https://Matthew-Han.github.io/tags/Spring/"/>
-    
-      <category term="CurrentUser" scheme="https://Matthew-Han.github.io/tags/CurrentUser/"/>
     
   </entry>
   
