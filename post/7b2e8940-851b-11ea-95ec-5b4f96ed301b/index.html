@@ -102,7 +102,7 @@
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    6.7k
+                    6.8k
                 </span>
                 
                 
@@ -236,6 +236,10 @@
         } <span class="hljs-keyword">else</span> {
             count--;
         }
+      	<span class="hljs-comment">/*
+         * 上面的if-else可以改成这样
+         * count += (nums[i] == elector) ? 1 : -1;
+         */</span>
         <span class="hljs-keyword">if</span> (i + <span class="hljs-number">1</span> &lt; nums.length &amp;&amp; count == <span class="hljs-number">0</span>) {
             elector = nums[i + <span class="hljs-number">1</span>];
         }
