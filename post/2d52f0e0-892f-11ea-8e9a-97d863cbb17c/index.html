@@ -5,33 +5,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>近期学习计划 - Espada</title>
+    <title>数据结构：Queue - Espada</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明, 8月开始的学习计划
-
-
-
-《码出高效》笔记
-
-规范代码风格整理
-细节整理
-知识点整理
-
-
-
-Kafka
-
-Kafka在大数据中的应用
-
-
-
-LeetCode刷题
-
-长期计划
-这个偶尔刷刷对平时写代,"> 
+    <meta name="description" content="极度理性，爱憎分明, 介绍
+先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从 BlockingQueue（阻塞队列）问世以来，队列的地位得到极大地提升，在各,"> 
     <meta name="author" content="MatthewHan"> 
     <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -78,7 +58,7 @@ LeetCode刷题
     <div class="navigation animated fadeIn fast delay-1s">
         <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
         <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">近期学习计划</h3>
+        <h3 class="subtitle">数据结构：Queue</h3>
         <div class="social">
             <!--        <div class="like-icon">-->
             <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -104,30 +84,30 @@ LeetCode刷题
             animation-duration: 1.2s;
             background-image: 
                 radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/planning/planning.jpg/zip) ">
+                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Queue/queue.jpg) ">
         </div>
         <div class="else">
             <p class="animated fadeInDown">
                 
-                <a href="/categories/点滴"><b>「
-                    </b>点滴<b> 」</b></a>
+                <a href="/categories/Java技术"><b>「
+                    </b>JAVA技术<b> 」</b></a>
                 
-                八月 13, 2019
+                四月 28, 2020
             </p>
-            <h3 class="post-title animated fadeInDown"><a href="/post/fae94450-bd9c-11e9-bafd-2904b28e3726/" title="近期学习计划" class="">近期学习计划</a>
+            <h3 class="post-title animated fadeInDown"><a href="/post/2d52f0e0-892f-11ea-8e9a-97d863cbb17c/" title="数据结构：Queue" class="">数据结构：Queue</a>
             </h3>
             
             <p class="post-count animated fadeInDown">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2.8k
+                    2.2k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    3 mins.
+                    2 mins.
                 </span>
                 
                 
@@ -140,7 +120,7 @@ LeetCode刷题
             </p>
             
             
-            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" rel="tag">学习计划</a></li></ul>
+            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Queue/" rel="tag">Queue</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
             
         </div>
     </div>
@@ -161,129 +141,66 @@ LeetCode刷题
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="8月开始的学习计划"><a class="markdownIt-Anchor" href="#8月开始的学习计划"></a> 8月开始的学习计划</h1>
-<br />
+            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h1>
+<p>先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从 <code>BlockingQueue</code>（阻塞队列）问世以来，队列的地位得到极大地提升，在各种高并发编程的场景，经常被作为 Buffer（数据缓冲区）使用。</p>
+<p>通常我们把<strong>LinkedList</strong>当成Queue来用，Queue类<strong>自身</strong>的一些方法：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">方法描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>boolean add(E e)</code></td>
+<td style="text-align:left">入队一个元素至队尾</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>boolean offer(E e);</code></td>
+<td style="text-align:left">入队一个元素至队尾</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>E remove()</code></td>
+<td style="text-align:left">从头部出队一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>E poll()</code></td>
+<td style="text-align:left">从头部出队一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>E element()</code></td>
+<td style="text-align:left">查询头元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>E peek()</code></td>
+<td style="text-align:left">查询头元素</td>
+</tr>
+</tbody>
+</table>
+<p>以下摘自<a href="https://www.runoob.com/java/data-queue.html" target="_blank" rel="noopener">菜鸟教程</a>：</p>
 <ul>
 <li>
-<p><strong>《码出高效》笔记</strong></p>
+<p><strong>offer，add 区别：</strong></p>
 <ul>
-<li>规范代码风格整理</li>
-<li>细节整理</li>
-<li>知识点整理</li>
+<li>一些队列有大小限制，因此如果想在一个满的队列中加入一个新项，多出的项就会被拒绝。</li>
+<li>这时新的<code>offer()</code>方法就可以起作用了。它不是对调用<code>add()</code>方法抛出一个unchecked异常，而只是得到由<code>offer()</code>返回的false。</li>
 </ul>
 </li>
 <li>
-<p><strong>Kafka</strong></p>
+<p><strong>poll，remove 区别：</strong></p>
 <ul>
-<li>Kafka在大数据中的应用</li>
+<li><code>remove()</code>和<code>poll()</code>方法都是从队列中删除第一个元素。<code>remove()</code>的行为与Collection接口的版本相似， 但是新的<code>poll()</code>方法在用空集合调用时不是抛出异常，只是返回null。因此新的方法更适合容易出现异常条件的情况。</li>
 </ul>
 </li>
 <li>
-<p><strong>LeetCode刷题</strong></p>
+<p><strong>peek，element区别：</strong></p>
 <ul>
-<li>长期计划</li>
-<li>这个偶尔刷刷对平时写代码还是有一定帮助的，对于偏题难题属实没必要去看的东西，虽然也解不出来。</li>
-</ul>
-</li>
-<li>
-<p><strong>WebMagic</strong></p>
-<ul>
-<li>业余时间有兴致去学下，对于今后个人项目有点帮助。</li>
-</ul>
-</li>
-<li>
-<p><strong>Docker</strong></p>
-<ul>
-<li>重点系统学习</li>
-<li>但是不要花太多时间在上面</li>
-</ul>
-</li>
-<li>
-<p><strong>网红教你设计模式</strong></p>
-<ul>
-<li>持续更新。</li>
+<li><code>element()</code>和<code>peek()</code>用于在队列的头部查询元素。与 remove() 方法类似，在队列为空时，<code>element()</code>抛出一个异常，而<code>peek()</code>返回null。</li>
 </ul>
 </li>
 </ul>
-<h1 id="进度记录"><a class="markdownIt-Anchor" href="#进度记录"></a> 进度记录</h1>
-<br />
-<div id="echarts8383" style="width: 100%;height: 500px;margin: 0 auto"></div>
-<script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
-<script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts8383'));
-        // 指定图表的配置项和数据
-        var option = {
-    title: {
-        text: "近期计划",
-        x: "center",
-        padding: 20
-    },
-    tooltip: {
-        trigger: "axis"
-    },
-    legend: {
-        data: ["期望投入", "实际投入"],
-        selectedMode: "multiple",
-        x: "left",
-        padding: 20,
-        borderColor: "#ccc"
-    },
-    toolbox: {
-        show: true,
-        feature: {
-            mark: {
-                show: true
-            },
-            dataView: {
-                show: true,
-                readOnly: true
-            },
-            magicType: {
-                show: false,
-                type: ["line", "bar"]
-            },
-            restore: {
-                show: true
-            },
-            saveAsImage: {
-                show: true
-            }
-        },
-        showTitle: true
-    },
-    calculable: true,
-    xAxis: [
-        {
-            type: "value",
-            boundaryGap: [0, 0.01]
-        }
-    ],
-    yAxis: [
-        {
-            type: "category",
-            data: ["Kafka", "设计模式", "Docker", "WebMagic", "《码出高效》笔记", "LeetCode"]
-        }
-    ],
-    series: [
-        {
-            name: "期望投入",
-            type: "bar",
-            data: [4, 8, 6, 6, 8, 4]
-        },
-        {
-            name: "实际投入",
-            type: "bar",
-            data: [1, 2, 2, 0.5, 8, 1]
-        }
-    ],
-    grid: {
-        x: 120
-    }
-}
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-</script>
+
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
                 data-autoplay="false">
@@ -345,7 +262,7 @@ LeetCode刷题
             <div class="box sticky animated fadeInRight faster">
                 <div id="toc" class="subbox">
                     <h4>目录</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#8月开始的学习计划"><span class="toc-number">1.</span> <span class="toc-text"> 8月开始的学习计划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进度记录"><span class="toc-number">2.</span> <span class="toc-text"> 进度记录</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text"> 介绍</span></a></li></ol>
                 </div>
             </div>
             

@@ -5,33 +5,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>近期学习计划 - Espada</title>
+    <title>LeetCode #225 用队列实现栈 - Espada</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明, 8月开始的学习计划
+    <meta name="description" content="极度理性，爱憎分明, Problem Description
 
 
+使用队列实现栈的下列操作：
 
-《码出高效》笔记
-
-规范代码风格整理
-细节整理
-知识点整理
-
-
-
-Kafka
-
-Kafka在大数据中的应用
-
-
-
-LeetCode刷题
-
-长期计划
-这个偶尔刷刷对平时写代,"> 
+push(x) – 元素 x 入栈
+pop() – 移除栈顶元素
+top() – 获取栈顶元素
+empty() – 返回栈,"> 
     <meta name="author" content="MatthewHan"> 
     <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -78,7 +65,7 @@ LeetCode刷题
     <div class="navigation animated fadeIn fast delay-1s">
         <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
         <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">近期学习计划</h3>
+        <h3 class="subtitle">LeetCode #225 用队列实现栈</h3>
         <div class="social">
             <!--        <div class="like-icon">-->
             <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
@@ -104,30 +91,30 @@ LeetCode刷题
             animation-duration: 1.2s;
             background-image: 
                 radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/planning/planning.jpg/zip) ">
+                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/%23225.png) ">
         </div>
         <div class="else">
             <p class="animated fadeInDown">
                 
-                <a href="/categories/点滴"><b>「
-                    </b>点滴<b> 」</b></a>
+                <a href="/categories/leetcode"><b>「
+                    </b>LEETCODE<b> 」</b></a>
                 
-                八月 13, 2019
+                四月 29, 2020
             </p>
-            <h3 class="post-title animated fadeInDown"><a href="/post/fae94450-bd9c-11e9-bafd-2904b28e3726/" title="近期学习计划" class="">近期学习计划</a>
+            <h3 class="post-title animated fadeInDown"><a href="/post/24861850-89c2-11ea-9ae2-d515fd713cdf/" title="LeetCode #225 用队列实现栈" class="">LeetCode #225 用队列实现栈</a>
             </h3>
             
             <p class="post-count animated fadeInDown">
                 
                 <span>
                     <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    2.8k
+                    6k
                 </span>
                 
                 
                 <span>
                     <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    3 mins.
+                    5 mins.
                 </span>
                 
                 
@@ -140,7 +127,7 @@ LeetCode刷题
             </p>
             
             
-            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" rel="tag">学习计划</a></li></ul>
+            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/leetcode/" rel="tag">leetcode</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
             
         </div>
     </div>
@@ -161,129 +148,121 @@ LeetCode刷题
 <div class="article">
     <div class='main'>
         <div class="content markdown animated fadeIn">
-            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="8月开始的学习计划"><a class="markdownIt-Anchor" href="#8月开始的学习计划"></a> 8月开始的学习计划</h1>
-<br />
+            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description</h1>
 <ul>
 <li>
-<p><strong>《码出高效》笔记</strong></p>
+<p>使用队列实现栈的下列操作：</p>
 <ul>
-<li>规范代码风格整理</li>
-<li>细节整理</li>
-<li>知识点整理</li>
+<li>push(x) – 元素 x 入栈</li>
+<li>pop() – 移除栈顶元素</li>
+<li>top() – 获取栈顶元素</li>
+<li>empty() – 返回栈是否为空</li>
 </ul>
 </li>
 <li>
-<p><strong>Kafka</strong></p>
+<p>注意:</p>
 <ul>
-<li>Kafka在大数据中的应用</li>
-</ul>
-</li>
-<li>
-<p><strong>LeetCode刷题</strong></p>
-<ul>
-<li>长期计划</li>
-<li>这个偶尔刷刷对平时写代码还是有一定帮助的，对于偏题难题属实没必要去看的东西，虽然也解不出来。</li>
-</ul>
-</li>
-<li>
-<p><strong>WebMagic</strong></p>
-<ul>
-<li>业余时间有兴致去学下，对于今后个人项目有点帮助。</li>
-</ul>
-</li>
-<li>
-<p><strong>Docker</strong></p>
-<ul>
-<li>重点系统学习</li>
-<li>但是不要花太多时间在上面</li>
-</ul>
-</li>
-<li>
-<p><strong>网红教你设计模式</strong></p>
-<ul>
-<li>持续更新。</li>
+<li>你只能使用队列的基本操作-- 也就是 push to back, peek/pop from front, size, 和 is empty 这些操作是合法的。</li>
+<li>你所使用的语言也许不支持队列。 你可以使用 list 或者 deque（双端队列）来模拟一个队列 , 只要是标准的队列操作即可。</li>
+<li>你可以假设所有操作都是有效的（例如, 对一个空的栈不会调用 pop 或者 top 操作）。</li>
 </ul>
 </li>
 </ul>
-<h1 id="进度记录"><a class="markdownIt-Anchor" href="#进度记录"></a> 进度记录</h1>
-<br />
-<div id="echarts8383" style="width: 100%;height: 500px;margin: 0 auto"></div>
-<script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
-<script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts8383'));
-        // 指定图表的配置项和数据
-        var option = {
-    title: {
-        text: "近期计划",
-        x: "center",
-        padding: 20
-    },
-    tooltip: {
-        trigger: "axis"
-    },
-    legend: {
-        data: ["期望投入", "实际投入"],
-        selectedMode: "multiple",
-        x: "left",
-        padding: 20,
-        borderColor: "#ccc"
-    },
-    toolbox: {
-        show: true,
-        feature: {
-            mark: {
-                show: true
-            },
-            dataView: {
-                show: true,
-                readOnly: true
-            },
-            magicType: {
-                show: false,
-                type: ["line", "bar"]
-            },
-            restore: {
-                show: true
-            },
-            saveAsImage: {
-                show: true
-            }
-        },
-        showTitle: true
-    },
-    calculable: true,
-    xAxis: [
-        {
-            type: "value",
-            boundaryGap: [0, 0.01]
+<h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution</h1>
+<h2 id="双向队列deque实现"><a class="markdownIt-Anchor" href="#双向队列deque实现"></a> 双向队列Deque实现</h2>
+<p>利用双端队列Deque接口的实现类LinkedList可以很简洁的完成，Deque拥有一个<code>boolean offerFirst(E e);</code>方法。因为底层是双向链表，prev和next指针可以很好帮你实现头尾乱♂插。</p>
+<pre class="highlight"><code class="java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> </span>{
+
+    Deque&lt;Integer&gt; deque;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>{
+        deque = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{
+        deque.offerFirst(x);
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> deque.remove() ;
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> deque.element();
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> deque.isEmpty();
+    }
+
+}
+</code></pre>
+<h2 id="双队列形成一个闭环"><a class="markdownIt-Anchor" href="#双队列形成一个闭环"></a> 双队列形成一个闭环</h2>
+<ol>
+<li>2个单向队列queue和reverseQueue；</li>
+<li>queue初次push时，判断是否为空，为空直接调用offer方法；</li>
+<li>当queue不为空时，将所有的元素从头部出队，入队到reverseQueue。queue入队新的元素；</li>
+<li>这时两个队列，queue只有新的元素在队列中，reverseQueue拥有queue刚刚出队的元素；</li>
+<li>再次将reverseQueue的元素循环出队到queue，保证每次调用push方法时，该队列是空的；</li>
+<li>两个单项队列变成闭环。</li>
+</ol>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/%23225%20Queue.png" alt="闭环过程" /></p>
+<pre class="highlight"><code class="java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> </span>{
+
+    Queue&lt;Integer&gt; queue;
+    Queue&lt;Integer&gt; reverseQueue;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>{
+        queue = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();
+        reverseQueue = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();
+    }
+  
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{
+        <span class="hljs-comment">/**
+         * 利用两个单向队列
+         */</span>
+        <span class="hljs-keyword">if</span> (queue.isEmpty()) {
+            queue.offer(x);
+        } <span class="hljs-keyword">else</span> {
+            reverseQueue.addAll(queue);
+            queue.clear();
+            queue.offer(x);
+            queue.addAll(reverseQueue);
+            reverseQueue.clear();
         }
-    ],
-    yAxis: [
-        {
-            type: "category",
-            data: ["Kafka", "设计模式", "Docker", "WebMagic", "《码出高效》笔记", "LeetCode"]
-        }
-    ],
-    series: [
-        {
-            name: "期望投入",
-            type: "bar",
-            data: [4, 8, 6, 6, 8, 4]
-        },
-        {
-            name: "实际投入",
-            type: "bar",
-            data: [1, 2, 2, 0.5, 8, 1]
-        }
-    ],
-    grid: {
-        x: 120
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> queue.remove();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> queue.element();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> queue.isEmpty();
     }
 }
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-</script>
+</code></pre>
+<h2 id="单个单向队列"><a class="markdownIt-Anchor" href="#单个单向队列"></a> 单个单向队列</h2>
+<p>其中注意：不要使用自身的forEach方法，根据队列的长度搞个循环即可。</p>
+<p>push方法核心代码：</p>
+<pre class="highlight"><code class="java"><span class="hljs-comment">/*
+ * 单个单向队列
+ */</span>
+<span class="hljs-comment">/*
+ * 单个单向队列
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{
+    singleQueue.add(x);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; singleQueue.size() - <span class="hljs-number">1</span>; i++) {
+        singleQueue.add(singleQueue.poll());
+    }
+}
+</code></pre>
+<p>注意是<code>size - 1</code>。因为最新add的那个元素不需要执行<code>poll</code>方法。</p>
+
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls"
                 data-autoplay="false">
@@ -345,7 +324,7 @@ LeetCode刷题
             <div class="box sticky animated fadeInRight faster">
                 <div id="toc" class="subbox">
                     <h4>目录</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#8月开始的学习计划"><span class="toc-number">1.</span> <span class="toc-text"> 8月开始的学习计划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进度记录"><span class="toc-number">2.</span> <span class="toc-text"> 进度记录</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-number">1.</span> <span class="toc-text"> Problem Description</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-number">2.</span> <span class="toc-text"> Solution</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#双向队列deque实现"><span class="toc-number">2.1.</span> <span class="toc-text"> 双向队列Deque实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双队列形成一个闭环"><span class="toc-number">2.2.</span> <span class="toc-text"> 双队列形成一个闭环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单个单向队列"><span class="toc-number">2.3.</span> <span class="toc-text"> 单个单向队列</span></a></li></ol></li></ol>
                 </div>
             </div>
             
