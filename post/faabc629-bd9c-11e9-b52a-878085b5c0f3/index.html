@@ -251,202 +251,15 @@
 </blockquote>
 <p>在这里我就是拿两位德艺双馨的人民艺术家老师：坤坤和凡凡的业务能力用代码来解释类适配器模式。<br>
 大家都知道坤坤是一位练习时长2年半的个人练习生，喜欢唱跳rap篮球：</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> KunKunService
- * <span class="hljs-doctag">@Description</span> 坤坤业务的能力
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/25 15:42
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">KunKunService</span> </span>{
-
-    <span class="hljs-comment">/**
-     * 唱
-     * <span class="hljs-doctag">@param</span> lyric
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function">String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span></span>;
-
-    <span class="hljs-comment">/**
-     * 跳
-     * <span class="hljs-doctag">@param</span> music
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span></span>;
-
-    <span class="hljs-comment">/**
-     * rap
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span></span>;
-
-    <span class="hljs-comment">/**
-     * 虚假的篮球🏀
-     * <span class="hljs-doctag">@param</span> basketball
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span></span>;
-}
-</code></pre>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> KunKunServiceImpl
- * <span class="hljs-doctag">@Description</span> 坤坤练习生业务能力的展现
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/25 15:58
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KunKunServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
-
-        <span class="hljs-keyword">return</span> lyric;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    }
-
-    <span class="hljs-comment">/**
-     * 坤坤皮球还是给个赞👍
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-    }
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> KunKunService</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 坤坤业务的能力</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/25 15:42</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">KunKunService</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 唱</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> lyric</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 跳</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> music</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * rap</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 虚假的篮球🏀</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> basketball</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span></span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> KunKunServiceImpl</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 坤坤练习生业务能力的展现</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/25 15:58</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KunKunServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{<br><br>        <span class="hljs-keyword">return</span> lyric;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 坤坤皮球还是给个赞👍</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>当然我们的加拿带🇨🇦电鳗凡凡业务能力也⑧差。自带auto tone放电的男人，每次看完他的Live，手机电就满了（<s>据说凡凡打算成立凡电科技公司，主营移动充电业务</s>）。恰面🍜水平也很高，而且恰面一定要大碗的。当然了，这么优秀的蓝人还是有个弱点的，就是怕苏韵锦像个石头一样欠的钱不还。</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> KrisService
- * <span class="hljs-doctag">@Description</span> 加拿带电鳗的业务水平
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/25 16:02
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">KrisService</span> </span>{
-
-    <span class="hljs-comment">/**
-     * 凡凡的充电计划√
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function">String <span class="hljs-title">autoTone</span><span class="hljs-params">(String lyric)</span></span>;
-
-    <span class="hljs-comment">/**
-     * 苏⚡️韵⚡️锦⚡️，你⚡️这⚡️里⚡️欠⚡️我⚡️的⚡️用⚡️什⚡️么⚡️还⚡️？
-     * <span class="hljs-doctag">@param</span> id
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">repay</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id)</span></span>;
-
-    <span class="hljs-comment">/**
-     * size一定要大，因为是大碗宽面!
-     * <span class="hljs-doctag">@param</span> size
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">eatNoodles</span><span class="hljs-params">(<span class="hljs-keyword">long</span> size)</span></span>;
-
-    <span class="hljs-comment">/**
-     * 真正的篮球🏀 vs 虚假的篮球🏀
-     * <span class="hljs-doctag">@param</span> basketball
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">playBasketball</span><span class="hljs-params">(Basketball basketball)</span></span>;
-}
-</code></pre>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> KrisServiceImpl
- * <span class="hljs-doctag">@Description</span> U R so bad girl !
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/25 16:11
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KrisServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KrisService</span> </span>{
-
-    <span class="hljs-comment">/**
-     * auto tone ⑧用麦克风就天然打开
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">autoTone</span><span class="hljs-params">(String lyric)</span> </span>{
-
-        StringBuilder freestyle = <span class="hljs-keyword">new</span> StringBuilder();
-        String[] str = lyric.split(<span class="hljs-string">""</span>);
-        <span class="hljs-keyword">for</span>(String c : str){
-            freestyle.append(c);
-            freestyle.append(<span class="hljs-string">" ⚡ "</span>);
-        }
-
-        <span class="hljs-keyword">return</span> String.valueOf(freestyle);
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">repay</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">eatNoodles</span><span class="hljs-params">(<span class="hljs-keyword">long</span> size)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBasketball</span><span class="hljs-params">(Basketball basketball)</span></span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-    }
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> KrisService</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 加拿带电鳗的业务水平</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/25 16:02</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">KrisService</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 凡凡的充电计划√</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">autoTone</span><span class="hljs-params">(String lyric)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 苏⚡️韵⚡️锦⚡️，你⚡️这⚡️里⚡️欠⚡️我⚡️的⚡️用⚡️什⚡️么⚡️还⚡️？</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">repay</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * size一定要大，因为是大碗宽面!</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> size</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">eatNoodles</span><span class="hljs-params">(<span class="hljs-keyword">long</span> size)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 真正的篮球🏀 vs 虚假的篮球🏀</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> basketball</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">playBasketball</span><span class="hljs-params">(Basketball basketball)</span></span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> KrisServiceImpl</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> U R so bad girl !</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/25 16:11</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KrisServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KrisService</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * auto tone ⑧用麦克风就天然打开</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">autoTone</span><span class="hljs-params">(String lyric)</span> </span>{<br><br>        StringBuilder freestyle = <span class="hljs-keyword">new</span> StringBuilder();<br>        String[] str = lyric.split(<span class="hljs-string">""</span>);<br>        <span class="hljs-keyword">for</span>(String c : str){<br>            freestyle.append(c);<br>            freestyle.append(<span class="hljs-string">" ⚡ "</span>);<br>        }<br><br>        <span class="hljs-keyword">return</span> String.valueOf(freestyle);<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">repay</span><span class="hljs-params">(<span class="hljs-keyword">long</span> id)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">eatNoodles</span><span class="hljs-params">(<span class="hljs-keyword">long</span> size)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBasketball</span><span class="hljs-params">(Basketball basketball)</span></span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>有一天坤坤觉得自己的成名作《鸡你太美》虽然灵幻动听，但是还是少了点什么味道。为了充电的他打开了pilipili看了凡凡的Live后恍然大悟，原来是少了auto tone！但是坤坤自身根本没有这种天赋，于是身为带明星的坤坤就打算偷学凡凡的绝技，打算在以后的唱歌中都加入这种带电的感觉。</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> ClassKunKunAdapter
- * <span class="hljs-doctag">@Description</span> 坤の偷学
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/25 17:02
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassAdapterImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">KrisServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.autoTone(lyric);
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-    }
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> ClassKunKunAdapter</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 坤の偷学</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/25 17:02</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassAdapterImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">KrisServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.autoTone(lyric);<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter1-1.png/wm" target="_blank" rel="noopener" data-caption="类适配器" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter1-1.png/wm" alt="类适配器"></a></p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfClass</span><span class="hljs-params">()</span> </span>{
-    KunKunService c = <span class="hljs-keyword">new</span> ClassAdapterImpl();
-
-    assertEquals(c.singing(<span class="hljs-string">"鸡你太美!"</span>),<span class="hljs-string">"鸡 ⚡ 你 ⚡ 太 ⚡ 美 ⚡ ! ⚡ "</span>);
-    
-    System.out.println(c.singing(<span class="hljs-string">"鸡你太美!"</span>));
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfClass</span><span class="hljs-params">()</span> </span>{<br>    KunKunService c = <span class="hljs-keyword">new</span> ClassAdapterImpl();<br><br>    assertEquals(c.singing(<span class="hljs-string">"鸡你太美!"</span>),<span class="hljs-string">"鸡 ⚡ 你 ⚡ 太 ⚡ 美 ⚡ ! ⚡ "</span>);<br>    <br>    System.out.println(c.singing(<span class="hljs-string">"鸡你太美!"</span>));<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>我们来测试下结果，坤坤<code>师承</code>凡凡，通过偷学凡凡的绝技成功的让自己的唱歌技巧上了几个鹿晗的level，成为young OG就是这么简单。</p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter1-2.png/wm" target="_blank" rel="noopener" data-caption="坤坤发电了吗" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter1-2.png/wm" alt="坤坤发电了吗"></a></p>
 <p>但是我们也可以看到这种实现方式，需要将坤坤的所有业务能力全部覆写一遍，实属⑧够灵活，其实我们还有接口适配器模式。</p>
@@ -455,54 +268,9 @@
 <p>原理：通过<code>组合</code>来实现适配器功能。</p>
 </blockquote>
 <p>通过将凡凡业务员初始化，<code>new</code>一个对象凡凡，让凡凡来帮忙使用auto tone，坤凡合体演绎鸡🐔你太美！</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> ObjectAdapterImpl
- * <span class="hljs-doctag">@Description</span> 对象适配器
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/26 09:53
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ObjectAdapterImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{
-
-    <span class="hljs-keyword">private</span> KrisService krisService;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ObjectAdapterImpl</span><span class="hljs-params">(KrisService krisService)</span> </span>{
-        <span class="hljs-keyword">this</span>.krisService = krisService;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
-        <span class="hljs-keyword">return</span> krisService.autoTone(lyric);
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> ObjectAdapterImpl</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 对象适配器</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/26 09:53</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ObjectAdapterImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{<br><br>    <span class="hljs-keyword">private</span> KrisService krisService;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ObjectAdapterImpl</span><span class="hljs-params">(KrisService krisService)</span> </span>{<br>        <span class="hljs-keyword">this</span>.krisService = krisService;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{<br>        <span class="hljs-keyword">return</span> krisService.autoTone(lyric);<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>同样的，坤坤在更♂衣室也来测试下效果</p>
-<pre class="highlight"><code class="java">
-<span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfObject</span><span class="hljs-params">()</span> </span>{
-    KrisService krisService = <span class="hljs-keyword">new</span> KrisServiceImpl();
-    KunKunService o = <span class="hljs-keyword">new</span> ObjectAdapterImpl(krisService);
-
-    assertEquals(o.singing(<span class="hljs-string">"鸡你太美~"</span>),<span class="hljs-string">"鸡 ⚡ 你 ⚡ 太 ⚡ 美 ⚡ ~ ⚡ "</span>);
-    
-    System.out.println(o.singing(<span class="hljs-string">"鸡你太美~"</span>));
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfObject</span><span class="hljs-params">()</span> </span>{<br>    KrisService krisService = <span class="hljs-keyword">new</span> KrisServiceImpl();<br>    KunKunService o = <span class="hljs-keyword">new</span> ObjectAdapterImpl(krisService);<br><br>    assertEquals(o.singing(<span class="hljs-string">"鸡你太美~"</span>),<span class="hljs-string">"鸡 ⚡ 你 ⚡ 太 ⚡ 美 ⚡ ~ ⚡ "</span>);<br>    <br>    System.out.println(o.singing(<span class="hljs-string">"鸡你太美~"</span>));<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter2-1.png/wm" target="_blank" rel="noopener" data-caption="对象适配器" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter2-1.png/wm" alt="对象适配器"></a></p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter2-2.png/wm" target="_blank" rel="noopener" data-caption="坤坤假唱实锤" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter2-2.png/wm" alt="坤坤假唱实锤"></a></p>
 <p>虽然是坤坤的舞台，但是却有加拿带🇨🇦电流声？假唱实锤！</p>
@@ -514,78 +282,10 @@
 自从坤坤唱歌也能发电之后，坤坤成功的选上了NBA篮球带使，但是却被广大直男们怒喷。坤坤很抑郁啊，于是就去找了当年美国校队啦啦队的队长Chaoyue Yang，希望能够从幸运光环一身的她找到点帮助。Chaoyue妹妹耐心地和坤坤说，你现在被直男们喷还是因为把篮球🏀玩出皮球的感觉，实属弟弟，篮球技术还是要偷学凡凡嗷~<br>
 于是坤坤在一个与杰伦超话流量争顶的晚上，专门虚心去请教凡凡关于篮球技巧，顺便把auto tone升级到2.0。<br>
 凡凡见到坤坤没有丝毫意外，缓缓说道：你想要的一切，我都放在了抽象圣经<code>《AbstractAdapter》</code>里面了，自己去取需要的吧，别再来打扰我了，U R so bad girl！</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> AbstractAdapter
- * <span class="hljs-doctag">@Description</span> 抽象圣经
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/26 16:18
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractAdapter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
-        StringBuilder freestyle = <span class="hljs-keyword">new</span> StringBuilder();
-        String[] str = lyric.split(<span class="hljs-string">""</span>);
-        <span class="hljs-keyword">for</span>(String c : str){
-            freestyle.append(c);
-            <span class="hljs-comment">// 2.0 电力加强了</span>
-            freestyle.append(<span class="hljs-string">" ⚡⚡ "</span>);
-        }
-        <span class="hljs-keyword">return</span> String.valueOf(freestyle);
-    }
-    
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    }
-    
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    }
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>; }
-
-}
-</code></pre>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> InterfaceAdapterImpl
- * <span class="hljs-doctag">@Description</span> 坤の学习
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/26 16:30
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InterfaceAdapterImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapter</span> </span>{
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.singing(lyric);
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{ 
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.playBall(basketball); 
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> AbstractAdapter</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 抽象圣经</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/26 16:18</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractAdapter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">KunKunService</span> </span>{<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{<br>        StringBuilder freestyle = <span class="hljs-keyword">new</span> StringBuilder();<br>        String[] str = lyric.split(<span class="hljs-string">""</span>);<br>        <span class="hljs-keyword">for</span>(String c : str){<br>            freestyle.append(c);<br>            <span class="hljs-comment">// 2.0 电力加强了</span><br>            freestyle.append(<span class="hljs-string">" ⚡⚡ "</span>);<br>        }<br>        <span class="hljs-keyword">return</span> String.valueOf(freestyle);<br>    }<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">dance</span><span class="hljs-params">(Music music)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    }<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">rap</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>    }<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>; }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> InterfaceAdapterImpl</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 坤の学习</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/26 16:30</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InterfaceAdapterImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapter</span> </span>{<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">singing</span><span class="hljs-params">(String lyric)</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.singing(lyric);<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">playBall</span><span class="hljs-params">(Basketball basketball)</span> </span>{ <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.playBall(basketball); <br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter3-1.png/wm" target="_blank" rel="noopener" data-caption="接口适配器" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter3-1.png/wm" alt="接口适配器"></a></p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfInterface</span><span class="hljs-params">()</span> </span>{
-    KunKunService i = <span class="hljs-keyword">new</span> InterfaceAdapterImpl();
-
-    assertEquals(i.singing(<span class="hljs-string">"鸡你太美..."</span>),<span class="hljs-string">"鸡 ⚡⚡ 你 ⚡⚡ 太 ⚡⚡ 美 ⚡⚡ . ⚡⚡ . ⚡⚡ . ⚡⚡ "</span>);
-    
-    System.out.println(i.singing(<span class="hljs-string">"鸡你太美..."</span>));
-}
-
-<span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">playBallOfInterface</span><span class="hljs-params">()</span> </span>{
-    KunKunService i = <span class="hljs-keyword">new</span> InterfaceAdapterImpl();
-
-    assertTrue(i.playBall(<span class="hljs-keyword">new</span> Basketball()));
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">singingOfInterface</span><span class="hljs-params">()</span> </span>{<br>    KunKunService i = <span class="hljs-keyword">new</span> InterfaceAdapterImpl();<br><br>    assertEquals(i.singing(<span class="hljs-string">"鸡你太美..."</span>),<span class="hljs-string">"鸡 ⚡⚡ 你 ⚡⚡ 太 ⚡⚡ 美 ⚡⚡ . ⚡⚡ . ⚡⚡ . ⚡⚡ "</span>);<br>    <br>    System.out.println(i.singing(<span class="hljs-string">"鸡你太美..."</span>));<br>}<br><br><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">playBallOfInterface</span><span class="hljs-params">()</span> </span>{<br>    KunKunService i = <span class="hljs-keyword">new</span> InterfaceAdapterImpl();<br><br>    assertTrue(i.playBall(<span class="hljs-keyword">new</span> Basketball()));<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter3-2.png/wm" target="_blank" rel="noopener" data-caption="2.0的auto tone 电力翻倍！" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/adapter3-2.png/wm" alt="2.0的auto tone 电力翻倍！"></a></p>
 <p>坤坤通过研读抽象圣经<code>《AbstractAdapter》</code>后，不但学到了真正的篮球，还把auto tone成功升级到2.0，电力翻倍。</p>
 </body></html>

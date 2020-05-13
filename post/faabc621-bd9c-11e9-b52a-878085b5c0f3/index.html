@@ -286,85 +286,12 @@
 </table>
 <h1 id="依赖引入"><a class="markdownIt-Anchor" href="#依赖引入"></a> 依赖引入<a class="post-anchor" href="#依赖引入"></a></h1>
 <p>SpringProject已经集成了LDAP组件，直接pom引入即可。</p>
-<pre class="highlight"><code class="xml"><span class="hljs-tag"><<span class="hljs-name">dependency</span>></span>
-    <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>org.springframework.boot<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span>
-    <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>spring-boot-starter-data-ldap<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span>
-<span class="hljs-tag"></<span class="hljs-name">dependency</span>></span>
-</code></pre>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag"><<span class="hljs-name">dependency</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>org.springframework.boot<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>spring-boot-starter-data-ldap<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span><br><span class="hljs-tag"></<span class="hljs-name">dependency</span>></span><br></code></pre></td></tr></tbody></table></figure>
 <p>通过使用Spring LDAP类AttributesMapper和LdapTemplate可以很好地减少传统方式的代码量。<br>
 首先我们可以通过AttributesMapper先构建一个实体，用来收集结果，简单样例如下：</p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoAttributeMapper</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AttributesMapper</span> </span>{
-<span class="hljs-comment">/**
- * 将单个Attributes转成单个对象
- * <span class="hljs-doctag">@param</span> attrs
- * <span class="hljs-doctag">@return</span>
- * <span class="hljs-doctag">@throws</span> NamingException
- */</span>
-<span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">mapFromAttributes</span><span class="hljs-params">(Attributes attrs)</span> <span class="hljs-keyword">throws</span> javax.naming.NamingException </span>{
-
-    DemoModel demoModel = <span class="hljs-keyword">new</span> DemoModel();
-
-    <span class="hljs-comment">/**
-     * 通过attr
-     */</span>
-    <span class="hljs-keyword">if</span> (attrs.get(xxx.name()) != <span class="hljs-keyword">null</span>) {
-        demoModel.setXxx(attrs.get(xxx.name()).get().toString());
-    }
-    ...
-
-    <span class="hljs-keyword">return</span> demoModel;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoAttributeMapper</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AttributesMapper</span> </span>{<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 将单个Attributes转成单个对象</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> attrs</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> NamingException</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">mapFromAttributes</span><span class="hljs-params">(Attributes attrs)</span> <span class="hljs-keyword">throws</span> javax.naming.NamingException </span>{<br><br>    DemoModel demoModel = <span class="hljs-keyword">new</span> DemoModel();<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过attr</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">if</span> (attrs.get(xxx.name()) != <span class="hljs-keyword">null</span>) {<br>        demoModel.setXxx(attrs.get(xxx.name()).get().toString());<br>    }<br>    ...<br><br>    <span class="hljs-keyword">return</span> demoModel;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>编写config类，LDAP服务配置在开发环境的<code>application-dev.properties</code>中，通过注解<code>@Value</code>注入。</p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Configuration</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LdapConfiguration</span> </span>{
-
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Logger log = LoggerFactory.getLogger(<span class="hljs-keyword">this</span>.getClass());
-    
-    <span class="hljs-keyword">private</span> LdapTemplate ldapTemplate;
-    
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"${spring.ldap.urls}"</span>)
-    <span class="hljs-keyword">private</span> String url;
-    
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"${spring.ldap.base}"</span>)
-    <span class="hljs-keyword">private</span> String base;
-    
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"${spring.ldap.username}"</span>)
-    <span class="hljs-keyword">private</span> String userName;
-    
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"${spring.ldap.password}"</span>)
-    <span class="hljs-keyword">private</span> String passWord;
-
-
-    <span class="hljs-meta">@Bean</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> LdapContextSource <span class="hljs-title">contextSource</span><span class="hljs-params">()</span> </span>{
-        LdapContextSource contextSource = <span class="hljs-keyword">new</span> LdapContextSource();
-        Map<String, Object> config = <span class="hljs-keyword">new</span> LinkedHashMap<>(<span class="hljs-number">16</span>);
-    
-        contextSource.setUrl(url);
-        contextSource.setBase(base);
-        contextSource.setUserDn(userName);
-        contextSource.setPassword(passWord);
-    
-        <span class="hljs-comment">//  解决乱码的关键一句</span>
-        config.put(<span class="hljs-string">"java.naming.ldap.attributes.binary"</span>, <span class="hljs-string">"objectGUID"</span>);
-    
-        contextSource.setPooled(<span class="hljs-keyword">true</span>);
-        contextSource.setBaseEnvironmentProperties(config);
-        log.info(<span class="hljs-string">" [ MatthewHan ] : LDAP-Config启动 "</span>);
-        <span class="hljs-keyword">return</span> contextSource;
-    }
-    
-    <span class="hljs-meta">@Bean</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> LdapTemplate <span class="hljs-title">ldapTemplate</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == ldapTemplate) {
-            ldapTemplate = <span class="hljs-keyword">new</span> LdapTemplate(contextSource());
-        }
-        <span class="hljs-keyword">return</span> ldapTemplate;
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LdapConfiguration</span> </span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Logger log = LoggerFactory.getLogger(<span class="hljs-keyword">this</span>.getClass());<br>    <br>    <span class="hljs-keyword">private</span> LdapTemplate ldapTemplate;<br>    <br>    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"${spring.ldap.urls}"</span>)<br>    <span class="hljs-keyword">private</span> String url;<br>    <br>    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"${spring.ldap.base}"</span>)<br>    <span class="hljs-keyword">private</span> String base;<br>    <br>    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"${spring.ldap.username}"</span>)<br>    <span class="hljs-keyword">private</span> String userName;<br>    <br>    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"${spring.ldap.password}"</span>)<br>    <span class="hljs-keyword">private</span> String passWord;<br><br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> LdapContextSource <span class="hljs-title">contextSource</span><span class="hljs-params">()</span> </span>{<br>        LdapContextSource contextSource = <span class="hljs-keyword">new</span> LdapContextSource();<br>        Map<String, Object> config = <span class="hljs-keyword">new</span> LinkedHashMap<>(<span class="hljs-number">16</span>);<br>    <br>        contextSource.setUrl(url);<br>        contextSource.setBase(base);<br>        contextSource.setUserDn(userName);<br>        contextSource.setPassword(passWord);<br>    <br>        <span class="hljs-comment">//  解决乱码的关键一句</span><br>        config.put(<span class="hljs-string">"java.naming.ldap.attributes.binary"</span>, <span class="hljs-string">"objectGUID"</span>);<br>    <br>        contextSource.setPooled(<span class="hljs-keyword">true</span>);<br>        contextSource.setBaseEnvironmentProperties(config);<br>        log.info(<span class="hljs-string">" [ MatthewHan ] : LDAP-Config启动 "</span>);<br>        <span class="hljs-keyword">return</span> contextSource;<br>    }<br>    <br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> LdapTemplate <span class="hljs-title">ldapTemplate</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == ldapTemplate) {<br>            ldapTemplate = <span class="hljs-keyword">new</span> LdapTemplate(contextSource());<br>        }<br>        <span class="hljs-keyword">return</span> ldapTemplate;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <h1 id="需要注意的问题"><a class="markdownIt-Anchor" href="#需要注意的问题"></a> 需要注意的问题<a class="post-anchor" href="#需要注意的问题"></a></h1>
 <p>接着就是<code>Ldaptemplate</code>的方法用来增删改查，详细的懒得展开了，有几个点需要注意下：</p>
 <ul>

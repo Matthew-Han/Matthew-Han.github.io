@@ -272,40 +272,7 @@
 </ol>
 <p>为了不出现当任务队列中没有任务时，消费者每秒都会调用一次POP命令查看是否有新任务这种情况，需要在消费者中同时处理业务逻辑，当任务执行缓冲池出队时，把<code>Pending Queue</code>的消息出队，入队到<code>Running Pool</code>。</p>
 <p>所以我们需要一个生产者RedisProducer（部分代码）</p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Transactional</span>(rollbackFor = Exception<span class="hljs-class">.<span class="hljs-keyword">class</span>)
-<span class="hljs-title">public</span> <span class="hljs-title">ProduceDTO</span> <span class="hljs-title">produceTask</span>(<span class="hljs-title">String</span> <span class="hljs-title">orderId</span>) </span>{
-    <span class="hljs-comment">/* 
-     * 数据处理代码段...
-     * 部分业务逻辑...
-     */</span>
-      
-    <span class="hljs-comment">// 判断running queue是否还有空位</span>
-    <span class="hljs-keyword">boolean</span> condition = !redisBase.hasKey(RUNNING_QUEUE) || redisBase.lGetListSize(RUNNING_QUEUE) < RUNNING_QUEUE_SIZE;
-    <span class="hljs-comment">// 如果有空位</span>
-    <span class="hljs-keyword">if</span> (condition) {
-        redisBase.lSet(RUNNING_QUEUE, orderId, -<span class="hljs-number">1</span>, TimeUnit.DAYS);
-        <span class="hljs-comment">// 开启服务</span>
-        logger.info(<span class="hljs-string">"================================开启转码服务================================"</span>);
-
-        <span class="hljs-comment">/* 
-         * 任务订单持久化代码段...
-         * 部分业务逻辑... 
-         */</span>
-         <span class="hljs-keyword">boolean</span> isUpdate = iTaskInfoService.modifyTaskByOrderId(produceDTO);
-         <span class="hljs-keyword">if</span> (isUpdate) {
-             <span class="hljs-comment">// 调用消费者</span>
-             redisConsumer.consumerMessageThread(produceDTO);
-         } <span class="hljs-keyword">else</span> {
-             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> MatthewHanException(ServiceEnum.FIRST_UPDATE_TRANS_TASK_ERROR.getCode(), ServiceEnum.FIRST_UPDATE_TRANS_TASK_ERROR.getMessage());
-         }
-            <span class="hljs-keyword">return</span> produceDTO;
-    } <span class="hljs-keyword">else</span> {
-        <span class="hljs-comment">// 没空位，则消息先进入pending queue</span>
-        redisBase.lSet(PENDING_QUEUE, orderId, -<span class="hljs-number">1</span>, TimeUnit.DAYS);
-    }
-    <span class="hljs-keyword">return</span> produceDTO;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Transactional</span>(rollbackFor = Exception<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span><br><span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">ProduceDTO</span> <span class="hljs-title">produceTask</span>(<span class="hljs-title">String</span> <span class="hljs-title">orderId</span>) </span>{<br>    <span class="hljs-comment">/* </span><br><span class="hljs-comment">     * 数据处理代码段...</span><br><span class="hljs-comment">     * 部分业务逻辑...</span><br><span class="hljs-comment">     */</span><br>      <br>    <span class="hljs-comment">// 判断running queue是否还有空位</span><br>    <span class="hljs-keyword">boolean</span> condition = !redisBase.hasKey(RUNNING_QUEUE) || redisBase.lGetListSize(RUNNING_QUEUE) < RUNNING_QUEUE_SIZE;<br>    <span class="hljs-comment">// 如果有空位</span><br>    <span class="hljs-keyword">if</span> (condition) {<br>        redisBase.lSet(RUNNING_QUEUE, orderId, -<span class="hljs-number">1</span>, TimeUnit.DAYS);<br>        <span class="hljs-comment">// 开启服务</span><br>        logger.info(<span class="hljs-string">"================================开启转码服务================================"</span>);<br><br>        <span class="hljs-comment">/* </span><br><span class="hljs-comment">         * 任务订单持久化代码段...</span><br><span class="hljs-comment">         * 部分业务逻辑... </span><br><span class="hljs-comment">         */</span><br>         <span class="hljs-keyword">boolean</span> isUpdate = iTaskInfoService.modifyTaskByOrderId(produceDTO);<br>         <span class="hljs-keyword">if</span> (isUpdate) {<br>             <span class="hljs-comment">// 调用消费者</span><br>             redisConsumer.consumerMessageThread(produceDTO);<br>         } <span class="hljs-keyword">else</span> {<br>             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> MatthewHanException(ServiceEnum.FIRST_UPDATE_TRANS_TASK_ERROR.getCode(), ServiceEnum.FIRST_UPDATE_TRANS_TASK_ERROR.getMessage());<br>         }<br>            <span class="hljs-keyword">return</span> produceDTO;<br>    } <span class="hljs-keyword">else</span> {<br>        <span class="hljs-comment">// 没空位，则消息先进入pending queue</span><br>        redisBase.lSet(PENDING_QUEUE, orderId, -<span class="hljs-number">1</span>, TimeUnit.DAYS);<br>    }<br>    <span class="hljs-keyword">return</span> produceDTO;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>此部分主要是先判断Redis的<code>Running Pool</code>是否还有空余，无空余则进入<code>Pending Queue</code>等待。进入了<code>Running Pool</code>的消息做DataBase的持久化业务逻辑。这一句<code>redisConsumer.consumerMessageThread(produceDTO);</code>则是主动调用消费者。</p>
 </body></html>
 

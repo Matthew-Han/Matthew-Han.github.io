@@ -254,66 +254,7 @@
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs8.png/wm" target="_blank" rel="noopener" data-caption="44被改写" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs8.png/wm" alt="44被改写"></a></p>
 <p>这时候一轮分治就OJBK了。可以清楚地看到（<s>好像这个例子不是很清楚的看到，果然是<code>size</code>太短了吗</s>），在<code>基准</code>值的左边数组大小都是小于<code>基准</code>值的，而右边数组都是大于<code>基准</code>值。这个时候就体现了快排的分治思想，相当于从<code>基准</code>中切一刀，左边的数组单独去排序，右边的数组单独去排序。这时候就变成了<code>[3, 5]</code>和<code>[63, 44]</code>继续递归快速排序，所以说快排实现的核心思想就是分治和递归。</p>
 <h1 id="java代码实现"><a class="markdownIt-Anchor" href="#java代码实现"></a> Java代码实现<a class="post-anchor" href="#java代码实现"></a></h1>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> Qs
- * <span class="hljs-doctag">@Description</span> TODO
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/23 10:48
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Qs</span> </span>{
-
-    
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>[] arr = {<span class="hljs-number">21</span>,<span class="hljs-number">5</span>,<span class="hljs-number">44</span>,<span class="hljs-number">63</span>,<span class="hljs-number">3</span>,<span class="hljs-number">63</span>,<span class="hljs-number">23</span>,<span class="hljs-number">456</span>,<span class="hljs-number">6764</span>,<span class="hljs-number">8</span>,<span class="hljs-number">22</span>,<span class="hljs-number">15</span>,<span class="hljs-number">67</span>,<span class="hljs-number">33</span>,<span class="hljs-number">202</span>,<span class="hljs-number">23333</span>,<span class="hljs-number">234</span>,<span class="hljs-number">565656565</span>,<span class="hljs-number">22</span>,<span class="hljs-number">7</span>,<span class="hljs-number">22</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">43</span>,<span class="hljs-number">3</span>,<span class="hljs-number">566</span>,<span class="hljs-number">34</span>,<span class="hljs-number">345</span>,<span class="hljs-number">2</span>};
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> n = <span class="hljs-number">0</span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{
-        
-        Qs qs = <span class="hljs-keyword">new</span> Qs();
-        qs.func(arr,<span class="hljs-number">0</span>,arr.length-<span class="hljs-number">1</span>);
-        System.out.println(Arrays.toString(arr));
-        System.out.println(n);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr,<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> k)</span></span>{
-
-        <span class="hljs-keyword">if</span>(i>k){
-            <span class="hljs-keyword">return</span>;
-        }
-        <span class="hljs-keyword">int</span> low = i;
-        <span class="hljs-keyword">int</span> high = k;
-        <span class="hljs-comment">// 每次选取基准都是和low指针一致</span>
-        <span class="hljs-keyword">int</span> pivot = arr[i];
-    
-        <span class="hljs-keyword">while</span> (i<k){
-    
-            <span class="hljs-keyword">while</span>(arr[k]>pivot && i<k){
-                k--;
-            }
-            <span class="hljs-keyword">if</span> (arr[k]<=pivot && i<k){
-                arr[i] = arr[k];
-                i++;
-            }
-            <span class="hljs-keyword">while</span>(arr[i]<pivot && i<k){
-                i++;
-            }
-            <span class="hljs-keyword">if</span> (arr[i]>=pivot && i<k){
-                arr[k] = arr[i];
-                k--;
-            }
-        }
-        <span class="hljs-keyword">if</span>(i==k){
-            arr[i] = pivot;
-            arr[k] = pivot;
-        }
-        n++;
-        <span class="hljs-comment">// 递归调用</span>
-        func(arr,low,k-<span class="hljs-number">1</span>);
-        func(arr,k+<span class="hljs-number">1</span>,high);
-
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> Qs</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> TODO</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/23 10:48</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Qs</span> </span>{<br><br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>[] arr = {<span class="hljs-number">21</span>,<span class="hljs-number">5</span>,<span class="hljs-number">44</span>,<span class="hljs-number">63</span>,<span class="hljs-number">3</span>,<span class="hljs-number">63</span>,<span class="hljs-number">23</span>,<span class="hljs-number">456</span>,<span class="hljs-number">6764</span>,<span class="hljs-number">8</span>,<span class="hljs-number">22</span>,<span class="hljs-number">15</span>,<span class="hljs-number">67</span>,<span class="hljs-number">33</span>,<span class="hljs-number">202</span>,<span class="hljs-number">23333</span>,<span class="hljs-number">234</span>,<span class="hljs-number">565656565</span>,<span class="hljs-number">22</span>,<span class="hljs-number">7</span>,<span class="hljs-number">22</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">43</span>,<span class="hljs-number">3</span>,<span class="hljs-number">566</span>,<span class="hljs-number">34</span>,<span class="hljs-number">345</span>,<span class="hljs-number">2</span>};<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> n = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>        <br>        Qs qs = <span class="hljs-keyword">new</span> Qs();<br>        qs.func(arr,<span class="hljs-number">0</span>,arr.length-<span class="hljs-number">1</span>);<br>        System.out.println(Arrays.toString(arr));<br>        System.out.println(n);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] arr,<span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> k)</span></span>{<br><br>        <span class="hljs-keyword">if</span>(i>k){<br>            <span class="hljs-keyword">return</span>;<br>        }<br>        <span class="hljs-keyword">int</span> low = i;<br>        <span class="hljs-keyword">int</span> high = k;<br>        <span class="hljs-comment">// 每次选取基准都是和low指针一致</span><br>        <span class="hljs-keyword">int</span> pivot = arr[i];<br>    <br>        <span class="hljs-keyword">while</span> (i<k){<br>    <br>            <span class="hljs-keyword">while</span>(arr[k]>pivot && i<k){<br>                k--;<br>            }<br>            <span class="hljs-keyword">if</span> (arr[k]<=pivot && i<k){<br>                arr[i] = arr[k];<br>                i++;<br>            }<br>            <span class="hljs-keyword">while</span>(arr[i]<pivot && i<k){<br>                i++;<br>            }<br>            <span class="hljs-keyword">if</span> (arr[i]>=pivot && i<k){<br>                arr[k] = arr[i];<br>                k--;<br>            }<br>        }<br>        <span class="hljs-keyword">if</span>(i==k){<br>            arr[i] = pivot;<br>            arr[k] = pivot;<br>        }<br>        n++;<br>        <span class="hljs-comment">// 递归调用</span><br>        func(arr,low,k-<span class="hljs-number">1</span>);<br>        func(arr,k+<span class="hljs-number">1</span>,high);<br><br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>要注意每次要判断i和k的大小，因为数组size是多少就会有多少次基准数归位，会不断地拆分成两对数组，最后变成2位，1位。</p>
 <h1 id="快排的一些知识点和算法复杂度"><a class="markdownIt-Anchor" href="#快排的一些知识点和算法复杂度"></a> 快排的一些知识点和算法复杂度<a class="post-anchor" href="#快排的一些知识点和算法复杂度"></a></h1>
 <ul>

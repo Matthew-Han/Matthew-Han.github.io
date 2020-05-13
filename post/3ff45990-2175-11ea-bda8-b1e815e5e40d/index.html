@@ -239,90 +239,7 @@
 <blockquote>
 <p>嗯？说好的，最大核心线程数不是BUG，8个吗？难道当前不应该是8个？</p>
 </blockquote>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadPoolUtils</span> </span>{
-
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(ThreadPoolUtils<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
-    <span class="hljs-comment">/**
-     * 线程池维护线程的最少数量
-     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SIZE_CORE_POOL = <span class="hljs-number">4</span>;
-    <span class="hljs-comment">/**
-     * 线程池维护线程的最大数量
-     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SIZE_MAX_POOL = <span class="hljs-number">8</span>;
-
-    <span class="hljs-comment">/**
-     * 禁止手动初始化
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">ThreadPoolUtils</span><span class="hljs-params">()</span> </span>{}
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printPoolInfo</span><span class="hljs-params">()</span> </span>{
-
-        logger.info(<span class="hljs-string">"当前线程Pool的数量 = [{}]"</span>,Singleton.SINGLETON.getThreadPool().getPoolSize());
-        logger.info(<span class="hljs-string">"当前task的数量 = [{}]"</span>,Singleton.SINGLETON.getThreadPool().getTaskCount());
-        logger.info(<span class="hljs-string">"当前执行task的数量 = [{}]"</span>,Singleton.SINGLETON.getThreadPool().getActiveCount());
-        logger.info(<span class="hljs-string">"当前完成task的数量 = [{}]"</span>,Singleton.SINGLETON.getThreadPool().getCompletedTaskCount());
-    }
-
-    <span class="hljs-comment">/**
-     * 通过枚举创建单例对象
-     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">enum</span> Singleton {
-        <span class="hljs-comment">/**
-         * 线程池单例
-         */</span>
-        SINGLETON;
-        <span class="hljs-keyword">private</span> ThreadPoolExecutor threadPool;
-        <span class="hljs-keyword">private</span> ScheduledExecutorService service;
-        Singleton() {
-            <span class="hljs-comment">// 为线程命名</span>
-            ThreadFactory namedThreadFactory = <span class="hljs-keyword">new</span> ThreadFactoryBuilder()
-                    .setNameFormat(<span class="hljs-string">"线程池工具类-pool-%d"</span>).build();
-            <span class="hljs-comment">// 创建线程池1</span>
-            threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
-                    SIZE_CORE_POOL,
-                    SIZE_MAX_POOL,
-                    <span class="hljs-number">10L</span>,
-                    TimeUnit.MILLISECONDS,
-                    <span class="hljs-keyword">new</span> LinkedBlockingQueue<Runnable>(),
-                    namedThreadFactory);
-            <span class="hljs-comment">// 创建线程池2</span>
-            service  = Executors.newScheduledThreadPool(<span class="hljs-number">4</span>);
-        }
-
-        <span class="hljs-comment">/**
-         * 返回单例对象
-         */</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> ThreadPoolExecutor <span class="hljs-title">getThreadPool</span><span class="hljs-params">()</span> </span>{
-            <span class="hljs-keyword">return</span> threadPool;
-        }
-
-        <span class="hljs-function"><span class="hljs-keyword">public</span> ScheduledExecutorService <span class="hljs-title">getScheduledThreadPool</span><span class="hljs-params">()</span> </span>{
-            <span class="hljs-keyword">return</span> service;
-        }
-
-    }
-
-    <span class="hljs-comment">/**
-     * 向池中添加任务
-     * 单次执行
-     * <span class="hljs-doctag">@param</span> task
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addExecuteTask</span><span class="hljs-params">(Runnable task)</span> </span>{
-        <span class="hljs-keyword">if</span> (task != <span class="hljs-keyword">null</span>) {
-
-            ThreadPoolExecutor threadPoolExecutor = Singleton.SINGLETON.getThreadPool();
-            threadPoolExecutor.execute(task);
-        }
-    }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addScheduleTask</span><span class="hljs-params">(Runnable task)</span> </span>{
-        Singleton.SINGLETON.getScheduledThreadPool().scheduleWithFixedDelay(task, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>, TimeUnit.SECONDS);
-
-    }
-
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadPoolUtils</span> </span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(ThreadPoolUtils<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 线程池维护线程的最少数量</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SIZE_CORE_POOL = <span class="hljs-number">4</span>;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 线程池维护线程的最大数量</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SIZE_MAX_POOL = <span class="hljs-number">8</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 禁止手动初始化</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">ThreadPoolUtils</span><span class="hljs-params">()</span> </span>{}<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printPoolInfo</span><span class="hljs-params">()</span> </span>{<br><br>        logger.info(<span class="hljs-string">"当前线程Pool的数量 = [{}]"</span>,Singleton.SINGLETON.getThreadPool().getPoolSize());<br>        logger.info(<span class="hljs-string">"当前task的数量 = [{}]"</span>,Singleton.SINGLETON.getThreadPool().getTaskCount());<br>        logger.info(<span class="hljs-string">"当前执行task的数量 = [{}]"</span>,Singleton.SINGLETON.getThreadPool().getActiveCount());<br>        logger.info(<span class="hljs-string">"当前完成task的数量 = [{}]"</span>,Singleton.SINGLETON.getThreadPool().getCompletedTaskCount());<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 通过枚举创建单例对象</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">enum</span> Singleton {<br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 线程池单例</span><br><span class="hljs-comment">         */</span><br>        SINGLETON;<br>        <span class="hljs-keyword">private</span> ThreadPoolExecutor threadPool;<br>        <span class="hljs-keyword">private</span> ScheduledExecutorService service;<br>        Singleton() {<br>            <span class="hljs-comment">// 为线程命名</span><br>            ThreadFactory namedThreadFactory = <span class="hljs-keyword">new</span> ThreadFactoryBuilder()<br>                    .setNameFormat(<span class="hljs-string">"线程池工具类-pool-%d"</span>).build();<br>            <span class="hljs-comment">// 创建线程池1</span><br>            threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<br>                    SIZE_CORE_POOL,<br>                    SIZE_MAX_POOL,<br>                    <span class="hljs-number">10L</span>,<br>                    TimeUnit.MILLISECONDS,<br>                    <span class="hljs-keyword">new</span> LinkedBlockingQueue<Runnable>(),<br>                    namedThreadFactory);<br>            <span class="hljs-comment">// 创建线程池2</span><br>            service  = Executors.newScheduledThreadPool(<span class="hljs-number">4</span>);<br>        }<br><br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 返回单例对象</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> ThreadPoolExecutor <span class="hljs-title">getThreadPool</span><span class="hljs-params">()</span> </span>{<br>            <span class="hljs-keyword">return</span> threadPool;<br>        }<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> ScheduledExecutorService <span class="hljs-title">getScheduledThreadPool</span><span class="hljs-params">()</span> </span>{<br>            <span class="hljs-keyword">return</span> service;<br>        }<br><br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 向池中添加任务</span><br><span class="hljs-comment">     * 单次执行</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> task</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addExecuteTask</span><span class="hljs-params">(Runnable task)</span> </span>{<br>        <span class="hljs-keyword">if</span> (task != <span class="hljs-keyword">null</span>) {<br><br>            ThreadPoolExecutor threadPoolExecutor = Singleton.SINGLETON.getThreadPool();<br>            threadPoolExecutor.execute(task);<br>        }<br>    }<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addScheduleTask</span><span class="hljs-params">(Runnable task)</span> </span>{<br>        Singleton.SINGLETON.getScheduledThreadPool().scheduleWithFixedDelay(task, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>, TimeUnit.SECONDS);<br><br>    }<br><br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <h1 id="探究"><a class="markdownIt-Anchor" href="#探究"></a> 探究<a class="post-anchor" href="#探究"></a></h1>
 <p>看来还是basic不够扎实啊，学的是个JB！我们看一下<code>ThreadPoolExecutor</code>的源码，查看下的他的4个构造方法如下图，我们来看看比较难懂的几个参数：</p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/ThreadPoolExecutor.png/zip" target="_blank" rel="noopener" data-caption="ThreadPoolExecutor" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/ThreadPoolExecutor.png/zip" alt="ThreadPoolExecutor"></a></p>
@@ -331,101 +248,18 @@
 <li><strong>第7个参数：</strong><code>handle</code>表示执行拒绝策略的对象。当超过第5个参数<code>workQueue</code>的任务缓存区上限的时候，就可以通过该策略处理请求，是一种简单的限流保护。</li>
 </ul>
 <p>那么，我们上面的实例化是怎么写的？</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">// 创建线程池1</span>
-threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
-	SIZE_CORE_POOL,
-	SIZE_MAX_POOL,
-	<span class="hljs-number">10L</span>,
-	TimeUnit.MILLISECONDS,
-	<span class="hljs-keyword">new</span> LinkedBlockingQueue<Runnable>(),
-	namedThreadFactory);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 创建线程池1</span><br>threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<br>	SIZE_CORE_POOL,<br>	SIZE_MAX_POOL,<br>	<span class="hljs-number">10L</span>,<br>	TimeUnit.MILLISECONDS,<br>	<span class="hljs-keyword">new</span> LinkedBlockingQueue<Runnable>(),<br>	namedThreadFactory);<br></code></pre></td></tr></tbody></table></figure>
 <p>我们把<code>LinkedBlockingQueue<Runnable>()</code>作为缓存队列，我们不关心的它内部实现，通过源码可以知道它是一种无限队列，构造器容量默认值大小是<code>Integer.MAX_VALUE</code>，往往在生产场景中很难达到这个值，所以像我上面这样写是极其不科学的，应该根据实际场景设置一个可承载容量大小，并配合<code>handle</code>做出拒绝策略，才是一个完整的流程。</p>
 <p>我们稍微熟悉了它的构造方法之后，怎么知道它是如何工作的呢？另外我之前的迷思，为什么核心线程数始终等于4呢？</p>
 <h1 id="原因"><a class="markdownIt-Anchor" href="#原因"></a> 原因<a class="post-anchor" href="#原因"></a></h1>
 <p>首先我们可以通过源码查看<code>execute</code>方法：</p>
-<pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(Runnable command)</span> </span>{
-    <span class="hljs-keyword">if</span> (command == <span class="hljs-keyword">null</span>)
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException();
-    <span class="hljs-comment">/*
-     * Proceed in 3 steps:
-     *
-     * 1. If fewer than corePoolSize threads are running, try to
-     * start a new thread with the given command as its first
-     * task.  The call to addWorker atomically checks runState and
-     * workerCount, and so prevents false alarms that would add
-     * threads when it shouldn't, by returning false.
-     *
-     * 2. If a task can be successfully queued, then we still need
-     * to double-check whether we should have added a thread
-     * (because existing ones died since last checking) or that
-     * the pool shut down since entry into this method. So we
-     * recheck state and if necessary roll back the enqueuing if
-     * stopped, or start a new thread if there are none.
-     *
-     * 3. If we cannot queue task, then we try to add a new
-     * thread.  If it fails, we know we are shut down or saturated
-     * and so reject the task.
-     */</span>
-    <span class="hljs-keyword">int</span> c = ctl.get();
-    <span class="hljs-comment">// 1. 如果当前线程数 小于 corePoolSize，则尝试添加新线程</span>
-    <span class="hljs-keyword">if</span> (workerCountOf(c) < corePoolSize) {
-        <span class="hljs-keyword">if</span> (addWorker(command, <span class="hljs-keyword">true</span>))
-            <span class="hljs-keyword">return</span>;
-        c = ctl.get();
-    }
-    <span class="hljs-comment">// 2. 尝试向workQueue添加队列（offer方法在workQueue没有容量时，添加失败），线程已经存在不会创建新的线程，如果不存在则创建新的线程。</span>
-    <span class="hljs-keyword">if</span> (isRunning(c) && workQueue.offer(command)) {
-        <span class="hljs-keyword">int</span> recheck = ctl.get();
-        <span class="hljs-keyword">if</span> (! isRunning(recheck) && remove(command))
-            reject(command);
-        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (workerCountOf(recheck) == <span class="hljs-number">0</span>)
-            addWorker(<span class="hljs-keyword">null</span>, <span class="hljs-keyword">false</span>);
-    }
-    <span class="hljs-comment">// 3. 添加新线程，此处会比较maximumPoolSize，如果大于maximumPoolSize，则会使用饱和策略</span>
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!addWorker(command, <span class="hljs-keyword">false</span>))
-        reject(command);
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(Runnable command)</span> </span>{<br>    <span class="hljs-keyword">if</span> (command == <span class="hljs-keyword">null</span>)<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException();<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * Proceed in 3 steps:</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * 1. If fewer than corePoolSize threads are running, try to</span><br><span class="hljs-comment">     * start a new thread with the given command as its first</span><br><span class="hljs-comment">     * task.  The call to addWorker atomically checks runState and</span><br><span class="hljs-comment">     * workerCount, and so prevents false alarms that would add</span><br><span class="hljs-comment">     * threads when it shouldn't, by returning false.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * 2. If a task can be successfully queued, then we still need</span><br><span class="hljs-comment">     * to double-check whether we should have added a thread</span><br><span class="hljs-comment">     * (because existing ones died since last checking) or that</span><br><span class="hljs-comment">     * the pool shut down since entry into this method. So we</span><br><span class="hljs-comment">     * recheck state and if necessary roll back the enqueuing if</span><br><span class="hljs-comment">     * stopped, or start a new thread if there are none.</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * 3. If we cannot queue task, then we try to add a new</span><br><span class="hljs-comment">     * thread.  If it fails, we know we are shut down or saturated</span><br><span class="hljs-comment">     * and so reject the task.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">int</span> c = ctl.get();<br>    <span class="hljs-comment">// 1. 如果当前线程数 小于 corePoolSize，则尝试添加新线程</span><br>    <span class="hljs-keyword">if</span> (workerCountOf(c) < corePoolSize) {<br>        <span class="hljs-keyword">if</span> (addWorker(command, <span class="hljs-keyword">true</span>))<br>            <span class="hljs-keyword">return</span>;<br>        c = ctl.get();<br>    }<br>    <span class="hljs-comment">// 2. 尝试向workQueue添加队列（offer方法在workQueue没有容量时，添加失败），线程已经存在不会创建新的线程，如果不存在则创建新的线程。</span><br>    <span class="hljs-keyword">if</span> (isRunning(c) && workQueue.offer(command)) {<br>        <span class="hljs-keyword">int</span> recheck = ctl.get();<br>        <span class="hljs-keyword">if</span> (! isRunning(recheck) && remove(command))<br>            reject(command);<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (workerCountOf(recheck) == <span class="hljs-number">0</span>)<br>            addWorker(<span class="hljs-keyword">null</span>, <span class="hljs-keyword">false</span>);<br>    }<br>    <span class="hljs-comment">// 3. 添加新线程，此处会比较maximumPoolSize，如果大于maximumPoolSize，则会使用饱和策略</span><br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!addWorker(command, <span class="hljs-keyword">false</span>))<br>        reject(command);<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>而<code>addWorker</code>方法主要是动态的调整线程池的线程数量。从execute方法和addWorker方法可以看出，当前线程数优先与corePoolSize 比较，大于corePoolSize ，则与workQueue容量比较；如果当前线程数大于workQueue容量，则与maximumPoolSize比较；如果当前线程数大于maximumPoolSize，则执行饱和策略；最后，根据饱和策略做出相应的处理。</p>
 <p>所以我粗略的总结下<strong>当corePoolSize（核心线程数）满了，接下来的线程先进入workQueue（任务队列），当队列也满了之后，创建新线程，直到达到maximumPoolSize（最大线程数），之后再尝试创建线程时，会进入拒绝rejectedExecution。</strong></p>
 <p>所以为什么线程池的核心线程数一直是4个，因为多余的都处在任务队列阻塞中，由于未设置一个容量大小，所以这个容量非常的大，其实是超出我们的处理能力的，我们程序始终就也没能够达到最大线程数。或者可以这么理解，这个maximumPoolSize算是一种比较坏（极限）的情况，很少情况并不会真的按照这个数量处理任务，只有当任务队列都不够时，才会继续创建线程，直到达到最大线程数，超过了之后就必须要handle来处理拒绝策略了。</p>
 <h1 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试<a class="post-anchor" href="#测试"></a></h1>
 <p>好了，既然大致了解了线程池的工作原理之后，可以进行一个测试来验证以下是否符合：</p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestThreadPool</span> </span>{
-
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadFactory tf = <span class="hljs-keyword">new</span> ThreadFactoryBuilder()
-            .setNameFormat(<span class="hljs-string">"factory-pool-%d"</span>).build();
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadPoolExecutor threadPoolExecutor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10L</span>,
-            TimeUnit.MINUTES, <span class="hljs-keyword">new</span> LinkedBlockingQueue<>(<span class="hljs-number">50</span>), tf);
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>{
-				System.out.println(<span class="hljs-string">"================start================"</span>);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i<<span class="hljs-number">100</span>; i++) {
-            threadPoolExecutor.execute(<span class="hljs-keyword">new</span> Task(String.valueOf(i)));
-        }
-        System.out.println(<span class="hljs-string">"================end================"</span>);
-    }
-}
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Task</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>{
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(TestThreadPool<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
-
-    <span class="hljs-keyword">private</span> String name;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Task</span><span class="hljs-params">(String name)</span> </span>{
-        <span class="hljs-keyword">this</span>.name = <span class="hljs-string">"[ "</span> + name + <span class="hljs-string">" ]"</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
-        logger.info(name + <span class="hljs-string">"只要干不死，就往死里干，奥利干！！"</span>);
-        <span class="hljs-comment">// System.out.println(name + "奥利给！！");</span>
-        <span class="hljs-keyword">try</span> {
-            Thread.sleep(<span class="hljs-number">2000</span>);
-        } <span class="hljs-keyword">catch</span> (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestThreadPool</span> </span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadFactory tf = <span class="hljs-keyword">new</span> ThreadFactoryBuilder()<br>            .setNameFormat(<span class="hljs-string">"factory-pool-%d"</span>).build();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadPoolExecutor threadPoolExecutor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10L</span>,<br>            TimeUnit.MINUTES, <span class="hljs-keyword">new</span> LinkedBlockingQueue<>(<span class="hljs-number">50</span>), tf);<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>{<br>				System.out.println(<span class="hljs-string">"================start================"</span>);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i<<span class="hljs-number">100</span>; i++) {<br>            threadPoolExecutor.execute(<span class="hljs-keyword">new</span> Task(String.valueOf(i)));<br>        }<br>        System.out.println(<span class="hljs-string">"================end================"</span>);<br>    }<br>}<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Task</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>{<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(TestThreadPool<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<br><br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Task</span><span class="hljs-params">(String name)</span> </span>{<br>        <span class="hljs-keyword">this</span>.name = <span class="hljs-string">"[ "</span> + name + <span class="hljs-string">" ]"</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{<br>        logger.info(name + <span class="hljs-string">"只要干不死，就往死里干，奥利干！！"</span>);<br>        <span class="hljs-comment">// System.out.println(name + "奥利给！！");</span><br>        <span class="hljs-keyword">try</span> {<br>            Thread.sleep(<span class="hljs-number">2000</span>);<br>        } <span class="hljs-keyword">catch</span> (InterruptedException e) {<br>            e.printStackTrace();<br>        }<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>一个线程类<code>Task</code>，在<code>run</code>方法中打印一句「正能量」，然后<code>sleep</code>2秒来模拟处理这个任务。我们创建一个核心线程数为<strong>4</strong>，最大线程数<strong>8</strong>，容量大小为<strong>50</strong>的<code>LinkedBlockingQueue</code>队列，然后在循环中持续创建线程。当成功创建完这100个线程之后，应该会有<code>====================end====================</code>打印出来。</p>
 <p>我们可以期待一下结果是什么？</p>
 <p>按照上面的工作流程来说，有几种情况：</p>
@@ -440,19 +274,8 @@ threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
 <p>果然第<strong>58</strong>个线程被创建之后，后续第<strong>59</strong>个线程想被创建就抛出了异常，如图刚好是58行（0 ~ 57），也没有<code>====================end====================</code>的出现。</p>
 <h1 id="奥利给"><a class="markdownIt-Anchor" href="#奥利给"></a> 奥利给<a class="post-anchor" href="#奥利给"></a></h1>
 <p>当我们把这个线程类的<code>run</code>方法分别改成如下：</p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
-	<span class="hljs-comment">// logger.info(name + "只要干不死，就往死里干，奥利干！！");</span>
-	System.out.println(name + <span class="hljs-string">"奥利给！！"</span>);
-}
-</code></pre>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
-	<span class="hljs-comment">// logger.info(name + "只要干不死，就往死里干，奥利干！！");</span>
-	<span class="hljs-comment">// System.out.println(name + "奥利给！！");</span>
-	logger.info(name + <span class="hljs-string">"奥利给！！"</span>);
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{<br>	<span class="hljs-comment">// logger.info(name + "只要干不死，就往死里干，奥利干！！");</span><br>	System.out.println(name + <span class="hljs-string">"奥利给！！"</span>);<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{<br>	<span class="hljs-comment">// logger.info(name + "只要干不死，就往死里干，奥利干！！");</span><br>	<span class="hljs-comment">// System.out.println(name + "奥利给！！");</span><br>	logger.info(name + <span class="hljs-string">"奥利给！！"</span>);<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>分别看下结果：</p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/sout.png" target="_blank" rel="noopener" data-caption="奥利给" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/sout.png" alt="奥利给"></a></p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/logger.png" target="_blank" rel="noopener" data-caption="奥利给大失败" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/logger.png" alt="奥利给大失败"></a></p>

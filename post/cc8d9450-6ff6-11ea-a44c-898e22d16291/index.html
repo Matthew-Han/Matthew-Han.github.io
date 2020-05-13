@@ -253,125 +253,10 @@
 </ol>
 <h1 id="session持久化"><a class="markdownIt-Anchor" href="#session持久化"></a> Session持久化<a class="post-anchor" href="#session持久化"></a></h1>
 <p>上面写到如果想定制化我们的持久化效果，就必须覆写它的方法，所以我们需要新创建一个类<code>SessionRedisDao</code>来继承<code>EnterpriseCacheSessionDAO</code>类：</p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Component</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SessionRedisDao</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EnterpriseCacheSessionDAO</span> </span>{
-
-    <span class="hljs-comment">/**
-     * 注入的是byteRedisTemplate，只用于byte[]类型的序列化存储在redis中
-     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRedisDao</span><span class="hljs-params">(@Qualifier(<span class="hljs-string">"byteRedisTemplate"</span>)</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate) </span>{
-        <span class="hljs-keyword">this</span>.redisTemplate = redisTemplate;
-    }
-
-    <span class="hljs-comment">/**
-     * 创建session，保存到数据库
-     * <span class="hljs-doctag">@param</span> session
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> Serializable <span class="hljs-title">doCreate</span><span class="hljs-params">(Session session)</span> </span>{
-        Serializable sessionId = <span class="hljs-keyword">super</span>.doCreate(session);
-        System.out.println(<span class="hljs-string">"===============【 "</span> + sessionId + <span class="hljs-string">" 】 创建了session！================"</span>);
-
-        BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());
-        boundValueOperations.set(sessionToByte(session), <span class="hljs-number">240</span>, TimeUnit.MINUTES);
-
-        <span class="hljs-keyword">return</span> sessionId;
-    }
-
-    <span class="hljs-comment">/**
-     * 获取session
-     * <span class="hljs-doctag">@param</span> sessionId
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> Session <span class="hljs-title">doReadSession</span><span class="hljs-params">(Serializable sessionId)</span> </span>{
-        <span class="hljs-comment">// 先从缓存中获取session，如果没有再去数据库中获取</span>
-        Session session = <span class="hljs-keyword">super</span>.doReadSession(sessionId);
-        <span class="hljs-comment">//System.out.println("===============【 " + sessionId + " 】 获取了session！================");</span>
-
-        <span class="hljs-keyword">if</span>(session == <span class="hljs-keyword">null</span>){
-            BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());
-            <span class="hljs-keyword">byte</span>[] bytes = (boundValueOperations.get());
-            <span class="hljs-keyword">if</span>(bytes != <span class="hljs-keyword">null</span> && bytes.length > <span class="hljs-number">0</span>){
-                session = byteToSession(bytes);
-            }
-        }
-        <span class="hljs-keyword">return</span> session;
-    }
-
-    <span class="hljs-comment">/**
-     * 更新session的最后一次访问时间
-     * <span class="hljs-doctag">@param</span> session
-     */</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doUpdate</span><span class="hljs-params">(Session session)</span> </span>{
-        <span class="hljs-keyword">super</span>.doUpdate(session);
-        System.out.println(<span class="hljs-string">"===============【 "</span> + session.getId() + <span class="hljs-string">" 】 更新了session！================"</span>);
-
-        BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + session.getId().toString());
-        boundValueOperations.set(sessionToByte(session), <span class="hljs-number">240</span>, TimeUnit.MINUTES);
-    }
-
-    <span class="hljs-comment">/**
-     * 删除session
-     * <span class="hljs-doctag">@param</span> session
-     */</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doDelete</span><span class="hljs-params">(Session session)</span> </span>{
-        System.out.println(<span class="hljs-string">"===============【 "</span> + session.getId() + <span class="hljs-string">" 】 删除了session！================"</span>);
-        <span class="hljs-keyword">super</span>.doDelete(session);
-        redisTemplate.delete(SHIRO_SESSION + session.getId().toString());
-    }
-
-    <span class="hljs-comment">/**
-     * 把session对象转化为byte保存到redis中
-     * <span class="hljs-doctag">@param</span> session
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">byte</span>[] sessionToByte(Session session){
-        ByteArrayOutputStream bo = <span class="hljs-keyword">new</span> ByteArrayOutputStream();
-        <span class="hljs-keyword">byte</span>[] bytes = <span class="hljs-keyword">null</span>;
-        <span class="hljs-keyword">try</span> {
-            ObjectOutputStream oo = <span class="hljs-keyword">new</span> ObjectOutputStream(bo);
-            oo.writeObject(session);
-            bytes = bo.toByteArray();
-        } <span class="hljs-keyword">catch</span> (IOException e) {
-            e.printStackTrace();
-        }
-        <span class="hljs-keyword">return</span> bytes;
-    }
-
-    <span class="hljs-comment">/**
-     * 把byte还原为session
-     * <span class="hljs-doctag">@param</span> bytes
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Session <span class="hljs-title">byteToSession</span><span class="hljs-params">(<span class="hljs-keyword">byte</span>[] bytes)</span></span>{
-
-        ByteArrayInputStream bi = <span class="hljs-keyword">new</span> ByteArrayInputStream(bytes);
-        ObjectInputStream in;
-        SimpleSession session = <span class="hljs-keyword">null</span>;
-        <span class="hljs-keyword">try</span> {
-            in = <span class="hljs-keyword">new</span> ObjectInputStream(bi);
-            session = (SimpleSession) in.readObject();
-        } <span class="hljs-keyword">catch</span> (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-        }
-
-        <span class="hljs-keyword">return</span> session;
-    }
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SessionRedisDao</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EnterpriseCacheSessionDAO</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 注入的是byteRedisTemplate，只用于byte[]类型的序列化存储在redis中</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRedisDao</span><span class="hljs-params">(@Qualifier(<span class="hljs-string">"byteRedisTemplate"</span>)</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate) </span>{<br>        <span class="hljs-keyword">this</span>.redisTemplate = redisTemplate;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 创建session，保存到数据库</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> session</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> Serializable <span class="hljs-title">doCreate</span><span class="hljs-params">(Session session)</span> </span>{<br>        Serializable sessionId = <span class="hljs-keyword">super</span>.doCreate(session);<br>        System.out.println(<span class="hljs-string">"===============【 "</span> + sessionId + <span class="hljs-string">" 】 创建了session！================"</span>);<br><br>        BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());<br>        boundValueOperations.set(sessionToByte(session), <span class="hljs-number">240</span>, TimeUnit.MINUTES);<br><br>        <span class="hljs-keyword">return</span> sessionId;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取session</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sessionId</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> Session <span class="hljs-title">doReadSession</span><span class="hljs-params">(Serializable sessionId)</span> </span>{<br>        <span class="hljs-comment">// 先从缓存中获取session，如果没有再去数据库中获取</span><br>        Session session = <span class="hljs-keyword">super</span>.doReadSession(sessionId);<br>        <span class="hljs-comment">//System.out.println("===============【 " + sessionId + " 】 获取了session！================");</span><br><br>        <span class="hljs-keyword">if</span>(session == <span class="hljs-keyword">null</span>){<br>            BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());<br>            <span class="hljs-keyword">byte</span>[] bytes = (boundValueOperations.get());<br>            <span class="hljs-keyword">if</span>(bytes != <span class="hljs-keyword">null</span> && bytes.length > <span class="hljs-number">0</span>){<br>                session = byteToSession(bytes);<br>            }<br>        }<br>        <span class="hljs-keyword">return</span> session;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 更新session的最后一次访问时间</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> session</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doUpdate</span><span class="hljs-params">(Session session)</span> </span>{<br>        <span class="hljs-keyword">super</span>.doUpdate(session);<br>        System.out.println(<span class="hljs-string">"===============【 "</span> + session.getId() + <span class="hljs-string">" 】 更新了session！================"</span>);<br><br>        BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + session.getId().toString());<br>        boundValueOperations.set(sessionToByte(session), <span class="hljs-number">240</span>, TimeUnit.MINUTES);<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 删除session</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> session</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doDelete</span><span class="hljs-params">(Session session)</span> </span>{<br>        System.out.println(<span class="hljs-string">"===============【 "</span> + session.getId() + <span class="hljs-string">" 】 删除了session！================"</span>);<br>        <span class="hljs-keyword">super</span>.doDelete(session);<br>        redisTemplate.delete(SHIRO_SESSION + session.getId().toString());<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 把session对象转化为byte保存到redis中</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> session</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">byte</span>[] sessionToByte(Session session){<br>        ByteArrayOutputStream bo = <span class="hljs-keyword">new</span> ByteArrayOutputStream();<br>        <span class="hljs-keyword">byte</span>[] bytes = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> {<br>            ObjectOutputStream oo = <span class="hljs-keyword">new</span> ObjectOutputStream(bo);<br>            oo.writeObject(session);<br>            bytes = bo.toByteArray();<br>        } <span class="hljs-keyword">catch</span> (IOException e) {<br>            e.printStackTrace();<br>        }<br>        <span class="hljs-keyword">return</span> bytes;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 把byte还原为session</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> bytes</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Session <span class="hljs-title">byteToSession</span><span class="hljs-params">(<span class="hljs-keyword">byte</span>[] bytes)</span></span>{<br><br>        ByteArrayInputStream bi = <span class="hljs-keyword">new</span> ByteArrayInputStream(bytes);<br>        ObjectInputStream in;<br>        SimpleSession session = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> {<br>            in = <span class="hljs-keyword">new</span> ObjectInputStream(bi);<br>            session = (SimpleSession) in.readObject();<br>        } <span class="hljs-keyword">catch</span> (ClassNotFoundException | IOException e) {<br>            e.printStackTrace();<br>        }<br><br>        <span class="hljs-keyword">return</span> session;<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>好像看起来和网上的其他技术文章的实现差不多，但是还有差啦（迷之台湾腔？）</p>
 <p>首先是关于<code>RedisTemplate</code>客户端的注入使用：</p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate;
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRedisDao</span><span class="hljs-params">(@Qualifier(<span class="hljs-string">"byteRedisTemplate"</span>)</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate) </span>{
-        <span class="hljs-keyword">this</span>.redisTemplate = redisTemplate;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate;<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRedisDao</span><span class="hljs-params">(@Qualifier(<span class="hljs-string">"byteRedisTemplate"</span>)</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate) </span>{<br>        <span class="hljs-keyword">this</span>.redisTemplate = redisTemplate;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>在这里看到key和value的类型<code><String, byte[]></code>，不是常规的<code><String, Object></code>，因为我在以下序列化工具中以json字符串的形式存储在Redis：</p>
 <ol>
 <li><code>FastJsonRedisSerializer</code></li>
@@ -379,8 +264,7 @@
 <li><code>Jackson2JsonRedisSerializer</code></li>
 </ol>
 <p>发现在执行<code>doUpdate</code>方法后，Redis当中会增加一些Simple Session没有字段，比如<code>"valid":true</code>等等，所以在反序列化获取Session对象的过程中会抛出如下异常：</p>
-<pre class="highlight"><code class>"Could not read JSON: Cannot construct instance of`org.apache.shiro.web.util.SavedRequest` (no Creators, like default construct, exist): cannot deserialize from Object value (no delegate- or property-based Creator)↵ at [Source: (byte[])"["org.apache.shiro.session.mgt.SimpleSession"
-</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">"Could not read JSON: Cannot construct instance of`org.apache.shiro.web.util.SavedRequest` (no Creators, like default construct, exist): cannot deserialize from Object value (no delegate- or property-based Creator)↵ at [Source: (byte[])"["org.apache.shiro.session.mgt.SimpleSession"<br></code></pre></td></tr></tbody></table></figure>
 <blockquote>
 <p>我突然就想到了《码出高效》里面，有说过POJO类不要使用isXxx作为变量的形式</p>
 </blockquote>
@@ -390,64 +274,10 @@
 <p><strong>目前个人找到的解决的方法是使用<code>byte[]</code>字节流存储，且用默认的JDK序列化工具<code>JdkSerializationRedisSerializer</code>。</strong></p>
 <h1 id="redis配置序列化工具"><a class="markdownIt-Anchor" href="#redis配置序列化工具"></a> Redis配置序列化工具<a class="post-anchor" href="#redis配置序列化工具"></a></h1>
 <p>因为可能在代码其他处已经使用了其他序列化工具操作Redis了，所以这里建议重新写一个Bean的方法专门用于Shiro安全框架的Session操作：</p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Bean</span>(name = <span class="hljs-string">"byteRedisTemplate"</span>)
-<span class="hljs-keyword">public</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> byteRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-    RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate = <span class="hljs-keyword">new</span> RedisTemplate<>();
-    redisTemplate.setConnectionFactory(redisConnectionFactory);
-
-    JdkSerializationRedisSerializer jdkSerializationRedisSerializer = <span class="hljs-keyword">new</span> JdkSerializationRedisSerializer();
-    <span class="hljs-comment">// 全局开启AutoType，不建议使用</span>
-    <span class="hljs-comment">// ParserConfig.getGlobalInstance().setAutoTypeSupport(true);</span>
-    <span class="hljs-comment">// 建议使用这种方式，小范围指定白名单</span>
-    ParserConfig.getGlobalInstance().addAccept(<span class="hljs-string">"com.zrtg."</span>);
-
-    <span class="hljs-comment">// 设置值（value）的序列化采用jdkSerializationRedisSerializer。</span>
-    redisTemplate.setValueSerializer(jdkSerializationRedisSerializer);
-    redisTemplate.setHashValueSerializer(jdkSerializationRedisSerializer);
-    <span class="hljs-comment">// 设置键（key）的序列化采用StringRedisSerializer。</span>
-    redisTemplate.setKeySerializer(<span class="hljs-keyword">new</span> StringRedisSerializer());
-    redisTemplate.setHashKeySerializer(<span class="hljs-keyword">new</span> StringRedisSerializer());
-
-    redisTemplate.afterPropertiesSet();
-    log.info(<span class="hljs-string">"MatthewHan: [ byteRedisTemplate启动，鸡你实在是太美! ] "</span>);
-    <span class="hljs-keyword">return</span> redisTemplate;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span>(name = <span class="hljs-string">"byteRedisTemplate"</span>)<br><span class="hljs-keyword">public</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> byteRedisTemplate(RedisConnectionFactory redisConnectionFactory) {<br>    RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate = <span class="hljs-keyword">new</span> RedisTemplate<>();<br>    redisTemplate.setConnectionFactory(redisConnectionFactory);<br><br>    JdkSerializationRedisSerializer jdkSerializationRedisSerializer = <span class="hljs-keyword">new</span> JdkSerializationRedisSerializer();<br>    <span class="hljs-comment">// 全局开启AutoType，不建议使用</span><br>    <span class="hljs-comment">// ParserConfig.getGlobalInstance().setAutoTypeSupport(true);</span><br>    <span class="hljs-comment">// 建议使用这种方式，小范围指定白名单</span><br>    ParserConfig.getGlobalInstance().addAccept(<span class="hljs-string">"com.zrtg."</span>);<br><br>    <span class="hljs-comment">// 设置值（value）的序列化采用jdkSerializationRedisSerializer。</span><br>    redisTemplate.setValueSerializer(jdkSerializationRedisSerializer);<br>    redisTemplate.setHashValueSerializer(jdkSerializationRedisSerializer);<br>    <span class="hljs-comment">// 设置键（key）的序列化采用StringRedisSerializer。</span><br>    redisTemplate.setKeySerializer(<span class="hljs-keyword">new</span> StringRedisSerializer());<br>    redisTemplate.setHashKeySerializer(<span class="hljs-keyword">new</span> StringRedisSerializer());<br><br>    redisTemplate.afterPropertiesSet();<br>    log.info(<span class="hljs-string">"MatthewHan: [ byteRedisTemplate启动，鸡你实在是太美! ] "</span>);<br>    <span class="hljs-keyword">return</span> redisTemplate;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>然后在需要注入的地方，加入<code>@Qualifier</code>注解即可，像这样：<code>@Qualifier("byteRedisTemplate") RedisTemplate<String, byte[]> redisTemplate</code>。</p>
 <h1 id="并入管理"><a class="markdownIt-Anchor" href="#并入管理"></a> 并入管理<a class="post-anchor" href="#并入管理"></a></h1>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Bean</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> DefaultWebSessionManager <span class="hljs-title">sessionManager</span><span class="hljs-params">(SessionRedisDao sessionRedisDao)</span> </span>{
-    DefaultWebSessionManager sessionManager = <span class="hljs-keyword">new</span> DefaultWebSessionManager();
-
-    sessionManager.setSessionIdCookie(remeberMeCookie());
-    sessionManager.setGlobalSessionTimeout(<span class="hljs-number">14400000L</span>);
-    sessionManager.setDeleteInvalidSessions(<span class="hljs-keyword">true</span>);
-    <span class="hljs-comment">// 将写好的缓存sessionDao注入</span>
-    sessionManager.setSessionDAO(sessionRedisDao);
-    sessionManager.setSessionValidationSchedulerEnabled(<span class="hljs-keyword">true</span>);
-
-
-    <span class="hljs-keyword">return</span> sessionManager;
-}
-
-<span class="hljs-comment">/**
- * 注入 securityManager
- * 将写好的缓存sessionDao注入
- * <span class="hljs-doctag">@param</span> sessionRedisDao
- * <span class="hljs-doctag">@param</span> customRealmConfig
- * <span class="hljs-doctag">@return</span>
- */</span>
-<span class="hljs-meta">@Bean</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> SecurityManager <span class="hljs-title">securityManager</span><span class="hljs-params">(SessionRedisDao sessionRedisDao, CustomRealmConfig customRealmConfig)</span> </span>{
-    DefaultWebSecurityManager securityManager = <span class="hljs-keyword">new</span> DefaultWebSecurityManager();
-    <span class="hljs-comment">// 设置realm</span>
-    securityManager.setRealm(customRealmConfig);
-    <span class="hljs-comment">// 注入Cookie记住我管理器</span>
-    securityManager.setRememberMeManager(<span class="hljs-keyword">null</span>);
-    securityManager.setSessionManager(sessionManager(sessionRedisDao));
-    <span class="hljs-keyword">return</span> securityManager;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> DefaultWebSessionManager <span class="hljs-title">sessionManager</span><span class="hljs-params">(SessionRedisDao sessionRedisDao)</span> </span>{<br>    DefaultWebSessionManager sessionManager = <span class="hljs-keyword">new</span> DefaultWebSessionManager();<br><br>    sessionManager.setSessionIdCookie(remeberMeCookie());<br>    sessionManager.setGlobalSessionTimeout(<span class="hljs-number">14400000L</span>);<br>    sessionManager.setDeleteInvalidSessions(<span class="hljs-keyword">true</span>);<br>    <span class="hljs-comment">// 将写好的缓存sessionDao注入</span><br>    sessionManager.setSessionDAO(sessionRedisDao);<br>    sessionManager.setSessionValidationSchedulerEnabled(<span class="hljs-keyword">true</span>);<br><br><br>    <span class="hljs-keyword">return</span> sessionManager;<br>}<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 注入 securityManager</span><br><span class="hljs-comment"> * 将写好的缓存sessionDao注入</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> sessionRedisDao</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> customRealmConfig</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Bean</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> SecurityManager <span class="hljs-title">securityManager</span><span class="hljs-params">(SessionRedisDao sessionRedisDao, CustomRealmConfig customRealmConfig)</span> </span>{<br>    DefaultWebSecurityManager securityManager = <span class="hljs-keyword">new</span> DefaultWebSecurityManager();<br>    <span class="hljs-comment">// 设置realm</span><br>    securityManager.setRealm(customRealmConfig);<br>    <span class="hljs-comment">// 注入Cookie记住我管理器</span><br>    securityManager.setRememberMeManager(<span class="hljs-keyword">null</span>);<br>    securityManager.setSessionManager(sessionManager(sessionRedisDao));<br>    <span class="hljs-keyword">return</span> securityManager;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>这里注意rememberMe的Cookies管理，以及<code>sessionManager.setGlobalSessionTimeout(14400000L);</code>和Redis设置的过期时间保持一致即可。</p>
 </body></html>
 

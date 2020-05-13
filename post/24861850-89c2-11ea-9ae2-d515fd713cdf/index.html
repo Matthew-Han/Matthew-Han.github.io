@@ -254,32 +254,7 @@
 <h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1>
 <h2 id="双向队列deque实现"><a class="markdownIt-Anchor" href="#双向队列deque实现"></a> 双向队列Deque实现<a class="post-anchor" href="#双向队列deque实现"></a></h2>
 <p>利用双端队列Deque接口的实现类LinkedList可以很简洁的完成，Deque拥有一个<code>boolean offerFirst(E e);</code>方法。因为底层是双向链表，prev和next指针可以很好帮你实现头尾乱♂插。</p>
-<pre class="highlight"><code class="java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> </span>{
-
-    Deque<Integer> deque;
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>{
-        deque = <span class="hljs-keyword">new</span> LinkedList<>();
-    }
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{
-        deque.offerFirst(x);
-    }
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> deque.remove() ;
-    }
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> deque.element();
-    }
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> deque.isEmpty();
-    }
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> </span>{<br><br>    Deque<Integer> deque;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>{<br>        deque = <span class="hljs-keyword">new</span> LinkedList<>();<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{<br>        deque.offerFirst(x);<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> deque.remove() ;<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> deque.element();<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> deque.isEmpty();<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <h2 id="双队列形成一个闭环"><a class="markdownIt-Anchor" href="#双队列形成一个闭环"></a> 双队列形成一个闭环<a class="post-anchor" href="#双队列形成一个闭环"></a></h2>
 <ol>
 <li>2个单向队列queue和reverseQueue；</li>
@@ -290,60 +265,11 @@
 <li>两个单项队列变成闭环。</li>
 </ol>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/225-queue.png" target="_blank" rel="noopener" data-caption="闭环过程" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/225-queue.png" alt="闭环过程"></a></p>
-<pre class="highlight"><code class="java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> </span>{
-
-    Queue<Integer> queue;
-    Queue<Integer> reverseQueue;
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>{
-        queue = <span class="hljs-keyword">new</span> LinkedList<>();
-        reverseQueue = <span class="hljs-keyword">new</span> LinkedList<>();
-    }
-  
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{
-        <span class="hljs-comment">/**
-         * 利用两个单向队列
-         */</span>
-        <span class="hljs-keyword">if</span> (queue.isEmpty()) {
-            queue.offer(x);
-        } <span class="hljs-keyword">else</span> {
-            reverseQueue.addAll(queue);
-            queue.clear();
-            queue.offer(x);
-            queue.addAll(reverseQueue);
-            reverseQueue.clear();
-        }
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> queue.remove();
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> queue.element();
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> queue.isEmpty();
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> </span>{<br><br>    Queue<Integer> queue;<br>    Queue<Integer> reverseQueue;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>{<br>        queue = <span class="hljs-keyword">new</span> LinkedList<>();<br>        reverseQueue = <span class="hljs-keyword">new</span> LinkedList<>();<br>    }<br>  <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{<br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 利用两个单向队列</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">if</span> (queue.isEmpty()) {<br>            queue.offer(x);<br>        } <span class="hljs-keyword">else</span> {<br>            reverseQueue.addAll(queue);<br>            queue.clear();<br>            queue.offer(x);<br>            queue.addAll(reverseQueue);<br>            reverseQueue.clear();<br>        }<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> queue.remove();<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> queue.element();<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> queue.isEmpty();<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <h2 id="单个单向队列"><a class="markdownIt-Anchor" href="#单个单向队列"></a> 单个单向队列<a class="post-anchor" href="#单个单向队列"></a></h2>
 <p>其中注意：不要使用自身的forEach方法，根据队列的长度搞个循环即可。</p>
 <p>push方法核心代码：</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/*
- * 单个单向队列
- */</span>
-<span class="hljs-comment">/*
- * 单个单向队列
- */</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{
-    singleQueue.add(x);
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < singleQueue.size() - <span class="hljs-number">1</span>; i++) {
-        singleQueue.add(singleQueue.poll());
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 单个单向队列</span><br><span class="hljs-comment"> */</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 单个单向队列</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{<br>    singleQueue.add(x);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < singleQueue.size() - <span class="hljs-number">1</span>; i++) {<br>        singleQueue.add(singleQueue.poll());<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>注意是<code>size - 1</code>。因为最新add的那个元素不需要执行<code>poll</code>方法。</p>
 </body></html>
 

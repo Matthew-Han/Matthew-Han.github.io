@@ -278,19 +278,7 @@
 <li>类内常量：私有静态属性，使用<code>private static final</code>修饰，</li>
 <li>局部常量分为方法常量和参数常量，前者是在方法或代码内定义的常量，后者是定义形式参数是，增加final标识，表示此参数值不能被修改。</li>
 </ol>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String GLOBAL_CONSTANT = <span class="hljs-string">"shared in global"</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String CLASS_CONSTANT = <span class="hljs-string">"shared in class"</span>;
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(String a)</span> </span>{
-        <span class="hljs-keyword">final</span> String methodConstant = <span class="hljs-string">"shared in method"</span>;
-    }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">g</span><span class="hljs-params">(<span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> b)</span> </span>{
-        <span class="hljs-comment">// 编译出错，不允许对常量参数进行重新赋值</span>
-        b = <span class="hljs-number">3</span>;
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String GLOBAL_CONSTANT = <span class="hljs-string">"shared in global"</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String CLASS_CONSTANT = <span class="hljs-string">"shared in class"</span>;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">(String a)</span> </span>{<br>        <span class="hljs-keyword">final</span> String methodConstant = <span class="hljs-string">"shared in method"</span>;<br>    }<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">g</span><span class="hljs-params">(<span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> b)</span> </span>{<br>        <span class="hljs-comment">// 编译出错，不允许对常量参数进行重新赋值</span><br>        b = <span class="hljs-number">3</span>;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>常量在代码中具有穿透性，使用甚广，所以必须是一个恰当的命名并且保证长期使用。常量是为了干掉一些可能会在迭代中改变的魔法值，比如某业务中，12345五种代表着课程的审核状态，在团队规模小时口口相传加上注释可以保证不出错，但是在业务扩展的过程中会变得更加复杂（课程的等级状态也有12345五种，很容易混淆），则需要一套枚举类和全局常量类提高可读性来管理这些状态。</p>
 <p>书中认为，系统成长到某个阶段后，重构是一种必然选择。优秀的架构设计不是去阻止未来一切重构的可能性，毕竟技术栈、业务方向和规模都在不断变化，二是尽量让重构来得晚一些，幅度小一些。</p>
 <h2 id="变量"><a class="markdownIt-Anchor" href="#变量"></a> 变量<a class="post-anchor" href="#变量"></a></h2>
@@ -318,60 +306,7 @@
 </li>
 </ul>
 <p>实例：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
-    <span class="hljs-comment">/**
-     * 不需要等号的位置一致
-     */</span>
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String one = <span class="hljs-string">"1"</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String two = <span class="hljs-string">"2"</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Long three = <span class="hljs-number">2L</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String weChat = <span class="hljs-string">"weChat"</span>;
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        <span class="hljs-comment">// 缩进4个空格，并且在try关键字与左大括号之间保留一个空格</span>
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-comment">// 二目运算符的左右必须有一个空格</span>
-            <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
-            
-            <span class="hljs-comment">// 三目运算符的左右两边必须有一个空格，小括号相邻字符无需空格。</span>
-            <span class="hljs-keyword">boolean</span> condition = (count == <span class="hljs-number">1</span>) ? <span class="hljs-keyword">true</span> : <span class="hljs-keyword">false</span>;
-            <span class="hljs-keyword">int</span> num = (count == <span class="hljs-number">0</span>) ? <span class="hljs-number">99</span> : -<span class="hljs-number">1</span>;
-            
-            <span class="hljs-comment">/**
-             * if关键字与小括号之间保留一个空格
-             * 小括号与大括号之间保留一个空格
-             * 建议使用IDE的自动补全
-             */</span>
-            <span class="hljs-keyword">if</span> (condition) {
-                System.out.println(<span class="hljs-string">"996"</span>);
-                
-            <span class="hljs-comment">/**
-             * if-else后无论逻辑复杂与否，都需要加上大括号，并且之间保留一个空格
-             * else不用换行
-             */</span>    
-            } <span class="hljs-keyword">else</span> {
-                System.out.println(<span class="hljs-string">"965"</span>);
-            }
-            <span class="hljs-comment">// 多个实参逗号后面必须有一个空格</span>
-            String fuckTheWorld = getStr(one, two);
-            System.out.println(fuckTheWorld);
-            
-        <span class="hljs-comment">// catch体是不应该出现空内容的，但是这里为了讲解需要。{}中无需换行和空格。    </span>
-        } <span class="hljs-keyword">catch</span> (Exception e) {}
-    }
-
-    <span class="hljs-comment">/**
-     * 多个形参，逗号后面保留一个空格
-     * <span class="hljs-doctag">@param</span> one
-     * <span class="hljs-doctag">@param</span> two
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getStr</span><span class="hljs-params">(String one, String two)</span> </span>{
-        <span class="hljs-comment">// 任何二目运算符的左右必须有一个空格，包括赋值运算符，加号运算符。</span>
-        <span class="hljs-keyword">return</span> one + two;
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 不需要等号的位置一致</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String one = <span class="hljs-string">"1"</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String two = <span class="hljs-string">"2"</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Long three = <span class="hljs-number">2L</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String weChat = <span class="hljs-string">"weChat"</span>;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br>        <span class="hljs-comment">// 缩进4个空格，并且在try关键字与左大括号之间保留一个空格</span><br>        <span class="hljs-keyword">try</span> {<br>            <span class="hljs-comment">// 二目运算符的左右必须有一个空格</span><br>            <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;<br>            <br>            <span class="hljs-comment">// 三目运算符的左右两边必须有一个空格，小括号相邻字符无需空格。</span><br>            <span class="hljs-keyword">boolean</span> condition = (count == <span class="hljs-number">1</span>) ? <span class="hljs-keyword">true</span> : <span class="hljs-keyword">false</span>;<br>            <span class="hljs-keyword">int</span> num = (count == <span class="hljs-number">0</span>) ? <span class="hljs-number">99</span> : -<span class="hljs-number">1</span>;<br>            <br>            <span class="hljs-comment">/**</span><br><span class="hljs-comment">             * if关键字与小括号之间保留一个空格</span><br><span class="hljs-comment">             * 小括号与大括号之间保留一个空格</span><br><span class="hljs-comment">             * 建议使用IDE的自动补全</span><br><span class="hljs-comment">             */</span><br>            <span class="hljs-keyword">if</span> (condition) {<br>                System.out.println(<span class="hljs-string">"996"</span>);<br>                <br>            <span class="hljs-comment">/**</span><br><span class="hljs-comment">             * if-else后无论逻辑复杂与否，都需要加上大括号，并且之间保留一个空格</span><br><span class="hljs-comment">             * else不用换行</span><br><span class="hljs-comment">             */</span>    <br>            } <span class="hljs-keyword">else</span> {<br>                System.out.println(<span class="hljs-string">"965"</span>);<br>            }<br>            <span class="hljs-comment">// 多个实参逗号后面必须有一个空格</span><br>            String fuckTheWorld = getStr(one, two);<br>            System.out.println(fuckTheWorld);<br>            <br>        <span class="hljs-comment">// catch体是不应该出现空内容的，但是这里为了讲解需要。{}中无需换行和空格。    </span><br>        } <span class="hljs-keyword">catch</span> (Exception e) {}<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 多个形参，逗号后面保留一个空格</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> one</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> two</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getStr</span><span class="hljs-params">(String one, String two)</span> </span>{<br>        <span class="hljs-comment">// 任何二目运算符的左右必须有一个空格，包括赋值运算符，加号运算符。</span><br>        <span class="hljs-keyword">return</span> one + two;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>空行：空行用来分隔功能相似、逻辑内聚、意思相近的代码片段，是的代码布局更加清晰。一般在如下地方可以添加空行：
 <ol>
@@ -395,12 +330,7 @@
 </ol>
 </li>
 </ul>
-<pre class="highlight"><code class="Java">StringBuffer sb = <span class="hljs-keyword">new</span> StringBuffer();
-sb.append(<span class="hljs-string">"我"</span>).append(<span class="hljs-string">"要"</span>)...
-    .append(<span class="hljs-string">"正"</span>)...
-    .append(<span class="hljs-string">"能"</span>)...
-    .append(<span class="hljs-string">"量"</span>);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java">StringBuffer sb = <span class="hljs-keyword">new</span> StringBuffer();<br>sb.append(<span class="hljs-string">"我"</span>).append(<span class="hljs-string">"要"</span>)...<br>    .append(<span class="hljs-string">"正"</span>)...<br>    .append(<span class="hljs-string">"能"</span>)...<br>    .append(<span class="hljs-string">"量"</span>);<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>方法行数限制：<br>
 方法是执行单位，也是阅读代码逻辑的最高粒度模块。代码逻辑要分为主次、个性与共性，抽取次要逻辑作为独立方法，共性逻辑抽取陈共性方法（日期、参数校验、权限判断）。<br>
@@ -412,34 +342,12 @@ sb.append(<span class="hljs-string">"我"</span>).append(<span class="hljs-strin
 <li>在if、else、for、while、do-while等语句中必须使用大括号。即使只有一行代码，也要加上大括号。</li>
 <li>在条件表达式中不允许有赋值操作，也不允许在判断表达式中出现复杂的逻辑组合。</li>
 </ul>
-<pre class="highlight"><code class="Java"><span class="hljs-comment">// 反例：如下。</span>
-<span class="hljs-keyword">if</span> ((file.open(fileName, <span class="hljs-string">"w"</span>) != <span class="hljs-keyword">null</span>) && (...) || (...)) {
-    ...
-}
-</code></pre>
-<pre class="highlight"><code class="Java"><span class="hljs-comment">// 正例：而是应该赋值给一个布尔变量。</span>
-<span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> existed = (file.open(fileName, <span class="hljs-string">"w"</span>) != <span class="hljs-keyword">null</span>) && (...) || (...);
-<span class="hljs-keyword">if</span> (existed) {
-    ...
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">// 反例：如下。</span><br><span class="hljs-keyword">if</span> ((file.open(fileName, <span class="hljs-string">"w"</span>) != <span class="hljs-keyword">null</span>) && (...) || (...)) {<br>    ...<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">// 正例：而是应该赋值给一个布尔变量。</span><br><span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> existed = (file.open(fileName, <span class="hljs-string">"w"</span>) != <span class="hljs-keyword">null</span>) && (...) || (...);<br><span class="hljs-keyword">if</span> (existed) {<br>    ...<br>}<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>多层嵌套不要超过3层。还记得太吾绘卷的一个if-else走天下吗？如果确实比较复杂的判断逻辑，可以采用卫语句、策略模式、状态模式来实现。其中卫语句即代码逻辑先考虑失败、异常、中断、退出等直接返回的情况，以方法多个出口的方式，解决代码中判断 分支嵌套的问题，这是逆向思维的体现。</li>
 </ul>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> func {
-    <span class="hljs-keyword">if</span> (condition1) {
-        ...
-    }
-    <span class="hljs-keyword">if</span> (condition2) {
-        ...
-    }
-    <span class="hljs-keyword">if</span> (condition3) {
-        ...
-    }
-    ...
-    <span class="hljs-keyword">return</span>;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> func {<br>    <span class="hljs-keyword">if</span> (condition1) {<br>        ...<br>    }<br>    <span class="hljs-keyword">if</span> (condition2) {<br>        ...<br>    }<br>    <span class="hljs-keyword">if</span> (condition3) {<br>        ...<br>    }<br>    ...<br>    <span class="hljs-keyword">return</span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>避免采用取反逻辑运算符。判断x是否小于1，应该采用<code>if (x < 1)</code>而不是<code>if (!(x >= 1))</code>。</li>
 </ul>

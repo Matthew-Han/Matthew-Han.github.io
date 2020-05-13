@@ -254,8 +254,7 @@
 <li>用redis-trib.rb搭建集群</li>
 </ul>
 <p><code>redis-trib.rb</code>是采用Ruby实现的Redis集群管理工具。内部通过Cluster相 关命令帮我们简化集群创建、检查、槽迁移和均衡等常见运维操作，使用之前需要安装Ruby依赖环境。但是网上的很多教程<code>redis-trib.rb</code>已经失效的，版本和Ruby环境不匹配。如果发现无法使用的话，请去GitHub的<a href="https://github.com/beebol/redis-trib.rb" target="_blank" rel="noopener">这个地址</a>。Linux环境在安装完rubygem redis依赖之后可以执行以下命令来安装<code>redis-trib.rb</code>。</p>
-<pre class="highlight"><code class="shell">sudo cp /{redis_home}/src/redis-trib.rb /usr/local/bin
-</code></pre>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell">sudo cp /{redis_home}/src/redis-trib.rb /usr/local/bin<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>登陆到集群上之后执行<code>set key value</code>命令之后可能会提示“Redirected to solt [xxxx] located  at ip:port”并且跳转到其他节点</li>
 </ul>
@@ -264,8 +263,7 @@
 <li>You should use redis-cli instead</li>
 </ul>
 <p>如果出现这个提示，表明原本的命令失效了，可以使用redis-cli命令</p>
-<pre class="highlight"><code class="shell">./redis-cli --cluster create masterIp:masterPort ...
-</code></pre>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><code class="hljs shell">./redis-cli --cluster create masterIp:masterPort ...<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>can’t connect to redis-server</li>
 </ul>

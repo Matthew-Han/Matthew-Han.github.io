@@ -399,15 +399,7 @@ OOP（Object Oriented Programming）</p>
 <li>子类构造器隐含调用<code>super()</code></li>
 </ul>
 <p>子类基层的父类，而父类坚持不提供默认的无参构造方法，必须在本类的无参构造方法中使用<code>super</code>方法调用父类的有参构造方法，比如以下情形：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Father</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Father</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arg)</span> </span>{}
-}
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Father</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Son</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">super</span>(<span class="hljs-number">123</span>);
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Father</span> </span>{<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Father</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arg)</span> </span>{}<br>}<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Father</span> </span>{<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Son</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">super</span>(<span class="hljs-number">123</span>);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <table>
 <thead>
 <tr>

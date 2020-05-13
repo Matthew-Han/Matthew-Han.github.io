@@ -227,40 +227,7 @@
       </div>
     </div>
     <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例<a class="post-anchor" href="#示例"></a></h1>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestThread</span> </span>{
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        <span class="hljs-comment">// new 出一个新的对象 t</span>
-        ThreadFuck t1 = <span class="hljs-keyword">new</span> ThreadFuck();
-        ThreadFuck t2 = <span class="hljs-keyword">new</span> ThreadFuck();
-        <span class="hljs-comment">// 两个线程</span>
-        Thread thread1 = <span class="hljs-keyword">new</span> Thread(t1, <span class="hljs-string">"Thread-1"</span>);
-        Thread thread2 = <span class="hljs-keyword">new</span> Thread(t1, <span class="hljs-string">"Thread-2"</span>);
-        thread1.start();
-        thread2.start();
-        <span class="hljs-comment">// t1.run();</span>
-    }
-
-}
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadFuck</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>{
-
-    <span class="hljs-keyword">int</span> temp = <span class="hljs-number">10</span>;
-    <span class="hljs-comment">// private Lock lock = new ReentrantLock();</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-comment">// lock.lock();</span>
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < <span class="hljs-number">5</span>; i++) {
-            temp -= <span class="hljs-number">1</span>;
-            <span class="hljs-keyword">try</span> {
-                Thread.sleep(<span class="hljs-number">1</span>);
-            } <span class="hljs-keyword">catch</span> (InterruptedException ignored) {}
-            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">"-temp = "</span> + temp);
-        }
-        <span class="hljs-comment">// lock.unlock();</span>
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestThread</span> </span>{<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br>        <span class="hljs-comment">// new 出一个新的对象 t</span><br>        ThreadFuck t1 = <span class="hljs-keyword">new</span> ThreadFuck();<br>        ThreadFuck t2 = <span class="hljs-keyword">new</span> ThreadFuck();<br>        <span class="hljs-comment">// 两个线程</span><br>        Thread thread1 = <span class="hljs-keyword">new</span> Thread(t1, <span class="hljs-string">"Thread-1"</span>);<br>        Thread thread2 = <span class="hljs-keyword">new</span> Thread(t1, <span class="hljs-string">"Thread-2"</span>);<br>        thread1.start();<br>        thread2.start();<br>        <span class="hljs-comment">// t1.run();</span><br>    }<br><br>}<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadFuck</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>{<br><br>    <span class="hljs-keyword">int</span> temp = <span class="hljs-number">10</span>;<br>    <span class="hljs-comment">// private Lock lock = new ReentrantLock();</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-comment">// lock.lock();</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < <span class="hljs-number">5</span>; i++) {<br>            temp -= <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">try</span> {<br>                Thread.sleep(<span class="hljs-number">1</span>);<br>            } <span class="hljs-keyword">catch</span> (InterruptedException ignored) {}<br>            System.out.println(Thread.currentThread().getName() + <span class="hljs-string">"-temp = "</span> + temp);<br>        }<br>        <span class="hljs-comment">// lock.unlock();</span><br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 </body></html>
 
   

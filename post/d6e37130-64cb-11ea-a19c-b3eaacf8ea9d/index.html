@@ -259,39 +259,16 @@
 <p>数组是一种顺序表，可以使用索引下标进行快速定位并获取指定位置的元素。</p>
 <p>为什么下标从0开始？</p>
 <p>因为这样需要计算偏移量需要从当前下标减1的操作，加减法运算对CPU是一种双数运算，在数组下标使用频率很高的场景下，该运算方式十分耗时。在Java的体系中，数组一旦分配内存后无法扩容。</p>
-<pre class="highlight"><code class="java">String[] args1 = {<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>};
-String[] args2 = <span class="hljs-keyword">new</span> String[<span class="hljs-number">2</span>];
-args2[<span class="hljs-number">0</span>] = <span class="hljs-string">"a"</span>;
-args2[<span class="hljs-number">1</span>] = <span class="hljs-string">"b"</span>;
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">String[] args1 = {<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>};<br>String[] args2 = <span class="hljs-keyword">new</span> String[<span class="hljs-number">2</span>];<br>args2[<span class="hljs-number">0</span>] = <span class="hljs-string">"a"</span>;<br>args2[<span class="hljs-number">1</span>] = <span class="hljs-string">"b"</span>;<br></code></pre></td></tr></tbody></table></figure>
 <p>以上代码一般是数组的两种初始化方式，第一种是静态初始化，第二种是动态初始化。数组的容量大小随着数组对象的创建就固定了。</p>
 <p>数组的遍历优先推荐JDK5引进的foreach方式，即<code>for(e : obj);</code>JDK8以上可以使用stream操作</p>
-<pre class="highlight"><code class="java">Arrays.stream(args1).forEach(str -> System.out.println(str));
-Arrays.stream(args1).forEach(System.out::println);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">Arrays.stream(args1).forEach(str -> System.out.println(str));<br>Arrays.stream(args1).forEach(System.out::println);<br></code></pre></td></tr></tbody></table></figure>
 <h2 id="数组转集合"><a class="markdownIt-Anchor" href="#数组转集合"></a> 数组转集合<a class="post-anchor" href="#数组转集合"></a></h2>
 <p>将数组转集合后，不能使用集合的某些方法，以<code>Arrays.asList()</code>为例，不能使用其修改集合<strong>add</strong>、<strong>remove</strong>、<strong>clear</strong>方法，但是可以使用<strong>set</strong>方法。</p>
-<pre class="highlight"><code class="java">String[] args1 = {<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>};
-List<String> asList = Arrays.asList(args1);
-asList.set(<span class="hljs-number">1</span>, <span class="hljs-string">"c"</span>);
-System.out.println(asList);
-asList.add(<span class="hljs-string">"c"</span>);
-asList.remove(<span class="hljs-number">0</span>);
-asList.clear();
-System.out.println(asList);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">String[] args1 = {<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>};<br>List<String> asList = Arrays.asList(args1);<br>asList.set(<span class="hljs-number">1</span>, <span class="hljs-string">"c"</span>);<br>System.out.println(asList);<br>asList.add(<span class="hljs-string">"c"</span>);<br>asList.remove(<span class="hljs-number">0</span>);<br>asList.clear();<br>System.out.println(asList);<br></code></pre></td></tr></tbody></table></figure>
 <p>后面会输出<code>UnsupportedOperationException</code>异常。</p>
 <p><code>Arrays.asList()</code>体现的是适配器模式，其实是Arrays的一个名为ArrayList的内部类（阉割版），继承自<code>AbstractList</code>类，实现了<strong>set</strong>和<strong>get</strong>方法。但是其他部分方法未实现所以会抛出该父类<code>AbstractList</code>的异常。</p>
-<pre class="highlight"><code class="java">String[] args1 = {<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>};
-List<String> e1 = Arrays.asList(args1);
-List<String> e2 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">2</span>);
-e2.add(<span class="hljs-string">"a"</span>);
-e2.add(<span class="hljs-string">"b"</span>);
-<span class="hljs-comment">// 第一处</span>
-System.out.println(e1.getClass().getName());
-<span class="hljs-comment">// 第二处</span>
-System.out.println(e2.getClass().getName());
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">String[] args1 = {<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>};<br>List<String> e1 = Arrays.asList(args1);<br>List<String> e2 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">2</span>);<br>e2.add(<span class="hljs-string">"a"</span>);<br>e2.add(<span class="hljs-string">"b"</span>);<br><span class="hljs-comment">// 第一处</span><br>System.out.println(e1.getClass().getName());<br><span class="hljs-comment">// 第二处</span><br>System.out.println(e2.getClass().getName());<br></code></pre></td></tr></tbody></table></figure>
 <p>实际控制台打印情况：</p>
 <ol>
 <li>
@@ -302,23 +279,10 @@ System.out.println(e2.getClass().getName());
 </li>
 </ol>
 <p>数组转集合在需要添加元素的情况下，利用<code>java.util.ArrayList</code>创建一个新集合。</p>
-<pre class="highlight"><code class="java">String[] args = {<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>};
-List<String> list = <span class="hljs-keyword">new</span> ArrayList<>(Arrays.asList(args));
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">String[] args = {<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>};<br>List<String> list = <span class="hljs-keyword">new</span> ArrayList<>(Arrays.asList(args));<br></code></pre></td></tr></tbody></table></figure>
 <h2 id="集合转数组"><a class="markdownIt-Anchor" href="#集合转数组"></a> 集合转数组<a class="post-anchor" href="#集合转数组"></a></h2>
 <p>集合转数组更加的可控。</p>
-<pre class="highlight"><code class="java">List<String> e1 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">2</span>);
-e1.add(<span class="hljs-string">"c"</span>);
-e1.add(<span class="hljs-string">"d"</span>);
-String[] args = <span class="hljs-keyword">new</span> String[<span class="hljs-number">1</span>];
-String[] args2 = <span class="hljs-keyword">new</span> String[<span class="hljs-number">2</span>];
-e1.toArray(args);
-<span class="hljs-comment">// 第一处</span>
-System.out.println(Arrays.asList(args));
-e1.toArray(args2);
-<span class="hljs-comment">// 第二处</span>
-System.out.println(Arrays.asList(args2));
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">List<String> e1 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">2</span>);<br>e1.add(<span class="hljs-string">"c"</span>);<br>e1.add(<span class="hljs-string">"d"</span>);<br>String[] args = <span class="hljs-keyword">new</span> String[<span class="hljs-number">1</span>];<br>String[] args2 = <span class="hljs-keyword">new</span> String[<span class="hljs-number">2</span>];<br>e1.toArray(args);<br><span class="hljs-comment">// 第一处</span><br>System.out.println(Arrays.asList(args));<br>e1.toArray(args2);<br><span class="hljs-comment">// 第二处</span><br>System.out.println(Arrays.asList(args2));<br></code></pre></td></tr></tbody></table></figure>
 <p>实际控制台打印情况：</p>
 <ol>
 <li>
@@ -331,30 +295,7 @@ System.out.println(Arrays.asList(args2));
 <p>不同的区别在于即将复制进去的数组容量是否足够，如果容量不等，则弃用该数组，另起炉灶。</p>
 <h1 id="集合与泛型"><a class="markdownIt-Anchor" href="#集合与泛型"></a> 集合与泛型<a class="post-anchor" href="#集合与泛型"></a></h1>
 <p>泛型与集合的联合使用，可以把泛型的功能发挥到极致。</p>
-<pre class="highlight"><code class="java">List list1 = <span class="hljs-keyword">new</span> ArrayList(<span class="hljs-number">3</span>);
-list1.add(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">666</span>));
-list1.add(<span class="hljs-keyword">new</span> Object());
-list1.add(<span class="hljs-string">"666"</span>);
-
-List<Object> list2 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">3</span>);
-list2.add(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">666</span>));
-list2.add(<span class="hljs-keyword">new</span> Object());
-list2.add(<span class="hljs-string">"666"</span>);
-
-List<Integer> list3 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">3</span>);
-list3.add(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">666</span>));
-<span class="hljs-comment">// 以下都是编译出错</span>
-list3.add(<span class="hljs-keyword">new</span> Object());
-list3.add(<span class="hljs-string">"666"</span>);
-
-List<?> list4 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">3</span>);
-list4.remove(<span class="hljs-number">0</span>);
-list4.clear();
-<span class="hljs-comment">// 以下都是编译出错</span>
-list4.add(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">666</span>));
-list4.add(<span class="hljs-keyword">new</span> Object());
-list4.add(<span class="hljs-string">"666"</span>);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">List list1 = <span class="hljs-keyword">new</span> ArrayList(<span class="hljs-number">3</span>);<br>list1.add(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">666</span>));<br>list1.add(<span class="hljs-keyword">new</span> Object());<br>list1.add(<span class="hljs-string">"666"</span>);<br><br>List<Object> list2 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">3</span>);<br>list2.add(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">666</span>));<br>list2.add(<span class="hljs-keyword">new</span> Object());<br>list2.add(<span class="hljs-string">"666"</span>);<br><br>List<Integer> list3 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">3</span>);<br>list3.add(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">666</span>));<br><span class="hljs-comment">// 以下都是编译出错</span><br>list3.add(<span class="hljs-keyword">new</span> Object());<br>list3.add(<span class="hljs-string">"666"</span>);<br><br>List<?> list4 = <span class="hljs-keyword">new</span> ArrayList<>(<span class="hljs-number">3</span>);<br>list4.remove(<span class="hljs-number">0</span>);<br>list4.clear();<br><span class="hljs-comment">// 以下都是编译出错</span><br>list4.add(<span class="hljs-keyword">new</span> Integer(<span class="hljs-number">666</span>));<br>list4.add(<span class="hljs-keyword">new</span> Object());<br>list4.add(<span class="hljs-string">"666"</span>);<br></code></pre></td></tr></tbody></table></figure>
 <p><code>List<?></code>是一个泛型，在没有赋值之前，表示它可以接收任何类型的集合赋值，赋值之后就不能随便往里面添加元素了，但可以remove和clear。</p>
 <p>而<code>List<T></code>最大的问题就是只能放置一种类型，如果要实现多种受泛型约束的类型，可以使用<code><? extends T></code>与<code><? super T></code>两种语法，但是两者的区别非常微妙。</p>
 <ul>
@@ -367,50 +308,13 @@ list4.add(<span class="hljs-string">"666"</span>);
 <h2 id="extends与super的差异"><a class="markdownIt-Anchor" href="#extends与super的差异"></a> extends与super的差异<a class="post-anchor" href="#extends与super的差异"></a></h2>
 <p>假设有一个斗鱼TV平台，拥有一个DOTA2板块，其下有一个恶心人的D能儿主播：谢彬DD。</p>
 <p>那我们从代码里可以这样写：</p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
-
-    List<DouYu> douYu = <span class="hljs-keyword">new</span> ArrayList<>();
-    List<DotA2> dotA2 = <span class="hljs-keyword">new</span> ArrayList<>();
-    List<DD> dd = <span class="hljs-keyword">new</span> ArrayList<>();
-    douYu.add(<span class="hljs-keyword">new</span> DouYu());
-    dotA2.add(<span class="hljs-keyword">new</span> DotA2());
-    dd.add(<span class="hljs-keyword">new</span> DD());
-    
-    <span class="hljs-comment">// 第一处，编译出错</span>
-    List<? extends DotA2> extendsDotA2FromDouYu = douYu;
-    List<? <span class="hljs-keyword">super</span> DotA2> superDotA2FromDouYu = douYu;
-
-    List<? extends DotA2> extendsDotA2FromDotA2 = dotA2;
-    List<? <span class="hljs-keyword">super</span> DotA2> superDotA2FromDotA2 = dotA2;
-
-    List<? extends DotA2> extendsDotA2FromDD = dd;
-    <span class="hljs-comment">// 第二处，编译出错</span>
-    List<? <span class="hljs-keyword">super</span> DotA2> superDotA2FromDD = dd;
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{<br><br>    List<DouYu> douYu = <span class="hljs-keyword">new</span> ArrayList<>();<br>    List<DotA2> dotA2 = <span class="hljs-keyword">new</span> ArrayList<>();<br>    List<DD> dd = <span class="hljs-keyword">new</span> ArrayList<>();<br>    douYu.add(<span class="hljs-keyword">new</span> DouYu());<br>    dotA2.add(<span class="hljs-keyword">new</span> DotA2());<br>    dd.add(<span class="hljs-keyword">new</span> DD());<br>    <br>    <span class="hljs-comment">// 第一处，编译出错</span><br>    List<? extends DotA2> extendsDotA2FromDouYu = douYu;<br>    List<? <span class="hljs-keyword">super</span> DotA2> superDotA2FromDouYu = douYu;<br><br>    List<? extends DotA2> extendsDotA2FromDotA2 = dotA2;<br>    List<? <span class="hljs-keyword">super</span> DotA2> superDotA2FromDotA2 = dotA2;<br><br>    List<? extends DotA2> extendsDotA2FromDD = dd;<br>    <span class="hljs-comment">// 第二处，编译出错</span><br>    List<? <span class="hljs-keyword">super</span> DotA2> superDotA2FromDD = dd;<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>三个类的继承关系说明<code>DD < DotA2 < DouYu < Object</code>。</p>
 <p>第一处编译出错，因为只能赋值给T以及T的子类，上界是DotA2类。DouYu类明显不符合<code>extends</code>DotA2类的情况。不能把<strong>douYu对象</strong>赋值给<code><? extends DotA2></code>，因为<code>List<DouYu></code>不只只有DotA2板块，还有吃♂鸡、颜♂值区、舞♂蹈区这些板块。</p>
 <p>第二处编译出错，因为只能赋值给T以及T的父类，DD类属于DotA2的子类，下界只能DotA2类的对象。</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">// 以下<? extends DotA2>类型的对象无法进行add操作，编译出错</span>
-extendsDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DD());
-extendsDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DotA2());
-extendsDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DouYu());
-
-superDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DD());
-superDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DotA2());
-<span class="hljs-comment">// 该处编译出错，无法添加</span>
-superDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DouYu());
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 以下<? extends DotA2>类型的对象无法进行add操作，编译出错</span><br>extendsDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DD());<br>extendsDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DotA2());<br>extendsDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DouYu());<br><br>superDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DD());<br>superDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DotA2());<br><span class="hljs-comment">// 该处编译出错，无法添加</span><br>superDotA2FromDotA2.add(<span class="hljs-keyword">new</span> DouYu());<br></code></pre></td></tr></tbody></table></figure>
 <p>除了<strong>null</strong>以外，任何元素都不能添加进<code><? extends T></code>集合内。<code><? super T></code>可以放，但是只能放进去<strong>自身以及子类</strong>。</p>
-<pre class="highlight"><code class="java">Object obj1 = extendsDotA2FromDotA2.get(<span class="hljs-number">0</span>);
-DotA2 obj2 = extendsDotA2FromDotA2.get(<span class="hljs-number">0</span>);
-
-Object obj3 = extendsDotA2FromDD.get(<span class="hljs-number">0</span>);
-<span class="hljs-comment">// 该处编译出错，无法添加</span>
-DD obj4 = extendsDotA2FromDD.get(<span class="hljs-number">0</span>);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">Object obj1 = extendsDotA2FromDotA2.get(<span class="hljs-number">0</span>);<br>DotA2 obj2 = extendsDotA2FromDotA2.get(<span class="hljs-number">0</span>);<br><br>Object obj3 = extendsDotA2FromDD.get(<span class="hljs-number">0</span>);<br><span class="hljs-comment">// 该处编译出错，无法添加</span><br>DD obj4 = extendsDotA2FromDD.get(<span class="hljs-number">0</span>);<br></code></pre></td></tr></tbody></table></figure>
 <p>首先<code><? super T></code>可以进行<strong>Get</strong>操作返回元素，但是类型会丢失。<code><? extends T></code>可以返回带类型的元素，仅限自身及父类，子类会被擦除。</p>
 <h2 id="小总结"><a class="markdownIt-Anchor" href="#小总结"></a> 小总结<a class="post-anchor" href="#小总结"></a></h2>
 <p>对于一个笼子，只取不放，属于Get First，应采用<code><? extends T></code>；只放不取，属于Put First，应采用<code><? super T></code>。</p>

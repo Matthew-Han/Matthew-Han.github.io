@@ -233,57 +233,11 @@
 <p>Swagger本身是一种规范，而SpringFox-Swagger是专注于Spring生态的实现，Spring-Swagger-UI则是对Swagger-UI的封装。</p>
 <p>代码整整合也非常的简单，首先是pom引入：</p>
 <h2 id="pom引入"><a class="markdownIt-Anchor" href="#pom引入"></a> pom引入<a class="post-anchor" href="#pom引入"></a></h2>
-<pre class="highlight"><code class="xml">        <span class="hljs-tag"><<span class="hljs-name">dependency</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.springfox<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>springfox-swagger2<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">version</span>></span>2.6.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span>
-        <span class="hljs-tag"></<span class="hljs-name">dependency</span>></span>
-        <span class="hljs-tag"><<span class="hljs-name">dependency</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.springfox<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>springfox-swagger-ui<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">version</span>></span>2.6.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span>
-        <span class="hljs-tag"></<span class="hljs-name">dependency</span>></span>
-        <span class="hljs-tag"><<span class="hljs-name">dependency</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.github.swagger2markup<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>swagger2markup<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">version</span>></span>1.3.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span>
-        <span class="hljs-tag"></<span class="hljs-name">dependency</span>></span>
-</code></pre>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag"><<span class="hljs-name">dependency</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.springfox<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>springfox-swagger2<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">version</span>></span>2.6.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span><br><span class="hljs-tag"></<span class="hljs-name">dependency</span>></span><br><span class="hljs-tag"><<span class="hljs-name">dependency</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.springfox<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>springfox-swagger-ui<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">version</span>></span>2.6.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span><br><span class="hljs-tag"></<span class="hljs-name">dependency</span>></span><br><span class="hljs-tag"><<span class="hljs-name">dependency</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.github.swagger2markup<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>swagger2markup<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span><br>    <span class="hljs-tag"><<span class="hljs-name">version</span>></span>1.3.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span><br><span class="hljs-tag"></<span class="hljs-name">dependency</span>></span><br></code></pre></td></tr></tbody></table></figure>
 <p>其中<code>swagger2markup</code>是用于Swagger导出PDF/HTML的依赖，离线文档之后再更新，目前还有点问题。</p>
 <p>在<code>application.properties</code>中加这么一句<code>spring.resources.static-locations=classpath:/static/</code>，不然swagger-ui.html这个页面会被拦截。</p>
 <h2 id="configuration注入"><a class="markdownIt-Anchor" href="#configuration注入"></a> Configuration注入<a class="post-anchor" href="#configuration注入"></a></h2>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> SwaggerConfiguration
- * <span class="hljs-doctag">@Description</span> TODO
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/16 16:15
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-meta">@Configuration</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfiguration</span> </span>{
-
-    <span class="hljs-meta">@Bean</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">createRestApi</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                <span class="hljs-comment">// 这是注意的代码</span>
-                .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">"com.zrtg.ldapsync.common.action"</span>))
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> ApiInfo <span class="hljs-title">apiInfo</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ApiInfoBuilder()
-                .title(<span class="hljs-string">"ldap-sync接口文档"</span>)
-                .description(<span class="hljs-string">"用于大院LDAP服务器同步无纸化办公组织架构"</span>)
-                .termsOfServiceUrl(<span class="hljs-string">"http://gitlab.zrtg.com/996team/ldap-sync"</span>)
-                .version(<span class="hljs-string">"1.0"</span>)
-                .build();
-    }
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> SwaggerConfiguration</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> TODO</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/16 16:15</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfiguration</span> </span>{<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">createRestApi</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2)<br>                .apiInfo(apiInfo())<br>                .select()<br>                <span class="hljs-comment">// 这是注意的代码</span><br>                .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">"com.zrtg.ldapsync.common.action"</span>))<br>                .paths(PathSelectors.any())<br>                .build();<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> ApiInfo <span class="hljs-title">apiInfo</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ApiInfoBuilder()<br>                .title(<span class="hljs-string">"ldap-sync接口文档"</span>)<br>                .description(<span class="hljs-string">"用于大院LDAP服务器同步无纸化办公组织架构"</span>)<br>                .termsOfServiceUrl(<span class="hljs-string">"http://gitlab.zrtg.com/996team/ldap-sync"</span>)<br>                .version(<span class="hljs-string">"1.0"</span>)<br>                .build();<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>其中<code>basePackage</code>中的一般配置<code>controller</code>的路径，<code>paths</code>属性进行过滤，<code>apis</code>属性可以设置扫描包，或者通过注解的方式标识；通过<code>enable</code>属性，可以在<code>application-{profile}.properties</code>文件中设置相应值，主要用于控制生产环境不生成接口文档。另外还有<code>groupName()</code>进行分组，比如高级客户、~~低端人口（雾）~~之类的分组。</li>
 <li><code>apiInfo</code>中包装了文档的<code>title</code>、<code>description</code>、<code>version</code>这些信息。</li>
@@ -291,27 +245,7 @@
 <p><strong>然后在Springboot的入口类中加上<code>@EnableSwagger2</code>表示开启Swagger2。</strong></p>
 <p>完成这些步骤后，发现其实访问<code>https://localhost/swagger-ui.html</code>并没有swagger页面，原因是在所映射的地址在SpringBoot静态资源文件夹下找不到。所以需要定义一个拦截器来放行。</p>
 <h2 id="实现webmvcconfigurer"><a class="markdownIt-Anchor" href="#实现webmvcconfigurer"></a> 实现WebMvcConfigurer<a class="post-anchor" href="#实现webmvcconfigurer"></a></h2>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> WebMvcConfiguration
- * <span class="hljs-doctag">@Description</span> 用于Swagger UI显示
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/7/16 16:37
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-meta">@Configuration</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebMvcConfiguration</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">WebMvcConfigurer</span> </span>{
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addResourceHandlers</span><span class="hljs-params">(ResourceHandlerRegistry registry)</span> </span>{
-
-        registry.addResourceHandler(<span class="hljs-string">"swagger-ui.html"</span>)
-                .addResourceLocations(<span class="hljs-string">"classpath:/META-INF/resources/"</span>);
-    
-        registry.addResourceHandler(<span class="hljs-string">"/templates/**"</span>)
-                .addResourceLocations(<span class="hljs-string">"classpath:/META-INF/resources/templates/"</span>);
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> WebMvcConfiguration</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 用于Swagger UI显示</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/16 16:37</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebMvcConfiguration</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">WebMvcConfigurer</span> </span>{<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addResourceHandlers</span><span class="hljs-params">(ResourceHandlerRegistry registry)</span> </span>{<br><br>        registry.addResourceHandler(<span class="hljs-string">"swagger-ui.html"</span>)<br>                .addResourceLocations(<span class="hljs-string">"classpath:/META-INF/resources/"</span>);<br>    <br>        registry.addResourceHandler(<span class="hljs-string">"/templates/**"</span>)<br>                .addResourceLocations(<span class="hljs-string">"classpath:/META-INF/resources/templates/"</span>);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>我们只需要重写<code>addResourceHandlers</code>方法即可，通过<code>addResourceHandler</code>添加映射路径，然后再通过<code>addResourceLocations</code>来指定路径。<code>addResourceLocations</code>指的是文件放置的目录，<code>addResoureHandler</code>指的是对外暴露的访问路径。</p>
 <h2 id="在controller中集成注解"><a class="markdownIt-Anchor" href="#在controller中集成注解"></a> 在controller中集成注解<a class="post-anchor" href="#在controller中集成注解"></a></h2>
 <table>
@@ -374,33 +308,10 @@
 <h1 id="小问题记录"><a class="markdownIt-Anchor" href="#小问题记录"></a> 小问题记录<a class="post-anchor" href="#小问题记录"></a></h1>
 <h2 id="注解问题"><a class="markdownIt-Anchor" href="#注解问题"></a> 注解问题<a class="post-anchor" href="#注解问题"></a></h2>
 <p>直接在通过<code>@PathVariable</code>注解的参数在Swagger中用了<code>@ApiImplicitParam</code>，发现在页面中请求是有问题的，这个注解应该对应的是<code>func(@Param("arg") String arg)</code>方法，实际上正确的用法是<code>@ApiParam</code>。类似下图代码：</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
-* 测试
-* 用于添加一个ou，例如：department，employee
-* <span class="hljs-doctag">@param</span> ou
-* <span class="hljs-doctag">@return</span>
-*/</span>
-    <span class="hljs-meta">@ApiOperation</span>(value = <span class="hljs-string">"添加一个OU"</span>)
-    <span class="hljs-meta">@ApiParam</span>(name = <span class="hljs-string">"ou"</span>, value = <span class="hljs-string">"组织单元"</span>, required = <span class="hljs-keyword">true</span>)
-    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/add-ldap-ou/{ou}"</span>)
-    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResult<String> <span class="hljs-title">addLdapOu</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"ou"</span>)</span>String ou)</span>{
-    ...
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">* 测试</span><br><span class="hljs-comment">* 用于添加一个ou，例如：department，employee</span><br><span class="hljs-comment">* <span class="hljs-doctag">@param</span> ou</span><br><span class="hljs-comment">* <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">*/</span><br>    <span class="hljs-meta">@ApiOperation</span>(value = <span class="hljs-string">"添加一个OU"</span>)<br>    <span class="hljs-meta">@ApiParam</span>(name = <span class="hljs-string">"ou"</span>, value = <span class="hljs-string">"组织单元"</span>, required = <span class="hljs-keyword">true</span>)<br>    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/add-ldap-ou/{ou}"</span>)<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResult<String> <span class="hljs-title">addLdapOu</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"ou"</span>)</span>String ou)</span>{<br>    ...<br>}<br></code></pre></td></tr></tbody></table></figure>
 <h2 id="与shiro集成的问题"><a class="markdownIt-Anchor" href="#与shiro集成的问题"></a> 与Shiro集成的问题<a class="post-anchor" href="#与shiro集成的问题"></a></h2>
 <p>通过无拦截测试总结了如下的资源路径是swagger在渲染页面时的必需。如果工程中包含了Shiro安全框架，需要对swagger进行放行。</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">// 设置拦截器</span>
-Map<String, String> filterChainDefinitionMap = <span class="hljs-keyword">new</span> LinkedHashMap<>();
-<span class="hljs-comment">// swagger放行</span>
-filterChainDefinitionMap.put(<span class="hljs-string">"/swagger-ui.html"</span>, <span class="hljs-string">"anon"</span>);
-filterChainDefinitionMap.put(<span class="hljs-string">"/swagger-resources/**"</span>, <span class="hljs-string">"anon"</span>);
-filterChainDefinitionMap.put(<span class="hljs-string">"/v2/**"</span>, <span class="hljs-string">"anon"</span>);
-filterChainDefinitionMap.put(<span class="hljs-string">"/webjars/**"</span>, <span class="hljs-string">"anon"</span>);
-filterChainDefinitionMap.put(<span class="hljs-string">"/configuration/**"</span>, <span class="hljs-string">"anon"</span>);
-
-ShiroFilterFactoryBean shiroFilterFactoryBean = <span class="hljs-keyword">new</span> ShiroFilterFactoryBean();
-shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 设置拦截器</span><br>Map<String, String> filterChainDefinitionMap = <span class="hljs-keyword">new</span> LinkedHashMap<>();<br><span class="hljs-comment">// swagger放行</span><br>filterChainDefinitionMap.put(<span class="hljs-string">"/swagger-ui.html"</span>, <span class="hljs-string">"anon"</span>);<br>filterChainDefinitionMap.put(<span class="hljs-string">"/swagger-resources/**"</span>, <span class="hljs-string">"anon"</span>);<br>filterChainDefinitionMap.put(<span class="hljs-string">"/v2/**"</span>, <span class="hljs-string">"anon"</span>);<br>filterChainDefinitionMap.put(<span class="hljs-string">"/webjars/**"</span>, <span class="hljs-string">"anon"</span>);<br>filterChainDefinitionMap.put(<span class="hljs-string">"/configuration/**"</span>, <span class="hljs-string">"anon"</span>);<br><br>ShiroFilterFactoryBean shiroFilterFactoryBean = <span class="hljs-keyword">new</span> ShiroFilterFactoryBean();<br>shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);<br></code></pre></td></tr></tbody></table></figure>
 <p>在你的Shiro配置类中添加如上路径即可。</p>
 <h1 id="离线文档后续更新"><a class="markdownIt-Anchor" href="#离线文档后续更新"></a> 离线文档（后续更新）<a class="post-anchor" href="#离线文档后续更新"></a></h1>
 </body></html>

@@ -29,7 +29,7 @@
     
     <div id="post-toc" class="animated hiddenToc hide">
       <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构"><span class="toc-text"> 数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合框架"><span class="toc-text"> 集合框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#list集合"><span class="toc-text"> List集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#queue集合"><span class="toc-text"> Queue集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map集合"><span class="toc-text"> Map集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#set集合"><span class="toc-text"> Set集合</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合初始化"><span class="toc-text"> 集合初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#arraylist部分源码解析"><span class="toc-text"> ArrayList部分源码解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hashmap部分源码解析"><span class="toc-text"> HashMap部分源码解析</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构"><span class="toc-text"> 数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合框架"><span class="toc-text"> 集合框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#list集合"><span class="toc-text"> List集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#queue集合"><span class="toc-text"> Queue集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map集合"><span class="toc-text"> Map集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#set集合"><span class="toc-text"> Set集合</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合初始化"><span class="toc-text"> 集合初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#arraylist部分源码解析"><span class="toc-text"> ArrayList部分源码解析</span></a></li></ol></li></ol>
     </div>
     
     <div id="fixed-menu-wrap">
@@ -299,33 +299,7 @@
 <blockquote>
 <p>本书分析的底层源码基本来源于较新的JDK11，而在我本地的源码是JDK8，下面分析的是本地的JDK8源码。</p>
 </blockquote>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * Increases the capacity to ensure that it can hold at least the
- * number of elements specified by the minimum capacity argument.
- *
- * <span class="hljs-doctag">@param</span> minCapacity the desired minimum capacity
- */</span>
-<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">grow</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>{
-    <span class="hljs-comment">// overflow-conscious code</span>
-    <span class="hljs-keyword">int</span> oldCapacity = elementData.length;
-    <span class="hljs-keyword">int</span> newCapacity = oldCapacity + (oldCapacity >> <span class="hljs-number">1</span>);
-  	<span class="hljs-comment">// ①</span>
-    <span class="hljs-keyword">if</span> (newCapacity - minCapacity < <span class="hljs-number">0</span>)
-        newCapacity = minCapacity;
-  	<span class="hljs-comment">// ②</span>
-    <span class="hljs-keyword">if</span> (newCapacity - MAX_ARRAY_SIZE > <span class="hljs-number">0</span>)
-        newCapacity = hugeCapacity(minCapacity);
-    <span class="hljs-comment">// minCapacity is usually close to size, so this is a win:</span>
-    elementData = Arrays.copyOf(elementData, newCapacity);
-}
-<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hugeCapacity</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>{
-  <span class="hljs-keyword">if</span> (minCapacity < <span class="hljs-number">0</span>) <span class="hljs-comment">// overflow</span>
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> OutOfMemoryError();
-  <span class="hljs-keyword">return</span> (minCapacity > MAX_ARRAY_SIZE) ?
-    Integer.MAX_VALUE :
-  	MAX_ARRAY_SIZE;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Increases the capacity to ensure that it can hold at least the</span><br><span class="hljs-comment"> * number of elements specified by the minimum capacity argument.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> minCapacity the desired minimum capacity</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">grow</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>{<br>    <span class="hljs-comment">// overflow-conscious code</span><br>    <span class="hljs-keyword">int</span> oldCapacity = elementData.length;<br>    <span class="hljs-keyword">int</span> newCapacity = oldCapacity + (oldCapacity >> <span class="hljs-number">1</span>);<br>  	<span class="hljs-comment">// ①</span><br>    <span class="hljs-keyword">if</span> (newCapacity - minCapacity < <span class="hljs-number">0</span>)<br>        newCapacity = minCapacity;<br>  	<span class="hljs-comment">// ②</span><br>    <span class="hljs-keyword">if</span> (newCapacity - MAX_ARRAY_SIZE > <span class="hljs-number">0</span>)<br>        newCapacity = hugeCapacity(minCapacity);<br>    <span class="hljs-comment">// minCapacity is usually close to size, so this is a win:</span><br>    elementData = Arrays.copyOf(elementData, newCapacity);<br>}<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hugeCapacity</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>{<br>  <span class="hljs-keyword">if</span> (minCapacity < <span class="hljs-number">0</span>) <span class="hljs-comment">// overflow</span><br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> OutOfMemoryError();<br>  <span class="hljs-keyword">return</span> (minCapacity > MAX_ARRAY_SIZE) ?<br>    Integer.MAX_VALUE :<br>  	MAX_ARRAY_SIZE;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>上述代码是JDK8中的源码，扩容在<code>grow()</code>方法里完成。而在JDK11中，扩容的具体实现则是由<code>newCapacity()</code>方法实现。</p>
 <p>首先我们明确几个概念：</p>
 <ol>
@@ -353,16 +327,8 @@ Field elementData = listClazz.getDeclaredField(<span class="hljs-string">"elemen
 elementData.setAccessible(<span class="hljs-keyword">true</span>);
 Object[] objects1 = (Object[])elementData.get(list);
 System.out.println(<span class="hljs-string">"不显式的初始化，容量大小为："</span> + objects1.length);
-</code></pre>
-</li>
-<li>
-<p>上述代码输出<code>不显式的初始化，容量大小为：0</code></p>
-</li>
-<li>
-<pre class="highlight"><code class="java"><span class="hljs-comment">// add一个元素</span>
-list.add(<span class="hljs-string">"回家做80个俯卧撑！"</span>);
-Object[] objects2 = (Object[])elementData.get(list);
-System.out.println(<span class="hljs-string">"添加一个元素，现在容量大小为："</span> + objects2.length);
+<!--￼<span class="hljs-number">1</span>-->
+
 </code></pre>
 </li>
 <li>
@@ -375,65 +341,24 @@ Field elementData2 = newListClazz.getDeclaredField(<span class="hljs-string">"el
 elementData2.setAccessible(<span class="hljs-keyword">true</span>);
 Object[] objects3 = (Object[])elementData.get(list2);
 System.out.println(<span class="hljs-string">"显式初始化容量大小为666，容量大小为："</span> + objects3.length);
+<!--￼<span class="hljs-number">2</span>-->
+
 </code></pre>
 </li>
-<li>
-<p>显式初始化容量大小为666，运行输出<code>显式初始化容量大小为666，容量大小为：666</code></p>
-</li>
 </ul>
 </li>
 <li>
-<p><strong>如何扩容？</strong></p>
-<ul>
-<li>JDK8之前的扩容算法与JDK8有所不同，源码中上述方法里，<code>int newCapacity = oldCapacity + (oldCapacity >> 1);</code>扩容后的容量大小算法是通过右移一位再加上老容量大小得到。
-<ul>
-<li>位移运算：JDK8中采用了（有符号）位运算符计算，位移的过程中采用补码的形式。假设原始容量为13，二进制数是1101，其中反码也是1101，<strong>整数的反码、补码都是本身</strong>。反码右移一位这是110，得到十进制为6，所以新的容量大小为6 + 13 = 19。JDK7之前的公式则是<code>oldCapacity * 1.5 + 1</code>；</li>
-</ul>
+<p><code>DEFAULT_INITIAL_CAPACITY</code>：默认初始容量<code>1 << 4</code>，aka 16，必须是2<sup>n</sup>幂，注解里很直白的写着，所以你即使在初始化的过程这样写<code>new HashMap<>(3);</code>，实际上也会被改成2<sup>2</sup>，比3大且最近的一个2的幂次方；</p>
 </li>
-<li>①：如果新的容量大小比最小要求要小的话，则按照最小要求设定（size + 1）；</li>
-<li>②：如果新的容量大小比<code>MAX_ARRAY_SIZE</code>还大的话，其中该变量的大小为<code>Integer.MAX_VALUE - 8</code>也就是2<sup>31</sup>-1再减8。在走<code>hugeCapacity(int minCapacity)</code>方法判断最后设定一个容量大小或者OOM了。</li>
-</ul>
+<li>
+<p><code>MAXIMUM_CAPACITY</code>：最大容量大小，默认<code>1 << 30</code>，相当于2<sup>30</sup>；</p>
 </li>
-</ul>
-<p>之所以本手册中明确强调需要显式的初始化容量大小，是因为假设有1000个元素需要放置在ArrayList中，则需要被动扩容13次才可以完成，在这过程中数组不断地复制原有的数据再到新的数组中，若能够提前给定一个合适的容量大小，就是性能的提升，也避免了一些OOM的风险。OS：这过程更像是调优，实际开发中很难对每个ArrayList清晰的定义和认识吧，属于经验学的范畴。</p>
-<blockquote>
-<p>嗯？！感觉关于ArrayList的可以单独出一篇啊。</p>
-</blockquote>
-<h2 id="hashmap部分源码解析"><a class="markdownIt-Anchor" href="#hashmap部分源码解析"></a> HashMap部分源码解析<a class="post-anchor" href="#hashmap部分源码解析"></a></h2>
-<blockquote>
-<p>本书分析的底层源码基本来源于较新的JDK11，而在我本地的源码是JDK8，下面分析的是本地的JDK8源码。</p>
-</blockquote>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * The default initial capacity - MUST be a power of two.
- */</span>
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="hljs-number">1</span> << <span class="hljs-number">4</span>; <span class="hljs-comment">// aka 16</span>
-
-<span class="hljs-comment">/**
- * The maximum capacity, used if a higher value is implicitly specified
- * by either of the constructors with arguments.
- * MUST be a power of two <= 1<<30.
- */</span>
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> MAXIMUM_CAPACITY = <span class="hljs-number">1</span> << <span class="hljs-number">30</span>;
-
-<span class="hljs-comment">/**
- * The load factor used when none specified in constructor.
- */</span>
-<span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="hljs-number">0.75f</span>;
-
-<span class="hljs-comment">/* ---------------- Fields -------------- */</span>
-<span class="hljs-comment">/**
-  * The table, initialized on first use, and resized as
-  * necessary. When allocated, length is always a power of two.
-  * (We also tolerate length zero in some operations to allow
-  * bootstrapping mechanics that are currently not needed.)
-  */</span>
-<span class="hljs-keyword">transient</span> Node<K,V>[] table;
-</code></pre>
-<ul>
-<li><code>DEFAULT_INITIAL_CAPACITY</code>：默认初始容量<code>1 << 4</code>，aka 16，必须是2<sup>n</sup>幂，注解里很直白的写着，所以你即使在初始化的过程这样写<code>new HashMap<>(3);</code>，实际上也会被改成2<sup>2</sup>，比3大且最近的一个2的幂次方；</li>
-<li><code>MAXIMUM_CAPACITY</code>：最大容量大小，默认<code>1 << 30</code>，相当于2<sup>30</sup>；</li>
-<li><code>DEFAULT_LOAD_FACTOR</code>：负载因子，也叫填充比例，默认0.75，可在初始化过程中自定一个float类型的数值。</li>
-<li><code>table</code>：</li>
+<li>
+<p><code>DEFAULT_LOAD_FACTOR</code>：负载因子，也叫填充比例，默认0.75，可在初始化过程中自定一个float类型的数值。</p>
+</li>
+<li>
+<p><code>table</code>：</p>
+</li>
 </ul>
 <p>HashMap和ArrayList一样，容量不是在new的时候分配，而是在第一次<code>put</code>的时候。</p>
 <p><code>put</code>、<code>putVal()</code>、<code>reszie()</code>方法有些晦涩复杂就不贴上来了。很多细节，👴属实有点看不明白。这里有个概念<code>threshold</code>作为临界值就是<code>loadfactory</code>（负载因子）和<code>capacity</code>（容量）的乘积。也就是说默认情况下，当HashMap中元素个数达到了容量的3/4的时候就会进行自动扩容。</p>
@@ -456,14 +381,8 @@ Class<?> mapClazz = map.getClass();
 Method capacity = mapClazz.getDeclaredMethod(<span class="hljs-string">"capacity"</span>);
 capacity.setAccessible(<span class="hljs-keyword">true</span>);
 System.out.println(<span class="hljs-string">"容量大小为："</span> + capacity.invoke(map));
-</code></pre>
-</li>
-<li>
-<p>输出<code>容量大小为：1</code>，因为是2<sup>0</sup></p>
-</li>
-<li>
-<pre class="highlight"><code class="java">map.put(<span class="hljs-string">"MatthewHan"</span>, <span class="hljs-string">"developer"</span>);
-System.out.println(<span class="hljs-string">"添加一个元素后，容量大小为："</span> + capacity.invoke(map));
+<!--￼<span class="hljs-number">3</span>-->
+
 </code></pre>
 </li>
 <li>

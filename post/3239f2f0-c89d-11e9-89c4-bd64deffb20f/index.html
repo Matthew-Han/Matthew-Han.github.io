@@ -251,10 +251,7 @@
 举个与我们息息相关的例子，git代码提交托管时，提交代码的操作是同步调用，需要实时返回给用户结果，但是当前库代码相关活动就不是时间敏感的，在提交代码时，发送一个消息到后台的缓存队列中，后台服务器定时消费这些消息即可。</p>
 <h1 id="覆写"><a class="markdownIt-Anchor" href="#覆写"></a> 覆写<a class="post-anchor" href="#覆写"></a></h1>
 <p>覆写是多态的一中表现，大部分人可能把它称为重写，我也遵循了本书的命名，重写可能暗示了推倒重来的过程，而覆写则更多的表达出重写一部分而覆盖。出现覆写的情况非常的多，POJO类<code>toString()</code>方法的覆写，工厂模式的抽象工厂类调用具体工厂子类的方法。通常这也被称作向上转型：</p>
-<pre class="highlight"><code class="Java">Father father = <span class="hljs-keyword">new</span> Son();
-<span class="hljs-comment">// son 覆写了此方法</span>
-father.doSomething();
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java">Father father = <span class="hljs-keyword">new</span> Son();<br><span class="hljs-comment">// son 覆写了此方法</span><br>father.doSomething();<br></code></pre></td></tr></tbody></table></figure>
 <p>向上转型时，通过父类应用执行子类方法时需要注意以下两点：</p>
 <ul>
 <li>无法调用到子类中存在而父类本身不存在的方法。</li>
@@ -264,28 +261,7 @@ father.doSomething();
 <ul>
 <li>访问权限不能变小。具体表现为父类中public的方法，在子类继承覆写该方法时变成了private，则破坏了封装，编译也不会通过，所以不允许将访问权限缩小：</li>
 </ul>
-<pre class="highlight"><code class="Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Father</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">()</span> </span>{
-        System.out.println(<span class="hljs-string">"我要逃离这里。"</span>);
-    }
-  	<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">virus</span><span class="hljs-params">()</span> </span>{
-        System.out.println(<span class="hljs-string">"2020，更加爱宁！"</span>)
-    }
-}
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Father</span> </span>{
-    <span class="hljs-comment">// 编译报错</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">()</span> </span>{
-        System.out.println(<span class="hljs-string">"用笔尖微颤歪歪扭扭的线条"</span>);
-    }
-  
-  	<span class="hljs-comment">// 编译通过</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">virus</span><span class="hljs-params">()</span> </span>{
-        System.out.println(<span class="hljs-string">"2020，病毒横行！"</span>);
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Father</span> </span>{<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">()</span> </span>{<br>        System.out.println(<span class="hljs-string">"我要逃离这里。"</span>);<br>    }<br>  	<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">virus</span><span class="hljs-params">()</span> </span>{<br>        System.out.println(<span class="hljs-string">"2020，更加爱宁！"</span>)<br>    }<br>}<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Father</span> </span>{<br>    <span class="hljs-comment">// 编译报错</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">say</span><span class="hljs-params">()</span> </span>{<br>        System.out.println(<span class="hljs-string">"用笔尖微颤歪歪扭扭的线条"</span>);<br>    }<br>    <span class="hljs-comment">// 编译通过</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">virus</span><span class="hljs-params">()</span> </span>{<br>        System.out.println(<span class="hljs-string">"2020，病毒横行！"</span>);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>返回类型能够向上转型称为父类的返回类型。</li>
 <li>异常也要能向上转型成为父类的异常。unchecked异常（空指针异常这些）不需要显式的向上抛出，但是checked异常只能抛出异常或者此异常的子类。</li>
@@ -302,51 +278,9 @@ father.doSomething();
 <p>在同一个类中，如果多个方法有相同的方法名、不同的参数，即称为重载，比如一个POJO类中多个构造方法。以及String类中的<code>valueOf</code>，它有9个方法，可以将输入的基本数据类型、数组、Object等转化成为字符串。<br>
 我们再回顾下方法签名的概念：方法名称+参数类型+参数个数，组成一个<font color="red"><strong>唯一键</strong></font>，成为方法签名，这个唯一键是⑧能重复的。JVM就是通过这个唯一键决定调用那种重载的方法。<br>
 以下代码就是错误的重载方式，他们都有共同的特征，就是方法签名重复冲突了。</p>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
-    
-    <span class="hljs-comment">// 编译出错，返回值并不是方法签名的一部分。</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
-    
-    <span class="hljs-comment">// 编译出错，访问权限控制符也不是方法签名的一部分。</span>
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
-    
-    <span class="hljs-comment">// 编译出错，静态标识符而不是方法签名的一部分。</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
-    
-    <span class="hljs-comment">// 编译出错，final标识符一样也⑧是方法签名的一部分。</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}<br>    <br>    <span class="hljs-comment">// 编译出错，返回值并不是方法签名的一部分。</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}<br>    <br>    <span class="hljs-comment">// 编译出错，访问权限控制符也不是方法签名的一部分。</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}<br>    <br>    <span class="hljs-comment">// 编译出错，静态标识符而不是方法签名的一部分。</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}<br>    <br>    <span class="hljs-comment">// 编译出错，final标识符一样也⑧是方法签名的一部分。</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">()</span> </span>{}<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>那么下面这几种情况，编译器是如何判断正确调用的呢，比如下面几种重载方法，第一处和第二处的结果是什么呢：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arg)</span> </span>{
-        System.out.println(<span class="hljs-string">"int"</span>);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer arg)</span> </span>{
-        System.out.println(<span class="hljs-string">"Integer"</span>);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer... args)</span> </span>{
-        System.out.println(<span class="hljs-string">"Integer..."</span>);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Object arg)</span> </span>{
-        System.out.println(<span class="hljs-string">"Object"</span>);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{
-        EasyCoding ec = <span class="hljs-keyword">new</span> EasyCoding();
-        <span class="hljs-comment">// 第一处</span>
-        ec.methodForOverload(<span class="hljs-number">996</span>);
-        <span class="hljs-comment">// 第二处</span>
-        ec.methodForOverload();
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arg)</span> </span>{<br>        System.out.println(<span class="hljs-string">"int"</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer arg)</span> </span>{<br>        System.out.println(<span class="hljs-string">"Integer"</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer... args)</span> </span>{<br>        System.out.println(<span class="hljs-string">"Integer..."</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Object arg)</span> </span>{<br>        System.out.println(<span class="hljs-string">"Object"</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>        EasyCoding ec = <span class="hljs-keyword">new</span> EasyCoding();<br>        <span class="hljs-comment">// 第一处</span><br>        ec.methodForOverload(<span class="hljs-number">996</span>);<br>        <span class="hljs-comment">// 第二处</span><br>        ec.methodForOverload();<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>第一处答案是「<font color="red">int</font>」，第二处的答案是「<font color="red">Integer…</font>」。那么为什么<code>ec.methodForOverload(996)</code>方法编译器会匹配到<code>methodForOverload(int arg)</code>呢，而<code>ec.methodForOverload()</code>无参方法缺席的情况下却匹配到了可变参数<code>methodForOverload(Integer... args)</code>?<br>
 可变参数的个数其实是从0个到多个，所以首先它也会和其他方法抢夺匹配<code>ec.methodForOverload(996)</code>，然而他的优先级是最低的，弟中弟嗷。但是在无参方法缺席的情况，只有他符合这一条件，所以<code>ec.methodForOverload()</code>无参方法自然匹配上。而<code>int</code>和<code>Integer</code>还有<code>Object</code>的较量中胜出的原因是不需要自动装箱，假如把<code>int</code>类型改成<code>long</code>类型，编译器一定也是Match<code>long</code>类型，而优于装箱的<code>Interger</code>。<br>
 但是如果是<code>methodForOverload(null)</code>这种情况则会调用参数为<code>Integer</code>的方法，Null可以匹配任何类对象，从最底层一次向上查找，会找到<code>Integer</code>和<code>Integer...</code>这两个参数方法，但是会报错，因为他们同时Match上了。<br>
@@ -359,49 +293,12 @@ JVM在重载方法的顺序如下：</p>
 <li>通过可变参数匹配。</li>
 </ol>
 <p>我们程序猿心情不好的时候也会把气撒在编译器上，有时候，我们会不断挑战编译器的下限，比如这样：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arg, Integer arg2)</span> </span>{
-        System.out.println(<span class="hljs-string">"int arg, Integer arg2"</span>);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer arg, <span class="hljs-keyword">int</span> arg2)</span> </span>{
-        System.out.println(<span class="hljs-string">"Integer arg, int arg2"</span>);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span>... args)</span> </span>{
-        System.out.println(<span class="hljs-string">"int..."</span>);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer... args)</span> </span>{
-        System.out.println(<span class="hljs-string">"Integer..."</span>);
-    }
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{
-        EasyCoding ec = <span class="hljs-keyword">new</span> EasyCoding();
-        <span class="hljs-comment">// 第一处</span>
-        ec.methodForOverload(<span class="hljs-number">965</span>,<span class="hljs-number">996</span>);
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arg, Integer arg2)</span> </span>{<br>        System.out.println(<span class="hljs-string">"int arg, Integer arg2"</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer arg, <span class="hljs-keyword">int</span> arg2)</span> </span>{<br>        System.out.println(<span class="hljs-string">"Integer arg, int arg2"</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(<span class="hljs-keyword">int</span>... args)</span> </span>{<br>        System.out.println(<span class="hljs-string">"int..."</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodForOverload</span><span class="hljs-params">(Integer... args)</span> </span>{<br>        System.out.println(<span class="hljs-string">"Integer..."</span>);<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>        EasyCoding ec = <span class="hljs-keyword">new</span> EasyCoding();<br>        <span class="hljs-comment">// 第一处</span><br>        ec.methodForOverload(<span class="hljs-number">965</span>,<span class="hljs-number">996</span>);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>此种方式就是完全在挑战编译器的底线了，虽然编译会通过，但是调用的时候一定会报错。</p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Overload.png" target="_blank" rel="noopener" data-caption="编译器此刻的内心是绝望的" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Overload.png" alt="编译器此刻的内心是绝望的"></a></p>
 <h1 id="泛型"><a class="markdownIt-Anchor" href="#泛型"></a> 泛型<a class="post-anchor" href="#泛型"></a></h1>
 <p>泛型也许是很多人相对陌生的领域，但是它⑧是多么神秘，本质是类型参数化，解决不确定具体对象类型的问题。Java在引入泛型之前，表示可变类型往往存在类型安全的风险，举个例子，微波炉最主要的功能是加热食物，而食物也有几十几百种可能，所以一般会像下面这样写业务设计：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title">heat</span><span class="hljs-params">(Object food)</span> </span>{
-        System.out.println(food + <span class="hljs-string">"isOK"</span>);
-        <span class="hljs-keyword">return</span> food;
-    }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        Meat m = <span class="hljs-keyword">new</span> Meat();
-        m = (Meat) EasyCoding.heat(m);
-        Soup s = <span class="hljs-keyword">new</span> Soup();
-        s = (Soup) EasyCoding.heat(s);
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title">heat</span><span class="hljs-params">(Object food)</span> </span>{<br>        System.out.println(food + <span class="hljs-string">"isOK"</span>);<br>        <span class="hljs-keyword">return</span> food;<br>    }<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br>        Meat m = <span class="hljs-keyword">new</span> Meat();<br>        m = (Meat) EasyCoding.heat(m);<br>        Soup s = <span class="hljs-keyword">new</span> Soup();<br>        s = (Soup) EasyCoding.heat(s);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>这里的<code>heat</code>方法就是为了避免给每个类型的食物定义一个加热方法，但是只能采用“向上转型”的方式才能具备加热任意类型食物的能力。但是会让客户端困惑，因为对加热的内容不能正确区分，在取出时进行强制类型转换就会存在类型转换风险。而泛型就是为了解决这个而生。</p>
 <h2 id="泛型使用"><a class="markdownIt-Anchor" href="#泛型使用"></a> 泛型使用<a class="post-anchor" href="#泛型使用"></a></h2>
 <p>泛型可以定义在类、接口、方法中，编译器通过识别尖括号和尖括号内的字母来解析泛型。现在一般约定俗成的符号有：</p>
@@ -412,26 +309,7 @@ JVM在重载方法的顺序如下：</p>
 <li>V：代表Value，K和V用于键值对元素。</li>
 </ul>
 <p>下面这段代码可以很好地说明泛型定义的概念：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span><<span class="hljs-title">T</span>> </span>{
-
-    <span class="hljs-keyword">static</span> <String, T, Object> <span class="hljs-function">String <span class="hljs-title">get</span><span class="hljs-params">(String arg1, Object arg2)</span> </span>{
-        System.out.println(arg1.getClass());
-        System.out.println(arg2.getClass());
-        <span class="hljs-keyword">return</span> arg1;
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        Integer arg1 = <span class="hljs-number">996</span>;
-        Long arg2 = <span class="hljs-number">965L</span>;
-        Integer result1 = get(arg1,arg2);
-
-        <span class="hljs-keyword">byte</span>[] b1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">666</span>];
-        <span class="hljs-keyword">byte</span>[] b2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">666</span>];
-        <span class="hljs-keyword">byte</span>[] result2 = get(b1,b2);
-        
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span><<span class="hljs-title">T</span>> </span>{<br><br>    <span class="hljs-keyword">static</span> <String, T, Object> <span class="hljs-function">String <span class="hljs-title">get</span><span class="hljs-params">(String arg1, Object arg2)</span> </span>{<br>        System.out.println(arg1.getClass());<br>        System.out.println(arg2.getClass());<br>        <span class="hljs-keyword">return</span> arg1;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br>        Integer arg1 = <span class="hljs-number">996</span>;<br>        Long arg2 = <span class="hljs-number">965L</span>;<br>        Integer result1 = get(arg1,arg2);<br><br>        <span class="hljs-keyword">byte</span>[] b1 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">666</span>];<br>        <span class="hljs-keyword">byte</span>[] b2 = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">666</span>];<br>        <span class="hljs-keyword">byte</span>[] result2 = get(b1,b2);<br>        <br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>首先这段代码是完全可以通过编译的，可能没用过泛型的小伙伴会疑问为什么<code>get()</code>方法可以传入<code>Integer</code>和<code>Long</code>甚至是<code>byte[]</code>类型？而且返回的结果不应该是<code>String</code>类型吗？其实关键就在于<code><String, T, Object></code>这个泛型标识，<code>String</code>是我们常见的所熟知的包装类了，<code>Object</code>是所有类的父类，但是在泛型标识里，它就不是<code>String</code>和<code>Object</code>了，而是可以成为任意类型，属于完全未知的类型，入参的第一个参数如果是<code>Integer</code>类型，那么在方法体内的所有<code>arg1</code>就不是我们认知里的<code>java.lang.String</code>了，这个<code>String</code>就是相当于之前说明的<code>T</code>，<code>Object</code>也是一种<code>T</code>，仅仅只是一个代号。<br>
 当然我们平时编码不会也不要这样去定义泛型，确实会容易引发歧义和造成其他问题。所以我应该注意以下几点：</p>
 <ol>
@@ -441,20 +319,7 @@ JVM在重载方法的顺序如下：</p>
 <li>对于编码之后的字节码指令，其实没有这些花头花脑的方法签名，充分说明了泛型只是一种编码时的语法检查。</li>
 </ol>
 <p>所以之前微波炉加热食物的例子可以用泛型这样改写：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
-
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <T> <span class="hljs-function">T <span class="hljs-title">heat</span><span class="hljs-params">(T food)</span> </span>{
-        System.out.println(food.getClass());
-        System.out.println(food + <span class="hljs-string">"isOK"</span>);
-        <span class="hljs-keyword">return</span> food;
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        heat(<span class="hljs-keyword">new</span> Meat());
-        heat(<span class="hljs-keyword">new</span> Soup());
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <T> <span class="hljs-function">T <span class="hljs-title">heat</span><span class="hljs-params">(T food)</span> </span>{<br>        System.out.println(food.getClass());<br>        System.out.println(food + <span class="hljs-string">"isOK"</span>);<br>        <span class="hljs-keyword">return</span> food;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br>        heat(<span class="hljs-keyword">new</span> Meat());<br>        heat(<span class="hljs-keyword">new</span> Soup());<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>避免使用Object作为输入和输出可以控制强制转换带来的风险。因为依据墨菲定律，只要这种风险存在，就一定会发生<code>ClassCastException</code>异常。</p>
 <h1 id="数据类型"><a class="markdownIt-Anchor" href="#数据类型"></a> 数据类型<a class="post-anchor" href="#数据类型"></a></h1>
 <h2 id="基本数据类型"><a class="markdownIt-Anchor" href="#基本数据类型"></a> 基本数据类型<a class="post-anchor" href="#基本数据类型"></a></h2>
@@ -556,12 +421,7 @@ JVM在重载方法的顺序如下：</p>
 <h2 id="包装类型"><a class="markdownIt-Anchor" href="#包装类型"></a> 包装类型<a class="post-anchor" href="#包装类型"></a></h2>
 <p>包装类的存在是为了解决了基本数据类型无法做到的事情：泛型类型参数、序列化、类型转换、<code>高频区间数据缓存</code>。尤其是最后一个，因为除了Float和Double之外，其他包装类型都会缓存。拿Integer举例，缓存区间在-127~128，所以在这个区间的赋值，Integer对象会由IntegerCache.cache产生，就不会复用已有对象。<strong>因此，推荐所有包装类对象之间的比较，全都使用equals()方法。</strong><br>
 源码如下：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Integer <span class="hljs-title">valueOf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>{
-    <span class="hljs-keyword">if</span> (i >= IntegerCache.low && i <= IntegerCache.high)
-        <span class="hljs-keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Integer(i);
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Integer <span class="hljs-title">valueOf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>{<br>    <span class="hljs-keyword">if</span> (i >= IntegerCache.low && i <= IntegerCache.high)<br>        <span class="hljs-keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Integer(i);<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>各个包装类的缓存区间：</p>
 <ul>
 <li>Boolean：使用静态final变量定义，valueOf()就是返回这两个静态值。</li>
@@ -572,34 +432,7 @@ JVM在重载方法的顺序如下：</p>
 <li>Integer：表示范围hi[-2<sup>31,2</sup>31-1]。</li>
 </ul>
 <p>接下来我们看看如果不使用equals()方法去进行包装类的比较会出现什么情况</p>
-<pre class="highlight"><code class="Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-    Integer i1 = <span class="hljs-number">127</span>;
-    Integer i2 = <span class="hljs-number">127</span>;
-    Integer i3 = <span class="hljs-number">128</span>;
-    Integer i4 = <span class="hljs-number">128</span>;
-
-    Long l1 = <span class="hljs-number">127L</span>;
-    Long l2 = <span class="hljs-number">127L</span>;
-    Long l3 = <span class="hljs-number">128L</span>;
-    Long l4 = <span class="hljs-number">128L</span>;
-
-    <span class="hljs-comment">// 第一处</span>
-    System.out.println(i1 == i2);
-    System.out.println(i3 == i4);
-    <span class="hljs-comment">// 第二处</span>
-    System.out.println(i1.equals(i2));
-    System.out.println(i3.equals(i4));
-
-    System.out.println(<span class="hljs-string">"------------------"</span>);
-    
-    <span class="hljs-comment">// 第三处</span>
-    System.out.println(l1 == l2);
-    System.out.println(l3 == l4);
-    <span class="hljs-comment">// 第四处</span>
-    System.out.println(l1.equals(l2));
-    System.out.println(l3.equals(l4));
-   }
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br>    Integer i1 = <span class="hljs-number">127</span>;<br>    Integer i2 = <span class="hljs-number">127</span>;<br>    Integer i3 = <span class="hljs-number">128</span>;<br>    Integer i4 = <span class="hljs-number">128</span>;<br><br>    Long l1 = <span class="hljs-number">127L</span>;<br>    Long l2 = <span class="hljs-number">127L</span>;<br>    Long l3 = <span class="hljs-number">128L</span>;<br>    Long l4 = <span class="hljs-number">128L</span>;<br><br>    <span class="hljs-comment">// 第一处</span><br>    System.out.println(i1 == i2);<br>    System.out.println(i3 == i4);<br>    <span class="hljs-comment">// 第二处</span><br>    System.out.println(i1.equals(i2));<br>    System.out.println(i3.equals(i4));<br><br>    System.out.println(<span class="hljs-string">"------------------"</span>);<br>    <br>    <span class="hljs-comment">// 第三处</span><br>    System.out.println(l1 == l2);<br>    System.out.println(l3 == l4);<br>    <span class="hljs-comment">// 第四处</span><br>    System.out.println(l1.equals(l2));<br>    System.out.println(l3.equals(l4));<br>   }<br></code></pre></td></tr></tbody></table></figure>
 <p>以上代码四处打印的结果是不是让人觉得都是<code>true</code>？<br>
 但是答案是第一处打印的结果是<code>true</code>和<code>flase</code>，第二处全是<code>true</code>，第三处也是<code>true</code>和<code>flase</code>，第四处全是<code>true</code>。<br>
 那么为什么<code>System.out.println(i1 == i2);</code>的结果是<code>true</code>，而<code>System.out.println(i3 == i4);</code>是<code>flase</code>呢？<br>

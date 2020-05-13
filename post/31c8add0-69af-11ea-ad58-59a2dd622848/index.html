@@ -255,38 +255,7 @@
 <p>Java中两个对象相比较的方法通常用在元素排序中，常用的两个几口分别是Comparable和Comparator，前者是自己和自己比；后者是第三方比较器，类似于平台性质的比较器。</p>
 <p>我们熟知的Integer和String实现的就是Comparable的自然排序。</p>
 <p>假设在一个搜索列表中进行排序时，先根据相关度排序，然后再根据浏览数排序，那么可以利用Comparable这样写：</p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResult</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span><<span class="hljs-title">EzCodingTest</span>></span>{
-
-    <span class="hljs-comment">// 相关度</span>
-    <span class="hljs-keyword">int</span> relativeRatio;
-    <span class="hljs-keyword">long</span> count;
-    <span class="hljs-keyword">int</span> recentOrders;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SearchResult</span><span class="hljs-params">(<span class="hljs-keyword">int</span> relativeRatio, <span class="hljs-keyword">long</span> count)</span> </span>{
-        <span class="hljs-keyword">this</span>.relativeRatio = relativeRatio;
-        <span class="hljs-keyword">this</span>.count = count;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(EzCodingTest o)</span> </span>{
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.relativeRatio != o.relativeRatio) {
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.relativeRatio > o.relativeRatio ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;
-        }
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.count != o.count) {
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.count > o.count ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;
-        }
-        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-
-        EzCodingTest result1 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>);
-        EzCodingTest result2 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">20</span>, <span class="hljs-number">1</span>);
-        System.out.println(result1.compareTo(result2));
-    }
-
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResult</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span><<span class="hljs-title">EzCodingTest</span>></span>{<br><br>    <span class="hljs-comment">// 相关度</span><br>    <span class="hljs-keyword">int</span> relativeRatio;<br>    <span class="hljs-keyword">long</span> count;<br>    <span class="hljs-keyword">int</span> recentOrders;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SearchResult</span><span class="hljs-params">(<span class="hljs-keyword">int</span> relativeRatio, <span class="hljs-keyword">long</span> count)</span> </span>{<br>        <span class="hljs-keyword">this</span>.relativeRatio = relativeRatio;<br>        <span class="hljs-keyword">this</span>.count = count;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(EzCodingTest o)</span> </span>{<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.relativeRatio != o.relativeRatio) {<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.relativeRatio > o.relativeRatio ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.count != o.count) {<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.count > o.count ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br><br>        EzCodingTest result1 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>);<br>        EzCodingTest result2 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">20</span>, <span class="hljs-number">1</span>);<br>        System.out.println(result1.compareTo(result2));<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>在实现Comparable时，我们发现了需要加上泛型限定，<code>public class EzCodingTest implements Comparable<EzCodingTest></code>，这样的话，可以在编译阶段就判断是否符合该定义的对象。当排序方法不符合当前的业务要求，重写该比较方法<code>compareTo</code>，因为开闭原则的关系，已交付的类进行修改是有很大风险的。所以我们需要在外部定义比较器：Comparator。</p>
 <h2 id="comparator"><a class="markdownIt-Anchor" href="#comparator"></a> Comparator<a class="post-anchor" href="#comparator"></a></h2>
 <p>假如你刚写完上面的代码，产品狗过来和宁说：现在搜索的权重改辣！现在最近的订单数的权重最高，抓紧改吧，加班搞完半夜上线~！</p>
@@ -295,44 +264,7 @@
 <p>对产品狗使用神の救♂济。</p>
 </blockquote>
 <p>vans之后我们害是得van成任务，所以俺们可以搞个外部比较器<code>SearchResultComparator</code>剥离出来。</p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResultComparator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparator</span><<span class="hljs-title">EzCodingTest</span>></span>{
-
-    <span class="hljs-comment">// 相关度</span>
-    <span class="hljs-keyword">int</span> relativeRatio;
-    <span class="hljs-keyword">long</span> count;
-    <span class="hljs-keyword">int</span> recentOrders;
-  
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SearchResultComparator</span><span class="hljs-params">(<span class="hljs-keyword">int</span> relativeRatio, <span class="hljs-keyword">long</span> count)</span> </span>{
-        <span class="hljs-keyword">this</span>.relativeRatio = relativeRatio;
-        <span class="hljs-keyword">this</span>.count = count;
-    }
-  
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(EzCodingTest o1, EzCodingTest o2)</span> </span>{
-      
-        <span class="hljs-keyword">if</span> (o1.recentOrders != o2.recentOrders) {
-            <span class="hljs-keyword">return</span> o1.recentOrders > o2.recentOrders ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;
-        }
-
-        <span class="hljs-keyword">if</span> (o1.relativeRatio != o2.relativeRatio) {
-            <span class="hljs-keyword">return</span> o1.relativeRatio > o2.relativeRatio ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;
-        }
-
-        <span class="hljs-keyword">if</span> (o1.count != o2.count) {
-            <span class="hljs-keyword">return</span> o1.count > o2.count ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;
-        }
-        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-    }
-  
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-
-        EzCodingTest result1 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">70</span>, <span class="hljs-number">100</span>);
-        EzCodingTest result2 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">20</span>, <span class="hljs-number">1</span>);
-        System.out.println(result1.compare(result1, result2));
-    }
-}
-</code></pre>
-</body></html>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResultComparator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparator</span><<span class="hljs-title">EzCodingTest</span>></span>{<br><br>    <span class="hljs-comment">// 相关度</span><br>    <span class="hljs-keyword">int</span> relativeRatio;<br>    <span class="hljs-keyword">long</span> count;<br>    <span class="hljs-keyword">int</span> recentOrders;<br>  <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SearchResultComparator</span><span class="hljs-params">(<span class="hljs-keyword">int</span> relativeRatio, <span class="hljs-keyword">long</span> count)</span> </span>{<br>        <span class="hljs-keyword">this</span>.relativeRatio = relativeRatio;<br>        <span class="hljs-keyword">this</span>.count = count;<br>    }<br>  <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(EzCodingTest o1, EzCodingTest o2)</span> </span>{<br>      <br>        <span class="hljs-keyword">if</span> (o1.recentOrders != o2.recentOrders) {<br>            <span class="hljs-keyword">return</span> o1.recentOrders > o2.recentOrders ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br><br>        <span class="hljs-keyword">if</span> (o1.relativeRatio != o2.relativeRatio) {<br>            <span class="hljs-keyword">return</span> o1.relativeRatio > o2.relativeRatio ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br><br>        <span class="hljs-keyword">if</span> (o1.count != o2.count) {<br>            <span class="hljs-keyword">return</span> o1.count > o2.count ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    }<br>  <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br><br>        EzCodingTest result1 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">70</span>, <span class="hljs-number">100</span>);<br>        EzCodingTest result2 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">20</span>, <span class="hljs-number">1</span>);<br>        System.out.println(result1.compare(result1, result2));<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure></body></html>
 
   
     <div class="post-reward">

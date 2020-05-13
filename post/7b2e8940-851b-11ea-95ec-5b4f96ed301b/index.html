@@ -253,53 +253,16 @@
 <h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1>
 <h2 id="hash表"><a class="markdownIt-Anchor" href="#hash表"></a> Hash表<a class="post-anchor" href="#hash表"></a></h2>
 <p>首先最容易想到的，利用Hash表：</p>
-<pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">majorityElement</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{
-    Map<Integer, Integer> map = <span class="hljs-keyword">new</span> HashMap<>(nums.length / <span class="hljs-number">3</span> * <span class="hljs-number">4</span> + <span class="hljs-number">1</span>);
-    <span class="hljs-keyword">int</span> max = nums.length / <span class="hljs-number">2</span>;
-    AtomicInteger result = <span class="hljs-keyword">new</span> AtomicInteger();
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> num : nums) {
-        map.put(num, map.getOrDefault(num, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>);
-    }
-    map.forEach((k, v) -> {
-        <span class="hljs-keyword">if</span> (v > max) {
-            result.set(k);
-        }
-    });
-    <span class="hljs-keyword">return</span> result.get();
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">majorityElement</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{<br>    Map<Integer, Integer> map = <span class="hljs-keyword">new</span> HashMap<>(nums.length / <span class="hljs-number">3</span> * <span class="hljs-number">4</span> + <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">int</span> max = nums.length / <span class="hljs-number">2</span>;<br>    AtomicInteger result = <span class="hljs-keyword">new</span> AtomicInteger();<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> num : nums) {<br>        map.put(num, map.getOrDefault(num, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>);<br>    }<br>    map.forEach((k, v) -> {<br>        <span class="hljs-keyword">if</span> (v > max) {<br>            result.set(k);<br>        }<br>    });<br>    <span class="hljs-keyword">return</span> result.get();<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p><code>key</code>来保存数组的元素，<code>value</code>来保存出现的次数。</p>
 <p>因为众数的个数一定是大于n/2的，所以只要取出<code>value</code>大于n/2的<code>key</code>即可。</p>
 <h2 id="随机流暴力流"><a class="markdownIt-Anchor" href="#随机流暴力流"></a> 随机流&暴力流<a class="post-anchor" href="#随机流暴力流"></a></h2>
-<pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">thirdMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{
-		<span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">int</span> index = (<span class="hljs-keyword">int</span>) (Math.random() * nums.length);
-    <span class="hljs-keyword">int</span> fuck = nums[index];
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < nums.length; i++) {
-        <span class="hljs-keyword">if</span> (nums[i] == fuck) {
-            count++;
-        }
-        <span class="hljs-keyword">if</span> (count > nums.length / <span class="hljs-number">2</span>) {
-            <span class="hljs-keyword">return</span> nums[index];
-        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i == (nums.length - <span class="hljs-number">1</span>)) {
-            count = <span class="hljs-number">0</span>;
-            i = -<span class="hljs-number">1</span>;
-            index = (<span class="hljs-keyword">int</span>) (Math.random() * nums.length);
-            fuck = nums[index];
-        }
-    }
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">thirdMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{<br>		<span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> index = (<span class="hljs-keyword">int</span>) (Math.random() * nums.length);<br>    <span class="hljs-keyword">int</span> fuck = nums[index];<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < nums.length; i++) {<br>        <span class="hljs-keyword">if</span> (nums[i] == fuck) {<br>            count++;<br>        }<br>        <span class="hljs-keyword">if</span> (count > nums.length / <span class="hljs-number">2</span>) {<br>            <span class="hljs-keyword">return</span> nums[index];<br>        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i == (nums.length - <span class="hljs-number">1</span>)) {<br>            count = <span class="hljs-number">0</span>;<br>            i = -<span class="hljs-number">1</span>;<br>            index = (<span class="hljs-keyword">int</span>) (Math.random() * nums.length);<br>            fuck = nums[index];<br>        }<br>    }<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>众数在题干中明确说明了个数是n/2，一定是占据一半以上的，所以随机抽取一个元素，较大可能性是众数。统计该元素的个数，符合个数大于n/2即可。一开始设置第一个元素为众数统计个数，全部遍历后如果不符合，则设置第二个元素为基准继续遍历。这样其实就和双for循环没什么区别了，不具随机性。</p>
 <p>我一开始做法就是设置第一个元素为基准，这样写的最大时间复杂度是平方级 <em>O</em>(<em>n</em><sup>2</sup>)，一旦众数全部位于数组的后半段，那么时间会超久，所以我这样提交，系统判定超出时间限制。</p>
 <p>官方题解是随机设置一个基准，理想情况是众数较多，很容易抽中，较少的次数可以完成推断，但是存在一种极限情况，就是每次随机基准都抽不到众数，那么会变成无穷尽的计算。最坏情况的时间复杂度为 <em>O</em>(∞)。</p>
 <h2 id="排序流"><a class="markdownIt-Anchor" href="#排序流"></a> 排序流<a class="post-anchor" href="#排序流"></a></h2>
-<pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">secondMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{
-    Arrays.sort(nums);
-    <span class="hljs-keyword">return</span> nums[nums.length / <span class="hljs-number">2</span>];
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">secondMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{<br>    Arrays.sort(nums);<br>    <span class="hljs-keyword">return</span> nums[nums.length / <span class="hljs-number">2</span>];<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>充分利用了n/2的特性，将数组排序后，无论数组的长度是奇数还是偶数，第<code>nums.length</code>一定是众数。</p>
 <h2 id="投票流"><a class="markdownIt-Anchor" href="#投票流"></a> 投票流<a class="post-anchor" href="#投票流"></a></h2>
 <p>该方法个人认为最有意思和最有拓展性。假设这样一个数组：</p>
@@ -315,26 +278,7 @@
 <p>遍历到数组的最后阶段，elector是<code>7</code>，后面票数越来越多，也不会被更换elector了。即使是众数都在前面</p>
 <p><code>[7, 7, 7, 7, 7, 1, 5, 5 ]</code>，众数的和也够减去后半段的其他元素的总和而保证elector不被更换。</p>
 <p>该思想不复杂实现起来非常简单：</p>
-<pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">boyerMoore</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{
-    <span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">int</span> elector = nums[<span class="hljs-number">0</span>];
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i < nums.length; i++) {
-        <span class="hljs-keyword">if</span> (nums[i] == elector) {
-            count++;
-        } <span class="hljs-keyword">else</span> {
-            count--;
-        }
-      	<span class="hljs-comment">/*
-         * 上面的if-else可以改成这样
-         * count += (nums[i] == elector) ? 1 : -1;
-         */</span>
-        <span class="hljs-keyword">if</span> (i + <span class="hljs-number">1</span> < nums.length && count == <span class="hljs-number">0</span>) {
-            elector = nums[i + <span class="hljs-number">1</span>];
-        }
-    }
-    <span class="hljs-keyword">return</span> elector;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">boyerMoore</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{<br>    <span class="hljs-keyword">int</span> count = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">int</span> elector = nums[<span class="hljs-number">0</span>];<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i < nums.length; i++) {<br>        <span class="hljs-keyword">if</span> (nums[i] == elector) {<br>            count++;<br>        } <span class="hljs-keyword">else</span> {<br>            count--;<br>        }<br>      	<span class="hljs-comment">/*</span><br><span class="hljs-comment">         * 上面的if-else可以改成这样</span><br><span class="hljs-comment">         * count += (nums[i] == elector) ? 1 : -1;</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">if</span> (i + <span class="hljs-number">1</span> < nums.length && count == <span class="hljs-number">0</span>) {<br>            elector = nums[i + <span class="hljs-number">1</span>];<br>        }<br>    }<br>    <span class="hljs-keyword">return</span> elector;<br>}<br></code></pre></td></tr></tbody></table></figure>
 </body></html>
 
   

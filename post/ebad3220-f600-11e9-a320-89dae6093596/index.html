@@ -264,36 +264,12 @@
 <ul>
 <li>设计AwardPool和Award两个对象，只有简单的get和set属性的方法</li>
 </ul>
-<pre class="highlight"><code class="java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AwardPool</span> </span>{
-    <span class="hljs-keyword">int</span> awardPoolId;
-    List<Award> awards;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> List<Award> <span class="hljs-title">getAwards</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> awards;
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAwards</span><span class="hljs-params">(List<Award> awards)</span> </span>{
-        <span class="hljs-keyword">this</span>.awards = awards;
-    }
-    ......
-}
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Award</span> </span>{
-   <span class="hljs-keyword">int</span> awardId;
-   <span class="hljs-keyword">int</span> probability;<span class="hljs-comment">//概率</span>
-
-   ......
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AwardPool</span> </span>{<br>    <span class="hljs-keyword">int</span> awardPoolId;<br>    List<Award> awards;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> List<Award> <span class="hljs-title">getAwards</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> awards;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAwards</span><span class="hljs-params">(List<Award> awards)</span> </span>{<br>        <span class="hljs-keyword">this</span>.awards = awards;<br>    }<br>    ......<br>}<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Award</span> </span>{<br>   <span class="hljs-keyword">int</span> awardId;<br>   <span class="hljs-keyword">int</span> probability;<span class="hljs-comment">//概率</span><br><br>   ......<br>}<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>Service代码实现</li>
 </ul>
 <p>设计一个LotteryService，在其中的drawLottery()方法写服务逻辑</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">//sql查询，将数据映射到AwardPool对象</span>
-AwardPool awardPool = awardPoolDao.getAwardPool(poolId);
-<span class="hljs-keyword">for</span> (Award award : awardPool.getAwards()) {
-   <span class="hljs-comment">// 寻找到符合award.getProbability()概率的award</span>
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//sql查询，将数据映射到AwardPool对象</span><br>AwardPool awardPool = awardPoolDao.getAwardPool(poolId);<br><span class="hljs-keyword">for</span> (Award award : awardPool.getAwards()) {<br>   <span class="hljs-comment">// 寻找到符合award.getProbability()概率的award</span><br>}<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>按照我们通常思路实现，可以发现：在业务领域里非常重要的抽奖，我的业务逻辑都是写在Service中的，Award充其量只是个数据载体，没有任何行为。**简单的业务系统采用这种贫血模型和过程化设计是没有问题的，**但在业务逻辑复杂了，业务逻辑、状态会散落到在大量方法中，原本的代码意图会渐渐不明确，我们将这种情况称为由贫血症引起的失忆症。</li>
 </ul>
@@ -354,12 +330,7 @@ AwardPool awardPool = awardPoolDao.getAwardPool(poolId);
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B/%E6%8A%BD%E5%A5%96%E9%A2%86%E5%9F%9F.jpg" target="_blank" rel="noopener" data-caption="抽奖领域" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B/%E6%8A%BD%E5%A5%96%E9%A2%86%E5%9F%9F.jpg" alt="抽奖领域"></a></p>
 <p>在确认了M端领域和C端的限界上下文后，我们再对各自上下文内部进行限界上下文的划分。下面我们用C端进行举例。</p>
 <p>产品的需求概述如下：</p>
-<pre class="highlight"><code class="text">1. 抽奖活动有活动限制，例如用户的抽奖次数限制，抽奖的开始和结束的时间等；
-2. 一个抽奖活动包含多个奖品，可以针对一个或多个用户群体；
-3. 奖品有自身的奖品配置，例如库存量，被抽中的概率等，最多被一个用户抽中的次数等等；
-4. 用户群体有多种区别方式，如按照用户所在城市区分，按照新老客区分等；
-5. 活动具有风控配置，能够限制用户参与抽奖的频率。
-</code></pre>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs text">1. 抽奖活动有活动限制，例如用户的抽奖次数限制，抽奖的开始和结束的时间等；<br>2. 一个抽奖活动包含多个奖品，可以针对一个或多个用户群体；<br>3. 奖品有自身的奖品配置，例如库存量，被抽中的概率等，最多被一个用户抽中的次数等等；<br>4. 用户群体有多种区别方式，如按照用户所在城市区分，按照新老客区分等；<br>5. 活动具有风控配置，能够限制用户参与抽奖的频率。<br></code></pre></td></tr></tbody></table></figure>
 <p>根据产品的需求，我们提取了一些关键性的概念作为子域，形成我们的限界上下文。</p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B/%E5%AD%90%E5%9F%9F.jpg" target="_blank" rel="noopener" data-caption data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B/%E5%AD%90%E5%9F%9F.jpg" alt></a></p>
 <p>首先，抽奖上下文作为整个领域的核心，承担着用户抽奖的核心业务，抽奖中包含了奖品和用户群体的概念。</p>
@@ -458,142 +429,30 @@ Aggregate(聚合）是一组相关对象的集合，作为一个整体被外界�
 <p>模块（Module）是DDD中明确提到的一种控制限界上下文的手段，在我们的工程中，一般尽量用一个模块来表示一个领域的限界上下文。</p>
 <p>如代码中所示，一般的工程中包的组织方式为{com.公司名.组织架构.业务.上下文.*}，这样的组织结构能够明确的将一个上下文限定在包的内部。</p>
 <p><strong>代码演示1 模块的组织：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.*;<span class="hljs-comment">//抽奖上下文</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.riskcontrol.*;<span class="hljs-comment">//风控上下文</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.counter.*;<span class="hljs-comment">//计数上下文</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.condition.*;<span class="hljs-comment">//活动准入上下文</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.stock.*;<span class="hljs-comment">//库存上下文</span>
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.*;<span class="hljs-comment">//抽奖上下文</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.riskcontrol.*;<span class="hljs-comment">//风控上下文</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.counter.*;<span class="hljs-comment">//计数上下文</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.condition.*;<span class="hljs-comment">//活动准入上下文</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.stock.*;<span class="hljs-comment">//库存上下文</span><br></code></pre></td></tr></tbody></table></figure>
 <p>对于模块内的组织结构，一般情况下我们是按照领域对象、领域服务、领域资源库、防腐层等组织方式定义的。</p>
 <p><strong>代码演示2 模块的组织：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.domain.valobj.*;<span class="hljs-comment">//领域对象-值对象</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.domain.entity.*;<span class="hljs-comment">//领域对象-实体</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.domain.aggregate.*;<span class="hljs-comment">//领域对象-聚合根</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.service.*;<span class="hljs-comment">//领域服务</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.*;<span class="hljs-comment">//领域资源库</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.facade.*;<span class="hljs-comment">//领域防腐层</span>
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.domain.valobj.*;<span class="hljs-comment">//领域对象-值对象</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.domain.entity.*;<span class="hljs-comment">//领域对象-实体</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.domain.aggregate.*;<span class="hljs-comment">//领域对象-聚合根</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.service.*;<span class="hljs-comment">//领域服务</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.*;<span class="hljs-comment">//领域资源库</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.facade.*;<span class="hljs-comment">//领域防腐层</span><br></code></pre></td></tr></tbody></table></figure>
 <p>每个模块的具体实现，我们将在下文中展开。</p>
 <h2 id="领域对象"><a class="markdownIt-Anchor" href="#领域对象"></a> 领域对象<a class="post-anchor" href="#领域对象"></a></h2>
 <p>前文提到，领域驱动要解决的一个重要的问题，就是解决对象的贫血问题。这里我们用之前定义的抽奖（DrawLottery）聚合根和奖池（AwardPool）值对象来具体说明。</p>
 <p>抽奖聚合根持有了抽奖活动的id和该活动下的所有可用奖池列表，它的一个最主要的领域功能就是根据一个抽奖发生场景（DrawLotteryContext），选择出一个适配的奖池，即chooseAwardPool方法。</p>
 <p>chooseAwardPool的逻辑是这样的：DrawLotteryContext会带有用户抽奖时的场景信息（抽奖得分或抽奖时所在的城市），DrawLottery会根据这个场景信息，匹配一个可以给用户发奖的AwardPool。</p>
 <p><strong>代码演示3 DrawLottery：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.domain.aggregate;
-<span class="hljs-keyword">import</span> ...;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DrawLottery</span> </span>{
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> lotteryId; <span class="hljs-comment">//抽奖id</span>
-    <span class="hljs-keyword">private</span> List<AwardPool> awardPools; <span class="hljs-comment">//奖池列表</span>
-
-    <span class="hljs-comment">//getter & setter</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setLotteryId</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lotteryId)</span> </span>{
-        <span class="hljs-keyword">if</span>(id<=<span class="hljs-number">0</span>){
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"非法的抽奖id"</span>); 
-        }
-        <span class="hljs-keyword">this</span>.lotteryId = lotteryId;
-    }
-
-    <span class="hljs-comment">//根据抽奖入参context选择奖池</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> AwardPool <span class="hljs-title">chooseAwardPool</span><span class="hljs-params">(DrawLotteryContext context)</span> </span>{
-        <span class="hljs-keyword">if</span>(context.getMtCityInfo()!=<span class="hljs-keyword">null</span>) {
-            <span class="hljs-keyword">return</span> chooseAwardPoolByCityInfo(awardPools, context.getMtCityInfo());
-        } <span class="hljs-keyword">else</span> {
-            <span class="hljs-keyword">return</span> chooseAwardPoolByScore(awardPools, context.getGameScore());
-        }
-    }
-
-    <span class="hljs-comment">//根据抽奖所在城市选择奖池</span>
-    <span class="hljs-function"><span class="hljs-keyword">private</span> AwardPool <span class="hljs-title">chooseAwardPoolByCityInfo</span><span class="hljs-params">(List<AwardPool> awardPools, MtCifyInfo cityInfo)</span> </span>{
-        <span class="hljs-keyword">for</span>(AwardPool awardPool: awardPools) {
-            <span class="hljs-keyword">if</span>(awardPool.matchedCity(cityInfo.getCityId())) {
-                <span class="hljs-keyword">return</span> awardPool;
-            }
-        }
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
-    }
-
-    <span class="hljs-comment">//根据抽奖活动得分选择奖池</span>
-    <span class="hljs-function"><span class="hljs-keyword">private</span> AwardPool <span class="hljs-title">chooseAwardPoolByScore</span><span class="hljs-params">(List<AwardPool> awardPools, <span class="hljs-keyword">int</span> gameScore)</span> </span>{...}
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.domain.aggregate;<br><span class="hljs-keyword">import</span> ...;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DrawLottery</span> </span>{<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> lotteryId; <span class="hljs-comment">//抽奖id</span><br>    <span class="hljs-keyword">private</span> List<AwardPool> awardPools; <span class="hljs-comment">//奖池列表</span><br><br>    <span class="hljs-comment">//getter & setter</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setLotteryId</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lotteryId)</span> </span>{<br>        <span class="hljs-keyword">if</span>(id<=<span class="hljs-number">0</span>){<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"非法的抽奖id"</span>); <br>        }<br>        <span class="hljs-keyword">this</span>.lotteryId = lotteryId;<br>    }<br><br>    <span class="hljs-comment">//根据抽奖入参context选择奖池</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> AwardPool <span class="hljs-title">chooseAwardPool</span><span class="hljs-params">(DrawLotteryContext context)</span> </span>{<br>        <span class="hljs-keyword">if</span>(context.getMtCityInfo()!=<span class="hljs-keyword">null</span>) {<br>            <span class="hljs-keyword">return</span> chooseAwardPoolByCityInfo(awardPools, context.getMtCityInfo());<br>        } <span class="hljs-keyword">else</span> {<br>            <span class="hljs-keyword">return</span> chooseAwardPoolByScore(awardPools, context.getGameScore());<br>        }<br>    }<br><br>    <span class="hljs-comment">//根据抽奖所在城市选择奖池</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> AwardPool <span class="hljs-title">chooseAwardPoolByCityInfo</span><span class="hljs-params">(List<AwardPool> awardPools, MtCifyInfo cityInfo)</span> </span>{<br>        <span class="hljs-keyword">for</span>(AwardPool awardPool: awardPools) {<br>            <span class="hljs-keyword">if</span>(awardPool.matchedCity(cityInfo.getCityId())) {<br>                <span class="hljs-keyword">return</span> awardPool;<br>            }<br>        }<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    }<br><br>    <span class="hljs-comment">//根据抽奖活动得分选择奖池</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> AwardPool <span class="hljs-title">chooseAwardPoolByScore</span><span class="hljs-params">(List<AwardPool> awardPools, <span class="hljs-keyword">int</span> gameScore)</span> </span>{...}<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>在匹配到一个具体的奖池之后，需要确定最后给用户的奖品是什么。这部分的领域功能在AwardPool内。</p>
 <p><strong>代码演示4 AwardPool：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.domain.valobj;
-<span class="hljs-keyword">import</span> ...;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AwardPool</span> </span>{
-    <span class="hljs-keyword">private</span> String cityIds;<span class="hljs-comment">//奖池支持的城市</span>
-    <span class="hljs-keyword">private</span> String scores;<span class="hljs-comment">//奖池支持的得分</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> userGroupType;<span class="hljs-comment">//奖池匹配的用户类型</span>
-    <span class="hljs-keyword">private</span> List<Awrad> awards;<span class="hljs-comment">//奖池中包含的奖品</span>
-
-    <span class="hljs-comment">//当前奖池是否与城市匹配</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">matchedCity</span><span class="hljs-params">(<span class="hljs-keyword">int</span> cityId)</span> </span>{...}
-
-    <span class="hljs-comment">//当前奖池是否与用户得分匹配</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">matchedScore</span><span class="hljs-params">(<span class="hljs-keyword">int</span> score)</span> </span>{...}
-
-    <span class="hljs-comment">//根据概率选择奖池</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Award <span class="hljs-title">randomGetAward</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">int</span> sumOfProbablity = <span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(Award award: awards) {
-            sumOfProbability += award.getAwardProbablity();
-        }
-        <span class="hljs-keyword">int</span> randomNumber = ThreadLocalRandom.current().nextInt(sumOfProbablity);
-        range = <span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(Award award: awards) {
-            range += award.getProbablity();
-            <span class="hljs-keyword">if</span>(randomNumber<range) {
-                <span class="hljs-keyword">return</span> award;
-            }
-        }
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.domain.valobj;<br><span class="hljs-keyword">import</span> ...;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AwardPool</span> </span>{<br>    <span class="hljs-keyword">private</span> String cityIds;<span class="hljs-comment">//奖池支持的城市</span><br>    <span class="hljs-keyword">private</span> String scores;<span class="hljs-comment">//奖池支持的得分</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> userGroupType;<span class="hljs-comment">//奖池匹配的用户类型</span><br>    <span class="hljs-keyword">private</span> List<Awrad> awards;<span class="hljs-comment">//奖池中包含的奖品</span><br><br>    <span class="hljs-comment">//当前奖池是否与城市匹配</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">matchedCity</span><span class="hljs-params">(<span class="hljs-keyword">int</span> cityId)</span> </span>{...}<br><br>    <span class="hljs-comment">//当前奖池是否与用户得分匹配</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">matchedScore</span><span class="hljs-params">(<span class="hljs-keyword">int</span> score)</span> </span>{...}<br><br>    <span class="hljs-comment">//根据概率选择奖池</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Award <span class="hljs-title">randomGetAward</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">int</span> sumOfProbablity = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(Award award: awards) {<br>            sumOfProbability += award.getAwardProbablity();<br>        }<br>        <span class="hljs-keyword">int</span> randomNumber = ThreadLocalRandom.current().nextInt(sumOfProbablity);<br>        range = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(Award award: awards) {<br>            range += award.getProbablity();<br>            <span class="hljs-keyword">if</span>(randomNumber<range) {<br>                <span class="hljs-keyword">return</span> award;<br>            }<br>        }<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>与以往的仅有getter、setter的业务对象不同，领域对象具有了行为，对象更加丰满。同时，比起将这些逻辑写在服务内（例如Service），领域功能的内聚性更强，职责更加明确。</p>
 <h2 id="资源库"><a class="markdownIt-Anchor" href="#资源库"></a> 资源库<a class="post-anchor" href="#资源库"></a></h2>
 <p>领域对象需要资源存储，存储的手段可以是多样化的，常见的无非是数据库，分布式缓存，本地缓存等。资源库（Repository）的作用，就是对领域的存储和访问进行统一管理的对象。在抽奖平台中，我们是通过如下的方式组织资源库的。</p>
 <p><strong>代码演示5 Repository组织结构：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">//数据库资源</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.dao.AwardPoolDao;<span class="hljs-comment">//数据库访问对象-奖池</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.dao.AwardDao;<span class="hljs-comment">//数据库访问对象-奖品</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.dao.po.AwardPO;<span class="hljs-comment">//数据库持久化对象-奖品</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.dao.po.AwardPoolPO;<span class="hljs-comment">//数据库持久化对象-奖池</span>
-
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.cache.DrawLotteryCacheAccessObj;<span class="hljs-comment">//分布式缓存访问对象-抽奖缓存访问</span>
-<span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.repository.DrawLotteryRepository;<span class="hljs-comment">//资源库访问对象-抽奖资源库</span>
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//数据库资源</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.dao.AwardPoolDao;<span class="hljs-comment">//数据库访问对象-奖池</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.dao.AwardDao;<span class="hljs-comment">//数据库访问对象-奖品</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.dao.po.AwardPO;<span class="hljs-comment">//数据库持久化对象-奖品</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.dao.po.AwardPoolPO;<span class="hljs-comment">//数据库持久化对象-奖池</span><br><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.cache.DrawLotteryCacheAccessObj;<span class="hljs-comment">//分布式缓存访问对象-抽奖缓存访问</span><br><span class="hljs-keyword">import</span> com.company.team.bussiness.lottery.repo.repository.DrawLotteryRepository;<span class="hljs-comment">//资源库访问对象-抽奖资源库</span><br></code></pre></td></tr></tbody></table></figure>
 <p>资源库对外的整体访问由Repository提供，它聚合了各个资源库的数据信息，同时也承担了资源存储的逻辑（例如缓存更新机制等）。</p>
 <p>在抽奖资源库中，我们屏蔽了对底层奖池和奖品的直接访问，而是仅对抽奖的聚合根进行资源管理。代码示例中展示了抽奖资源获取的方法（最常见的Cache Aside Pattern）。</p>
 <p>比起以往将资源管理放在服务中的做法，由资源库对资源进行管理，职责更加明确，代码的可读性和可维护性也更强。</p>
 <p><strong>代码演示6 DrawLotteryRepository：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.repo;
-<span class="hljs-keyword">import</span> ...;
-
-<span class="hljs-meta">@Repository</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DrawLotteryRepository</span> </span>{
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> AwardDao awardDao;
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> AwardPoolDao awardPoolDao;
-    <span class="hljs-meta">@AutoWired</span>
-    <span class="hljs-keyword">private</span> DrawLotteryCacheAccessObj drawLotteryCacheAccessObj;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> DrawLottery <span class="hljs-title">getDrawLotteryById</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lotteryId)</span> </span>{
-        DrawLottery drawLottery = drawLotteryCacheAccessObj.get(lotteryId);
-        <span class="hljs-keyword">if</span>(drawLottery!=<span class="hljs-keyword">null</span>){
-            <span class="hljs-keyword">return</span> drawLottery;
-        }
-        drawLottery = getDrawLotteyFromDB(lotteryId);
-        drawLotteryCacheAccessObj.add(lotteryId, drawLottery);
-        <span class="hljs-keyword">return</span> drawLottery;
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> DrawLottery <span class="hljs-title">getDrawLotteryFromDB</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lotteryId)</span> </span>{...}
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.repo;<br><span class="hljs-keyword">import</span> ...;<br><br><span class="hljs-meta">@Repository</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DrawLotteryRepository</span> </span>{<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> AwardDao awardDao;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> AwardPoolDao awardPoolDao;<br>    <span class="hljs-meta">@AutoWired</span><br>    <span class="hljs-keyword">private</span> DrawLotteryCacheAccessObj drawLotteryCacheAccessObj;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> DrawLottery <span class="hljs-title">getDrawLotteryById</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lotteryId)</span> </span>{<br>        DrawLottery drawLottery = drawLotteryCacheAccessObj.get(lotteryId);<br>        <span class="hljs-keyword">if</span>(drawLottery!=<span class="hljs-keyword">null</span>){<br>            <span class="hljs-keyword">return</span> drawLottery;<br>        }<br>        drawLottery = getDrawLotteyFromDB(lotteryId);<br>        drawLotteryCacheAccessObj.add(lotteryId, drawLottery);<br>        <span class="hljs-keyword">return</span> drawLottery;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> DrawLottery <span class="hljs-title">getDrawLotteryFromDB</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lotteryId)</span> </span>{...}<br>}<br></code></pre></td></tr></tbody></table></figure>
 <h2 id="防腐层"><a class="markdownIt-Anchor" href="#防腐层"></a> 防腐层<a class="post-anchor" href="#防腐层"></a></h2>
 <p>亦称适配层。在一个上下文中，有时需要对外部上下文进行访问，通常会引入防腐层的概念来对外部上下文的访问进行一次转义。</p>
 <p>有以下几种情况会考虑引入防腐层：</p>
@@ -606,55 +465,12 @@ Aggregate(聚合）是一组相关对象的集合，作为一个整体被外界�
 <p>在抽奖平台中，我们定义了用户城市信息防腐层(UserCityInfoFacade)，用于外部的用户城市信息上下文（微服务架构下表现为用户城市信息服务）。</p>
 <p>以用户信息防腐层举例，它以抽奖请求参数(LotteryContext)为入参，以城市信息(MtCityInfo)为输出。</p>
 <p><strong>代码演示7 UserCityInfoFacade：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.facade;
-<span class="hljs-keyword">import</span> ...;
-
-<span class="hljs-meta">@Component</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserCityInfoFacade</span> </span>{
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> LbsService lbsService;<span class="hljs-comment">//外部用户城市信息RPC服务</span>
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> MtCityInfo <span class="hljs-title">getMtCityInfo</span><span class="hljs-params">(LotteryContext context)</span> </span>{
-        LbsReq lbsReq = <span class="hljs-keyword">new</span> LbsReq();
-        lbsReq.setLat(context.getLat());
-        lbsReq.setLng(context.getLng());
-        LbsResponse resp = lbsService.getLbsCityInfo(lbsReq);
-        <span class="hljs-keyword">return</span> buildMtCifyInfo(resp);
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> MtCityInfo <span class="hljs-title">buildMtCityInfo</span><span class="hljs-params">(LbsResponse resp)</span> </span>{...}
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.facade;<br><span class="hljs-keyword">import</span> ...;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserCityInfoFacade</span> </span>{<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> LbsService lbsService;<span class="hljs-comment">//外部用户城市信息RPC服务</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> MtCityInfo <span class="hljs-title">getMtCityInfo</span><span class="hljs-params">(LotteryContext context)</span> </span>{<br>        LbsReq lbsReq = <span class="hljs-keyword">new</span> LbsReq();<br>        lbsReq.setLat(context.getLat());<br>        lbsReq.setLng(context.getLng());<br>        LbsResponse resp = lbsService.getLbsCityInfo(lbsReq);<br>        <span class="hljs-keyword">return</span> buildMtCifyInfo(resp);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> MtCityInfo <span class="hljs-title">buildMtCityInfo</span><span class="hljs-params">(LbsResponse resp)</span> </span>{...}<br>}<br></code></pre></td></tr></tbody></table></figure>
 <h2 id="领域服务"><a class="markdownIt-Anchor" href="#领域服务"></a> 领域服务<a class="post-anchor" href="#领域服务"></a></h2>
 <p>上文中，我们将领域行为封装到领域对象中，将资源管理行为封装到资源库中，将外部上下文的交互行为封装到防腐层中。此时，我们再回过头来看领域服务时，能够发现领域服务本身所承载的职责也就更加清晰了，即就是通过串联领域对象、资源库和防腐层等一系列领域内的对象的行为，对其他上下文提供交互的接口。</p>
 <p>我们以抽奖服务为例（issueLottery），可以看到在省略了一些防御性逻辑（异常处理，空值判断等）后，领域服务的逻辑已经足够清晰明了。</p>
 <p><strong>代码演示8 LotteryService：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.service.impl
-<span class="hljs-keyword">import</span> ...;
-
-<span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LotteryServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">LotteryService</span> </span>{
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> DrawLotteryRepository drawLotteryRepo;
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> UserCityInfoFacade UserCityInfoFacade;
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> AwardSendService awardSendService;
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> AwardCounterFacade awardCounterFacade;
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> IssueResponse <span class="hljs-title">issueLottery</span><span class="hljs-params">(LotteryContext lotteryContext)</span> </span>{
-        DrawLottery drawLottery = drawLotteryRepo.getDrawLotteryById(lotteryContext.getLotteryId());<span class="hljs-comment">//获取抽奖配置聚合根</span>
-        awardCounterFacade.incrTryCount(lotteryContext);<span class="hljs-comment">//增加抽奖计数信息</span>
-        AwardPool awardPool = lotteryConfig.chooseAwardPool(bulidDrawLotteryContext(drawLottery, lotteryContext));<span class="hljs-comment">//选中奖池</span>
-        Award award = awardPool.randomChooseAward();<span class="hljs-comment">//选中奖品</span>
-        <span class="hljs-keyword">return</span> buildIssueResponse(awardSendService.sendAward(award, lotteryContext));<span class="hljs-comment">//发出奖品实体</span>
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> IssueResponse <span class="hljs-title">buildIssueResponse</span><span class="hljs-params">(AwardSendResponse awardSendResponse)</span> </span>{...}
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.company.team.bussiness.lottery.service.impl<br><span class="hljs-keyword">import</span> ...;<br><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LotteryServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">LotteryService</span> </span>{<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> DrawLotteryRepository drawLotteryRepo;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> UserCityInfoFacade UserCityInfoFacade;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> AwardSendService awardSendService;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> AwardCounterFacade awardCounterFacade;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> IssueResponse <span class="hljs-title">issueLottery</span><span class="hljs-params">(LotteryContext lotteryContext)</span> </span>{<br>        DrawLottery drawLottery = drawLotteryRepo.getDrawLotteryById(lotteryContext.getLotteryId());<span class="hljs-comment">//获取抽奖配置聚合根</span><br>        awardCounterFacade.incrTryCount(lotteryContext);<span class="hljs-comment">//增加抽奖计数信息</span><br>        AwardPool awardPool = lotteryConfig.chooseAwardPool(bulidDrawLotteryContext(drawLottery, lotteryContext));<span class="hljs-comment">//选中奖池</span><br>        Award award = awardPool.randomChooseAward();<span class="hljs-comment">//选中奖品</span><br>        <span class="hljs-keyword">return</span> buildIssueResponse(awardSendService.sendAward(award, lotteryContext));<span class="hljs-comment">//发出奖品实体</span><br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> IssueResponse <span class="hljs-title">buildIssueResponse</span><span class="hljs-params">(AwardSendResponse awardSendResponse)</span> </span>{...}<br>}<br></code></pre></td></tr></tbody></table></figure>
 <h2 id="数据流转"><a class="markdownIt-Anchor" href="#数据流转"></a> 数据流转<a class="post-anchor" href="#数据流转"></a></h2>
 <p>在抽奖平台的实践中，我们的数据流转如下图所示：</p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B/%E6%95%B0%E6%8D%AE%E6%B5%81%E8%BD%AC.jpg" target="_blank" rel="noopener" data-caption="数据流" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B/%E6%95%B0%E6%8D%AE%E6%B5%81%E8%BD%AC.jpg" alt="数据流"></a></p>
@@ -677,43 +493,7 @@ Aggregate(聚合）是一组相关对象的集合，作为一个整体被外界�
 <p>注：具体的架构实践可按照团队和业务的实际情况来，此处仅为作者自身的业务实践。除分层架构外，如CQRS架构也是不错的选择</p>
 <p>以下是一个示例。我们定义了抽奖、活动准入、风险控制等多个领域服务。在本系统中，我们需要集成多个领域服务，为客户端提供一套功能完备的抽奖应用服务。这个应用服务的组织如下：</p>
 <p><strong>代码演示9 LotteryApplicationService：</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">package</span> ...;
-
-<span class="hljs-keyword">import</span> ...;
-
-<span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LotteryApplicationService</span> </span>{
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> LotteryRiskService riskService;
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> LotteryConditionService conditionService;
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> LotteryService lotteryService;
-
-    <span class="hljs-comment">//用户参与抽奖活动</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Response<PrizeInfo, ErrorData> <span class="hljs-title">participateLottery</span><span class="hljs-params">(LotteryContext lotteryContext)</span> </span>{
-        <span class="hljs-comment">//校验用户登录信息</span>
-        validateLoginInfo(lotteryContext);
-        <span class="hljs-comment">//校验风控 </span>
-        RiskAccessToken riskToken = riskService.accquire(buildRiskReq(lotteryContext));
-        ...
-        <span class="hljs-comment">//活动准入检查</span>
-        LotteryConditionResult conditionResult = conditionService.checkLotteryCondition(otteryContext.getLotteryId(),lotteryContext.getUserId());
-        ...
-        <span class="hljs-comment">//抽奖并返回结果</span>
-        IssueResponse issueResponse = lotteryService.issurLottery(lotteryContext);
-        <span class="hljs-keyword">if</span>(issueResponse!=<span class="hljs-keyword">null</span> && issueResponse.getCode()==IssueResponse.OK) {
-            <span class="hljs-keyword">return</span> buildSuccessResponse(issueResponse.getPrizeInfo());
-        } <span class="hljs-keyword">else</span> {   
-            <span class="hljs-keyword">return</span> buildErrorResponse(ResponseCode.ISSUE_LOTTERY_FAIL, ResponseMsg.ISSUE_LOTTERY_FAIL)
-        }
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">validateLoginInfo</span><span class="hljs-params">(LotteryContext lotteryContext)</span></span>{...}
-    <span class="hljs-function"><span class="hljs-keyword">private</span> Response<PrizeInfo, ErrorData> <span class="hljs-title">buildErrorResponse</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> code, String msg)</span></span>{...}
-    <span class="hljs-function"><span class="hljs-keyword">private</span> Response<PrizeInfo, ErrorData> <span class="hljs-title">buildSuccessResponse</span> <span class="hljs-params">(PrizeInfo prizeInfo)</span></span>{...}
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> ...;<br><br><span class="hljs-keyword">import</span> ...;<br><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LotteryApplicationService</span> </span>{<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> LotteryRiskService riskService;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> LotteryConditionService conditionService;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> LotteryService lotteryService;<br><br>    <span class="hljs-comment">//用户参与抽奖活动</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Response<PrizeInfo, ErrorData> <span class="hljs-title">participateLottery</span><span class="hljs-params">(LotteryContext lotteryContext)</span> </span>{<br>        <span class="hljs-comment">//校验用户登录信息</span><br>        validateLoginInfo(lotteryContext);<br>        <span class="hljs-comment">//校验风控 </span><br>        RiskAccessToken riskToken = riskService.accquire(buildRiskReq(lotteryContext));<br>        ...<br>        <span class="hljs-comment">//活动准入检查</span><br>        LotteryConditionResult conditionResult = conditionService.checkLotteryCondition(otteryContext.getLotteryId(),lotteryContext.getUserId());<br>        ...<br>        <span class="hljs-comment">//抽奖并返回结果</span><br>        IssueResponse issueResponse = lotteryService.issurLottery(lotteryContext);<br>        <span class="hljs-keyword">if</span>(issueResponse!=<span class="hljs-keyword">null</span> && issueResponse.getCode()==IssueResponse.OK) {<br>            <span class="hljs-keyword">return</span> buildSuccessResponse(issueResponse.getPrizeInfo());<br>        } <span class="hljs-keyword">else</span> {   <br>            <span class="hljs-keyword">return</span> buildErrorResponse(ResponseCode.ISSUE_LOTTERY_FAIL, ResponseMsg.ISSUE_LOTTERY_FAIL)<br>        }<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">validateLoginInfo</span><span class="hljs-params">(LotteryContext lotteryContext)</span></span>{...}<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> Response<PrizeInfo, ErrorData> <span class="hljs-title">buildErrorResponse</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> code, String msg)</span></span>{...}<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> Response<PrizeInfo, ErrorData> <span class="hljs-title">buildSuccessResponse</span> <span class="hljs-params">(PrizeInfo prizeInfo)</span></span>{...}<br>}<br></code></pre></td></tr></tbody></table></figure>
 <h1 id="结语"><a class="markdownIt-Anchor" href="#结语"></a> 结语<a class="post-anchor" href="#结语"></a></h1>
 <p>在本文中，我们采用了分治的思想，从抽象到具体阐述了DDD在互联网真实业务系统中的实践。通过领域驱动设计这个强大的武器，我们将系统解构的更加合理。</p>
 <p>但值得注意的是，如果你面临的系统很简单或者做一些SmartUI之类，那么你不一定需要DDD。尽管本文对贫血模型、演进式设计提出了些许看法，但它们在特定范围和具体场景下会更高效。读者需要针对自己的实际情况，做一定取舍，适合自己的才是最好的。</p>

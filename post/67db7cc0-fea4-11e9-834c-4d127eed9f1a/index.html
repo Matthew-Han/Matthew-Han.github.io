@@ -241,59 +241,7 @@
 <p>之前的配置类由于服务端未放行，导致触发错误。</p>
 <h2 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法<a class="post-anchor" href="#解决方法"></a></h2>
 <p>我们将需要预检请求的方法<code>"OPTIONS".equals(request.getMethod())</code>放行，同时把<code>Access-Control-Allow-Headers</code>和<code>Access-Control-Allow-Origin</code>设置成请求的HTTP头信息，这样可以保证都放行。实际的配置就是如下：</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> CorsFilterConfiguration
- * <span class="hljs-doctag">@Description</span> 跨域资源共享
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/10/15 10:48
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-meta">@WebFilter</span>(filterName = <span class="hljs-string">"CorsFilterConfig "</span>)
-<span class="hljs-meta">@Order</span>(-<span class="hljs-number">100</span>)
-<span class="hljs-meta">@Component</span>
-<span class="hljs-meta">@ServletComponentScan</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CorsFilterConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Filter</span> </span>{
-
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(CorsFilterConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
-
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String[] allowDomains = {<span class="hljs-string">"http://localhost:8080"</span>, <span class="hljs-string">"http://localhost:80"</span>, <span class="hljs-string">"http://ip:8080"</span>, <span class="hljs-string">"http://ip:80"</span>};
-
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException </span>{
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doFilter</span><span class="hljs-params">(ServletRequest req, ServletResponse res, FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException </span>{
-
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) res;
-        response.setHeader(<span class="hljs-string">"Access-Control-Allow-Origin"</span>, request.getHeader(<span class="hljs-string">"Origin"</span>));
-        response.setHeader(<span class="hljs-string">"Access-Control-Allow-Credentials"</span>, <span class="hljs-string">"true"</span>);
-        response.setHeader(<span class="hljs-string">"Access-Control-Allow-Methods"</span>, <span class="hljs-string">"POST,GET,PATCH,DELETE,PUT,OPTIONS"</span>);
-        <span class="hljs-comment">/*
-         * 该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是1小时（3600秒），
-         * 即允许缓存该条回应3600秒（即1小时），在此期间，不用发出另一条预检请求。
-         */</span>
-        response.setHeader(<span class="hljs-string">"Access-Control-Max-Age"</span>, <span class="hljs-string">"3600"</span>);
-        response.setHeader(<span class="hljs-string">"Access-Control-Allow-Headers"</span>, request.getHeader(<span class="hljs-string">"Access-Control-Request-Headers"</span>));
-        response.setHeader(<span class="hljs-string">"Content-Type"</span>,<span class="hljs-string">"application/json;charset=UTF-8"</span>);
-        <span class="hljs-comment">// prefight请求</span>
-        <span class="hljs-keyword">if</span> (<span class="hljs-string">"OPTIONS"</span>.equals(request.getMethod())) {
-            response.setStatus( <span class="hljs-number">200</span> );
-            <span class="hljs-keyword">return</span>;
-        }
-        chain.doFilter(req, res);
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroy</span><span class="hljs-params">()</span> </span>{
-
-    }
-
-}
-
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> CorsFilterConfiguration</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 跨域资源共享</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/10/15 10:48</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@WebFilter</span>(filterName = <span class="hljs-string">"CorsFilterConfig "</span>)<br><span class="hljs-meta">@Order</span>(-<span class="hljs-number">100</span>)<br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@ServletComponentScan</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CorsFilterConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Filter</span> </span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(CorsFilterConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String[] allowDomains = {<span class="hljs-string">"http://localhost:8080"</span>, <span class="hljs-string">"http://localhost:80"</span>, <span class="hljs-string">"http://ip:8080"</span>, <span class="hljs-string">"http://ip:80"</span>};<br><br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException </span>{<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doFilter</span><span class="hljs-params">(ServletRequest req, ServletResponse res, FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException </span>{<br><br>        HttpServletRequest request = (HttpServletRequest) req;<br>        HttpServletResponse response = (HttpServletResponse) res;<br>        response.setHeader(<span class="hljs-string">"Access-Control-Allow-Origin"</span>, request.getHeader(<span class="hljs-string">"Origin"</span>));<br>        response.setHeader(<span class="hljs-string">"Access-Control-Allow-Credentials"</span>, <span class="hljs-string">"true"</span>);<br>        response.setHeader(<span class="hljs-string">"Access-Control-Allow-Methods"</span>, <span class="hljs-string">"POST,GET,PATCH,DELETE,PUT,OPTIONS"</span>);<br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * 该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是1小时（3600秒），</span><br><span class="hljs-comment">         * 即允许缓存该条回应3600秒（即1小时），在此期间，不用发出另一条预检请求。</span><br><span class="hljs-comment">         */</span><br>        response.setHeader(<span class="hljs-string">"Access-Control-Max-Age"</span>, <span class="hljs-string">"3600"</span>);<br>        response.setHeader(<span class="hljs-string">"Access-Control-Allow-Headers"</span>, request.getHeader(<span class="hljs-string">"Access-Control-Request-Headers"</span>));<br>        response.setHeader(<span class="hljs-string">"Content-Type"</span>,<span class="hljs-string">"application/json;charset=UTF-8"</span>);<br>        <span class="hljs-comment">// prefight请求</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-string">"OPTIONS"</span>.equals(request.getMethod())) {<br>            response.setStatus( <span class="hljs-number">200</span> );<br>            <span class="hljs-keyword">return</span>;<br>        }<br>        chain.doFilter(req, res);<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroy</span><span class="hljs-params">()</span> </span>{<br><br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
 </body></html>
 
   

@@ -269,14 +269,7 @@
 </tbody>
 </table>
 <p>其中search方法比较特殊，返回的是该元素的位置，但是从1开始的，这个不是数组下标。源码里是这样写的：</p>
-<pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">int</span> <span class="hljs-title">search</span><span class="hljs-params">(Object o)</span> </span>{
-  <span class="hljs-keyword">int</span> i = lastIndexOf(o);
-	<span class="hljs-keyword">if</span> (i >= <span class="hljs-number">0</span>) {
-    <span class="hljs-keyword">return</span> size() - i;
-  }
-  <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">int</span> <span class="hljs-title">search</span><span class="hljs-params">(Object o)</span> </span>{<br>  <span class="hljs-keyword">int</span> i = lastIndexOf(o);<br>	<span class="hljs-keyword">if</span> (i >= <span class="hljs-number">0</span>) {<br>    <span class="hljs-keyword">return</span> size() - i;<br>  }<br>  <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>如果该栈不存在任何元素，使用pop和peek方法会报NPE。</p>
 <p>以上方法都是用了<code>synchronized</code>进行修饰，确保线程同步。</p>
 <h1 id="父类方法未完待续"><a class="markdownIt-Anchor" href="#父类方法未完待续"></a> 父类方法（未完待续…）<a class="post-anchor" href="#父类方法未完待续"></a></h1>

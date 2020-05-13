@@ -227,83 +227,20 @@
 <p>但是在安全框架Shiro中，通过<code>webRequest.getAttribute("currentUser", RequestAttributes.SCOPE_REQUEST)</code>却并不可行，👴也不⑧知道什么原因，也是按照该篇文章通过在登陆的业务中通过HttpServletRequest的<code>request.setAttribute()</code>方法存入需要的信息。</p>
 <h1 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析<a class="post-anchor" href="#分析"></a></h1>
 <p>通过对下面的一段覆写代码，可以看出：</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- *  增加方法注入，将含有 <span class="hljs-doctag">@CurrentUser</span> 注解的方法参数注入当前登录用户
- */</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CurrentUserMethodArgumentResolver</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">HandlerMethodArgumentResolver</span> </span>{
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">supportsParameter</span><span class="hljs-params">(MethodParameter parameter)</span> </span>{
-        <span class="hljs-keyword">return</span> parameter.getParameterType().isAssignableFrom(User<span class="hljs-class">.<span class="hljs-keyword">class</span>)
-                && <span class="hljs-title">parameter</span>.<span class="hljs-title">hasParameterAnnotation</span>(<span class="hljs-title">CurrentUser</span>.<span class="hljs-title">class</span>)</span>;
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">resolveArgument</span><span class="hljs-params">(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-        User user = (User) webRequest.getAttribute(<span class="hljs-string">"currentUser"</span>, RequestAttributes.SCOPE_REQUEST);
-        <span class="hljs-keyword">if</span> (user != <span class="hljs-keyword">null</span>) {
-            <span class="hljs-keyword">return</span> user;
-        }
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> MissingServletRequestPartException(<span class="hljs-string">"currentUser"</span>);
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *  增加方法注入，将含有 <span class="hljs-doctag">@CurrentUser</span> 注解的方法参数注入当前登录用户</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CurrentUserMethodArgumentResolver</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">HandlerMethodArgumentResolver</span> </span>{<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">supportsParameter</span><span class="hljs-params">(MethodParameter parameter)</span> </span>{<br>        <span class="hljs-keyword">return</span> parameter.getParameterType().isAssignableFrom(User<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span><br><span class="hljs-class">                && <span class="hljs-title">parameter</span>.<span class="hljs-title">hasParameterAnnotation</span>(<span class="hljs-title">CurrentUser</span>.<span class="hljs-title">class</span>)</span>;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">resolveArgument</span><span class="hljs-params">(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory)</span> <span class="hljs-keyword">throws</span> Exception </span>{<br>        User user = (User) webRequest.getAttribute(<span class="hljs-string">"currentUser"</span>, RequestAttributes.SCOPE_REQUEST);<br>        <span class="hljs-keyword">if</span> (user != <span class="hljs-keyword">null</span>) {<br>            <span class="hljs-keyword">return</span> user;<br>        }<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> MissingServletRequestPartException(<span class="hljs-string">"currentUser"</span>);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>绑定了该注解<code>@CurrentUser</code>的解析器是通过实现HandlerMethodArgumentResolver接口，然后通过<code>webRequest</code>对象获取之前在<code>request</code>作用域中的<code>currentUser</code>。</p>
 <p>那么这个<code>NativeWebRequest</code>是如何得到这个值的呢？我们打开它的源码，发现WebRequest是Spring框架提供的统一请求访问接口，不仅仅可以访问请求相关数据（如参数区数据、请求头数据，但访问不到Cookie区数据），还可以访问会话和上下文中的数据；<code>NativeWebRequest</code>继承了<code>WebRequest</code>，并提供访问本地Servlet API的方法。</p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">RequestAttributes</span> </span>{
-    <span class="hljs-keyword">int</span> SCOPE_REQUEST = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">int</span> SCOPE_SESSION = <span class="hljs-number">1</span>;
-    String REFERENCE_REQUEST = <span class="hljs-string">"request"</span>;
-    String REFERENCE_SESSION = <span class="hljs-string">"session"</span>;
-
-    <span class="hljs-meta">@Nullable</span>
-    <span class="hljs-function">Object <span class="hljs-title">getAttribute</span><span class="hljs-params">(String var1, <span class="hljs-keyword">int</span> var2)</span></span>;
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">RequestAttributes</span> </span>{<br>    <span class="hljs-keyword">int</span> SCOPE_REQUEST = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> SCOPE_SESSION = <span class="hljs-number">1</span>;<br>    String REFERENCE_REQUEST = <span class="hljs-string">"request"</span>;<br>    String REFERENCE_SESSION = <span class="hljs-string">"session"</span>;<br><br>    <span class="hljs-meta">@Nullable</span><br>    <span class="hljs-function">Object <span class="hljs-title">getAttribute</span><span class="hljs-params">(String var1, <span class="hljs-keyword">int</span> var2)</span></span>;<br></code></pre></td></tr></tbody></table></figure>
 <p>而<code>ServletRequestAttributes</code>的方法则是<code>getAttribute()</code>的实现，通过对scope的不同来控制作用域。</p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> HttpServletRequest request;
-<span class="hljs-meta">@Nullable</span>
-<span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> HttpSession session;
-<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map<String, Object> sessionAttributesToUpdate;
-
-<span class="hljs-comment">// ...</span>
-
-<span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getAttribute</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> scope)</span> </span>{
-    <span class="hljs-keyword">if</span> (scope == <span class="hljs-number">0</span>) {
-        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.isRequestActive()) {
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Cannot ask for request attribute - request is not active anymore!"</span>);
-        } <span class="hljs-keyword">else</span> {
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.request.getAttribute(name);
-        }
-    } <span class="hljs-keyword">else</span> {
-        HttpSession session = <span class="hljs-keyword">this</span>.getSession(<span class="hljs-keyword">false</span>);
-        <span class="hljs-keyword">if</span> (session != <span class="hljs-keyword">null</span>) {
-            <span class="hljs-keyword">try</span> {
-                Object value = session.getAttribute(name);
-                <span class="hljs-keyword">if</span> (value != <span class="hljs-keyword">null</span>) {
-                    <span class="hljs-keyword">this</span>.sessionAttributesToUpdate.put(name, value);
-                }
-
-                <span class="hljs-keyword">return</span> value;
-            } <span class="hljs-keyword">catch</span> (IllegalStateException var5) {
-            }
-        }
-
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> HttpServletRequest request;<br><span class="hljs-meta">@Nullable</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> HttpSession session;<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map<String, Object> sessionAttributesToUpdate;<br><br><span class="hljs-comment">// ...</span><br><br><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getAttribute</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> scope)</span> </span>{<br>    <span class="hljs-keyword">if</span> (scope == <span class="hljs-number">0</span>) {<br>        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.isRequestActive()) {<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Cannot ask for request attribute - request is not active anymore!"</span>);<br>        } <span class="hljs-keyword">else</span> {<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.request.getAttribute(name);<br>        }<br>    } <span class="hljs-keyword">else</span> {<br>        HttpSession session = <span class="hljs-keyword">this</span>.getSession(<span class="hljs-keyword">false</span>);<br>        <span class="hljs-keyword">if</span> (session != <span class="hljs-keyword">null</span>) {<br>            <span class="hljs-keyword">try</span> {<br>                Object value = session.getAttribute(name);<br>                <span class="hljs-keyword">if</span> (value != <span class="hljs-keyword">null</span>) {<br>                    <span class="hljs-keyword">this</span>.sessionAttributesToUpdate.put(name, value);<br>                }<br><br>                <span class="hljs-keyword">return</span> value;<br>            } <span class="hljs-keyword">catch</span> (IllegalStateException var5) {<br>            }<br>        }<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>当scope为<code>RequestAttributes.SCOPE_REQUEST</code>的时候<code>getAttribute(name)</code>方法会返回当前线程的<code>HttpServletRequest</code>的对象的<code>getAttribute(name)</code>的值。</li>
 <li>当scope为<code>RequestAttributes.SCOPE_REQUEST</code>时会把<code>session</code>对象的<code>getAttribute(name)</code>的value存入<code>Map<String, Object> sessionAttributesToUpdate</code>中。</li>
 </ul>
 <p>既然我之前没有从<code>HttpServletRequest</code>作用域中得到我想要的结果，那么为什么不试试利用session呢。我们可以在登陆的业务中将当前已登录的用户的信息存入session中。</p>
-<pre class="highlight"><code class="java">session.setAttribute(<span class="hljs-string">"currentUser"</span>, currentUserDTO/token/id);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">session.setAttribute(<span class="hljs-string">"currentUser"</span>, currentUserDTO/token/id);<br></code></pre></td></tr></tbody></table></figure>
 <p>可以是当前登录对象的数据传输对象，也可以是token或者id。</p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">resolveArgument</span><span class="hljs-params">(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory)</span> </span>{
-		<span class="hljs-keyword">return</span> webRequest.getAttribute(<span class="hljs-string">"currentUser"</span>, RequestAttributes.SCOPE_SESSION);
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">resolveArgument</span><span class="hljs-params">(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory)</span> </span>{<br>		<span class="hljs-keyword">return</span> webRequest.getAttribute(<span class="hljs-string">"currentUser"</span>, RequestAttributes.SCOPE_SESSION);<br>}<br></code></pre></td></tr></tbody></table></figure>
 </body></html>
 
   

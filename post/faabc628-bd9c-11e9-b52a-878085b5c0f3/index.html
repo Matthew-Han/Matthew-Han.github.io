@@ -259,203 +259,22 @@
 <li><strong>具体产品(Concrete Product)角色</strong>：这个角色实现了抽象产品角色所定义的接口。某具体产品有专门的具体工厂创建，它们之间往往一一对应。</li>
 </ul>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-2.png/wm" target="_blank" rel="noopener" data-caption="本文实例" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-2.png/wm" alt="本文实例"></a></p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> MacBookFactory
- * <span class="hljs-doctag">@Description</span> MacBook的抽象工厂类
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/8/1 18:01
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MacBookFactory</span> </span>{
-
-    <span class="hljs-comment">/**
-     * MacBook抽象工厂
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function">AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span></span>;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> MacBookFactory</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> MacBook的抽象工厂类</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/8/1 18:01</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MacBookFactory</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * MacBook抽象工厂</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span></span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <center>MacBook的抽象工厂类，用于描述所有具体型号生产的MacBook工厂的抽象基类。</center>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> AbstractMacBookProduct
- * <span class="hljs-doctag">@Description</span> 所有MacBook抽象产品类，可以理解成各种型号的MacBook笔记本
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/8/1 18:02
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)
-<span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)
-<span class="hljs-meta">@ToString</span>
-<span class="hljs-meta">@AllArgsConstructor</span>
-<span class="hljs-meta">@NoArgsConstructor</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{
-    <span class="hljs-keyword">private</span> String sn;
-    <span class="hljs-keyword">private</span> String type;
-    <span class="hljs-keyword">private</span> String display;
-    <span class="hljs-keyword">private</span> String keyboard;
-    <span class="hljs-keyword">private</span> String weight;
-    <span class="hljs-keyword">private</span> Double price;
-
-    <span class="hljs-comment">/**
-     * 打印结账语
-     * <span class="hljs-doctag">@return</span>
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span></span>;
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> AbstractMacBookProduct</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 所有MacBook抽象产品类，可以理解成各种型号的MacBook笔记本</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/8/1 18:02</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)<br><span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)<br><span class="hljs-meta">@ToString</span><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{<br>    <span class="hljs-keyword">private</span> String sn;<br>    <span class="hljs-keyword">private</span> String type;<br>    <span class="hljs-keyword">private</span> String display;<br>    <span class="hljs-keyword">private</span> String keyboard;<br>    <span class="hljs-keyword">private</span> String weight;<br>    <span class="hljs-keyword">private</span> Double price;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 打印结账语</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span></span>;<br>}<br></code></pre></td></tr></tbody></table></figure>
 <center>一类MacBook产品的抽象产品，差异化的产品配置。</center>
 <p>抽象二兄弟的实现比较简单，其中抽象工厂接口定义的是<code>生产MacBook</code>的方法，就像是和各个工厂之间签了一份略有差别的合同，那么在具体生产的工厂中需要严格按照这份合同执行。抽象产品类则是体现<code>is-a</code>关系，更像是把这类产品的雏形给雕琢出来的模具，是具体产品的爹，具体工厂按照合同去生产合规的产品。</p>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> MacBook13Factory
- * <span class="hljs-doctag">@Description</span> MacBook 13-inch的具体工厂
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/8/2 09:12
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook13Factory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MacBookFactory</span> </span>{
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{
-        MacBook13Product macBook13 = <span class="hljs-keyword">new</span> MacBook13Product();
-        macBook13.setSn(RandomUtil.getStr());
-        macBook13.setType(<span class="hljs-string">"MacBook Pro 13-inch"</span>);
-        macBook13.setDisplay(<span class="hljs-string">"13-inch"</span>);
-        macBook13.setKeyboard(<span class="hljs-string">"new keyboard"</span>);
-        macBook13.setPrice(<span class="hljs-number">999</span>D);
-        macBook13.setWeight(<span class="hljs-string">"88kg"</span>);
-        <span class="hljs-comment">/*
-         * 游戏大礼包竟然是！
-         * 《坦克大战乔碧萝》
-         */</span>
-        macBook13.setGameGiftBag(<span class="hljs-string">"《坦克大战乔碧萝》"</span>);
-        <span class="hljs-keyword">return</span> macBook13;
-    }
-}
-</code></pre>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> MacBook13Product
- * <span class="hljs-doctag">@Description</span> MacBook 13-inch具体产品类
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/8/2 09:37
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)
-<span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)
-<span class="hljs-meta">@ToString</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook13Product</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{
-
-    <span class="hljs-comment">/**
-     * 13-inch MacBook附赠游♂戏大礼包
-     */</span>
-    <span class="hljs-keyword">private</span> String gameGiftBag;
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"This is your new MacBook 13-inch."</span>;
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> MacBook13Factory</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> MacBook 13-inch的具体工厂</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/8/2 09:12</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook13Factory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MacBookFactory</span> </span>{<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{<br>        MacBook13Product macBook13 = <span class="hljs-keyword">new</span> MacBook13Product();<br>        macBook13.setSn(RandomUtil.getStr());<br>        macBook13.setType(<span class="hljs-string">"MacBook Pro 13-inch"</span>);<br>        macBook13.setDisplay(<span class="hljs-string">"13-inch"</span>);<br>        macBook13.setKeyboard(<span class="hljs-string">"new keyboard"</span>);<br>        macBook13.setPrice(<span class="hljs-number">999</span>D);<br>        macBook13.setWeight(<span class="hljs-string">"88kg"</span>);<br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * 游戏大礼包竟然是！</span><br><span class="hljs-comment">         * 《坦克大战乔碧萝》</span><br><span class="hljs-comment">         */</span><br>        macBook13.setGameGiftBag(<span class="hljs-string">"《坦克大战乔碧萝》"</span>);<br>        <span class="hljs-keyword">return</span> macBook13;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> MacBook13Product</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> MacBook 13-inch具体产品类</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/8/2 09:37</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)<br><span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)<br><span class="hljs-meta">@ToString</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook13Product</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 13-inch MacBook附赠游♂戏大礼包</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String gameGiftBag;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">"This is your new MacBook 13-inch."</span>;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <center>13-inch MacBook的具体工厂和他生产的具体产品13-inch MacBook</center>
 13-inch MacBook具体工厂也按照`合同`和`模具`对MacBook进行批量生产组装加工，`MacBook13Product`通过`extend`的方式，完全继承了模具的属性和行为，其中《坦克大战乔碧萝》这个游戏礼包是该产品的特有属性。
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> MacBook15Factory
- * <span class="hljs-doctag">@Description</span> MacBook 15-inch具体工厂
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/8/2 09:30
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook15Factory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MacBookFactory</span> </span>{
-    
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{
-        MacBook15Product macBook15 = <span class="hljs-keyword">new</span> MacBook15Product();
-        macBook15.setSn(RandomUtil.getStr());
-        macBook15.setType(<span class="hljs-string">"MacBook Pro 15-inch"</span>);
-        macBook15.setDisplay(<span class="hljs-string">"15-inch"</span>);
-        macBook15.setKeyboard(<span class="hljs-string">"new keyboard"</span>);
-        macBook15.setPrice(<span class="hljs-number">1999</span>D);
-        macBook15.setWeight(<span class="hljs-string">"88kg"</span>);
-        <span class="hljs-comment">/*
-         * 蕴含着神秘力量的密码
-         * 带你找回丢失的纯真时光
-         */</span>
-        macBook15.setCode(<span class="hljs-string">"magnet:?xt=urn:btih:36AAB086D9AF39A323082CBAD452D6BDC42147D1"</span>);
-        <span class="hljs-keyword">return</span> macBook15;
-    }
-}
-
-</code></pre>
-<pre class="highlight"><code class="java"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@ClassName</span> MacBook15Product
- * <span class="hljs-doctag">@Description</span> MacBook 15-inch具体产品类
- * <span class="hljs-doctag">@Author</span> MatthewHan
- * <span class="hljs-doctag">@Date</span> 2019/8/2 09:37
- * <span class="hljs-doctag">@Version</span> 1.0
- **/</span>
-<span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)
-<span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)
-<span class="hljs-meta">@ToString</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook15Product</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{
-
-    <span class="hljs-comment">/**
-     * 15-inch MacBook附赠的神秘代♂码
-     */</span>
-    <span class="hljs-keyword">private</span> String code;
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"This is your new MacBook 15-inch."</span>;
-    }
-}
-
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> MacBook15Factory</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> MacBook 15-inch具体工厂</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/8/2 09:30</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook15Factory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MacBookFactory</span> </span>{<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> AbstractMacBookProduct <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{<br>        MacBook15Product macBook15 = <span class="hljs-keyword">new</span> MacBook15Product();<br>        macBook15.setSn(RandomUtil.getStr());<br>        macBook15.setType(<span class="hljs-string">"MacBook Pro 15-inch"</span>);<br>        macBook15.setDisplay(<span class="hljs-string">"15-inch"</span>);<br>        macBook15.setKeyboard(<span class="hljs-string">"new keyboard"</span>);<br>        macBook15.setPrice(<span class="hljs-number">1999</span>D);<br>        macBook15.setWeight(<span class="hljs-string">"88kg"</span>);<br>        <span class="hljs-comment">/*</span><br><span class="hljs-comment">         * 蕴含着神秘力量的密码</span><br><span class="hljs-comment">         * 带你找回丢失的纯真时光</span><br><span class="hljs-comment">         */</span><br>        macBook15.setCode(<span class="hljs-string">"magnet:?xt=urn:btih:36AAB086D9AF39A323082CBAD452D6BDC42147D1"</span>);<br>        <span class="hljs-keyword">return</span> macBook15;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> MacBook15Product</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> MacBook 15-inch具体产品类</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/8/2 09:37</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)<br><span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)<br><span class="hljs-meta">@ToString</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MacBook15Product</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractMacBookProduct</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 15-inch MacBook附赠的神秘代♂码</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String code;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">printSlogan</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">"This is your new MacBook 15-inch."</span>;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <center>15-inch MacBook的具体工厂和他生产的具体产品15-inch MacBook</center>
 15-inch MacBook具体工厂也按照`合同`和`模具`对MacBook进行批量生产组装加工，`MacBook13Product`通过`extend`的方式，完全继承了模具的属性和行为，其中神秘代码是该产品的特有属性。
 <p>来测试一下这些代工厂996生产的产品到底合不合规：</p>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-comment">/*
-     * 抽象==================>具体
-     */</span>
-    MacBookFactory macBook13Factory = <span class="hljs-keyword">new</span> MacBook13Factory();
-    <span class="hljs-comment">/*
-     * 13-inch MacBook实例化对象就由MacBook13Factory创建
-     */</span>
-    AbstractMacBookProduct mac13WithMatthew = macBook13Factory.createMacBook();
-     
-    <span class="hljs-comment">/*
-     * 具体工厂生产的对象与具体产品类实例化的产品
-     */</span>
-    MacBook13Product c = <span class="hljs-keyword">new</span> MacBook13Product();
-    assertEquals(c.getClass(), mac13WithMatthew.getClass());
-    
-    System.out.println(mac13WithMatthew.getClass());
-    System.out.println(mac13WithMatthew.printSlogan());
-    System.out.println(mac13WithMatthew);
-}
-</code></pre>
-<pre class="highlight"><code class="java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{
-
-    <span class="hljs-comment">/*
-     * 抽象==================>具体
-     */</span>
-    MacBookFactory macBook15Factory = <span class="hljs-keyword">new</span> MacBook15Factory();
-    <span class="hljs-comment">/*
-     * 15-inch MacBook实例化对象就由MacBook15Factory创建
-     */</span>
-    AbstractMacBookProduct mac15WithMatthew = macBook15Factory.createMacBook();
-
-    <span class="hljs-comment">/*
-     * 具体工厂生产的对象与具体产品类实例化的产品
-     */</span>
-    MacBook15Product c = <span class="hljs-keyword">new</span> MacBook15Product();
-    assertEquals(c.getClass(), mac15WithMatthew.getClass());
-    
-    System.out.println(mac15WithMatthew.getClass());
-    System.out.println(mac15WithMatthew.printSlogan());
-    System.out.println(mac15WithMatthew);
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * 抽象==================>具体</span><br><span class="hljs-comment">     */</span><br>    MacBookFactory macBook13Factory = <span class="hljs-keyword">new</span> MacBook13Factory();<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * 13-inch MacBook实例化对象就由MacBook13Factory创建</span><br><span class="hljs-comment">     */</span><br>    AbstractMacBookProduct mac13WithMatthew = macBook13Factory.createMacBook();<br>     <br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * 具体工厂生产的对象与具体产品类实例化的产品</span><br><span class="hljs-comment">     */</span><br>    MacBook13Product c = <span class="hljs-keyword">new</span> MacBook13Product();<br>    assertEquals(c.getClass(), mac13WithMatthew.getClass());<br>    <br>    System.out.println(mac13WithMatthew.getClass());<br>    System.out.println(mac13WithMatthew.printSlogan());<br>    System.out.println(mac13WithMatthew);<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createMacBook</span><span class="hljs-params">()</span> </span>{<br><br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * 抽象==================>具体</span><br><span class="hljs-comment">     */</span><br>    MacBookFactory macBook15Factory = <span class="hljs-keyword">new</span> MacBook15Factory();<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * 15-inch MacBook实例化对象就由MacBook15Factory创建</span><br><span class="hljs-comment">     */</span><br>    AbstractMacBookProduct mac15WithMatthew = macBook15Factory.createMacBook();<br><br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">     * 具体工厂生产的对象与具体产品类实例化的产品</span><br><span class="hljs-comment">     */</span><br>    MacBook15Product c = <span class="hljs-keyword">new</span> MacBook15Product();<br>    assertEquals(c.getClass(), mac15WithMatthew.getClass());<br>    <br>    System.out.println(mac15WithMatthew.getClass());<br>    System.out.println(mac15WithMatthew.printSlogan());<br>    System.out.println(mac15WithMatthew);<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-5.png/wm" target="_blank" rel="noopener" data-caption="单元测试" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-5.png/wm" alt="单元测试"></a><br>
 <a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-6.png/wm" target="_blank" rel="noopener" data-caption="单元测试" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/factory1-6.png/wm" alt="单元测试"></a></p>
 <p><code>System.out.println(mac13WithMatthew)</code>打印的结果只有<code>gameGiftBag</code>是因为子类重写父类的<code>toString()</code>方法，如果把子类（<code>MacBook13Product</code>）的<code>@ToString</code>注解去掉的话，就是默认继承的父类（<code>AbstractMacBookProduct</code>）的<code>toString()</code>方法了。</p>

@@ -267,75 +267,7 @@
 <p>我们根据整数的长度取得平方根的区间后可以根据二分查找法，将平均时间复杂度降低。</p>
 </li>
 </ol>
-<pre class="highlight"><code class="java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isPerfectSquare</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span> </span>{
-        <span class="hljs-keyword">int</span>[] se = interval(String.valueOf(num).length());
-        <span class="hljs-keyword">int</span> left = se[<span class="hljs-number">0</span>];
-        <span class="hljs-keyword">int</span> right = se[<span class="hljs-number">1</span>];
-        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) {
-            <span class="hljs-keyword">int</span> mid = left + (right - left) / <span class="hljs-number">2</span>;
-            <span class="hljs-keyword">if</span> (mid * mid < num) {
-                <span class="hljs-keyword">if</span> (right - left == <span class="hljs-number">1</span>) {
-                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-                } <span class="hljs-keyword">else</span> {
-                    left = mid;
-                }
-            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (mid * mid == num) {
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-            } <span class="hljs-keyword">else</span> {
-                <span class="hljs-keyword">if</span> (right - left == <span class="hljs-number">1</span>) {
-                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-                } <span class="hljs-keyword">else</span> {
-                    right = mid;
-                }
-            }
-        }
-    }
-
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>[] interval(<span class="hljs-keyword">int</span> len) {
-        <span class="hljs-keyword">int</span> start;
-        <span class="hljs-keyword">int</span> end;
-        <span class="hljs-keyword">switch</span> (len) {
-            <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
-                start = <span class="hljs-number">10</span>;
-                end = <span class="hljs-number">32</span>;
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:
-                start = <span class="hljs-number">31</span>;
-                end = <span class="hljs-number">100</span>;
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:
-                start = <span class="hljs-number">100</span>;
-                end = <span class="hljs-number">317</span>;
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>:
-                start = <span class="hljs-number">316</span>;
-                end = <span class="hljs-number">1000</span>;
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:
-                start = <span class="hljs-number">1000</span>;
-                end = <span class="hljs-number">3163</span>;
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">case</span> <span class="hljs-number">8</span>:
-                start = <span class="hljs-number">3162</span>;
-                end = <span class="hljs-number">10000</span>;
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">case</span> <span class="hljs-number">9</span>:
-                start = <span class="hljs-number">10000</span>;
-                end = <span class="hljs-number">31623</span>;
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">case</span> <span class="hljs-number">10</span>:
-                start = <span class="hljs-number">31622</span>;
-                end = <span class="hljs-number">46341</span>;
-                <span class="hljs-keyword">break</span>;
-            <span class="hljs-keyword">default</span>:
-                start = <span class="hljs-number">1</span>;
-                end = <span class="hljs-number">10</span>;
-        }
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{start, end};
-    }
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isPerfectSquare</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span> </span>{<br>        <span class="hljs-keyword">int</span>[] se = interval(String.valueOf(num).length());<br>        <span class="hljs-keyword">int</span> left = se[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">int</span> right = se[<span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) {<br>            <span class="hljs-keyword">int</span> mid = left + (right - left) / <span class="hljs-number">2</span>;<br>            <span class="hljs-keyword">if</span> (mid * mid < num) {<br>                <span class="hljs-keyword">if</span> (right - left == <span class="hljs-number">1</span>) {<br>                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>                } <span class="hljs-keyword">else</span> {<br>                    left = mid;<br>                }<br>            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (mid * mid == num) {<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>            } <span class="hljs-keyword">else</span> {<br>                <span class="hljs-keyword">if</span> (right - left == <span class="hljs-number">1</span>) {<br>                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>                } <span class="hljs-keyword">else</span> {<br>                    right = mid;<br>                }<br>            }<br>        }<br>    }<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>[] interval(<span class="hljs-keyword">int</span> len) {<br>        <span class="hljs-keyword">int</span> start;<br>        <span class="hljs-keyword">int</span> end;<br>        <span class="hljs-keyword">switch</span> (len) {<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>                start = <span class="hljs-number">10</span>;<br>                end = <span class="hljs-number">32</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>                start = <span class="hljs-number">31</span>;<br>                end = <span class="hljs-number">100</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>                start = <span class="hljs-number">100</span>;<br>                end = <span class="hljs-number">317</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>:<br>                start = <span class="hljs-number">316</span>;<br>                end = <span class="hljs-number">1000</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:<br>                start = <span class="hljs-number">1000</span>;<br>                end = <span class="hljs-number">3163</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">8</span>:<br>                start = <span class="hljs-number">3162</span>;<br>                end = <span class="hljs-number">10000</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">9</span>:<br>                start = <span class="hljs-number">10000</span>;<br>                end = <span class="hljs-number">31623</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">10</span>:<br>                start = <span class="hljs-number">31622</span>;<br>                end = <span class="hljs-number">46341</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">default</span>:<br>                start = <span class="hljs-number">1</span>;<br>                end = <span class="hljs-number">10</span>;<br>        }<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{start, end};<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>二分法有一个很需要注意的点：就是求中间值的计算公式。一般最好不要直接这样做：<code>(left + right) / 2</code>，因为很有可能在<code>left + right</code>的过程中就溢出了，算出来是负数的。改成long类型或者这样算：<code>left + (right - left) / 2</code>。</p>
 <p>两个点优化之后，即使一个很大的数字也不需要经过几次的查找便可知道是否是完全平方数。以上算法的时间复杂度为<em>O</em>(1) + <em>O</em>(log<sub>2</sub><em>n</em>) = <em>O</em>(log<sub>2</sub><em>n</em>)。</p>
 </body></html>

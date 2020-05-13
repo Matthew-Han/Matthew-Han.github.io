@@ -289,11 +289,7 @@
 <h2 id="和return的关系"><a class="markdownIt-Anchor" href="#和return的关系"></a> 和return的关系<a class="post-anchor" href="#和return的关系"></a></h2>
 <p>finally是在return表达式运行后执行的，此时将要return的结果已经被暂存起来，待finally代码块执行结束后再将之前的暂存的结果返回。</p>
 <p>打印的结果：</p>
-<pre class="highlight"><code class="java">value = <span class="hljs-number">101</span>
-x = <span class="hljs-number">1</span>
-y = <span class="hljs-number">11</span>
-z = <span class="hljs-number">101</span>
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">value = <span class="hljs-number">101</span><br>x = <span class="hljs-number">1</span><br>y = <span class="hljs-number">11</span><br>z = <span class="hljs-number">101</span><br></code></pre></td></tr></tbody></table></figure>
 <p>以上的结果说明：</p>
 <ol>
 <li><font color="#FF8C00">最后return的动作是由finally代码块中的<code>return ++z</code>完成的，所以方法返回的结果101。</font></li>
@@ -303,16 +299,7 @@ z = <span class="hljs-number">101</span>
 <p>finally代码块中使用return语句，使返回值的判断变得复杂，所以避免返回值不可控，我们不要在finally代码块中使用return语句。</p>
 <h2 id="try与锁的关系"><a class="markdownIt-Anchor" href="#try与锁的关系"></a> try与锁的关系<a class="post-anchor" href="#try与锁的关系"></a></h2>
 <p>lock方法可能会抛出unchecked异常，如果放在try中，必然触发finally中的unlock方法执行。对未加锁的对象解锁会抛出unchecked异常。所以在try代码块之前调用lock方法，避免由于加锁失败导致finally调用unlock抛出异常。</p>
-<pre class="highlight"><code class="java">Lock lock = <span class="hljs-keyword">new</span> XxxLock();
-preDo();
-<span class="hljs-keyword">try</span> {
-  <span class="hljs-comment">// 无论加锁是否成功，unlock都会被执行。</span>
-  lock.lock();
-  doSomething();
-} <span class="hljs-keyword">finally</span> {
-  lock.unlock();
-}
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">Lock lock = <span class="hljs-keyword">new</span> XxxLock();<br>preDo();<br><span class="hljs-keyword">try</span> {<br>  <span class="hljs-comment">// 无论加锁是否成功，unlock都会被执行。</span><br>  lock.lock();<br>  doSomething();<br>} <span class="hljs-keyword">finally</span> {<br>  lock.unlock();<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>所以在try代码块之前调用lock方法，避免由于加锁失败导致finally调用unlock方法抛出异常。<code>lock.lock();</code>这段代码应该移到try的上方。</p>
 <h1 id="异常的抛与接"><a class="markdownIt-Anchor" href="#异常的抛与接"></a> 异常的抛与接<a class="post-anchor" href="#异常的抛与接"></a></h1>
 <ul>
@@ -341,15 +328,13 @@ preDo();
 <li>预先判断日志的级别<br>
 使用占位符的形式打印，避免字符串的拼接输出信息</li>
 </ol>
-<pre class="highlight"><code class="java">logger.info(<span class="hljs-string">"id = {} and symbol = {}"</span>, id, symbol);
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">logger.info(<span class="hljs-string">"id = {} and symbol = {}"</span>, id, symbol);<br></code></pre></td></tr></tbody></table></figure>
 <ol start="2">
 <li>避免无效日志打印<br>
 生产环境禁止DEBUG日志打印且有选择的输出INFO日志。<br>
 避免重复打印，设置additivity=false，示例如下：</li>
 </ol>
-<pre class="highlight"><code class="xml"><span class="hljs-tag"><<span class="hljs-name">logger</span> <span class="hljs-attr">name</span> = <span class="hljs-string">"com.xxx.xxx.config"</span> <span class="hljs-attr">additivity</span>=<span class="hljs-string">"false"</span>></span>
-</code></pre>
+<figure class="highlight xml"><table><tbody><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag"><<span class="hljs-name">logger</span> <span class="hljs-attr">name</span> = <span class="hljs-string">"com.xxx.xxx.config"</span> <span class="hljs-attr">additivity</span>=<span class="hljs-string">"false"</span>></span><br></code></pre></td></tr></tbody></table></figure>
 <ol start="3">
 <li>
 <p>区别对待错误日志<br>
@@ -379,8 +364,7 @@ preDo();
 </ol>
 <p>业界标准门面模式：slf4j+logback组合。</p>
 <p><strong>日志打印规范如下</strong></p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(Xxx<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
-</code></pre>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(Xxx<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<br></code></pre></td></tr></tbody></table></figure>
 <p>logger被定义为static变量，是因为与当前的类绑定，避免每次都new一个新的对象，造成资源浪费，甚至引发OOM问题。</p>
 <p>另外注意日志库冲突。例如：页面出现500错误，但是整个系统中未发现任务异常日志。由于是log4j作为当前日志库，但是间接地引入了logback日志库，导致打印日志的logger引用实际指向<code>ch.qos.logback.classic.Logger</code>对象，冲突导致日志打印失效。</p>
 </body></html>
