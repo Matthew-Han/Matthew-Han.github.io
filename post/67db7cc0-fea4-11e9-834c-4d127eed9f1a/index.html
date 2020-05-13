@@ -217,8 +217,10 @@
       <div>
       </div>
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><blockquote>
-<p>CORS真的太严格了，半清不清的跨域、预检请求、拦截器搞得前后端都身心俱疲</p>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><p>严格的老师</p>
+<a id="more"></a>
+<blockquote>
+<p>CORS真的太严格了，半清不清的跨域、预检请求、拦截器搞得前后端都身心俱疲。</p>
 </blockquote>
 <h2 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景<a class="post-anchor" href="#背景"></a></h2>
 <p>这边要开发一套带有权限认证的平台，懒得自己写拦截器，于是还是打算利用Shiro安全框架，由于采用的还是Cookie-Session那老一套，并没有封装成token暂时也不用考虑集群多实例共享session的问题，所以其实前端的每次请求报文都是需要携带cookie的，cookie里面的jsessionid就是验证对应服务端中的session-data能否匹配。但是这次联调处理并不顺利，还是在开发阶段就问题频出。</p>
