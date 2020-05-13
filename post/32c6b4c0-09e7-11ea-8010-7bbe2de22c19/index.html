@@ -29,7 +29,7 @@
     
     <div id="post-toc" class="animated hiddenToc hide">
       <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cluster模式"><span class="toc-text"> cluster模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改集群的配置文件"><span class="toc-text"> 修改集群的配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的坑"><span class="toc-text"> 遇到的坑</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text"> 前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cluster模式"><span class="toc-text"> cluster模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改集群的配置文件"><span class="toc-text"> 修改集群的配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的坑"><span class="toc-text"> 遇到的坑</span></a></li></ol></li></ol>
     </div>
     
     <div id="fixed-menu-wrap">
@@ -217,11 +217,12 @@
       <div>
       </div>
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><p>更多的master♂来守护你</p>
-<a id="more"></a>
-<blockquote>
-<p>在一台迷のWindows机器上搭建了一个单节点模拟的三主三从redis集群，过程中有一些坑记录下。</p>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><blockquote>
+<p>更多的master♂来守护你</p>
 </blockquote>
+<a id="more"></a>
+<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言<a class="post-anchor" href="#前言"></a></h1>
+<p>在一台迷のWindows机器上搭建了一个单节点模拟的三主三从redis集群，过程中有一些坑记录下。</p>
 <h2 id="cluster模式"><a class="markdownIt-Anchor" href="#cluster模式"></a> cluster模式<a class="post-anchor" href="#cluster模式"></a></h2>
 <p>Redis的Cluster模式工作至少需要三个主节点，所以一般采用三主三从实现负载。</p>
 <p>较理想的环境是一个实例单节点部署主从，多个实例实现集群。</p>
