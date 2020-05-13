@@ -1,158 +1,235 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>《码出高效》系列笔记（三）：异常与日志 - Espada</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明,
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第三篇章：异常与日志篇。
-本系列目录：
-
-《码出高效》系列笔记（,"> 
-    <meta name="author" content="MatthewHan"> 
-    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-
+    <title>
+      《码出高效》系列笔记（三）：异常与日志 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
-<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+<link rel="stylesheet" href="/style/style.css">
 
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
     
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-
-    
-<link rel="stylesheet" href="/css/obsidian.css">
-
-    
-<link rel="stylesheet" href="/css/ball-atom.min.css">
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#异常"><span class="toc-text"> 异常</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#异常分类"><span class="toc-text"> 异常分类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#checked异常与unchecked异常"><span class="toc-text"> checked异常与unchecked异常</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#try代码块"><span class="toc-text"> try代码块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#和return的关系"><span class="toc-text"> 和return的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#try与锁的关系"><span class="toc-text"> try与锁的关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#异常的抛与接"><span class="toc-text"> 异常的抛与接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志"><span class="toc-text"> 日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#日志规范"><span class="toc-text"> 日志规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日志框架"><span class="toc-text"> 日志框架</span></a></li></ol></li></ol>
     </div>
-    <span id="config-title" style="display:none">Espada</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">《码出高效》系列笔记（三）：异常与日志</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
     </div>
-</div>
-
-    <div class="section">
-        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
-<div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip) ">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="/categories/Java技术"><b>「
-                    </b>JAVA技术<b> 」</b></a>
-                
-                十月 10, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="/post/43892940-eb34-11e9-8e01-011debd96741/" title="《码出高效》系列笔记（三）：异常与日志" class="">《码出高效》系列笔记（三）：异常与日志</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    10k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    9 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Easy-Coding/" rel="tag">Easy Coding</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%BC%82%E5%B8%B8/" rel="tag">异常</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E6%97%A5%E5%BF%97/" rel="tag">日志</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a></li></ul>
-            
-        </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
     </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
+    <div id="progress">
+      <div class="line"></div>
     </div>
-</div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
 
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">《码出高效》系列笔记（三）：异常与日志</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2019/10/10</span>
+        </span>
+
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/Java技术">Java技术</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/笔记">笔记</a>
+                  
+                
+                  
+                    <a href="/tags/Easy Coding">Easy Coding</a>
+                  
+                
+                  
+                    <a href="/tags/异常">异常</a>
+                  
+                
+                  
+                    <a href="/tags/日志">日志</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><blockquote>
 <p>良好的编码风格和完善统一的规约是最高效的方式。</p>
 </blockquote>
-<br />
-<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<br>
+<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言<a class="post-anchor" href="#前言"></a></h1>
 <p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第三篇章：异常与日志篇。</p>
 <p><strong>本系列目录</strong>：</p>
 <ul>
@@ -164,7 +241,7 @@
 <li><a href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/" target="_blank" rel="noopener">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
 <li><a href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/" target="_blank" rel="noopener">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
 </ul>
-<h1 id="异常"><a class="markdownIt-Anchor" href="#异常"></a> 异常</h1>
+<h1 id="异常"><a class="markdownIt-Anchor" href="#异常"></a> 异常<a class="post-anchor" href="#异常"></a></h1>
 <p>处理异常程序时，需要解决以下3个问题：</p>
 <ol>
 <li>哪里发生异常</li>
@@ -173,9 +250,9 @@
 </ol>
 <p><strong>无论采用哪种方式处理异常，都严禁捕获异常后什么都不做或打印一行日志了事</strong>。</p>
 <p>学会对任何事情提出质疑；思考问题相比之前会更加多维度的切入；工作上做一件事会考虑它的责任划分、职能问题、；更加谨慎了（也不知道是好是坏）</p>
-<h1 id="异常分类"><a class="markdownIt-Anchor" href="#异常分类"></a> 异常分类</h1>
+<h1 id="异常分类"><a class="markdownIt-Anchor" href="#异常分类"></a> 异常分类<a class="post-anchor" href="#异常分类"></a></h1>
 <p>JDK中定义了一套完整的异常机制，所有异常都是Throwable的子类，分为Error（致命异常）和Exception（非致命异常）。其中Exception又分为checked（受检型异常）和unchecked（非受检型异常）。</p>
-<h2 id="checked异常与unchecked异常"><a class="markdownIt-Anchor" href="#checked异常与unchecked异常"></a> checked异常与unchecked异常</h2>
+<h2 id="checked异常与unchecked异常"><a class="markdownIt-Anchor" href="#checked异常与unchecked异常"></a> checked异常与unchecked异常<a class="post-anchor" href="#checked异常与unchecked异常"></a></h2>
 <p><strong>checked异常是需要在代码中显示处理的异常，否则会编译出错。</strong></p>
 <ul>
 <li>力所能及、坦然处置型。如发生未授权异常（UnAuthorizedException），程序可以跳转至权限申请页面。</li>
@@ -186,12 +263,12 @@
 <li>需捕捉异常（Caution Exception）：例如在使用Dubbo框架在进行RPC调用时产生的远程服务超时异常DubboTimeoutException，此类异常是客户端必须显示处理的异常，不应该出现因产生该异常而导致不可用的情况，一般处理方法是重试或者降级处理。</li>
 <li>可透出异常（Ignored Exception）：主要是指框架或系统产生的且会自动处理的异常，而程序无需关心。例如Spring框架中抛出的NoSuchRequestHandlingMethodException异常，Spring框架会自己完成异常的处理，默认将自身抛出的异常自动映射到合适的状态码，比如启动防护机制跳转到404页面。</li>
 </ul>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%BC%82%E5%B8%B8%E5%88%86%E7%B1%BB%E7%BB%93%E6%9E%84.png/wm" alt="异常分类结构" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%BC%82%E5%B8%B8%E5%88%86%E7%B1%BB%E7%BB%93%E6%9E%84.png/wm" target="_blank" rel="noopener" data-caption="异常分类结构" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%BC%82%E5%B8%B8%E5%88%86%E7%B1%BB%E7%BB%93%E6%9E%84.png/wm" alt="异常分类结构"></a></p>
 <p>针对上图的结构，下面结合旅行的实例来说明一下异常分类。</p>
 <p>第一，机场地震，属于不可抗力，对应异常分类中的Error。平时在出行时无需考虑该因素。</p>
 <p>第二，堵车属于checked异常，应对这种异常，我们可以提前出发，或者改签机票。而飞机延误异常，虽然也需要check，但是我们无能为力，只能持续关注航班动态。</p>
 <p>第三，忘带护照，可提前预测的异常，在出发前检查避免。去机场路上厕纸抛锚，突发异常难以预料，但是必须处理，属于需要捕获的异常，可以通过更换交通工具应对。检票机器故障属于可透出型异常，交由航空公司处理，我们无须关心。</p>
-<h1 id="try代码块"><a class="markdownIt-Anchor" href="#try代码块"></a> try代码块</h1>
+<h1 id="try代码块"><a class="markdownIt-Anchor" href="#try代码块"></a> try代码块<a class="post-anchor" href="#try代码块"></a></h1>
 <p><code>try-catch-finally</code>是处理程序异常的三部曲。当存在try时，可以只有catch代码块，也可以只有finally代码块，就是不能单独只有try这个光杆司令。</p>
 <ol>
 <li>try代码块：监视代码执行过程，一旦发现发现异常则直接跳转至catch，如果没有catch，则直接跳转至finally。</li>
@@ -204,31 +281,9 @@
 </ul>
 </li>
 </ol>
-<h2 id="和return的关系"><a class="markdownIt-Anchor" href="#和return的关系"></a> 和<code>return</code>的关系</h2>
+<h2 id="和return的关系"><a class="markdownIt-Anchor" href="#和return的关系"></a> 和return的关系<a class="post-anchor" href="#和return的关系"></a></h2>
 <p>finally是在return表达式运行后执行的，此时将要return的结果已经被暂存起来，待finally代码块执行结束后再将之前的暂存的结果返回。</p>
-<pre class="highlight"><code class="java">		<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> x = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> y = <span class="hljs-number">10</span>;
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> z = <span class="hljs-number">100</span>;
-    
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        <span class="hljs-keyword">int</span> value = finallyReturn();
-        System.out.println(<span class="hljs-string">"value = "</span> + value);
-        System.out.println(<span class="hljs-string">"x = "</span> + x);
-        System.out.println(<span class="hljs-string">"y = "</span> + y);
-        System.out.println(<span class="hljs-string">"z = "</span> + z);
-    }
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">finallyReturn</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-comment">// todo</span>
-            <span class="hljs-keyword">return</span> ++x;
-        } <span class="hljs-keyword">catch</span> (Exception e) {
-            <span class="hljs-keyword">return</span> ++y;
-        } <span class="hljs-keyword">finally</span> {
-            <span class="hljs-keyword">return</span> ++z;
-        }
-    }
-</code></pre>
-<p>打印的结果</p>
+<p>打印的结果：</p>
 <pre class="highlight"><code class="java">value = <span class="hljs-number">101</span>
 x = <span class="hljs-number">1</span>
 y = <span class="hljs-number">11</span>
@@ -236,12 +291,12 @@ z = <span class="hljs-number">101</span>
 </code></pre>
 <p>以上的结果说明：</p>
 <ol>
-<li><font color = #FF8C00>最后return的动作是由finally代码块中的<code>return ++z</code>完成的，所以方法返回的结果101。</font></li>
-<li><font color = #FF8C00>语句<code>return ++x</code>中的<code>++x</code>被成功执行，所以运行结果是2。</font></li>
-<li><font color = #FF8C00>如果有异常抛出，那么运行结果将会是y=11，而x=1。</font></li>
+<li><font color="#FF8C00">最后return的动作是由finally代码块中的<code>return ++z</code>完成的，所以方法返回的结果101。</font></li>
+<li><font color="#FF8C00">语句<code>return ++x</code>中的<code>++x</code>被成功执行，所以运行结果是2。</font></li>
+<li><font color="#FF8C00">如果有异常抛出，那么运行结果将会是y=11，而x=1。</font></li>
 </ol>
 <p>finally代码块中使用return语句，使返回值的判断变得复杂，所以避免返回值不可控，我们不要在finally代码块中使用return语句。</p>
-<h2 id="try与锁的关系"><a class="markdownIt-Anchor" href="#try与锁的关系"></a> try与锁的关系</h2>
+<h2 id="try与锁的关系"><a class="markdownIt-Anchor" href="#try与锁的关系"></a> try与锁的关系<a class="post-anchor" href="#try与锁的关系"></a></h2>
 <p>lock方法可能会抛出unchecked异常，如果放在try中，必然触发finally中的unlock方法执行。对未加锁的对象解锁会抛出unchecked异常。所以在try代码块之前调用lock方法，避免由于加锁失败导致finally调用unlock抛出异常。</p>
 <pre class="highlight"><code class="java">Lock lock = <span class="hljs-keyword">new</span> XxxLock();
 preDo();
@@ -254,36 +309,19 @@ preDo();
 }
 </code></pre>
 <p>所以在try代码块之前调用lock方法，避免由于加锁失败导致finally调用unlock方法抛出异常。<code>lock.lock();</code>这段代码应该移到try的上方。</p>
-<h1 id="异常的抛与接"><a class="markdownIt-Anchor" href="#异常的抛与接"></a> 异常的抛与接</h1>
+<h1 id="异常的抛与接"><a class="markdownIt-Anchor" href="#异常的抛与接"></a> 异常的抛与接<a class="post-anchor" href="#异常的抛与接"></a></h1>
 <ul>
 <li>对外提供的开放接口，使用错误码；</li>
 <li>公司内部跨应用远程服务调用优先考虑使用Result对象来封装错误码、错误描述、栈信息；</li>
 <li>应用内部者推荐直接抛出异常对象。</li>
 </ul>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br />
-个人习惯：无论是否自定义了异常类或者handle，都应该做两点：根据实际情况选择是否输出、保留原始栈信息；向上转型成分类好的错误码和简要描述。</p>
-<p>=======</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>4f05dd92676fcd5b691a8f7fa1c52e9077c9ee42</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<h1 id="日志"><a class="markdownIt-Anchor" href="#日志"></a> 日志</h1>
+<p>个人习惯：无论是否自定义了异常类或者 handle，都应该做两点：根据实际情况选择是否输出、保留原始栈信息；向上转型成分类好的错误码和简要描述。</p>
+<h1 id="日志"><a class="markdownIt-Anchor" href="#日志"></a> 日志<a class="post-anchor" href="#日志"></a></h1>
 <blockquote>
 <p>日志有什么用就不用多说了吧</p>
 </blockquote>
-<h2 id="日志规范"><a class="markdownIt-Anchor" href="#日志规范"></a> 日志规范</h2>
-<p>推荐的日志的命名方式：<code>appName_logType_logName.log</code>，其中<code>logType</code>位日志类型，推荐分类有status、monitor、visit等，<code>logName</code>为日志描述。<br />
+<h2 id="日志规范"><a class="markdownIt-Anchor" href="#日志规范"></a> 日志规范<a class="post-anchor" href="#日志规范"></a></h2>
+<p>推荐的日志的命名方式：<code>appName_logType_logName.log</code>，其中<code>logType</code>位日志类型，推荐分类有status、monitor、visit等，<code>logName</code>为日志描述。<br>
 日志的保存至少在15天，当然还是以实际情况为准。</p>
 <p>日志的级别由低到高排序：</p>
 <ul>
@@ -295,42 +333,42 @@ preDo();
 </ul>
 <p>不同的级别，要有不同的处理方式。</p>
 <ol>
-<li>预先判断日志的级别<br />
+<li>预先判断日志的级别<br>
 使用占位符的形式打印，避免字符串的拼接输出信息</li>
 </ol>
 <pre class="highlight"><code class="java">logger.info(<span class="hljs-string">"id = {} and symbol = {}"</span>, id, symbol);
 </code></pre>
 <ol start="2">
-<li>避免无效日志打印<br />
-生产环境禁止DEBUG日志打印且有选择的输出INFO日志。<br />
+<li>避免无效日志打印<br>
+生产环境禁止DEBUG日志打印且有选择的输出INFO日志。<br>
 避免重复打印，设置additivity=false，示例如下：</li>
 </ol>
-<pre class="highlight"><code class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">logger</span> <span class="hljs-attr">name</span> = <span class="hljs-string">"com.xxx.xxx.config"</span> <span class="hljs-attr">additivity</span>=<span class="hljs-string">"false"</span>&gt;</span>
+<pre class="highlight"><code class="xml"><span class="hljs-tag"><<span class="hljs-name">logger</span> <span class="hljs-attr">name</span> = <span class="hljs-string">"com.xxx.xxx.config"</span> <span class="hljs-attr">additivity</span>=<span class="hljs-string">"false"</span>></span>
 </code></pre>
 <ol start="3">
 <li>
-<p>区别对待错误日志<br />
+<p>区别对待错误日志<br>
 一般设定ERROR级别的日志需要人为介入</p>
 </li>
 <li>
 <p>保证记录内容完整</p>
 <ul>
-<li>记录异常时一定要输出异常堆栈，例如<code>logger.error(&quot;xxx&quot; + e.getMessage(), e);</code>。</li>
+<li>记录异常时一定要输出异常堆栈，例如<code>logger.error("xxx" + e.getMessage(), e);</code>。</li>
 <li>日志中如果输出对象实例，要确保实例类重写了toString方法，否则只会输出对象的hashCode的值，没有实际意义。</li>
 </ul>
 </li>
 </ol>
-<h2 id="日志框架"><a class="markdownIt-Anchor" href="#日志框架"></a> 日志框架</h2>
+<h2 id="日志框架"><a class="markdownIt-Anchor" href="#日志框架"></a> 日志框架<a class="post-anchor" href="#日志框架"></a></h2>
 <blockquote>
 <p>现在ELK也非常流行，功能比较强大。</p>
 </blockquote>
 <ol>
 <li>
-<p>日志门面<br />
+<p>日志门面<br>
 门面设计模式是面向对象设计模式中的一种，类似JDBC的概念。提供一套接口规范，本身不具备实现，目的是让使用者不用关注底层是哪个日志库。最广泛的有两种：slf4j和commons-logging。</p>
 </li>
 <li>
-<p>日志库<br />
+<p>日志库<br>
 它是具体实现日志的相关功能，主流有三个，分别是log4j、log-jdk、logback。logback最晚出现，和log4j是同一个作者，是它的升级版并且本身就实现了slf4j的接口。</p>
 </li>
 </ol>
@@ -340,329 +378,108 @@ preDo();
 </code></pre>
 <p>logger被定义为static变量，是因为与当前的类绑定，避免每次都new一个新的对象，造成资源浪费，甚至引发OOM问题。</p>
 <p>另外注意日志库冲突。例如：页面出现500错误，但是整个系统中未发现任务异常日志。由于是log4j作为当前日志库，但是间接地引入了logback日志库，导致打印日志的logger引用实际指向<code>ch.qos.logback.classic.Logger</code>对象，冲突导致日志打印失效。</p>
+</body></html>
 
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='/statics/Coffin Princess.mp3'></li>
-                
-                    
-            </ul>
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
             
             
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='f4a90d67f05027e203de'
-        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
-        data-r='Matthew-Han.github.io'
-        data-o='Matthew-Han'
-        data-a='Matthew-Han'
-        data-d=''
-    >留言</div>
-
-
-            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
             
         </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
-                    <p>MatthewHan</p>
-                    <span>用一行行代码去描绘出</span>
-                    <span>成长的轨迹</span>
-                    <dl>
-                        
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-               
-                    </dl>
-                    
-                </div>
-                <ul>
-                    <li><a href="/">47 <p>文章</p></a></li>
-                    <li><a href="/categories">8 <p>分类</p></a></li>
-                    <li><a href="/tags">73 <p>标签</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>目录</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#异常"><span class="toc-number">2.</span> <span class="toc-text"> 异常</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#异常分类"><span class="toc-number">3.</span> <span class="toc-text"> 异常分类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#checked异常与unchecked异常"><span class="toc-number">3.1.</span> <span class="toc-text"> checked异常与unchecked异常</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#try代码块"><span class="toc-number">4.</span> <span class="toc-text"> try代码块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#和return的关系"><span class="toc-number">4.1.</span> <span class="toc-text"> 和return的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#try与锁的关系"><span class="toc-number">4.2.</span> <span class="toc-text"> try与锁的关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#异常的抛与接"><span class="toc-number">5.</span> <span class="toc-text"> 异常的抛与接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日志"><span class="toc-number">6.</span> <span class="toc-text"> 日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#日志规范"><span class="toc-number">6.1.</span> <span class="toc-text"> 日志规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日志框架"><span class="toc-number">6.2.</span> <span class="toc-text"> 日志框架</span></a></li></ol></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
+      </div>
     </div>
-</div>
-
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+          <a href="/post/ebad3220-f600-11e9-a320-89dae6093596/">什么是领域模型？我们常用的贫血模型是否已经过时？</a>
+        
     </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    <div class="item right">
+        
+          <a href="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">2019.09.30</a>
+        
     </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2020
-        <span class="gradient-text">
-            MatthewHan
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
+  </div>
 
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
+  
 
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-
-    
-<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/obsidian.js"></script>
-<script src="/js/jquery.truncate.js"></script>
-<script src="/js/search.js"></script>
-
-
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-
-    
-<script src="/js/busuanzi.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-
-
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
     </div>
-</div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/43892940-eb34-11e9-8e01-011debd96741/">https://Matthew-Han.github.io/post/43892940-eb34-11e9-8e01-011debd96741/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
 
+  <div id="comment"></div>
 
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-144172266-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["用一行行代码去描绘出", "成长的轨迹"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
 </html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 

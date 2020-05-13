@@ -1,1523 +1,342 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Archive</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明,"> 
-    <meta name="author" content="MatthewHan"> 
-    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-
+    <title>
+      归档 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
-<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+<link rel="stylesheet" href="/style/style.css">
 
+  <meta name="generator" content="Hexo 4.2.0"></head>
+  <body>
+    <canvas id='pagemap'></canvas>
     
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-
-    
-<link rel="stylesheet" href="/css/obsidian.css">
-
-    
-<link rel="stylesheet" href="/css/ball-atom.min.css">
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
+    </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
+    </div>
+    <div id="progress">
+      <div class="line"></div>
+    </div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
         </div>
+        <ul id="result-box"></ul>
+      </div>
     </div>
-    <span id="config-title" style="display:none">Espada</span>
-    <div id="loader"></div>
-    <div id="single" class="page">
-    <div id="top">
-        <a class="iconfont icon-left image-icon" href="javascript:history.back()"></a>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="current">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
     </div>
-    <div class="dark-obsidian section">
-        <div class="article animated fadeIn">
-            <div class="main">
-                <div class="content animated fadeIn">
-                    <div class="set">
-                        <h1 style="text-align: center">Archived</h1>
-                        <p style="text-align: center">「 47 」</p>
-                        <ul class="timeline timeline-centered">
-                            
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">五月 2020</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">五月 11, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/6d8c47a0-9353-11ea-9bbb-9b051857d619/">LeetCode #367 有效的完全平方数</a>
-                                        <p>
-                                             Problem Description
-给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
- note
-不要使用任何内置的库函数，如：sqrt。
- e.g.
-
-示例1：
-
-输入：16
-输出：True
-
-
-示例2：
-
-输入：14
-输出：False
-
-
-
- Solution
- 暴力法
-可以无限优化的方法，其优化的核心就在于循环的起始和...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">四月 2020</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">四月 29, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/24861850-89c2-11ea-9ae2-d515fd713cdf/">LeetCode #225 用队列实现栈</a>
-                                        <p>
-                                             Problem Description
-
-使用队列实现栈的下列操作：
-
-push(x) – 元素 x 入栈
-pop() – 移除栈顶元素
-top() – 获取栈顶元素
-empty() – 返回栈是否为空
-
-
-
- note
-
-你只能使用队列的基本操作-- 也就是 push to back, peek/pop from front, size, 和 is empty 这些操作是合法的。
-你所使...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">四月 28, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/2d52f0e0-892f-11ea-8e9a-97d863cbb17c/">数据结构：Queue</a>
-                                        <p>
-                                             介绍
-先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从 BlockingQueue（阻塞队列）问世以来，队列的地位得到极大地提升，在各种高并发编程的场景，经常被作为 Buffer（数据缓冲区）使用。
-通常我们把LinkedList当成Queue来用，Queue类自身的一些方法：
-
-
-
-方法
-方法描述
-
-
-
-
-boolean ad...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">四月 23, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/7b2e8940-851b-11ea-95ec-5b4f96ed301b/">LeetCode #169 多数元素</a>
-                                        <p>
-                                             Problem Description
-给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
-你可以假设数组是非空的，并且给定的数组总是存在多数元素。
- e.g.
-
-
-示例 1:
-
-输入: [3,2,3]
-输出: 3
-
-
-
-示例 2:
-
-输入: [2,2,1,1,1,2,2]
-输出: 2
-
-
-
- Solution
- Hash表
-首先最容...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">四月 21, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/51044580-839d-11ea-a80d-c79a78360d60/">LeetCode #155 最小栈</a>
-                                        <p>
-                                             Problem Description
-设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
-
-push(x) —— 将元素 x 推入栈中。
-pop() —— 删除栈顶的元素。
-top() —— 获取栈顶元素。
-getMin() —— 检索栈中的最小元素。
-
- e.g.
-
-MinStack minStack = new MinStack();
-minSta...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">四月 21, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/3d28b600-8397-11ea-bfe6-d727069c8da8/">数据结构：栈</a>
-                                        <p>
-                                             介绍
-last-in-first-out，后进先出是它最大的特点。class Stack&lt;E&gt; extends Vector&lt;E&gt;作为Vector的子类。
-Vector底层使用数组存储数据，所以Stack也是如此。
-Stack类自身的一些方法：
-
-
-
-方法
-方法描述
-
-
-
-
-boolean empty()
-测试堆栈是否为空。
-
-
-Object peek()
-查看堆栈...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">四月 13, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/41de2f70-7d4f-11ea-b18b-ad951eb7124e/">虐猫事件思考「虐」的定义</a>
-                                        <p>
-                                            
-这里没有探讨关于学校、社会对范源庆的处理结果是否合理；仅仅是个人对人类对待动物的行为的一点思考。
-
- 自我解释
-小时候会觉得虐待动物是不道德错误的、或者说是心理问题、性格缺陷。长大后慢慢的看待问题不会在只关注事件本身，局限的从一两个点出发，开始学会多角度切入会去思考，怎么样算「虐待」呢？我们可以假定动物本身是抗拒这种被「虐待」的行为，那么绝育、关笼子、指令教学为什么就不能算「虐待」呢？人们...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">三月 2020</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">三月 27, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/">Shiro与分布式Session与Redis的那些坑</a>
-                                        <p>
-                                             需要知道的点
-Shiro的Session支持企业级的特性，例如分布式缓存。我们在Spring Data Redis + Shiro的方案中需要注意下以下几点：
-
-无论Redis服务是单机还是集群模式，都需要注意Session对象的序列化与反序列化的问题；
-Shiro的Session：定义好的一个接口；Simple Session：一个它的简单实现，我们想要实现持久化就需要对它进行维护；
-E...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">三月 19, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a>
-                                        <p>
-                                            
-良好的编码风格和完善统一的规约是最高效的方式。
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第四篇章第三节：数据结构与集合的元素的比较篇。
-本系列目录：
-
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">三月 13, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a>
-                                        <p>
-                                            
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第四篇章第二节：数据结构与集合的数组和泛型篇。
-本系列目录：
-
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">三月 10, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架篇</a>
-                                        <p>
-                                            
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第四篇章第一节：数据结构与集合的框架篇。
-本系列目录：
-
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">三月 04, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/638b4b90-5dd2-11ea-aec4-43cfa9e11df6/">看不到的角落</a>
-                                        <p>
-                                             # 1
-今天在看《睡前消息》第84期的结尾，有这么一个新闻事件：
-
-河南邓州一贫困户女儿因无法正常在家上网课，吞下药物自杀。
-
-初步了解这个事情，感到十分痛心和无奈。
-在全国各地正如火如荼的进行网课教育并且还催生出一堆捧腹的段子的时候，我就时常会想到那些非常贫困的学生们。虽然是2020年了，几乎是人人都应该有一部智能手机的时候。他们可能没有条件做到能够全天按照学校安排的课程进行网络学习。更...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">三月 02, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/f49af800-5c2a-11ea-beaa-99cd52b6160e/">QQ空间被挡了，我却还是想接近TA</a>
-                                        <p>
-                                            
-总还会时不时回来看看，因为在这里，永远保留着当初那个最真实的自己。
-
- 重温过去的偶然
-在腾讯微博和朋友网还在被腾讯用心经营的时候，QQ空间是可以设置说说同步到腾讯微博的。我根据互联网上的记录大概推测这一功能在2011年左右上线，大概在2015、2016年左右的时候随着腾讯微博彻底萎了之后（差不多大家的腾讯微博的动态都停留在2015年），QQ空间关闭了该功能。
-
-也就是说也就是在2011年...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">一月 2020</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">一月 14, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/24ffa600-367c-11ea-ba8c-fb7580846ffa/">多线程之竞争与锁</a>
-                                        <p>
-                                             示例
-public class TestThread {
-
-    public static void main(String[] args) {
-        // new 出一个新的对象 t
-        ThreadFuck t1 = new ThreadFuck();
-        ThreadFuck t2 = new ThreadFuck();
-        // 两...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">一月 09, 2020</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/">张小龙的微信公开课</a>
-                                        <p>
-                                             公开课的内容
-
-张小龙的演讲内容个人概括（怎么感觉像和领导开会记笔记一样。。）
-
-
-微信是人们花时间最多的信息传递工具/平台，看到的听到的都是远方的信息，宽广度早已远远超过以往任何的一个时代，也是微信一直要解决的一个问题。也引发了一些隐私问题，比如广告服务推送，倡导同行一起重视。
-信息获取的被动。互联网让信息唾手可得。目前大多数人都是被动获取信息，人们也倾向于这种模式，不愿意主动地获取信息...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">十二月 2019</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十二月 26, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/bce6bdb0-278a-11ea-9afb-77b212895fb9/">Mybatis 多对多映射的小问题</a>
-                                        <p>
-                                             问题
-ORM映射中，一对多，多对多是非常常见的方式。但是由于场景使用没有这么多，到今天我才发现这个问题。
-配置映射关系，使字段与DO类解耦，方便维护。但是为了方便管理和控制，我就在一个.java文件中写了两个VO类。
-@ToString
-@Setter(value = AccessLevel.PUBLIC)
-@Getter(value = AccessLevel.PUBLIC)
-@NoAr...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十二月 18, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/3ff45990-2175-11ea-bda8-b1e815e5e40d/">多线程之线程池小纪</a>
-                                        <p>
-                                             关于我是线程池
-并发总是离不开多线程，多线程的应用能够更好地帮助我们协调利用CPU、Memory、Net、I/O等系统资源。频繁的创建、销毁线程会浪费大量的系统资源，增加并发编程的风险。利用线程池可以实现类似主次线程隔离、定时执行、定时执行、周期执行等任务。作用包括：
-
-利用线程池管理并复用线程、控制最大并发数等。
-实现某些与时间相关的功能，如定时执行、周期执行等。
-隔离线程环境。比如交易...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十二月 16, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/b11fe710-1fae-11ea-9d8a-c3eaf7e57853/">我的2019</a>
-                                        <p>
-                                            
-想要用一句或一段金句来高度概括这一年的进展和改变，发现没有合适的。
-
- 心态
-这一年心态上的起伏，2019年算是完全正式工作的一年，这一年感觉大家好像都不怎么满意，资本寒冬，每况愈下，但是自己状态不能拉胯。
- 身体
-从3月份起计划在家简单健身维持运动量和塑形（主要是为了能增肌身材匀称些长胖点，现在实在是太瘦了），购置了哑铃、哑铃凳、瑜伽垫等器具。训练的动作也不多，按照keep上来实行哑铃复...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十二月 12, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/">2019.12.12</a>
-                                        <p>
-                                            
-  
-  
-    心态
-    
-  
-
-Incorrect Password!
-No content to display!
-
-U2FsdGVkX18scDnoXLWU9Acmup9DavVvSyG1XNcuyMuEm0HBKu6fuTMMY7koeaz72JyZecbp5bbEQsiAKaAynf/t55WG1meD6pO0vk+q0S/eF6kg6KIrWSrFc9DM0TjPP6...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十二月 11, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/6992a7a0-1bb9-11ea-8031-ab9a560f0cb3/">arthas应对线上生产环境</a>
-                                        <p>
-                                            
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">十一月 2019</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十一月 29, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/237a2190-1258-11ea-a4fe-c7eac48cbd2c/">Redis搭配生产者消费者模型</a>
-                                        <p>
-                                             前言
-Redis作为一款优秀的缓存中间件，人们总是寄予他新的厚望。其列表类型的阻塞操作可以实现消息队列。
-在场景中使用可以牢记以下口诀：
-
-
-lpush + lpop = Stack(栈)
-
-
-lpush + rpop = Queue(队列)
-
-
-lpsh + ltrim = Capped Collection(有限集合)
-
-
-lpush + brpop = Message Queue(消...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十一月 27, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/">谜の生产力插件/工具推荐（一）</a>
-                                        <p>
-                                             说明
-以下推荐的工具都是个人挖掘和网友介绍得来，相对于程序开发者来说较为友好。
- Chrome插件相关
-
-过多的插件会影响使用体验。
-
- Octotree
-过去我们在GayHub上预览代码时，常常需要不停地前进下一页和回退上一页操作来更全面的获取想要的信息。虽然GayHub有着不错的搜索功能，但是对于一个陌生的项目来说，它的结构没有很清晰直观地展示出来，我们无法快速定位到任何一处来浏览我们...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十一月 18, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/32c6b4c0-09e7-11ea-8010-7bbe2de22c19/">Windows平台Redis Cluster集群模式的坑</a>
-                                        <p>
-                                            
-在一台迷のWindows机器上搭建了一个单节点模拟的三主三从redis集群，过程中有一些坑记录下。
-
- cluster模式
-Redis的Cluster模式工作至少需要三个主节点，所以一般采用三主三从实现负载。
-较理想的环境是一个实例单节点部署主从，多个实例实现集群。
-
-由于Redis Cluster采用哈希分区规则，哈希分区一般有以下几种方式：
-
-节点取余分区
-一致性哈希分区
-虚拟槽分区
-...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十一月 04, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/67db7cc0-fea4-11e9-834c-4d127eed9f1a/">Shiro在跨域请求中会遇到的302重定向问题</a>
-                                        <p>
-                                            
-CORS真的太严格了，半清不清的跨域、预检请求、拦截器搞得前后端都身心俱疲
-
- 背景
-这边要开发一套带有权限认证的平台，懒得自己写拦截器，于是还是打算利用Shiro安全框架，由于采用的还是Cookie-Session那老一套，并没有封装成token暂时也不用考虑集群多实例共享session的问题，所以其实前端的每次请求报文都是需要携带cookie的，cookie里面的jsessionid就...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">十月 2019</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十月 29, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/">@CurrentUser注解新配方</a>
-                                        <p>
-                                             背景
-自定义@CurrentUser注解想实现当前已登录的用户对象在各层之间进行数据交互，在简书上有一篇比较出名的解决方法：通过自定义@CurrentUser获取当前登录用户
-但是在安全框架Shiro中，通过webRequest.getAttribute(&quot;currentUser&quot;, RequestAttributes.SCOPE_REQUEST)却并不可行，👴也不⑧...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十月 24, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/ebad3220-f600-11e9-a320-89dae6093596/">什么是领域模型？我们常用的贫血模型是否已经过时？</a>
-                                        <p>
-                                            
-本文转自知乎，作者：美团技术团队
-
- 前言
-至少30年以前，一些软件设计人员就已经意识到领域建模和设计的重要性，并形成一种思潮，Eric Evans将其定义为领域驱动设计（Domain-Driven Design，简称DDD）。在互联网开发“小步快跑，迭代试错”的大环境下，DDD似乎是一种比较“古老而缓慢”的思想。然而，由于互联网公司也逐渐深入实体经济，业务日益复杂，我们在开发中也越来越多...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">十月 10, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/43892940-eb34-11e9-8e01-011debd96741/">《码出高效》系列笔记（三）：异常与日志</a>
-                                        <p>
-                                            
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第三篇章：异常与日志篇。
-本系列目录：
-
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：异常与日志...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">九月 2019</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">九月 30, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">2019.09.30</a>
-                                        <p>
-                                            
-  
-  
-    等待
-    
-  
-
-Incorrect Password!
-No content to display!
-
-U2FsdGVkX1/S/HI/OGCDvo9ZijLqMdCb3j5XJCWbevStLM3HjrFHn+2exyppx3UfcjWzrQd1FRpF1EzudxkNSjK1bwBJeDB2sUKCwGzhTqisRtmCZM4s/pfWIOh9Y+fG7t...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">九月 17, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/3f573050-d915-11e9-9d5e-538baaf5d924/">D区</a>
-                                        <p>
-                                            
-I couldn’t be there
-Even when I try
-You don’t believe it
-We do this every time
-
- Sometime
-“我上次是不得已啊...”
-“我是不要再做这个胃镜了。”
-…
-“好像大家都很怕这个胃镜啊...”我刨了两口饭。
-当晚，胃灼、不适愈发明显。
-手术台、注射剂、胃癌细胞一幕幕浮现我的眼前。
-
-晚饭时刚聊完这个话题，就...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">九月 09, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/aae95940-d2af-11e9-9a25-21b4a1ddf6aa/">谈谈诗和远方</a>
-                                        <p>
-                                            
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">九月 09, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a>
-                                        <p>
-                                            
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第二篇章：代码风格篇。
-本系列目录：
-
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：异常与日志
-...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">九月 02, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/d6b414b0-cd29-11e9-8b45-c56f88a832c9/">心态的起伏</a>
-                                        <p>
-                                            
-  
-  
-    heartBeat
-    
-  
-
-Incorrect Password!
-No content to display!
-
-U2FsdGVkX19HgI8LtSi6swzdg381L9JG9UnvFVAHa6PDgUQ+0tI8pTOjrN/UplV9GCRPZqFtXLTsY2CWBDjW5J2x9kbvalXZ1pTfI/ub/5wbCZ12J8fRchds8Sm...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">八月 2019</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">八月 27, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a>
-                                        <p>
-                                            
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第三节：面向对象的其他知识点篇。
-本系列目录：
-
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">八月 27, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a>
-                                        <p>
-                                            
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第二节：面向对象之方法篇。
-本系列目录：
-
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">八月 19, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a>
-                                        <p>
-                                            
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-虽然在GitHub有着17000+的star和大量的学习者，这本书即使涵盖的知识点对于很多入行较久developer来说并没有太大深入研究的价值，但是当时刚刚出炉的开发手册PDF精简版却一点一点的影响了我。也许是知乎上关注的技术话题下孤尽先生发布的回答吸引到了我，我开始注意到了平时编码中的那些事。
-本篇汲取了本书中较为精华的知识要...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">八月 13, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/fae94450-bd9c-11e9-bafd-2904b28e3726/">近期学习计划</a>
-                                        <p>
-                                             8月开始的学习计划
-
-
-
-《码出高效》笔记
-
-规范代码风格整理
-细节整理
-知识点整理
-
-
-
-Kafka
-
-Kafka在大数据中的应用
-
-
-
-LeetCode刷题
-
-长期计划
-这个偶尔刷刷对平时写代码还是有一定帮助的，对于偏题难题属实没必要去看的东西，虽然也解不出来。
-
-
-
-WebMagic
-
-业余时间有兴致去学下，对于今后个人项目有点帮助。
-
-
-
-Docker
-
-重点系统学习
-但是不要花太...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">八月 08, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/">2019.08.08</a>
-                                        <p>
-                                            
-  
-  
-    浮生日记GKD
-    
-  
-
-Incorrect Password!
-No content to display!
-
-U2FsdGVkX19uOe5kSlvT9IpyeLdpolR7B/8bRuECNw7nX3I9XSmAUzxAGzm19sPD3lfBMJASmwQgaHknVs5ZIRYksc5GPIVevFJ+AnLOEgk1ur/xr7ztse6I1P1Em...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">八月 01, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/">千千万万设计模式之工厂模式</a>
-                                        <p>
-                                            
-对了，让厂子偷偷给你定制一个对象吧！乔碧萝怎么样？
-
-
-本系列已经开源至GitHub，repository地址。
-最初只是为了做个人笔记，参考了前人的笔记和博客，在这里我用更接潮流、更接地气的例子来帮助加深理解记忆。
-由于本人技术水平也有限，着重点在于思想的理解，若出现任何错误、不恰当内容，欢迎各位前来issues指正。
-感谢任何分享、开源学习教程的前辈，正是有你们这一群乐于奉献的人才让整...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item period">
-                                    <div class="timeline-info"></div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <h2 class="timeline-title">七月 2019</h2>
-                                    </div>
-                                </li>
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 31, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc62a-bd9c-11e9-b52a-878085b5c0f3/">Apache Maven标签详解</a>
-                                        <p>
-                                            
-现在真的空，能不能给我点任务？
-
-
- 关于Maven
-Apache Maven发布于2004年。目的是解决码农使用Ant所带来的一些问题。
-Maven作为Java开发者最常用的构建工具之一，就相当于前端的npm和yarn，现在任何项目自动化对团队来说是非常普遍和重要的。大多数Java开发者对Maven来说是比较熟悉的了，因为在Spring框架覆盖几乎整个Java后端开发的环境里，很多时候复...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 30, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/">千千万万设计模式之单例模式</a>
-                                        <p>
-                                            
-模式千万条，生命就一条，可以下班了。
-
-
-本系列已经开源至GitHub，repository地址。
-最初只是为了做个人笔记，参考了前人的笔记和博客，在这里我用更接潮流、更接地气的例子来帮助加深理解记忆。
-由于本人技术水平也有限，着重点在于思想的理解，若出现任何错误、不恰当内容，欢迎各位前来issues指正。
-感谢任何分享、开源学习教程的前辈，正是有你们这一群乐于奉献的人才让整个生态变得生机...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 23, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/">千千万万设计模式之适配器模式</a>
-                                        <p>
-                                            
-模式千万条，生命就一条，可以下班了。
-
-
-本系列已经开源至GitHub，repository地址。
-最初只是为了做个人笔记，参考了前人的笔记和博客，在这里我用更接潮流、更接地气的例子来帮助加深理解记忆。
-由于本人技术水平也有限，着重点在于思想的理解，若出现任何错误、不恰当内容，欢迎各位前来issues指正。
-感谢任何分享、开源学习教程的前辈，正是有你们这一群乐于奉献的人才让整个生态变得生机...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 19, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc620-bd9c-11e9-b52a-878085b5c0f3/">Quick Sort思想以及Java代码实现</a>
-                                        <p>
-                                            
-封面是发明快速算法的大佬 —— C. A. R. Hoare
-
-
-对于算法仅限于Baidu+Google+CSDN的我来说，记忆里最深刻还是大一的水仙花数。
-但其实先理解并牢记思想，代码就不难写出来。并且代码写错也没关系，实在写不出还能解释一下快排原理。
- 快速排序概要
-
-快排的三个步骤：
-
-选择基准：在待排序列中，按照某种方式挑出一个元素，作为 “基准”（pivot）。
-   - 分割操...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 17, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc624-bd9c-11e9-b52a-878085b5c0f3/">阿里云对象存储使用</a>
-                                        <p>
-                                            
-这两天僵住了，分配给我的项目是提前写完了，但是测试样例却不好弄，索性就划着，反而给了我很多时间去学习其他知识。
-
-
- 图床很有必要
-首先GayHub本来就不是很稳定，公司网络访问十分OK，回到家连ping都快ping不通了，clone个repository真的是玩一年，更别说编辑blog了，打开博客图片就加载不出来，家里好歹也是电信100Mbps的，网速应该没问题。像我这种对艺术与美都有追...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 16, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc622-bd9c-11e9-b52a-878085b5c0f3/">Swagger初体验</a>
-                                        <p>
-                                            
-这世间 没有 不相交的平行线
-
-
- 前言
-以前刚接触到Swagger，不知道他还能导出成Word、PDF文档，就觉得Postman+文档够用了，现在觉得代码中集成这样的框架，在初期能够方便很多。
-
-功能丰富 ：支持多种注解，自动生成接口文档界面，支持在界面测试API接口功能；
-条理清晰 ：开发过程中花一点写注释的时间，就可以及时的更新API文档，省心省力；
-整合简单 ：通过添加pom依赖和...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 15, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc623-bd9c-11e9-b52a-878085b5c0f3/">入职浙江广电一年的感悟（真）</a>
-                                        <p>
-                                            
-  
-  
-    965
-    
-  
-
-Incorrect Password!
-No content to display!
-
-U2FsdGVkX19LzSP10KiZBw4E6eZ609jfzjD+TRs7f5XPxJIXsMz9KQxVkXdBLHiorB61RvK+s3cm273VqmTvMKheYDHaQoe8MUkJVyZTJbpAMZtOBTy8t5YQxg8mskrnN...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 12, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc626-bd9c-11e9-b52a-878085b5c0f3/">Shiro学习一</a>
-                                        <p>
-                                            
-老物
-
-
-       新的公司让我去熟悉下Shiro框架,公司的项目的权限管理都是基于Shiro写的,照着前辈们的blog学习了一番，这里做点个人学习记录。
- Shiro的整体架构图
-
-
-
-
- 首先是Shiro的几个组件
-
-SecurityManager
-即所有Subject的管理者，这是Shiro框架的核心组件，可以把他看做是一个Shiro框架的全局管理组件，用于调度各种Shiro框架...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                                
-                                <li class="timeline-item">
-                                    <div class="timeline-info">
-                                        <span class="gradient-text">七月 11, 2019</span>
-                                    </div>
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <a class="timeline-title" target="_self" href="/post/faabc621-bd9c-11e9-b52a-878085b5c0f3/">Spring-ldap</a>
-                                        <p>
-                                            
-唱歌现在习惯低八度怎么办？( 눈﹏눈 )
-
- 背景
-
-经过了这么多年，集团内的各种系统紊乱复杂，结构数据互相同步，而LDAP服务器内的组织架构早已没人维护。
-现有需求需要无纸化办公的组织架构数据增量同步到LDAP服务器中。
-简单记录下遇到并解决的问题和方法，万一以后又要维护了呢。
-
- LDAP基本概念
-LDAP采用目录树的模型，下面是一些概念的解释：
-
-
-目录树：在一个目录服务系统中，整个...
-                                        </p>
-                                    </div>
-                                </li>
-                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
         </div>
+
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="current">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
     </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <div id="archives">
+    
+        <div class="title">
+            归档 
+            
+        </div>
+    
+
+
+
+
+    
+    
+    <section class="wrap">
+        <div class="meta">
+            <a href="/archives/2020" >
+                2020
+            </a>
+        </div>
+        <div class="year">
+            
+            <article class="item">
+            <a href="/post/6d8c47a0-9353-11ea-9bbb-9b051857d619/" title="LeetCode #367 有效的完全平方数">
+                <span>2020/05/11</span>
+                <span>LeetCode #367 有效的完全平方数</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/24861850-89c2-11ea-9ae2-d515fd713cdf/" title="LeetCode #225 用队列实现栈">
+                <span>2020/04/29</span>
+                <span>LeetCode #225 用队列实现栈</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/2d52f0e0-892f-11ea-8e9a-97d863cbb17c/" title="数据结构：Queue">
+                <span>2020/04/28</span>
+                <span>数据结构：Queue</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/7b2e8940-851b-11ea-95ec-5b4f96ed301b/" title="LeetCode #169 多数元素">
+                <span>2020/04/23</span>
+                <span>LeetCode #169 多数元素</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/51044580-839d-11ea-a80d-c79a78360d60/" title="LeetCode #155 最小栈">
+                <span>2020/04/21</span>
+                <span>LeetCode #155 最小栈</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/3d28b600-8397-11ea-bfe6-d727069c8da8/" title="数据结构：栈">
+                <span>2020/04/21</span>
+                <span>数据结构：栈</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/41de2f70-7d4f-11ea-b18b-ad951eb7124e/" title="虐猫事件思考「虐」的定义">
+                <span>2020/04/13</span>
+                <span>虐猫事件思考「虐」的定义</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/" title="Shiro与分布式Session与Redis的那些坑">
+                <span>2020/03/27</span>
+                <span>Shiro与分布式Session与Redis的那些坑</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/31c8add0-69af-11ea-ad58-59a2dd622848/" title="《码出高效》系列笔记（四）：元素的比较">
+                <span>2020/03/19</span>
+                <span>《码出高效》系列笔记（四）：元素的比较</span>
+            </a>
+            </article>
+            
+
+
+            <article class="item">
+            <a href="/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/" title="《码出高效》系列笔记（四）：数据结构与集合的数组和泛型">
+                <span>2020/03/13</span>
+                <span>《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</span>
+            </a>
+            </article>
+            
+    
+        </div>
+    </section>
+      
+<div class="paginator">
+    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a>
+</div>
 </div>
 
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
     </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2020
-        <span class="gradient-text">
-            MatthewHan
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
-
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
-
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-
-    
-<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/obsidian.js"></script>
-<script src="/js/jquery.truncate.js"></script>
-<script src="/js/search.js"></script>
-
-
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-
-    
-<script src="/js/busuanzi.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-
-
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-144172266-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["用一行行代码去描绘出", "成长的轨迹"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
+  </body>
+  
 </html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 

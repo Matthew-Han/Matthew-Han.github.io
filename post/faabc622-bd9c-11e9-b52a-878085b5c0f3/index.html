@@ -1,185 +1,252 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Swagger初体验 - Espada</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明,
-这世间 没有 不相交的平行线
-
-
- 前言
-以前刚接触到Swagger，不知道他还能导出成Word、PDF文档，就觉得Postman+文档够用了，现在觉得代码中集成这样的框架，在初期能够方便很多。
-,"> 
-    <meta name="author" content="MatthewHan"> 
-    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-
+    <title>
+      Swagger初体验 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
-<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+<link rel="stylesheet" href="/style/style.css">
 
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
     
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-
-    
-<link rel="stylesheet" href="/css/obsidian.css">
-
-    
-<link rel="stylesheet" href="/css/ball-atom.min.css">
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#swagger集成项目"><span class="toc-text"> Swagger集成项目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pom引入"><span class="toc-text"> pom引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#configuration注入"><span class="toc-text"> Configuration注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现webmvcconfigurer"><span class="toc-text"> 实现WebMvcConfigurer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在controller中集成注解"><span class="toc-text"> 在controller中集成注解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小问题记录"><span class="toc-text"> 小问题记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注解问题"><span class="toc-text"> 注解问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与shiro集成的问题"><span class="toc-text"> 与Shiro集成的问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#离线文档后续更新"><span class="toc-text"> 离线文档（后续更新）</span></a></li></ol>
     </div>
-    <span id="config-title" style="display:none">Espada</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">Swagger初体验</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
     </div>
-</div>
-
-    <div class="section">
-        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
-<div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Swagger/swagger.jpg/zip) ">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="/categories/Java技术"><b>「
-                    </b>JAVA技术<b> 」</b></a>
-                
-                七月 16, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="/post/faabc622-bd9c-11e9-b52a-878085b5c0f3/" title="Swagger初体验" class="">Swagger初体验</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    12k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    11 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Swagger/" rel="tag">Swagger</a></li></ul>
-            
-        </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
     </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
+    <div id="progress">
+      <div class="line"></div>
     </div>
-</div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
 
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">Swagger初体验</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2019/07/16</span>
+        </span>
+
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/Java技术">Java技术</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/Swagger">Swagger</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><blockquote>
 <p>这世间 没有 不相交的平行线</p>
 </blockquote>
 <br>
-<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言<a class="post-anchor" href="#前言"></a></h1>
 <p><em><strong>以前刚接触到Swagger，不知道他还能导出成Word、PDF文档，就觉得Postman+文档够用了，现在觉得代码中集成这样的框架，在初期能够方便很多。</strong></em></p>
 <ul>
 <li>功能丰富 ：支持多种注解，自动生成接口文档界面，支持在界面测试API接口功能；</li>
 <li>条理清晰 ：开发过程中花一点写注释的时间，就可以及时的更新API文档，省心省力；</li>
 <li>整合简单 ：通过添加pom依赖和简单配置，内嵌于应用中就可同时发布API接口文档界面，不需要部署独立服务。</li>
 </ul>
-<h1 id="swagger集成项目"><a class="markdownIt-Anchor" href="#swagger集成项目"></a> Swagger集成项目</h1>
+<h1 id="swagger集成项目"><a class="markdownIt-Anchor" href="#swagger集成项目"></a> Swagger集成项目<a class="post-anchor" href="#swagger集成项目"></a></h1>
 <p>Swagger本身是一种规范，而SpringFox-Swagger是专注于Spring生态的实现，Spring-Swagger-UI则是对Swagger-UI的封装。</p>
 <p>代码整整合也非常的简单，首先是pom引入：</p>
-<h2 id="pom引入"><a class="markdownIt-Anchor" href="#pom引入"></a> pom引入</h2>
-<pre class="highlight"><code class="xml">        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.6.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.github.swagger2markup<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>swagger2markup<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<h2 id="pom引入"><a class="markdownIt-Anchor" href="#pom引入"></a> pom引入<a class="post-anchor" href="#pom引入"></a></h2>
+<pre class="highlight"><code class="xml">        <span class="hljs-tag"><<span class="hljs-name">dependency</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.springfox<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>springfox-swagger2<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">version</span>></span>2.6.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span>
+        <span class="hljs-tag"></<span class="hljs-name">dependency</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">dependency</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.springfox<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>springfox-swagger-ui<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">version</span>></span>2.6.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span>
+        <span class="hljs-tag"></<span class="hljs-name">dependency</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">dependency</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">groupId</span>></span>io.github.swagger2markup<span class="hljs-tag"></<span class="hljs-name">groupId</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">artifactId</span>></span>swagger2markup<span class="hljs-tag"></<span class="hljs-name">artifactId</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">version</span>></span>1.3.1<span class="hljs-tag"></<span class="hljs-name">version</span>></span>
+        <span class="hljs-tag"></<span class="hljs-name">dependency</span>></span>
 </code></pre>
 <p>其中<code>swagger2markup</code>是用于Swagger导出PDF/HTML的依赖，离线文档之后再更新，目前还有点问题。</p>
 <p>在<code>application.properties</code>中加这么一句<code>spring.resources.static-locations=classpath:/static/</code>，不然swagger-ui.html这个页面会被拦截。</p>
-<h2 id="configuration注入"><a class="markdownIt-Anchor" href="#configuration注入"></a> Configuration注入</h2>
+<h2 id="configuration注入"><a class="markdownIt-Anchor" href="#configuration注入"></a> Configuration注入<a class="post-anchor" href="#configuration注入"></a></h2>
 <pre class="highlight"><code class="java"><span class="hljs-comment">/**
  * <span class="hljs-doctag">@ClassName</span> SwaggerConfiguration
  * <span class="hljs-doctag">@Description</span> TODO
@@ -218,7 +285,7 @@
 </ul>
 <p><strong>然后在Springboot的入口类中加上<code>@EnableSwagger2</code>表示开启Swagger2。</strong></p>
 <p>完成这些步骤后，发现其实访问<code>https://localhost/swagger-ui.html</code>并没有swagger页面，原因是在所映射的地址在SpringBoot静态资源文件夹下找不到。所以需要定义一个拦截器来放行。</p>
-<h2 id="实现webmvcconfigurer"><a class="markdownIt-Anchor" href="#实现webmvcconfigurer"></a> 实现WebMvcConfigurer</h2>
+<h2 id="实现webmvcconfigurer"><a class="markdownIt-Anchor" href="#实现webmvcconfigurer"></a> 实现WebMvcConfigurer<a class="post-anchor" href="#实现webmvcconfigurer"></a></h2>
 <pre class="highlight"><code class="java"><span class="hljs-comment">/**
  * <span class="hljs-doctag">@ClassName</span> WebMvcConfiguration
  * <span class="hljs-doctag">@Description</span> 用于Swagger UI显示
@@ -241,7 +308,7 @@
 }
 </code></pre>
 <p>我们只需要重写<code>addResourceHandlers</code>方法即可，通过<code>addResourceHandler</code>添加映射路径，然后再通过<code>addResourceLocations</code>来指定路径。<code>addResourceLocations</code>指的是文件放置的目录，<code>addResoureHandler</code>指的是对外暴露的访问路径。</p>
-<h2 id="在controller中集成注解"><a class="markdownIt-Anchor" href="#在controller中集成注解"></a> 在controller中集成注解</h2>
+<h2 id="在controller中集成注解"><a class="markdownIt-Anchor" href="#在controller中集成注解"></a> 在controller中集成注解<a class="post-anchor" href="#在controller中集成注解"></a></h2>
 <table>
 <thead>
 <tr>
@@ -297,11 +364,11 @@
 </tbody>
 </table>
 <p>最后通过浏览器来访问<code>https://localhost/swagger-ui.html</code>如下图：</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Swagger/Swagger2.png/wm" alt="Swagger-UI" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Swagger/Swagger2.png/wm" target="_blank" rel="noopener" data-caption="Swagger-UI" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Swagger/Swagger2.png/wm" alt="Swagger-UI"></a></p>
 <p>Method类型、相关描述、Example、StatusCode都会自动帮你生成。</p>
-<h1 id="小问题记录"><a class="markdownIt-Anchor" href="#小问题记录"></a> 小问题记录</h1>
-<h2 id="注解问题"><a class="markdownIt-Anchor" href="#注解问题"></a> 注解问题</h2>
-<p>直接在通过<code>@PathVariable</code>注解的参数在Swagger中用了<code>@ApiImplicitParam</code>，发现在页面中请求是有问题的，这个注解应该对应的是<code>func(@Param(&quot;arg&quot;) String arg)</code>方法，实际上正确的用法是<code>@ApiParam</code>。类似下图代码：</p>
+<h1 id="小问题记录"><a class="markdownIt-Anchor" href="#小问题记录"></a> 小问题记录<a class="post-anchor" href="#小问题记录"></a></h1>
+<h2 id="注解问题"><a class="markdownIt-Anchor" href="#注解问题"></a> 注解问题<a class="post-anchor" href="#注解问题"></a></h2>
+<p>直接在通过<code>@PathVariable</code>注解的参数在Swagger中用了<code>@ApiImplicitParam</code>，发现在页面中请求是有问题的，这个注解应该对应的是<code>func(@Param("arg") String arg)</code>方法，实际上正确的用法是<code>@ApiParam</code>。类似下图代码：</p>
 <pre class="highlight"><code class="java"><span class="hljs-comment">/**
 * 测试
 * 用于添加一个ou，例如：department，employee
@@ -311,14 +378,14 @@
     <span class="hljs-meta">@ApiOperation</span>(value = <span class="hljs-string">"添加一个OU"</span>)
     <span class="hljs-meta">@ApiParam</span>(name = <span class="hljs-string">"ou"</span>, value = <span class="hljs-string">"组织单元"</span>, required = <span class="hljs-keyword">true</span>)
     <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/add-ldap-ou/{ou}"</span>)
-    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResult&lt;String&gt; <span class="hljs-title">addLdapOu</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"ou"</span>)</span>String ou)</span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResult<String> <span class="hljs-title">addLdapOu</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"ou"</span>)</span>String ou)</span>{
     ...
 }
 </code></pre>
-<h2 id="与shiro集成的问题"><a class="markdownIt-Anchor" href="#与shiro集成的问题"></a> 与Shiro集成的问题</h2>
+<h2 id="与shiro集成的问题"><a class="markdownIt-Anchor" href="#与shiro集成的问题"></a> 与Shiro集成的问题<a class="post-anchor" href="#与shiro集成的问题"></a></h2>
 <p>通过无拦截测试总结了如下的资源路径是swagger在渲染页面时的必需。如果工程中包含了Shiro安全框架，需要对swagger进行放行。</p>
 <pre class="highlight"><code class="java"><span class="hljs-comment">// 设置拦截器</span>
-Map&lt;String, String&gt; filterChainDefinitionMap = <span class="hljs-keyword">new</span> LinkedHashMap&lt;&gt;();
+Map<String, String> filterChainDefinitionMap = <span class="hljs-keyword">new</span> LinkedHashMap<>();
 <span class="hljs-comment">// swagger放行</span>
 filterChainDefinitionMap.put(<span class="hljs-string">"/swagger-ui.html"</span>, <span class="hljs-string">"anon"</span>);
 filterChainDefinitionMap.put(<span class="hljs-string">"/swagger-resources/**"</span>, <span class="hljs-string">"anon"</span>);
@@ -330,330 +397,109 @@ ShiroFilterFactoryBean shiroFilterFactoryBean = <span class="hljs-keyword">new</
 shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 </code></pre>
 <p>在你的Shiro配置类中添加如上路径即可。</p>
-<h1 id="离线文档后续更新"><a class="markdownIt-Anchor" href="#离线文档后续更新"></a> 离线文档（后续更新）</h1>
+<h1 id="离线文档后续更新"><a class="markdownIt-Anchor" href="#离线文档后续更新"></a> 离线文档（后续更新）<a class="post-anchor" href="#离线文档后续更新"></a></h1>
+</body></html>
 
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='/statics/Coffin Princess.mp3'></li>
-                
-                    
-            </ul>
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
             
             
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='f4a90d67f05027e203de'
-        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
-        data-r='Matthew-Han.github.io'
-        data-o='Matthew-Han'
-        data-a='Matthew-Han'
-        data-d=''
-    >留言</div>
-
-
-            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
             
         </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
-                    <p>MatthewHan</p>
-                    <span>用一行行代码去描绘出</span>
-                    <span>成长的轨迹</span>
-                    <dl>
-                        
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-               
-                    </dl>
-                    
-                </div>
-                <ul>
-                    <li><a href="/">47 <p>文章</p></a></li>
-                    <li><a href="/categories">8 <p>分类</p></a></li>
-                    <li><a href="/tags">73 <p>标签</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>目录</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#swagger集成项目"><span class="toc-number">2.</span> <span class="toc-text"> Swagger集成项目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#pom引入"><span class="toc-number">2.1.</span> <span class="toc-text"> pom引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#configuration注入"><span class="toc-number">2.2.</span> <span class="toc-text"> Configuration注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现webmvcconfigurer"><span class="toc-number">2.3.</span> <span class="toc-text"> 实现WebMvcConfigurer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在controller中集成注解"><span class="toc-number">2.4.</span> <span class="toc-text"> 在controller中集成注解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小问题记录"><span class="toc-number">3.</span> <span class="toc-text"> 小问题记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注解问题"><span class="toc-number">3.1.</span> <span class="toc-text"> 注解问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与shiro集成的问题"><span class="toc-number">3.2.</span> <span class="toc-text"> 与Shiro集成的问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#离线文档后续更新"><span class="toc-number">4.</span> <span class="toc-text"> 离线文档（后续更新）</span></a></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
+      </div>
     </div>
-</div>
-
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+          <a href="/post/faabc624-bd9c-11e9-b52a-878085b5c0f3/">阿里云对象存储使用</a>
+        
     </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    <div class="item right">
+        
+          <a href="/post/faabc623-bd9c-11e9-b52a-878085b5c0f3/">入职浙江广电一年的感悟（真）</a>
+        
     </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2020
-        <span class="gradient-text">
-            MatthewHan
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
+  </div>
 
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
+  
 
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-
-    
-<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/obsidian.js"></script>
-<script src="/js/jquery.truncate.js"></script>
-<script src="/js/search.js"></script>
-
-
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-
-    
-<script src="/js/busuanzi.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-
-
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
     </div>
-</div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/faabc622-bd9c-11e9-b52a-878085b5c0f3/">https://Matthew-Han.github.io/post/faabc622-bd9c-11e9-b52a-878085b5c0f3/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
 
+  <div id="comment"></div>
 
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-144172266-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["用一行行代码去描绘出", "成长的轨迹"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
 </html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 

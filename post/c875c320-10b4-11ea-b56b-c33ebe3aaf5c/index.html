@@ -1,217 +1,291 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>谜の生产力插件/工具推荐（一） - Espada</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明, 说明
-以下推荐的工具都是个人挖掘和网友介绍得来，相对于程序开发者来说较为友好。
- Chrome插件相关
-
-过多的插件会影响使用体验。
-
- Octotree
-过去我们在GayHub上预览代码时，常常,"> 
-    <meta name="author" content="MatthewHan"> 
-    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-
+    <title>
+      谜の生产力插件/工具推荐（一） - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
-<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+<link rel="stylesheet" href="/style/style.css">
 
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
     
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-
-    
-<link rel="stylesheet" href="/css/obsidian.css">
-
-    
-<link rel="stylesheet" href="/css/ball-atom.min.css">
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#说明"><span class="toc-text"> 说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chrome插件相关"><span class="toc-text"> Chrome插件相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#octotree"><span class="toc-text"> Octotree</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式"><span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vimium"><span class="toc-text"> Vimium</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-2"><span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新浪微博图床"><span class="toc-text"> 新浪微博图床</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-3"><span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#saladict-沙拉查词"><span class="toc-text"> Saladict 沙拉查词</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-4"><span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#adblock-for-youtube"><span class="toc-text"> Adblock-For-YouTube</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-5"><span class="toc-text"> 获取方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mac软件"><span class="toc-text"> Mac软件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#utools"><span class="toc-text"> uTools</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-6"><span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#downie3"><span class="toc-text"> Downie3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-7"><span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#finalshell"><span class="toc-text"> FinalShell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-8"><span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xnip"><span class="toc-text"> Xnip</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-9"><span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ipic-ipic-mover"><span class="toc-text"> iPic &amp; iPic Mover</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-10"><span class="toc-text"> 获取方式</span></a></li></ol></li></ol></li></ol>
     </div>
-    <span id="config-title" style="display:none">Espada</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">谜の生产力插件/工具推荐（一）</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
     </div>
-</div>
-
-    <div class="section">
-        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
-<div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/tool.jpg) ">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="/categories/其他技术"><b>「
-                    </b>其他技术<b> 」</b></a>
-                
-                十一月 27, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/" title="谜の生产力插件&#x2F;工具推荐（一）" class="">谜の生产力插件&#x2F;工具推荐（一）</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    9.9k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    9 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/" rel="tag">工具推荐</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B/" rel="tag">生产力</a></li></ul>
-            
-        </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
     </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
+    <div id="progress">
+      <div class="line"></div>
     </div>
-</div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
 
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h1>
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">谜の生产力插件/工具推荐（一）</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2019/11/27</span>
+        </span>
+
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/其他技术">其他技术</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/工具推荐">工具推荐</a>
+                  
+                
+                  
+                    <a href="/tags/生产力">生产力</a>
+                  
+                
+                  
+                    <a href="/tags/教程">教程</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明<a class="post-anchor" href="#说明"></a></h1>
 <p>以下推荐的工具都是个人挖掘和网友介绍得来，相对于程序开发者来说较为友好。</p>
-<h1 id="chrome插件相关"><a class="markdownIt-Anchor" href="#chrome插件相关"></a> Chrome插件相关</h1>
+<h1 id="chrome插件相关"><a class="markdownIt-Anchor" href="#chrome插件相关"></a> Chrome插件相关<a class="post-anchor" href="#chrome插件相关"></a></h1>
 <blockquote>
 <p>过多的插件会影响使用体验。</p>
 </blockquote>
-<h2 id="octotree"><a class="markdownIt-Anchor" href="#octotree"></a> Octotree</h2>
+<h2 id="octotree"><a class="markdownIt-Anchor" href="#octotree"></a> Octotree<a class="post-anchor" href="#octotree"></a></h2>
 <p>过去我们在GayHub上预览代码时，常常需要不停地前进下一页和回退上一页操作来更全面的获取想要的信息。虽然GayHub有着不错的搜索功能，但是对于一个陌生的项目来说，它的结构没有很清晰直观地展示出来，我们无法快速定位到任何一处来浏览我们想要的信息。</p>
 <p>Octotree字如其名可以将代码的结构以树形展示，可以实现对工程项目结构的大致了解，快速定位到我们想去的任何地方。另外可以固定在每一个repository的左侧或者右侧。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/octotree.gif" alt="使用演示" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/octotree.gif" target="_blank" rel="noopener" data-caption="使用演示" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/octotree.gif" alt="使用演示"></a></p>
 <p>Octotree拥有账号服务，当你注册了账号之后：</p>
 <ul>
 <li>可以在repository页面上的仓库名称右边有一个加入bookmark的按钮，可以将你的repository收藏到bookmarks中，方便直接查找，非Pro版本拥有20个仓库的容量。</li>
 <li>可以切换代码高亮的主题，例如<code>dark♂</code>主题之类的。</li>
 <li>支持Chrome、Firefox、Opera、Safari。</li>
 </ul>
-<h3 id="获取方式"><a class="markdownIt-Anchor" href="#获取方式"></a> 获取方式</h3>
+<h3 id="获取方式"><a class="markdownIt-Anchor" href="#获取方式"></a> 获取方式<a class="post-anchor" href="#获取方式"></a></h3>
 <ul>
 <li><a href="https://chrome.google.com/webstore/detail/octotree/bkhaagjahfmjljalopjnoealnfndnagc?hl=zh-CN" target="_blank" rel="noopener">Chrome Web Store</a></li>
 <li><a href="https://github.com/ovity/octotree" target="_blank" rel="noopener">GitHub</a></li>
 </ul>
-<h2 id="vimium"><a class="markdownIt-Anchor" href="#vimium"></a> Vimium</h2>
+<h2 id="vimium"><a class="markdownIt-Anchor" href="#vimium"></a> Vimium<a class="post-anchor" href="#vimium"></a></h2>
 <p>怀念Vim？害怕鼠标手（👴大二左手有过腱鞘炎，诶？为什么是左手）？Vimium都可以满足你。Vimium通过全键盘操作，可以暂时脱离鼠标，高效完成一系列动作。需要一定学习成本，但是只需学习高频操作的快捷键即可熟练地高效操作了。</p>
 <p>如果忘记了快捷键，只需要调用<code>？</code>即可呼出Vimium Help查看所有快捷键指令。</p>
 <p>常用指令<code>j</code>，<code>k</code>控制scroll的上下滚动；大小<code>o</code>可以选择是否以新标签页的形式打开地址栏，不过不如直接按<code>T</code>，呼出新标签页再键入地址好用。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/vimium1.png" alt="操作快捷键" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/vimium1.png" target="_blank" rel="noopener" data-caption="操作快捷键" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/vimium1.png" alt="操作快捷键"></a></p>
 <p>其中<code>f</code>快捷键是个重点，它帮你筛选出当前页面的所有可跳转链接，并用字符高亮显示，只需对应页面上的高亮字符用键盘键入相应的字符，即可进入链接地址。其中<code>f</code>是覆盖当前页面，<code>F</code>以新标签页的形式打开链接。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/vimium2.gif" alt="官方演示" /></p>
-<h3 id="获取方式-2"><a class="markdownIt-Anchor" href="#获取方式-2"></a> 获取方式</h3>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/vimium2.gif" target="_blank" rel="noopener" data-caption="官方演示" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/vimium2.gif" alt="官方演示"></a></p>
+<h3 id="获取方式-2"><a class="markdownIt-Anchor" href="#获取方式-2"></a> 获取方式<a class="post-anchor" href="#获取方式-2"></a></h3>
 <ul>
 <li><a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=zh-CN" target="_blank" rel="noopener">Chrome Web Store</a></li>
 <li><a href="https://github.com/philc/vimium" target="_blank" rel="noopener">GitHub</a></li>
 </ul>
-<h2 id="新浪微博图床"><a class="markdownIt-Anchor" href="#新浪微博图床"></a> 新浪微博图床</h2>
+<h2 id="新浪微博图床"><a class="markdownIt-Anchor" href="#新浪微博图床"></a> 新浪微博图床<a class="post-anchor" href="#新浪微博图床"></a></h2>
 <p>需要运营静态网站的人来说，把部分媒资素材分离并持久化是一个必要的选择。当然，稳定快速的读取并渲染展示也是支撑用户群的关键。普遍对象存储OSS都拥有直链+CDN的模式，对于访问量不高的情况下，直链的效果即可。8️⃣过目前CDN处理的比较好的有七牛和又拍云CDN，当然如果我们只是玩玩，我们还可以选择免费的新浪微博图床插件。</p>
 <p>这款名叫Weibo-Picture-Store的扩展插件由<a href="https://github.com/Semibold" target="_blank" rel="noopener">Neko Atsume</a>组织开发并开源在GayHub上。其原理就是利用新浪微博的微相册变成可支持外链的图床，在微相册中会创建一个新的相册，并且设置成为「仅自己可见」。</p>
 <p>可以手动通过扩展插件的窗口手动上传图片，并得到4种形式的地址，Markdown的形式对于博客编写者来说十分友好。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/weibo.png" alt="界面图" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/weibo.png" target="_blank" rel="noopener" data-caption="界面图" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/weibo.png" alt="界面图"></a></p>
 <p>除了可以手动传图到微相册以外，该扩展还支持互联网上的图片，鼠标右键选择把这张图片上传到微相册。所有的上传记录都可以在扩展插件中浏览。</p>
-<h3 id="获取方式-3"><a class="markdownIt-Anchor" href="#获取方式-3"></a> 获取方式</h3>
+<h3 id="获取方式-3"><a class="markdownIt-Anchor" href="#获取方式-3"></a> 获取方式<a class="post-anchor" href="#获取方式-3"></a></h3>
 <ul>
 <li><a href="%5Bhttps://chrome.google.com/webstore/detail/%E5%BE%AE%E5%8D%9A%E5%9B%BE%E5%BA%8A/pinjkilghdfhnkibhcangnpmcpdpmehk%5D(https://chrome.google.com/webstore/detail/%E5%BE%AE%E5%8D%9A%E5%9B%BE%E5%BA%8A/pinjkilghdfhnkibhcangnpmcpdpmehk)">Chrome Web Store</a></li>
 <li><a href="https://github.com/Semibold/Weibo-Picture-Store" target="_blank" rel="noopener">GitHub</a></li>
 </ul>
-<h2 id="saladict-沙拉查词"><a class="markdownIt-Anchor" href="#saladict-沙拉查词"></a> Saladict 沙拉查词</h2>
+<h2 id="saladict-沙拉查词"><a class="markdownIt-Anchor" href="#saladict-沙拉查词"></a> Saladict 沙拉查词<a class="post-anchor" href="#saladict-沙拉查词"></a></h2>
 <p>作为一名程序员不可避免的要查阅各种官方、非官方的英文文档。有些核心语句和专业词汇十分需要一个翻译工具来做第一步：让你知道这个大概是什么意思，至于具体是什么含义需要自己去理解。</p>
 <p>很多人说为什么不用Chrome自带的翻译？呃，自带的翻译确实够用了，但是往往只有中翻英，沙拉查词可以在后台配置多本词典，必应、柯林斯高阶、有道、剑桥等等，根据不同的词典可以翻译成多种语言，并且划词可以直接朗读。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/saladict.png" alt="多本词典多种语言翻译" /></p>
-<h3 id="获取方式-4"><a class="markdownIt-Anchor" href="#获取方式-4"></a> 获取方式</h3>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/saladict.png" target="_blank" rel="noopener" data-caption="多本词典多种语言翻译" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/saladict.png" alt="多本词典多种语言翻译"></a></p>
+<h3 id="获取方式-4"><a class="markdownIt-Anchor" href="#获取方式-4"></a> 获取方式<a class="post-anchor" href="#获取方式-4"></a></h3>
 <ul>
 <li><a href="https://chrome.google.com/webstore/detail/%E6%B2%99%E6%8B%89%E6%9F%A5%E8%AF%8D-%E8%81%9A%E5%90%88%E8%AF%8D%E5%85%B8%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cdonnmffkdaoajfknoeeecmchibpmkmg" target="_blank" rel="noopener">Chrome Web Store</a></li>
 <li><a href="https://github.com/crimx/ext-saladict" target="_blank" rel="noopener">GitHub</a></li>
 </ul>
-<h2 id="adblock-for-youtube"><a class="markdownIt-Anchor" href="#adblock-for-youtube"></a> Adblock-For-YouTube</h2>
+<h2 id="adblock-for-youtube"><a class="markdownIt-Anchor" href="#adblock-for-youtube"></a> Adblock-For-YouTube<a class="post-anchor" href="#adblock-for-youtube"></a></h2>
 <p>拥有5,919,658名用户的爆款去广告扩展插件，专为YouTube打造。喜欢看YouTube视频的朋友都知道虽然YouTube视频的片头广告可以跳过，但是在一定程度上会割裂观看体验。</p>
 <p>👴在用了4年时间里经常在想这么出名并且有效的插件，为什么YouTube一直没有采用应对措施呢？难不成就是YouTube自己的产品。</p>
-<h3 id="获取方式-5"><a class="markdownIt-Anchor" href="#获取方式-5"></a> 获取方式</h3>
+<h3 id="获取方式-5"><a class="markdownIt-Anchor" href="#获取方式-5"></a> 获取方式<a class="post-anchor" href="#获取方式-5"></a></h3>
 <ul>
 <li><a href="https://chrome.google.com/webstore/detail/adblock-for-youtube/cmedhionkhpnakcndndgjdbohmhepckk?hl=zh-CN" target="_blank" rel="noopener">Chrome Web Store</a></li>
 </ul>
-<h1 id="mac软件"><a class="markdownIt-Anchor" href="#mac软件"></a> Mac软件</h1>
+<h1 id="mac软件"><a class="markdownIt-Anchor" href="#mac软件"></a> Mac软件<a class="post-anchor" href="#mac软件"></a></h1>
 <blockquote>
 <p>我也想当正版侠</p>
 </blockquote>
-<h2 id="utools"><a class="markdownIt-Anchor" href="#utools"></a> uTools</h2>
+<h2 id="utools"><a class="markdownIt-Anchor" href="#utools"></a> uTools<a class="post-anchor" href="#utools"></a></h2>
 <p>为什么这个要放在第一个呢？</p>
 <p>因为，</p>
 <p>它有、东西。</p>
@@ -221,31 +295,31 @@
 <p>一个</p>
 <p>就够了</p>
 </blockquote>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/finalshellsearch.png" alt="纷繁化简" /></p>
-<h3 id="获取方式-6"><a class="markdownIt-Anchor" href="#获取方式-6"></a> 获取方式</h3>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/finalshellsearch.png" target="_blank" rel="noopener" data-caption="纷繁化简" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/finalshellsearch.png" alt="纷繁化简"></a></p>
+<h3 id="获取方式-6"><a class="markdownIt-Anchor" href="#获取方式-6"></a> 获取方式<a class="post-anchor" href="#获取方式-6"></a></h3>
 <ul>
 <li><a href="https://yuanliao.info/" target="_blank" rel="noopener">官网地址</a></li>
 </ul>
-<h2 id="downie3"><a class="markdownIt-Anchor" href="#downie3"></a> Downie3</h2>
+<h2 id="downie3"><a class="markdownIt-Anchor" href="#downie3"></a> Downie3<a class="post-anchor" href="#downie3"></a></h2>
 <p>互联网视频的下载怪，只需要在窗口输入视频地址即可下载，支持后期处理。</p>
 <p>支持的网站众多，可在偏好设置中查看。目前国内网站大部分被收录（<s>大概吧</s>），17173、bilibili、163等等。</p>
 <p>安装完之后还需要按照官网的指示在Chrome扩展程序中加载解压好的Downie3扩展程序。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/downie1.png" alt="支持的网站" /></p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/downie2.png" alt="视频下载" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/downie1.png" target="_blank" rel="noopener" data-caption="支持的网站" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/downie1.png" alt="支持的网站"></a></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/downie2.png" target="_blank" rel="noopener" data-caption="视频下载" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/downie2.png" alt="视频下载"></a></p>
 <p>Downie3是收费的，具体的「使用方法」就因人而异了。</p>
-<h3 id="获取方式-7"><a class="markdownIt-Anchor" href="#获取方式-7"></a> 获取方式</h3>
+<h3 id="获取方式-7"><a class="markdownIt-Anchor" href="#获取方式-7"></a> 获取方式<a class="post-anchor" href="#获取方式-7"></a></h3>
 <ul>
 <li><a href="https://software.charliemonroe.net/downie/" target="_blank" rel="noopener">官方地址</a></li>
 </ul>
-<h2 id="finalshell"><a class="markdownIt-Anchor" href="#finalshell"></a> FinalShell</h2>
+<h2 id="finalshell"><a class="markdownIt-Anchor" href="#finalshell"></a> FinalShell<a class="post-anchor" href="#finalshell"></a></h2>
 <p>一款ssh工具，开发者也活跃在v2ex。据说是Java编写的，点个赞嗷！</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/finalshell1.png" alt="主页面" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/finalshell1.png" target="_blank" rel="noopener" data-caption="主页面" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/finalshell1.png" alt="主页面"></a></p>
 <p>macOS中的ssh工具本来就不多，之前使用的SSH Shell会出现多节点闪退的问题，FinalShell不但稳定运行，并且还将x-ftp和xshell的功能结合，十分好用了。</p>
-<h3 id="获取方式-8"><a class="markdownIt-Anchor" href="#获取方式-8"></a> 获取方式</h3>
+<h3 id="获取方式-8"><a class="markdownIt-Anchor" href="#获取方式-8"></a> 获取方式<a class="post-anchor" href="#获取方式-8"></a></h3>
 <ul>
 <li><a href="http://www.hostbuf.com/" target="_blank" rel="noopener">官方地址</a></li>
 </ul>
-<h2 id="xnip"><a class="markdownIt-Anchor" href="#xnip"></a> Xnip</h2>
+<h2 id="xnip"><a class="markdownIt-Anchor" href="#xnip"></a> Xnip<a class="post-anchor" href="#xnip"></a></h2>
 <p>非常好用的一款截图，功能性和美观性上基本取代微信、QQ、macOS系统截图。</p>
 <p>主要有以下几点：</p>
 <ul>
@@ -254,7 +328,7 @@
 <p>非常好用，长截图必备，再也不用截多张图了，一气呵成，内容直观呈现。</p>
 </li>
 </ul>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip2.gif" alt="演示" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip2.gif" target="_blank" rel="noopener" data-caption="演示" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip2.gif" alt="演示"></a></p>
 <ul>
 <li>
 <p><strong>窗口截图</strong></p>
@@ -262,19 +336,19 @@
 </li>
 <li>
 <p><strong>步骤模式</strong></p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip4.png" alt="步骤模式效果" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip4.png" target="_blank" rel="noopener" data-caption="步骤模式效果" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip4.png" alt="步骤模式效果"></a></p>
 </li>
 <li>
 <p><strong>贴图</strong></p>
 <p>这个也超好用，因为很多时候朋友、同事发给你一张图片，你需要边看图片提取内容信息边工作，这时候就像Photoshop的图层一样可以使用截图「钉」在桌面最上层，使截图置顶，再干别的工作也不会把截图覆盖了。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip3.jpg" alt="贴图效果" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip3.jpg" target="_blank" rel="noopener" data-caption="贴图效果" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/xnip3.jpg" alt="贴图效果"></a></p>
 </li>
 </ul>
-<h3 id="获取方式-9"><a class="markdownIt-Anchor" href="#获取方式-9"></a> 获取方式</h3>
+<h3 id="获取方式-9"><a class="markdownIt-Anchor" href="#获取方式-9"></a> 获取方式<a class="post-anchor" href="#获取方式-9"></a></h3>
 <ul>
 <li><a href="https://zh.xnipapp.com/" target="_blank" rel="noopener">官网地址</a></li>
 </ul>
-<h2 id="ipic-ipic-mover"><a class="markdownIt-Anchor" href="#ipic-ipic-mover"></a> iPic &amp; iPic Mover</h2>
+<h2 id="ipic-ipic-mover"><a class="markdownIt-Anchor" href="#ipic-ipic-mover"></a> iPic & iPic Mover<a class="post-anchor" href="#ipic-ipic-mover"></a></h2>
 <p>以下两款工具比较嗯，不支持Windows。</p>
 <ul>
 <li>
@@ -284,337 +358,116 @@
 <li>
 <p><strong>iPic Mover</strong></p>
 <p>字如其名，文件迁移，支持文件夹下的Markdowm内的图片，iPic Mover 是通过调用 iPicUploader，将图片上传至 iPic 当前选中的图床。由于需要调用 iPic 来上传图片，iPic Mover 在运行时会检测 iPic 是否安装。如果未安装，会提示在 Mac App Store 下载。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/iPic%20Mover.gif" alt="演示" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/iPic%20Mover.gif" target="_blank" rel="noopener" data-caption="演示" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/iPic%20Mover.gif" alt="演示"></a></p>
 </li>
 </ul>
-<h3 id="获取方式-10"><a class="markdownIt-Anchor" href="#获取方式-10"></a> 获取方式</h3>
+<h3 id="获取方式-10"><a class="markdownIt-Anchor" href="#获取方式-10"></a> 获取方式<a class="post-anchor" href="#获取方式-10"></a></h3>
 <ul>
 <li><a href="%5Bhttps://apps.apple.com/cn/app/ipic-markdown-%E5%9B%BE%E5%BA%8A-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%B7%A5%E5%85%B7/id1101244278%5D(https://apps.apple.com/cn/app/ipic-markdown-%E5%9B%BE%E5%BA%8A-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%B7%A5%E5%85%B7/id1101244278)">iPic Apple Store</a></li>
 <li><a href="https://apps.apple.com/cn/app/id1183822957?mt=12" target="_blank" rel="noopener">iPic Mover Apple Store</a></li>
 </ul>
+</body></html>
 
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='/statics/Coffin Princess.mp3'></li>
-                
-                    
-            </ul>
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
             
             
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='f4a90d67f05027e203de'
-        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
-        data-r='Matthew-Han.github.io'
-        data-o='Matthew-Han'
-        data-a='Matthew-Han'
-        data-d=''
-    >留言</div>
-
-
-            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
             
         </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
-                    <p>MatthewHan</p>
-                    <span>用一行行代码去描绘出</span>
-                    <span>成长的轨迹</span>
-                    <dl>
-                        
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-               
-                    </dl>
-                    
-                </div>
-                <ul>
-                    <li><a href="/">47 <p>文章</p></a></li>
-                    <li><a href="/categories">8 <p>分类</p></a></li>
-                    <li><a href="/tags">73 <p>标签</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>目录</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#说明"><span class="toc-number">1.</span> <span class="toc-text"> 说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#chrome插件相关"><span class="toc-number">2.</span> <span class="toc-text"> Chrome插件相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#octotree"><span class="toc-number">2.1.</span> <span class="toc-text"> Octotree</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vimium"><span class="toc-number">2.2.</span> <span class="toc-text"> Vimium</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-2"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新浪微博图床"><span class="toc-number">2.3.</span> <span class="toc-text"> 新浪微博图床</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-3"><span class="toc-number">2.3.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#saladict-沙拉查词"><span class="toc-number">2.4.</span> <span class="toc-text"> Saladict 沙拉查词</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-4"><span class="toc-number">2.4.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#adblock-for-youtube"><span class="toc-number">2.5.</span> <span class="toc-text"> Adblock-For-YouTube</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-5"><span class="toc-number">2.5.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mac软件"><span class="toc-number">3.</span> <span class="toc-text"> Mac软件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#utools"><span class="toc-number">3.1.</span> <span class="toc-text"> uTools</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-6"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#downie3"><span class="toc-number">3.2.</span> <span class="toc-text"> Downie3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-7"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#finalshell"><span class="toc-number">3.3.</span> <span class="toc-text"> FinalShell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-8"><span class="toc-number">3.3.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xnip"><span class="toc-number">3.4.</span> <span class="toc-text"> Xnip</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-9"><span class="toc-number">3.4.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ipic-ipic-mover"><span class="toc-number">3.5.</span> <span class="toc-text"> iPic &amp; iPic Mover</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方式-10"><span class="toc-number">3.5.1.</span> <span class="toc-text"> 获取方式</span></a></li></ol></li></ol></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
+      </div>
     </div>
-</div>
-
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+          <a href="/post/237a2190-1258-11ea-a4fe-c7eac48cbd2c/">Redis搭配生产者消费者模型</a>
+        
     </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    <div class="item right">
+        
+          <a href="/post/32c6b4c0-09e7-11ea-8010-7bbe2de22c19/">Windows平台Redis Cluster集群模式的坑</a>
+        
     </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2020
-        <span class="gradient-text">
-            MatthewHan
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
+  </div>
 
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
+  
 
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-
-    
-<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/obsidian.js"></script>
-<script src="/js/jquery.truncate.js"></script>
-<script src="/js/search.js"></script>
-
-
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-
-    
-<script src="/js/busuanzi.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-
-
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
     </div>
-</div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/">https://Matthew-Han.github.io/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
 
+  <div id="comment"></div>
 
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-144172266-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["用一行行代码去描绘出", "成长的轨迹"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
 </html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 

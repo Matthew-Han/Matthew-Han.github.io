@@ -1,149 +1,235 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shiro与分布式Session与Redis的那些坑 - Espada</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明, 需要知道的点
-Shiro的Session支持企业级的特性，例如分布式缓存。我们在Spring Data Redis + Shiro的方案中需要注意下以下几点：
-
-无论Redis服务是单机还是集群模,"> 
-    <meta name="author" content="MatthewHan"> 
-    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-
+    <title>
+      Shiro与分布式Session与Redis的那些坑 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
-<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+<link rel="stylesheet" href="/style/style.css">
 
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
     
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-
-    
-<link rel="stylesheet" href="/css/obsidian.css">
-
-    
-<link rel="stylesheet" href="/css/ball-atom.min.css">
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需要知道的点"><span class="toc-text"> 需要知道的点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#session持久化"><span class="toc-text"> Session持久化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决手段"><span class="toc-text"> 解决手段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#redis配置序列化工具"><span class="toc-text"> Redis配置序列化工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#并入管理"><span class="toc-text"> 并入管理</span></a></li></ol>
     </div>
-    <span id="config-title" style="display:none">Espada</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">Shiro与分布式Session与Redis的那些坑</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
     </div>
-</div>
-
-    <div class="section">
-        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
-<div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/shiro%E5%88%86%E5%B8%83%E5%BC%8Fsession/cluster.jpeg) ">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="/categories/Java技术"><b>「
-                    </b>JAVA技术<b> 」</b></a>
-                
-                三月 27, 2020
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/" title="Shiro与分布式Session与Redis的那些坑" class="">Shiro与分布式Session与Redis的那些坑</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    15k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    14 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Session/" rel="tag">Session</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Shiro/" rel="tag">Shiro</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag">序列化</a></li></ul>
-            
-        </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
     </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
+    <div id="progress">
+      <div class="line"></div>
     </div>
-</div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
 
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="需要知道的点"><a class="markdownIt-Anchor" href="#需要知道的点"></a> 需要知道的点</h1>
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">Shiro与分布式Session与Redis的那些坑</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2020/03/27</span>
+        </span>
+
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/Java技术">Java技术</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/Shiro">Shiro</a>
+                  
+                
+                  
+                    <a href="/tags/Session">Session</a>
+                  
+                
+                  
+                    <a href="/tags/分布式">分布式</a>
+                  
+                
+                  
+                    <a href="/tags/Redis">Redis</a>
+                  
+                
+                  
+                    <a href="/tags/序列化">序列化</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="需要知道的点"><a class="markdownIt-Anchor" href="#需要知道的点"></a> 需要知道的点<a class="post-anchor" href="#需要知道的点"></a></h1>
 <p>Shiro的Session支持企业级的特性，例如分布式缓存。我们在Spring Data Redis + Shiro的方案中需要注意下以下几点：</p>
 <ol>
 <li>无论Redis服务是单机还是集群模式，都需要注意Session对象的序列化与反序列化的问题；</li>
@@ -160,7 +246,7 @@ Shiro的Session支持企业级的特性，例如分布式缓存。我们在Sprin
 <li><strong>SessionId</strong>：得到Session的关键</li>
 <li><strong>securityManager</strong>：这是Shiro框架的核心组件，可以把他看做是一个Shiro框架的全局管理组件，用于调度各种Shiro框架的服务。我们需要将自定义的<strong>sessionManager</strong>交给它</li>
 </ol>
-<h1 id="session持久化"><a class="markdownIt-Anchor" href="#session持久化"></a> Session持久化</h1>
+<h1 id="session持久化"><a class="markdownIt-Anchor" href="#session持久化"></a> Session持久化<a class="post-anchor" href="#session持久化"></a></h1>
 <p>上面写到如果想定制化我们的持久化效果，就必须覆写它的方法，所以我们需要新创建一个类<code>SessionRedisDao</code>来继承<code>EnterpriseCacheSessionDAO</code>类：</p>
 <pre class="highlight"><code class="java"><span class="hljs-meta">@Component</span>
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SessionRedisDao</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EnterpriseCacheSessionDAO</span> </span>{
@@ -168,8 +254,8 @@ Shiro的Session支持企业级的特性，例如分布式缓存。我们在Sprin
     <span class="hljs-comment">/**
      * 注入的是byteRedisTemplate，只用于byte[]类型的序列化存储在redis中
      */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RedisTemplate&lt;String, <span class="hljs-keyword">byte</span>[]&gt; redisTemplate;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRedisDao</span><span class="hljs-params">(@Qualifier(<span class="hljs-string">"byteRedisTemplate"</span>)</span> RedisTemplate&lt;String, <span class="hljs-keyword">byte</span>[]&gt; redisTemplate) </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRedisDao</span><span class="hljs-params">(@Qualifier(<span class="hljs-string">"byteRedisTemplate"</span>)</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate) </span>{
         <span class="hljs-keyword">this</span>.redisTemplate = redisTemplate;
     }
 
@@ -183,7 +269,7 @@ Shiro的Session支持企业级的特性，例如分布式缓存。我们在Sprin
         Serializable sessionId = <span class="hljs-keyword">super</span>.doCreate(session);
         System.out.println(<span class="hljs-string">"===============【 "</span> + sessionId + <span class="hljs-string">" 】 创建了session！================"</span>);
 
-        BoundValueOperations&lt;String, <span class="hljs-keyword">byte</span>[]&gt; boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());
+        BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());
         boundValueOperations.set(sessionToByte(session), <span class="hljs-number">240</span>, TimeUnit.MINUTES);
 
         <span class="hljs-keyword">return</span> sessionId;
@@ -201,9 +287,9 @@ Shiro的Session支持企业级的特性，例如分布式缓存。我们在Sprin
         <span class="hljs-comment">//System.out.println("===============【 " + sessionId + " 】 获取了session！================");</span>
 
         <span class="hljs-keyword">if</span>(session == <span class="hljs-keyword">null</span>){
-            BoundValueOperations&lt;String, <span class="hljs-keyword">byte</span>[]&gt; boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());
+            BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());
             <span class="hljs-keyword">byte</span>[] bytes = (boundValueOperations.get());
-            <span class="hljs-keyword">if</span>(bytes != <span class="hljs-keyword">null</span> &amp;&amp; bytes.length &gt; <span class="hljs-number">0</span>){
+            <span class="hljs-keyword">if</span>(bytes != <span class="hljs-keyword">null</span> && bytes.length > <span class="hljs-number">0</span>){
                 session = byteToSession(bytes);
             }
         }
@@ -219,7 +305,7 @@ Shiro的Session支持企业级的特性，例如分布式缓存。我们在Sprin
         <span class="hljs-keyword">super</span>.doUpdate(session);
         System.out.println(<span class="hljs-string">"===============【 "</span> + session.getId() + <span class="hljs-string">" 】 更新了session！================"</span>);
 
-        BoundValueOperations&lt;String, <span class="hljs-keyword">byte</span>[]&gt; boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + session.getId().toString());
+        BoundValueOperations<String, <span class="hljs-keyword">byte</span>[]> boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + session.getId().toString());
         boundValueOperations.set(sessionToByte(session), <span class="hljs-number">240</span>, TimeUnit.MINUTES);
     }
 
@@ -276,32 +362,32 @@ Shiro的Session支持企业级的特性，例如分布式缓存。我们在Sprin
 </code></pre>
 <p>好像看起来和网上的其他技术文章的实现差不多，但是还有差啦（迷之台湾腔？）</p>
 <p>首先是关于<code>RedisTemplate</code>客户端的注入使用：</p>
-<pre class="highlight"><code class="java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RedisTemplate&lt;String, <span class="hljs-keyword">byte</span>[]&gt; redisTemplate;
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRedisDao</span><span class="hljs-params">(@Qualifier(<span class="hljs-string">"byteRedisTemplate"</span>)</span> RedisTemplate&lt;String, <span class="hljs-keyword">byte</span>[]&gt; redisTemplate) </span>{
+<pre class="highlight"><code class="java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SessionRedisDao</span><span class="hljs-params">(@Qualifier(<span class="hljs-string">"byteRedisTemplate"</span>)</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate) </span>{
         <span class="hljs-keyword">this</span>.redisTemplate = redisTemplate;
 }
 </code></pre>
-<p>在这里看到key和value的类型<code>&lt;String, byte[]&gt;</code>，不是常规的<code>&lt;String, Object&gt;</code>，因为我在以下序列化工具中以json字符串的形式存储在Redis：</p>
+<p>在这里看到key和value的类型<code><String, byte[]></code>，不是常规的<code><String, Object></code>，因为我在以下序列化工具中以json字符串的形式存储在Redis：</p>
 <ol>
 <li><code>FastJsonRedisSerializer</code></li>
 <li><code>GenericJackson2JsonRedisSerializer</code></li>
 <li><code>Jackson2JsonRedisSerializer</code></li>
 </ol>
-<p>发现在执行<code>doUpdate</code>方法后，Redis当中会增加一些Simple Session没有字段，比如<code>&quot;valid&quot;:true</code>等等，所以在反序列化获取Session对象的过程中会抛出如下异常：</p>
-<pre class="highlight"><code class="">&quot;Could not read JSON: Cannot construct instance of`org.apache.shiro.web.util.SavedRequest` (no Creators, like default construct, exist): cannot deserialize from Object value (no delegate- or property-based Creator)↵ at [Source: (byte[])&quot;[&quot;org.apache.shiro.session.mgt.SimpleSession&quot;
+<p>发现在执行<code>doUpdate</code>方法后，Redis当中会增加一些Simple Session没有字段，比如<code>"valid":true</code>等等，所以在反序列化获取Session对象的过程中会抛出如下异常：</p>
+<pre class="highlight"><code class>"Could not read JSON: Cannot construct instance of`org.apache.shiro.web.util.SavedRequest` (no Creators, like default construct, exist): cannot deserialize from Object value (no delegate- or property-based Creator)↵ at [Source: (byte[])"["org.apache.shiro.session.mgt.SimpleSession"
 </code></pre>
 <blockquote>
 <p>我突然就想到了《码出高效》里面，有说过POJO类不要使用isXxx作为变量的形式</p>
 </blockquote>
 <p>当然这里也没发现存在 <code>isXxx</code>的成员变量，只看到了 <code>isValid()</code>方法，以及 <code>isStoped()</code>方法也没有对应的 <code>stoped</code> 成员属性。可能是在反序列化的过程中，通过Redis里的键值对发现，<strong>SimpleSession</strong>并没有这个 <code>boolean</code>类型的 <code>valid</code>变量而导致错误。不知道是不是算Shiro的Simple Session一个Bug。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/shiro%E5%88%86%E5%B8%83%E5%BC%8Fsession/isValid.png" alt="反序列化造成的问题" /></p>
-<h1 id="解决手段"><a class="markdownIt-Anchor" href="#解决手段"></a> 解决手段</h1>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/shiro%E5%88%86%E5%B8%83%E5%BC%8Fsession/isValid.png" target="_blank" rel="noopener" data-caption="反序列化造成的问题" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/shiro%E5%88%86%E5%B8%83%E5%BC%8Fsession/isValid.png" alt="反序列化造成的问题"></a></p>
+<h1 id="解决手段"><a class="markdownIt-Anchor" href="#解决手段"></a> 解决手段<a class="post-anchor" href="#解决手段"></a></h1>
 <p><strong>目前个人找到的解决的方法是使用<code>byte[]</code>字节流存储，且用默认的JDK序列化工具<code>JdkSerializationRedisSerializer</code>。</strong></p>
-<h1 id="redis配置序列化工具"><a class="markdownIt-Anchor" href="#redis配置序列化工具"></a> Redis配置序列化工具</h1>
+<h1 id="redis配置序列化工具"><a class="markdownIt-Anchor" href="#redis配置序列化工具"></a> Redis配置序列化工具<a class="post-anchor" href="#redis配置序列化工具"></a></h1>
 <p>因为可能在代码其他处已经使用了其他序列化工具操作Redis了，所以这里建议重新写一个Bean的方法专门用于Shiro安全框架的Session操作：</p>
 <pre class="highlight"><code class="java"><span class="hljs-meta">@Bean</span>(name = <span class="hljs-string">"byteRedisTemplate"</span>)
-<span class="hljs-keyword">public</span> RedisTemplate&lt;String, <span class="hljs-keyword">byte</span>[]&gt; byteRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-    RedisTemplate&lt;String, <span class="hljs-keyword">byte</span>[]&gt; redisTemplate = <span class="hljs-keyword">new</span> RedisTemplate&lt;&gt;();
+<span class="hljs-keyword">public</span> RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> byteRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    RedisTemplate<String, <span class="hljs-keyword">byte</span>[]> redisTemplate = <span class="hljs-keyword">new</span> RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory);
 
     JdkSerializationRedisSerializer jdkSerializationRedisSerializer = <span class="hljs-keyword">new</span> JdkSerializationRedisSerializer();
@@ -322,8 +408,8 @@ Shiro的Session支持企业级的特性，例如分布式缓存。我们在Sprin
     <span class="hljs-keyword">return</span> redisTemplate;
 }
 </code></pre>
-<p>然后在需要注入的地方，加入<code>@Qualifier</code>注解即可，像这样：<code>@Qualifier(&quot;byteRedisTemplate&quot;) RedisTemplate&lt;String, byte[]&gt; redisTemplate</code>。</p>
-<h1 id="并入管理"><a class="markdownIt-Anchor" href="#并入管理"></a> 并入管理</h1>
+<p>然后在需要注入的地方，加入<code>@Qualifier</code>注解即可，像这样：<code>@Qualifier("byteRedisTemplate") RedisTemplate<String, byte[]> redisTemplate</code>。</p>
+<h1 id="并入管理"><a class="markdownIt-Anchor" href="#并入管理"></a> 并入管理<a class="post-anchor" href="#并入管理"></a></h1>
 <pre class="highlight"><code class="java"><span class="hljs-meta">@Bean</span>
 <span class="hljs-function"><span class="hljs-keyword">public</span> DefaultWebSessionManager <span class="hljs-title">sessionManager</span><span class="hljs-params">(SessionRedisDao sessionRedisDao)</span> </span>{
     DefaultWebSessionManager sessionManager = <span class="hljs-keyword">new</span> DefaultWebSessionManager();
@@ -358,329 +444,108 @@ Shiro的Session支持企业级的特性，例如分布式缓存。我们在Sprin
 }
 </code></pre>
 <p>这里注意rememberMe的Cookies管理，以及<code>sessionManager.setGlobalSessionTimeout(14400000L);</code>和Redis设置的过期时间保持一致即可。</p>
+</body></html>
 
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='/statics/Coffin Princess.mp3'></li>
-                
-                    
-            </ul>
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
             
             
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='f4a90d67f05027e203de'
-        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
-        data-r='Matthew-Han.github.io'
-        data-o='Matthew-Han'
-        data-a='Matthew-Han'
-        data-d=''
-    >留言</div>
-
-
-            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
             
         </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
-                    <p>MatthewHan</p>
-                    <span>用一行行代码去描绘出</span>
-                    <span>成长的轨迹</span>
-                    <dl>
-                        
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-               
-                    </dl>
-                    
-                </div>
-                <ul>
-                    <li><a href="/">47 <p>文章</p></a></li>
-                    <li><a href="/categories">8 <p>分类</p></a></li>
-                    <li><a href="/tags">73 <p>标签</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>目录</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需要知道的点"><span class="toc-number">1.</span> <span class="toc-text"> 需要知道的点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#session持久化"><span class="toc-number">2.</span> <span class="toc-text"> Session持久化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决手段"><span class="toc-number">3.</span> <span class="toc-text"> 解决手段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#redis配置序列化工具"><span class="toc-number">4.</span> <span class="toc-text"> Redis配置序列化工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#并入管理"><span class="toc-number">5.</span> <span class="toc-text"> 并入管理</span></a></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
+      </div>
     </div>
-</div>
-
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+          <a href="/post/41de2f70-7d4f-11ea-b18b-ad951eb7124e/">虐猫事件思考「虐」的定义</a>
+        
     </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    <div class="item right">
+        
+          <a href="/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a>
+        
     </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2020
-        <span class="gradient-text">
-            MatthewHan
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
+  </div>
 
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
+  
 
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-
-    
-<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/obsidian.js"></script>
-<script src="/js/jquery.truncate.js"></script>
-<script src="/js/search.js"></script>
-
-
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-
-    
-<script src="/js/busuanzi.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-
-
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
     </div>
-</div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/">https://Matthew-Han.github.io/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
 
+  <div id="comment"></div>
 
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-144172266-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["用一行行代码去描绘出", "成长的轨迹"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
 </html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 

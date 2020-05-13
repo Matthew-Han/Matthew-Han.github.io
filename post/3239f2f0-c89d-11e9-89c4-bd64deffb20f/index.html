@@ -1,158 +1,235 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>《码出高效》系列笔记（一）：面向对象中的其他知识点 - Espada</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明,
-良好的编码风格和完善统一的规约是最高效的方式。
-
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第三节：面向对象的其他知识点篇。
-本系列目录：
-
-《码出,"> 
-    <meta name="author" content="MatthewHan"> 
-    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-
+    <title>
+      《码出高效》系列笔记（一）：面向对象中的其他知识点 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
-<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+<link rel="stylesheet" href="/style/style.css">
 
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
     
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-
-    
-<link rel="stylesheet" href="/css/obsidian.css">
-
-    
-<link rel="stylesheet" href="/css/ball-atom.min.css">
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#同步与异步"><span class="toc-text"> 同步与异步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#覆写"><span class="toc-text"> 覆写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重载"><span class="toc-text"> 重载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#泛型"><span class="toc-text"> 泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型使用"><span class="toc-text"> 泛型使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据类型"><span class="toc-text"> 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本数据类型"><span class="toc-text"> 基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包装类型"><span class="toc-text"> 包装类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-text"> 字符串</span></a></li></ol></li></ol>
     </div>
-    <span id="config-title" style="display:none">Espada</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">《码出高效》系列笔记（一）：面向对象中的其他知识点</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
     </div>
-</div>
-
-    <div class="section">
-        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
-<div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Easy%20Coding.jpg/zip) ">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="/categories/Java技术"><b>「
-                    </b>JAVA技术<b> 」</b></a>
-                
-                八月 27, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/" title="《码出高效》系列笔记（一）：面向对象中的其他知识点" class="">《码出高效》系列笔记（一）：面向对象中的其他知识点</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    24k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    22 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/Easy-Coding/" rel="tag">Easy Coding</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">面向对象</a></li></ul>
-            
-        </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
     </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
+    <div id="progress">
+      <div class="line"></div>
     </div>
-</div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
 
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">《码出高效》系列笔记（一）：面向对象中的其他知识点</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2019/08/27</span>
+        </span>
+
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/Java技术">Java技术</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/笔记">笔记</a>
+                  
+                
+                  
+                    <a href="/tags/Easy Coding">Easy Coding</a>
+                  
+                
+                  
+                    <a href="/tags/面向对象">面向对象</a>
+                  
+                
+                  
+                    <a href="/tags/泛型">泛型</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><blockquote>
 <p>良好的编码风格和完善统一的规约是最高效的方式。</p>
 </blockquote>
-<br />
-<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+<br>
+<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言<a class="post-anchor" href="#前言"></a></h1>
 <p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第三节：面向对象的其他知识点篇。</p>
 <p><strong>本系列目录</strong>：</p>
 <ul>
@@ -164,10 +241,10 @@
 <li><a href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/" target="_blank" rel="noopener">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
 <li><a href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/" target="_blank" rel="noopener">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
 </ul>
-<h1 id="同步与异步"><a class="markdownIt-Anchor" href="#同步与异步"></a> 同步与异步</h1>
-<p>同步调用是刚性调用，是阻塞式操作，必须等待调用方法体执行结束。而异步调用是柔性调用，是非阻塞式操作。<br />
+<h1 id="同步与异步"><a class="markdownIt-Anchor" href="#同步与异步"></a> 同步与异步<a class="post-anchor" href="#同步与异步"></a></h1>
+<p>同步调用是刚性调用，是阻塞式操作，必须等待调用方法体执行结束。而异步调用是柔性调用，是非阻塞式操作。<br>
 举个与我们息息相关的例子，git代码提交托管时，提交代码的操作是同步调用，需要实时返回给用户结果，但是当前库代码相关活动就不是时间敏感的，在提交代码时，发送一个消息到后台的缓存队列中，后台服务器定时消费这些消息即可。</p>
-<h1 id="覆写"><a class="markdownIt-Anchor" href="#覆写"></a> 覆写</h1>
+<h1 id="覆写"><a class="markdownIt-Anchor" href="#覆写"></a> 覆写<a class="post-anchor" href="#覆写"></a></h1>
 <p>覆写是多态的一中表现，大部分人可能把它称为重写，我也遵循了本书的命名，重写可能暗示了推倒重来的过程，而覆写则更多的表达出重写一部分而覆盖。出现覆写的情况非常的多，POJO类<code>toString()</code>方法的覆写，工厂模式的抽象工厂类调用具体工厂子类的方法。通常这也被称作向上转型：</p>
 <pre class="highlight"><code class="Java">Father father = <span class="hljs-keyword">new</span> Son();
 <span class="hljs-comment">// son 覆写了此方法</span>
@@ -216,9 +293,9 @@ father.doSomething();
 <li>两同：方法名和参数必须相同。</li>
 </ul>
 <p><strong>另外注意</strong>：子类和父类不要相互调用彼此的方法，不然会变成循环调用，最后直至JVM崩溃，产生StackOverflowError异常。</p>
-<h1 id="重载"><a class="markdownIt-Anchor" href="#重载"></a> 重载</h1>
-<p>在同一个类中，如果多个方法有相同的方法名、不同的参数，即称为重载，比如一个POJO类中多个构造方法。以及String类中的<code>valueOf</code>，它有9个方法，可以将输入的基本数据类型、数组、Object等转化成为字符串。<br />
-我们再回顾下方法签名的概念：方法名称+参数类型+参数个数，组成一个<font color=red><strong>唯一键</strong></font>，成为方法签名，这个唯一键是⑧能重复的。JVM就是通过这个唯一键决定调用那种重载的方法。<br />
+<h1 id="重载"><a class="markdownIt-Anchor" href="#重载"></a> 重载<a class="post-anchor" href="#重载"></a></h1>
+<p>在同一个类中，如果多个方法有相同的方法名、不同的参数，即称为重载，比如一个POJO类中多个构造方法。以及String类中的<code>valueOf</code>，它有9个方法，可以将输入的基本数据类型、数组、Object等转化成为字符串。<br>
+我们再回顾下方法签名的概念：方法名称+参数类型+参数个数，组成一个<font color="red"><strong>唯一键</strong></font>，成为方法签名，这个唯一键是⑧能重复的。JVM就是通过这个唯一键决定调用那种重载的方法。<br>
 以下代码就是错误的重载方式，他们都有共同的特征，就是方法签名重复冲突了。</p>
 <pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
 
@@ -265,9 +342,9 @@ father.doSomething();
     }
 }
 </code></pre>
-<p>第一处答案是「<font color=red>int</font>」，第二处的答案是「<font color=red>Integer…</font>」。那么为什么<code>ec.methodForOverload(996)</code>方法编译器会匹配到<code>methodForOverload(int arg)</code>呢，而<code>ec.methodForOverload()</code>无参方法缺席的情况下却匹配到了可变参数<code>methodForOverload(Integer... args)</code>?<br />
-可变参数的个数其实是从0个到多个，所以首先它也会和其他方法抢夺匹配<code>ec.methodForOverload(996)</code>，然而他的优先级是最低的，弟中弟嗷。但是在无参方法缺席的情况，只有他符合这一条件，所以<code>ec.methodForOverload()</code>无参方法自然匹配上。而<code>int</code>和<code>Integer</code>还有<code>Object</code>的较量中胜出的原因是不需要自动装箱，假如把<code>int</code>类型改成<code>long</code>类型，编译器一定也是Match<code>long</code>类型，而优于装箱的<code>Interger</code>。<br />
-但是如果是<code>methodForOverload(null)</code>这种情况则会调用参数为<code>Integer</code>的方法，Null可以匹配任何类对象，从最底层一次向上查找，会找到<code>Integer</code>和<code>Integer...</code>这两个参数方法，但是会报错，因为他们同时Match上了。<br />
+<p>第一处答案是「<font color="red">int</font>」，第二处的答案是「<font color="red">Integer…</font>」。那么为什么<code>ec.methodForOverload(996)</code>方法编译器会匹配到<code>methodForOverload(int arg)</code>呢，而<code>ec.methodForOverload()</code>无参方法缺席的情况下却匹配到了可变参数<code>methodForOverload(Integer... args)</code>?<br>
+可变参数的个数其实是从0个到多个，所以首先它也会和其他方法抢夺匹配<code>ec.methodForOverload(996)</code>，然而他的优先级是最低的，弟中弟嗷。但是在无参方法缺席的情况，只有他符合这一条件，所以<code>ec.methodForOverload()</code>无参方法自然匹配上。而<code>int</code>和<code>Integer</code>还有<code>Object</code>的较量中胜出的原因是不需要自动装箱，假如把<code>int</code>类型改成<code>long</code>类型，编译器一定也是Match<code>long</code>类型，而优于装箱的<code>Interger</code>。<br>
+但是如果是<code>methodForOverload(null)</code>这种情况则会调用参数为<code>Integer</code>的方法，Null可以匹配任何类对象，从最底层一次向上查找，会找到<code>Integer</code>和<code>Integer...</code>这两个参数方法，但是会报错，因为他们同时Match上了。<br>
 JVM在重载方法的顺序如下：</p>
 <ol>
 <li>精确匹配。</li>
@@ -303,8 +380,8 @@ JVM在重载方法的顺序如下：</p>
 }
 </code></pre>
 <p>此种方式就是完全在挑战编译器的底线了，虽然编译会通过，但是调用的时候一定会报错。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Overload.png" alt="编译器此刻的内心是绝望的" /></p>
-<h1 id="泛型"><a class="markdownIt-Anchor" href="#泛型"></a> 泛型</h1>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Overload.png" target="_blank" rel="noopener" data-caption="编译器此刻的内心是绝望的" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Overload.png" alt="编译器此刻的内心是绝望的"></a></p>
+<h1 id="泛型"><a class="markdownIt-Anchor" href="#泛型"></a> 泛型<a class="post-anchor" href="#泛型"></a></h1>
 <p>泛型也许是很多人相对陌生的领域，但是它⑧是多么神秘，本质是类型参数化，解决不确定具体对象类型的问题。Java在引入泛型之前，表示可变类型往往存在类型安全的风险，举个例子，微波炉最主要的功能是加热食物，而食物也有几十几百种可能，所以一般会像下面这样写业务设计：</p>
 <pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
 
@@ -321,7 +398,7 @@ JVM在重载方法的顺序如下：</p>
 }
 </code></pre>
 <p>这里的<code>heat</code>方法就是为了避免给每个类型的食物定义一个加热方法，但是只能采用“向上转型”的方式才能具备加热任意类型食物的能力。但是会让客户端困惑，因为对加热的内容不能正确区分，在取出时进行强制类型转换就会存在类型转换风险。而泛型就是为了解决这个而生。</p>
-<h2 id="泛型使用"><a class="markdownIt-Anchor" href="#泛型使用"></a> 泛型使用</h2>
+<h2 id="泛型使用"><a class="markdownIt-Anchor" href="#泛型使用"></a> 泛型使用<a class="post-anchor" href="#泛型使用"></a></h2>
 <p>泛型可以定义在类、接口、方法中，编译器通过识别尖括号和尖括号内的字母来解析泛型。现在一般约定俗成的符号有：</p>
 <ul>
 <li>E：代表Element，用于集合中的元素。</li>
@@ -330,9 +407,9 @@ JVM在重载方法的顺序如下：</p>
 <li>V：代表Value，K和V用于键值对元素。</li>
 </ul>
 <p>下面这段代码可以很好地说明泛型定义的概念：</p>
-<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span>&lt;<span class="hljs-title">T</span>&gt; </span>{
+<pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span><<span class="hljs-title">T</span>> </span>{
 
-    <span class="hljs-keyword">static</span> &lt;String, T, Object&gt; <span class="hljs-function">String <span class="hljs-title">get</span><span class="hljs-params">(String arg1, Object arg2)</span> </span>{
+    <span class="hljs-keyword">static</span> <String, T, Object> <span class="hljs-function">String <span class="hljs-title">get</span><span class="hljs-params">(String arg1, Object arg2)</span> </span>{
         System.out.println(arg1.getClass());
         System.out.println(arg2.getClass());
         <span class="hljs-keyword">return</span> arg1;
@@ -350,10 +427,10 @@ JVM在重载方法的顺序如下：</p>
     }
 }
 </code></pre>
-<p>首先这段代码是完全可以通过编译的，可能没用过泛型的小伙伴会疑问为什么<code>get()</code>方法可以传入<code>Integer</code>和<code>Long</code>甚至是<code>byte[]</code>类型？而且返回的结果不应该是<code>String</code>类型吗？其实关键就在于<code>&lt;String, T, Object&gt;</code>这个泛型标识，<code>String</code>是我们常见的所熟知的包装类了，<code>Object</code>是所有类的父类，但是在泛型标识里，它就不是<code>String</code>和<code>Object</code>了，而是可以成为任意类型，属于完全未知的类型，入参的第一个参数如果是<code>Integer</code>类型，那么在方法体内的所有<code>arg1</code>就不是我们认知里的<code>java.lang.String</code>了，这个<code>String</code>就是相当于之前说明的<code>T</code>，<code>Object</code>也是一种<code>T</code>，仅仅只是一个代号。<br />
+<p>首先这段代码是完全可以通过编译的，可能没用过泛型的小伙伴会疑问为什么<code>get()</code>方法可以传入<code>Integer</code>和<code>Long</code>甚至是<code>byte[]</code>类型？而且返回的结果不应该是<code>String</code>类型吗？其实关键就在于<code><String, T, Object></code>这个泛型标识，<code>String</code>是我们常见的所熟知的包装类了，<code>Object</code>是所有类的父类，但是在泛型标识里，它就不是<code>String</code>和<code>Object</code>了，而是可以成为任意类型，属于完全未知的类型，入参的第一个参数如果是<code>Integer</code>类型，那么在方法体内的所有<code>arg1</code>就不是我们认知里的<code>java.lang.String</code>了，这个<code>String</code>就是相当于之前说明的<code>T</code>，<code>Object</code>也是一种<code>T</code>，仅仅只是一个代号。<br>
 当然我们平时编码不会也不要这样去定义泛型，确实会容易引发歧义和造成其他问题。所以我应该注意以下几点：</p>
 <ol>
-<li>尖括号里的每个元素都指代一种位置类型。<code>&lt;String&gt;</code>这里的<code>String</code>就不是我们认知上的<code>java.lang.String</code>了，仅仅只是个代号。包括类名后的<code>&lt;T&gt;</code>和get方法前的<code>&lt;T&gt;</code>是两个指代，互不影响。</li>
+<li>尖括号里的每个元素都指代一种位置类型。<code><String></code>这里的<code>String</code>就不是我们认知上的<code>java.lang.String</code>了，仅仅只是个代号。包括类名后的<code><T></code>和get方法前的<code><T></code>是两个指代，互不影响。</li>
 <li>尖括号的位置非常讲究，必须在类名之后或方法返回值之前。</li>
 <li>泛型在定义处只具备执行Object方法的能力。所以<code>arg1</code>和<code>arg2</code>只能调用Object类中的方法，比如<code>toString()</code>。</li>
 <li>对于编码之后的字节码指令，其实没有这些花头花脑的方法签名，充分说明了泛型只是一种编码时的语法检查。</li>
@@ -361,7 +438,7 @@ JVM在重载方法的顺序如下：</p>
 <p>所以之前微波炉加热食物的例子可以用泛型这样改写：</p>
 <pre class="highlight"><code class="Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EasyCoding</span> </span>{
 
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">heat</span><span class="hljs-params">(T food)</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <T> <span class="hljs-function">T <span class="hljs-title">heat</span><span class="hljs-params">(T food)</span> </span>{
         System.out.println(food.getClass());
         System.out.println(food + <span class="hljs-string">"isOK"</span>);
         <span class="hljs-keyword">return</span> food;
@@ -374,8 +451,8 @@ JVM在重载方法的顺序如下：</p>
 }
 </code></pre>
 <p>避免使用Object作为输入和输出可以控制强制转换带来的风险。因为依据墨菲定律，只要这种风险存在，就一定会发生<code>ClassCastException</code>异常。</p>
-<h1 id="数据类型"><a class="markdownIt-Anchor" href="#数据类型"></a> 数据类型</h1>
-<h2 id="基本数据类型"><a class="markdownIt-Anchor" href="#基本数据类型"></a> 基本数据类型</h2>
+<h1 id="数据类型"><a class="markdownIt-Anchor" href="#数据类型"></a> 数据类型<a class="post-anchor" href="#数据类型"></a></h1>
+<h2 id="基本数据类型"><a class="markdownIt-Anchor" href="#基本数据类型"></a> 基本数据类型<a class="post-anchor" href="#基本数据类型"></a></h2>
 <p>基本数据类型9种：int、short、long、float、double、char、boolean、byte、refvar，其中refvar是句柄，是面向对象中的引用变量，默认值为Null。详细如下表格：</p>
 <table>
 <thead>
@@ -464,18 +541,18 @@ JVM在重载方法的顺序如下：</p>
 </tr>
 </tbody>
 </table>
-<p><strong><font color=red>注意：其中缓存区间是个有意思的东西，估计很多人没有深究过，大厂面试很有可能就来这么一道题，所以接下来的包装类的内容要仔细看看哦~</font></strong></p>
+<p><strong><font color="red">注意：其中缓存区间是个有意思的东西，估计很多人没有深究过，大厂面试很有可能就来这么一道题，所以接下来的包装类的内容要仔细看看哦~</font></strong></p>
 <p>对象分为三块存储区域：</p>
 <ul>
 <li>对象头。对象头占用12B，其中包括：哈希码、GC标记、GC次数、同步锁标记、偏向锁持有者（反正👴⑧是很懂）。</li>
 <li>实例数据。存储本类对象的实例成员变量和所有可见的父类成员变量。</li>
 <li>对齐填充。</li>
 </ul>
-<h2 id="包装类型"><a class="markdownIt-Anchor" href="#包装类型"></a> 包装类型</h2>
-<p>包装类的存在是为了解决了基本数据类型无法做到的事情：泛型类型参数、序列化、类型转换、<code>高频区间数据缓存</code>。尤其是最后一个，因为除了Float和Double之外，其他包装类型都会缓存。拿Integer举例，缓存区间在-127~128，所以在这个区间的赋值，Integer对象会由IntegerCache.cache产生，就不会复用已有对象。<strong>因此，推荐所有包装类对象之间的比较，全都使用equals()方法。</strong><br />
+<h2 id="包装类型"><a class="markdownIt-Anchor" href="#包装类型"></a> 包装类型<a class="post-anchor" href="#包装类型"></a></h2>
+<p>包装类的存在是为了解决了基本数据类型无法做到的事情：泛型类型参数、序列化、类型转换、<code>高频区间数据缓存</code>。尤其是最后一个，因为除了Float和Double之外，其他包装类型都会缓存。拿Integer举例，缓存区间在-127~128，所以在这个区间的赋值，Integer对象会由IntegerCache.cache产生，就不会复用已有对象。<strong>因此，推荐所有包装类对象之间的比较，全都使用equals()方法。</strong><br>
 源码如下：</p>
 <pre class="highlight"><code class="Java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Integer <span class="hljs-title">valueOf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>{
-    <span class="hljs-keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
+    <span class="hljs-keyword">if</span> (i >= IntegerCache.low && i <= IntegerCache.high)
         <span class="hljs-keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Integer(i);
 }
@@ -518,10 +595,10 @@ JVM在重载方法的顺序如下：</p>
     System.out.println(l3.equals(l4));
    }
 </code></pre>
-<p>以上代码四处打印的结果是不是让人觉得都是<code>true</code>？<br />
-但是答案是第一处打印的结果是<code>true</code>和<code>flase</code>，第二处全是<code>true</code>，第三处也是<code>true</code>和<code>flase</code>，第四处全是<code>true</code>。<br />
-那么为什么<code>System.out.println(i1 == i2);</code>的结果是<code>true</code>，而<code>System.out.println(i3 == i4);</code>是<code>flase</code>呢？<br />
-该例很好地说明了Integer和Long只是缓存了-128~127之间的值，而大于或者小于区间的值没有被缓存，<code>i3</code>和<code>i4</code>是128，刚好超出了这个区间，下面的<code>l3</code>和<code>l4</code>同理。<br />
+<p>以上代码四处打印的结果是不是让人觉得都是<code>true</code>？<br>
+但是答案是第一处打印的结果是<code>true</code>和<code>flase</code>，第二处全是<code>true</code>，第三处也是<code>true</code>和<code>flase</code>，第四处全是<code>true</code>。<br>
+那么为什么<code>System.out.println(i1 == i2);</code>的结果是<code>true</code>，而<code>System.out.println(i3 == i4);</code>是<code>flase</code>呢？<br>
+该例很好地说明了Integer和Long只是缓存了-128~127之间的值，而大于或者小于区间的值没有被缓存，<code>i3</code>和<code>i4</code>是128，刚好超出了这个区间，下面的<code>l3</code>和<code>l4</code>同理。<br>
 当然我们也可以修改包装类的缓存范围，在VM options加入参数<code>-XX:AutoBoxCacheMax=7777</code>，即可设置最大缓存值为7777，那么以上代码的打印结果全为<code>true</code>。</p>
 <p>在选择使用包装类和基本类型的时候，也不能完全按照心情，我们可以从以下几点来看：</p>
 <ol>
@@ -529,338 +606,117 @@ JVM在重载方法的顺序如下：</p>
 <li>RPC方法的返回值和参数必须使用包装数据类型。</li>
 <li>所有的局部变量推荐使用基本数据类型。</li>
 </ol>
-<h2 id="字符串"><a class="markdownIt-Anchor" href="#字符串"></a> 字符串</h2>
+<h2 id="字符串"><a class="markdownIt-Anchor" href="#字符串"></a> 字符串<a class="post-anchor" href="#字符串"></a></h2>
 <p>字符串是从堆上分配而来，算是基本数据类型的小弟。主要是三种：String、StringBuilder、StringBuffer。</p>
 <ol>
 <li>String是只读字符串，典型的immutable对象，对它的任何改动，其实都是创建一个新对象，再把引用指向该对象。String对象赋值操作后，会在常量池中进行缓存，下次申请创建对象时，缓存中已经存在，则直接返回相应引用给调用者。</li>
 <li>StringBuffer可以在原对象上进行修改，是线程安全的。</li>
-<li>StringBuilder是非线程安全的，把多线程的锁的处理交给工程师（也就是宁👴）来处理，所以操作效率比较高。<br />
+<li>StringBuilder是非线程安全的，把多线程的锁的处理交给工程师（也就是宁👴）来处理，所以操作效率比较高。<br>
 线程安全的对象的产生一般是因为计算机的发展总是从单线程到多线程，从单机到分布式。</li>
 </ol>
 <p>字符串的连接方式在循环体内非常不推荐使用String类型相加，而是应该使用StringBuilder的append方法。</p>
+</body></html>
 
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='/statics/Coffin Princess.mp3'></li>
-                
-                    
-            </ul>
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
             
             
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='f4a90d67f05027e203de'
-        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
-        data-r='Matthew-Han.github.io'
-        data-o='Matthew-Han'
-        data-a='Matthew-Han'
-        data-d=''
-    >留言</div>
-
-
-            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
             
         </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
-                    <p>MatthewHan</p>
-                    <span>用一行行代码去描绘出</span>
-                    <span>成长的轨迹</span>
-                    <dl>
-                        
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-               
-                    </dl>
-                    
-                </div>
-                <ul>
-                    <li><a href="/">47 <p>文章</p></a></li>
-                    <li><a href="/categories">8 <p>分类</p></a></li>
-                    <li><a href="/tags">73 <p>标签</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>目录</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#同步与异步"><span class="toc-number">2.</span> <span class="toc-text"> 同步与异步</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#覆写"><span class="toc-number">3.</span> <span class="toc-text"> 覆写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重载"><span class="toc-number">4.</span> <span class="toc-text"> 重载</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#泛型"><span class="toc-number">5.</span> <span class="toc-text"> 泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型使用"><span class="toc-number">5.1.</span> <span class="toc-text"> 泛型使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据类型"><span class="toc-number">6.</span> <span class="toc-text"> 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本数据类型"><span class="toc-number">6.1.</span> <span class="toc-text"> 基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包装类型"><span class="toc-number">6.2.</span> <span class="toc-text"> 包装类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-number">6.3.</span> <span class="toc-text"> 字符串</span></a></li></ol></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
+      </div>
     </div>
-</div>
-
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+          <a href="/post/d6b414b0-cd29-11e9-8b45-c56f88a832c9/">心态的起伏</a>
+        
     </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    <div class="item right">
+        
+          <a href="/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a>
+        
     </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2020
-        <span class="gradient-text">
-            MatthewHan
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
+  </div>
 
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
+  
 
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-
-    
-<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/obsidian.js"></script>
-<script src="/js/jquery.truncate.js"></script>
-<script src="/js/search.js"></script>
-
-
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-
-    
-<script src="/js/busuanzi.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-
-
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
     </div>
-</div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">https://Matthew-Han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
 
+  <div id="comment"></div>
 
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-144172266-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["用一行行代码去描绘出", "成长的轨迹"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
 </html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 

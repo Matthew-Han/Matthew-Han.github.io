@@ -1,147 +1,227 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>多线程之线程池小纪 - Espada</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="MatthewHan Espada,"> 
-    <meta name="description" content="极度理性，爱憎分明, 关于我是线程池
-并发总是离不开多线程，多线程的应用能够更好地帮助我们协调利用CPU、Memory、Net、I/O等系统资源。频繁的创建、销毁线程会浪费大量的系统资源，增加并发编程的风险。利用线程池,"> 
-    <meta name="author" content="MatthewHan"> 
-    <link rel="alternative" href="atom.xml" title="Espada" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    <link href="https://fonts.loli.net/css?family=Roboto+Mono|Rubik&display=swap" rel="stylesheet">
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
     
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1429596_nzgqgvnmkjb.css">
-
+    <title>
+      多线程之线程池小纪 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
-<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.7.2/animate.min.css">
+<link rel="stylesheet" href="/style/style.css">
 
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
     
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/codemirror.min.css">
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/codemirror/5.48.4/theme/dracula.css">
-
-    
-<link rel="stylesheet" href="/css/obsidian.css">
-
-    
-<link rel="stylesheet" href="/css/ball-atom.min.css">
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body class="loading">
-    <div class="loader">
-        <div class="la-ball-atom la-2x">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于我是线程池"><span class="toc-text"> 关于我是线程池</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迷思"><span class="toc-text"> 迷思</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#探究"><span class="toc-text"> 探究</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#原因"><span class="toc-text"> 原因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试"><span class="toc-text"> 测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#奥利给"><span class="toc-text"> 奥利给</span></a></li></ol>
     </div>
-    <span id="config-title" style="display:none">Espada</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div class="scrollbar gradient-bg-rev"></div>
-<div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <div class="navigation animated fadeIn fast delay-1s">
-        <img id="home-icon" class="icon-home" src="/img/favicon.png" alt="" data-url="https://Matthew-Han.github.io">
-        <div id="play-icon" title="Play/Pause" class="iconfont icon-play"></div>
-        <h3 class="subtitle">多线程之线程池小纪</h3>
-        <div class="social">
-            <!--        <div class="like-icon">-->
-            <!--            <a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
-            <!--        </div>-->
-            <div>
-                <div class="share">
-                    
-                        <a href="javascript:;" class="iconfont icon-share1"></a>
-                        <div class="share-component-cc" data-disabled="facebook,douban,linkedin,diandian,tencent,google"></div>
-                    
-                </div>
-            </div>
-        </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
     </div>
-</div>
-
-    <div class="section">
-        <!--%- css(['font_zc21gjwsoe/iconfont.css']) %-->
-<div class=article-header-wrapper>
-    <div class="article-header">
-        <div class="article-cover animated fadeIn" style="
-            animation-delay: 600ms;
-            animation-duration: 1.2s;
-            background-image: 
-                radial-gradient(ellipse closest-side, rgba(0, 0, 0, 0.65), #100e17),
-                url(https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%B0%8F%E7%BA%AA.png) ">
-        </div>
-        <div class="else">
-            <p class="animated fadeInDown">
-                
-                <a href="/categories/Java技术"><b>「
-                    </b>JAVA技术<b> 」</b></a>
-                
-                十二月 18, 2019
-            </p>
-            <h3 class="post-title animated fadeInDown"><a href="/post/3ff45990-2175-11ea-bda8-b1e815e5e40d/" title="多线程之线程池小纪" class="">多线程之线程池小纪</a>
-            </h3>
-            
-            <p class="post-count animated fadeInDown">
-                
-                <span>
-                    <b class="iconfont icon-text2"></b> <i>文章字数</i>
-                    17k
-                </span>
-                
-                
-                <span>
-                    <b class="iconfont icon-timer__s"></b> <i>阅读约需</i>
-                    16 mins.
-                </span>
-                
-                
-                
-                <span id="busuanzi_container_page_pv">
-                    <b class="iconfont icon-read"></b> <i>阅读次数</i>
-                    <span id="busuanzi_value_page_pv">0</span>
-                </span>
-                
-            </p>
-            
-            
-            <ul class="animated fadeInDown post-tags-list" itemprop="keywords"><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="animated fadeInDown post-tags-list-item"><a class="animated fadeInDown post-tags-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li></ul>
-            
-        </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
     </div>
-</div>
-
-<div class="screen-gradient-after">
-    <div class="screen-gradient-content">
-        <div class="screen-gradient-content-inside">
-            <div class="bold-underline-links screen-gradient-sponsor">
-                <p>
-                    <span class="animated fadeIn delay-1s"></span>
-                </p>
-            </div>
-        </div>
+    <div id="progress">
+      <div class="line"></div>
     </div>
-</div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
 
-<div class="article">
-    <div class='main'>
-        <div class="content markdown animated fadeIn">
-            <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="关于我是线程池"><a class="markdownIt-Anchor" href="#关于我是线程池"></a> 关于我是线程池</h1>
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">多线程之线程池小纪</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2019/12/18</span>
+        </span>
+
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/Java技术">Java技术</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/多线程">多线程</a>
+                  
+                
+                  
+                    <a href="/tags/并发">并发</a>
+                  
+                
+                  
+                    <a href="/tags/线程池">线程池</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="关于我是线程池"><a class="markdownIt-Anchor" href="#关于我是线程池"></a> 关于我是线程池<a class="post-anchor" href="#关于我是线程池"></a></h1>
 <p>并发总是离不开多线程，多线程的应用能够更好地帮助我们协调利用CPU、Memory、Net、I/O等系统资源。频繁的创建、销毁线程会浪费大量的系统资源，增加并发编程的风险。利用线程池可以实现类似<strong>主次线程隔离</strong>、<strong>定时执行</strong>、<strong>定时执行</strong>、<strong>周期执行</strong>等任务。作用包括：</p>
 <ol>
 <li>利用线程池管理并复用线程、控制最大并发数等。</li>
@@ -149,7 +229,7 @@
 <li>隔离线程环境。比如<strong>交易服务</strong>和<strong>搜索服务</strong>在同一台服务器上，分别开启两个线程池，交易线程的资源消耗明显要更大；因此，通过配置读的线程池，将两者隔开，避免个服务线程相互影响。</li>
 </ol>
 <p>关于线程池的基础概念和一些简单场景，可以看看这篇文章：<a href="https://mp.weixin.qq.com/s/RLrgrQYWqm2EvBx6HfsAaQ" target="_blank" rel="noopener">线程池开门营业招聘开发人员的一天</a></p>
-<h1 id="迷思"><a class="markdownIt-Anchor" href="#迷思"></a> 迷思</h1>
+<h1 id="迷思"><a class="markdownIt-Anchor" href="#迷思"></a> 迷思<a class="post-anchor" href="#迷思"></a></h1>
 <p>如下是我定义的一个线程工具类，我定义了核心线程数量大小为4；最大核心线程数量大小为8，<code>LinkedBlockingQueue</code>容量大小未初始化，也未定义一个handle，当我在利用这个线程池生产线程的过程中发现，<strong>当创建速度大于它的处理速度时，核心线程数量依旧是4个</strong>。</p>
 <blockquote>
 <p>嗯？说好的，最大核心线程数不是BUG，8个吗？难道当前不应该是8个？</p>
@@ -199,7 +279,7 @@
                     SIZE_MAX_POOL,
                     <span class="hljs-number">10L</span>,
                     TimeUnit.MILLISECONDS,
-                    <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(),
+                    <span class="hljs-keyword">new</span> LinkedBlockingQueue<Runnable>(),
                     namedThreadFactory);
             <span class="hljs-comment">// 创建线程池2</span>
             service  = Executors.newScheduledThreadPool(<span class="hljs-number">4</span>);
@@ -238,9 +318,9 @@
 
 }
 </code></pre>
-<h1 id="探究"><a class="markdownIt-Anchor" href="#探究"></a> 探究</h1>
+<h1 id="探究"><a class="markdownIt-Anchor" href="#探究"></a> 探究<a class="post-anchor" href="#探究"></a></h1>
 <p>看来还是basic不够扎实啊，学的是个JB！我们看一下<code>ThreadPoolExecutor</code>的源码，查看下的他的4个构造方法如下图，我们来看看比较难懂的几个参数：</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/ThreadPoolExecutor.png/zip" alt="ThreadPoolExecutor" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/ThreadPoolExecutor.png/zip" target="_blank" rel="noopener" data-caption="ThreadPoolExecutor" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/ThreadPoolExecutor.png/zip" alt="ThreadPoolExecutor"></a></p>
 <ul>
 <li><strong>第5个参数：</strong><code>workQueue</code>表示缓存队列。当请求的线程大于<code>maximumPoolSize</code>时，线程进入<code>BlockingQueue</code>阻塞队列。是一个生产消费模型队列。</li>
 <li><strong>第7个参数：</strong><code>handle</code>表示执行拒绝策略的对象。当超过第5个参数<code>workQueue</code>的任务缓存区上限的时候，就可以通过该策略处理请求，是一种简单的限流保护。</li>
@@ -252,12 +332,12 @@ threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
 	SIZE_MAX_POOL,
 	<span class="hljs-number">10L</span>,
 	TimeUnit.MILLISECONDS,
-	<span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(),
+	<span class="hljs-keyword">new</span> LinkedBlockingQueue<Runnable>(),
 	namedThreadFactory);
 </code></pre>
-<p>我们把<code>LinkedBlockingQueue&lt;Runnable&gt;()</code>作为缓存队列，我们不关心的它内部实现，通过源码可以知道它是一种无限队列，构造器容量默认值大小是<code>Integer.MAX_VALUE</code>，往往在生产场景中很难达到这个值，所以像我上面这样写是极其不科学的，应该根据实际场景设置一个可承载容量大小，并配合<code>handle</code>做出拒绝策略，才是一个完整的流程。</p>
+<p>我们把<code>LinkedBlockingQueue<Runnable>()</code>作为缓存队列，我们不关心的它内部实现，通过源码可以知道它是一种无限队列，构造器容量默认值大小是<code>Integer.MAX_VALUE</code>，往往在生产场景中很难达到这个值，所以像我上面这样写是极其不科学的，应该根据实际场景设置一个可承载容量大小，并配合<code>handle</code>做出拒绝策略，才是一个完整的流程。</p>
 <p>我们稍微熟悉了它的构造方法之后，怎么知道它是如何工作的呢？另外我之前的迷思，为什么核心线程数始终等于4呢？</p>
-<h1 id="原因"><a class="markdownIt-Anchor" href="#原因"></a> 原因</h1>
+<h1 id="原因"><a class="markdownIt-Anchor" href="#原因"></a> 原因<a class="post-anchor" href="#原因"></a></h1>
 <p>首先我们可以通过源码查看<code>execute</code>方法：</p>
 <pre class="highlight"><code class="java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(Runnable command)</span> </span>{
     <span class="hljs-keyword">if</span> (command == <span class="hljs-keyword">null</span>)
@@ -284,15 +364,15 @@ threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
      */</span>
     <span class="hljs-keyword">int</span> c = ctl.get();
     <span class="hljs-comment">// 1. 如果当前线程数 小于 corePoolSize，则尝试添加新线程</span>
-    <span class="hljs-keyword">if</span> (workerCountOf(c) &lt; corePoolSize) {
+    <span class="hljs-keyword">if</span> (workerCountOf(c) < corePoolSize) {
         <span class="hljs-keyword">if</span> (addWorker(command, <span class="hljs-keyword">true</span>))
             <span class="hljs-keyword">return</span>;
         c = ctl.get();
     }
     <span class="hljs-comment">// 2. 尝试向workQueue添加队列（offer方法在workQueue没有容量时，添加失败），线程已经存在不会创建新的线程，如果不存在则创建新的线程。</span>
-    <span class="hljs-keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) {
+    <span class="hljs-keyword">if</span> (isRunning(c) && workQueue.offer(command)) {
         <span class="hljs-keyword">int</span> recheck = ctl.get();
-        <span class="hljs-keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))
+        <span class="hljs-keyword">if</span> (! isRunning(recheck) && remove(command))
             reject(command);
         <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (workerCountOf(recheck) == <span class="hljs-number">0</span>)
             addWorker(<span class="hljs-keyword">null</span>, <span class="hljs-keyword">false</span>);
@@ -305,17 +385,17 @@ threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
 <p>而<code>addWorker</code>方法主要是动态的调整线程池的线程数量。从execute方法和addWorker方法可以看出，当前线程数优先与corePoolSize 比较，大于corePoolSize ，则与workQueue容量比较；如果当前线程数大于workQueue容量，则与maximumPoolSize比较；如果当前线程数大于maximumPoolSize，则执行饱和策略；最后，根据饱和策略做出相应的处理。</p>
 <p>所以我粗略的总结下<strong>当corePoolSize（核心线程数）满了，接下来的线程先进入workQueue（任务队列），当队列也满了之后，创建新线程，直到达到maximumPoolSize（最大线程数），之后再尝试创建线程时，会进入拒绝rejectedExecution。</strong></p>
 <p>所以为什么线程池的核心线程数一直是4个，因为多余的都处在任务队列阻塞中，由于未设置一个容量大小，所以这个容量非常的大，其实是超出我们的处理能力的，我们程序始终就也没能够达到最大线程数。或者可以这么理解，这个maximumPoolSize算是一种比较坏（极限）的情况，很少情况并不会真的按照这个数量处理任务，只有当任务队列都不够时，才会继续创建线程，直到达到最大线程数，超过了之后就必须要handle来处理拒绝策略了。</p>
-<h1 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h1>
+<h1 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试<a class="post-anchor" href="#测试"></a></h1>
 <p>好了，既然大致了解了线程池的工作原理之后，可以进行一个测试来验证以下是否符合：</p>
 <pre class="highlight"><code class="java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestThreadPool</span> </span>{
 
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadFactory tf = <span class="hljs-keyword">new</span> ThreadFactoryBuilder()
             .setNameFormat(<span class="hljs-string">"factory-pool-%d"</span>).build();
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadPoolExecutor threadPoolExecutor = <span class="hljs-keyword">new</span> ThreadPoolExecutor(<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10L</span>,
-            TimeUnit.MINUTES, <span class="hljs-keyword">new</span> LinkedBlockingQueue&lt;&gt;(<span class="hljs-number">50</span>), tf);
+            TimeUnit.MINUTES, <span class="hljs-keyword">new</span> LinkedBlockingQueue<>(<span class="hljs-number">50</span>), tf);
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>{
 				System.out.println(<span class="hljs-string">"================start================"</span>);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i&lt;<span class="hljs-number">100</span>; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i<<span class="hljs-number">100</span>; i++) {
             threadPoolExecutor.execute(<span class="hljs-keyword">new</span> Task(String.valueOf(i)));
         }
         System.out.println(<span class="hljs-string">"================end================"</span>);
@@ -351,9 +431,9 @@ threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
 </ol>
 <p>其实可以很明显知道，<code>sleep</code>2秒加上<code>logger.info()</code>方法，线程的创建的速度一定是大大于执行的。按照4、8、50的配置，当地<strong>58</strong>个创建被创建成功之后，要是目前没有任何一个线程被释放的话，第<strong>59</strong>个线程会因为上限问题而被拒绝，这时候就会抛出异常了。当然这是个<code>for</code>循环，产生的速度足够快，基本上100次循环完成，第一个线程都没完成，所以可以大胆猜测，<code>logger</code>一共会打印58行日志，并伴随着<code>RejectedExecutionException</code>的出现。</p>
 <p>我们看一下运行的结果：</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/RejectedExecutionException.png" alt="异常它lei了" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/RejectedExecutionException.png" target="_blank" rel="noopener" data-caption="异常它lei了" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/RejectedExecutionException.png" alt="异常它lei了"></a></p>
 <p>果然第<strong>58</strong>个线程被创建之后，后续第<strong>59</strong>个线程想被创建就抛出了异常，如图刚好是58行（0 ~ 57），也没有<code>====================end====================</code>的出现。</p>
-<h1 id="奥利给"><a class="markdownIt-Anchor" href="#奥利给"></a> 奥利给</h1>
+<h1 id="奥利给"><a class="markdownIt-Anchor" href="#奥利给"></a> 奥利给<a class="post-anchor" href="#奥利给"></a></h1>
 <p>当我们把这个线程类的<code>run</code>方法分别改成如下：</p>
 <pre class="highlight"><code class="java"><span class="hljs-meta">@Override</span>
 <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
@@ -369,332 +449,111 @@ threadPool = <span class="hljs-keyword">new</span> ThreadPoolExecutor(
 }
 </code></pre>
 <p>分别看下结果：</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/sout.png" alt="奥利给" /></p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/logger.png" alt="奥利给大失败" /></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/sout.png" target="_blank" rel="noopener" data-caption="奥利给" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/sout.png" alt="奥利给"></a></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/logger.png" target="_blank" rel="noopener" data-caption="奥利给大失败" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/logger.png" alt="奥利给大失败"></a></p>
 <p>看来<code>org.slf4j.Logger.info()</code>的耗时不是一般的长，比<code>System.out.println()</code>还长。</p>
+</body></html>
 
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls"
-                data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-            <ul id="audio-list" style="display:none">
-                
-                
-                <li title='0' data-url='/statics/Coffin Princess.mp3'></li>
-                
-                    
-            </ul>
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
             
             
-            
-    <div id='gitalk-container' class="comment link"
-        data-ae='true'
-        data-ci='f4a90d67f05027e203de'
-        data-cs='b04a427204a2f33fda62a304d19401b8c3898fc2'
-        data-r='Matthew-Han.github.io'
-        data-o='Matthew-Han'
-        data-a='Matthew-Han'
-        data-d=''
-    >留言</div>
-
-
-            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
             
         </div>
-        <div class="sidebar">
-            <div class="box animated fadeInRight">
-                <div class="subbox">
-                    <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" height=300 width=300></img>
-                    <p>MatthewHan</p>
-                    <span>用一行行代码去描绘出</span>
-                    <span>成长的轨迹</span>
-                    <dl>
-                        
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-                        <dd><a href="https://github.com/Matthew-Han" target="_blank"><span
-                                    class=" iconfont icon-github"></span></a></dd>
-                        <dd><a href="" target="_blank"><span
-                                    class=" iconfont icon-empty"></span></a></dd>
-               
-                    </dl>
-                    
-                </div>
-                <ul>
-                    <li><a href="/">47 <p>文章</p></a></li>
-                    <li><a href="/categories">8 <p>分类</p></a></li>
-                    <li><a href="/tags">73 <p>标签</p></a></li>
-                </ul>
-            </div>
-            
-            
-            
-            <div class="box sticky animated fadeInRight faster">
-                <div id="toc" class="subbox">
-                    <h4>目录</h4>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于我是线程池"><span class="toc-number">1.</span> <span class="toc-text"> 关于我是线程池</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迷思"><span class="toc-number">2.</span> <span class="toc-text"> 迷思</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#探究"><span class="toc-number">3.</span> <span class="toc-text"> 探究</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#原因"><span class="toc-number">4.</span> <span class="toc-text"> 原因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试"><span class="toc-number">5.</span> <span class="toc-text"> 测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#奥利给"><span class="toc-number">6.</span> <span class="toc-text"> 奥利给</span></a></li></ol>
-                </div>
-            </div>
-            
-            
-        </div>
+      </div>
     </div>
-</div>
-
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+          <a href="/post/bce6bdb0-278a-11ea-9afb-77b212895fb9/">Mybatis 多对多映射的小问题</a>
+        
     </div>
-</div>
-    <div id="back-to-top" class="animated fadeIn faster">
-        <div class="flow"></div>
-        <span class="percentage animated fadeIn faster">0%</span>
-        <span class="iconfont icon-top02 animated fadeIn faster"></span>
+    <div class="item right">
+        
+          <a href="/post/b11fe710-1fae-11ea-9d8a-c3eaf7e57853/">我的2019</a>
+        
     </div>
-</body>
-<footer>
-    <p class="copyright" id="copyright">
-        &copy; 2020
-        <span class="gradient-text">
-            MatthewHan
-        </span>.
-        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
-        Theme
-        <span class="gradient-text">
-            <a href="https://github.com/TriDiamond/hexo-theme-obsidian" title="Obsidian" target="_blank" rel="noopener">Obsidian</a>
-        </span>
-        <small><a href="https://github.com/TriDiamond/hexo-theme-obsidian/blob/master/CHANGELOG.md" title="v1.4.3" target="_blank" rel="noopener">v1.4.3</a></small>
-    </p>
-</footer>
+  </div>
 
-<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      preferredFont: "TeX",
-      availableFonts: ["STIX", "TeX"],
-      linebreaks: {
-        automatic: true
-      },
-      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      processEscapes: true,
-      ignoreClass: "tex2jax_ignore|dno",
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      noUndefined: {
-        attributes: {
-          mathcolor: "red",
-          mathbackground: "#FFEEEE",
-          mathsize: "90%"
-        }
-      },
-      Macros: {
-        href: "{}"
-      }
-    },
-    messageStyle: "none"
-  });
-</script>
-<script>
-  function initialMathJax() {
-    MathJax.Hub.Queue(function () {
-      var all = MathJax.Hub.getAllJax(),
-        i;
-      // console.log(all);
-      for (i = 0; i < all.length; i += 1) {
-        console.log(all[i].SourceElement().parentNode)
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-    });
-  }
+  
 
-  function reprocessMathJax() {
-    if (typeof MathJax !== 'undefined') {
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-    }
-  }
-</script>
-
-
-
-    
-<link rel="stylesheet" href="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css">
-
-    
-<script src="//cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/obsidian.js"></script>
-<script src="/js/jquery.truncate.js"></script>
-<script src="/js/search.js"></script>
-
-
-<script src="//cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
-
-
-<script src="//cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-
-
-<script src="https://cdn.bootcss.com/codemirror/5.48.4/codemirror.min.js"></script>
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/java/java.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/css/css.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/xml/xml.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/htmlmixed/htmlmixed.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/clike/clike.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/php/php.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/shell/shell.min.js"></script>
-
-
-    
-<script src="//cdn.bootcss.com/codemirror/5.48.4/mode/python/python.min.js"></script>
-
-
-
-
-    
-<script src="/js/busuanzi.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            if ($('span[id^="busuanzi_"]').length) {
-                initialBusuanzi();
-            }
-        });
-    </script>
-
-
-
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/photoswipe/4.1.3/default-skin/default-skin.min.css">
-
-
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe.min.js"></script>
-<script src="//cdn.bootcss.com/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
     </div>
-</div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/3ff45990-2175-11ea-bda8-b1e815e5e40d/">https://Matthew-Han.github.io/post/3ff45990-2175-11ea-bda8-b1e815e5e40d/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
 
+  <div id="comment"></div>
 
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-144172266-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-144172266-1');
-    </script>
-
-
-
-
-
-<script>
-    function initialTyped () {
-        var typedTextEl = $('.typed-text');
-        if (typedTextEl && typedTextEl.length > 0) {
-            var typed = new Typed('.typed-text', {
-                strings: ["用一行行代码去描绘出", "成长的轨迹"],
-                typeSpeed: 90,
-                loop: true,
-                loopCount: Infinity,
-                backSpeed: 20,
-            });
-        }
-    }
-
-    if ($('.article-header') && $('.article-header').length) {
-        $(document).ready(function () {
-            initialTyped();
-        });
-    }
-</script>
-
-
-
-
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
 </html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 
