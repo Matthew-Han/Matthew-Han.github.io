@@ -269,7 +269,7 @@
 <h2 id="单个单向队列"><a class="markdownIt-Anchor" href="#单个单向队列"></a> 单个单向队列<a class="post-anchor" href="#单个单向队列"></a></h2>
 <p>其中注意：不要使用自身的forEach方法，根据队列的长度搞个循环即可。</p>
 <p>push方法核心代码：</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 单个单向队列</span><br><span class="hljs-comment"> */</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 单个单向队列</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{<br>    singleQueue.add(x);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < singleQueue.size() - <span class="hljs-number">1</span>; i++) {<br>        singleQueue.add(singleQueue.poll());<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 单个单向队列</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{<br>    singleQueue.add(x);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < singleQueue.size() - <span class="hljs-number">1</span>; i++) {<br>        singleQueue.add(singleQueue.poll());<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
 <p>注意是<code>size - 1</code>。因为最新add的那个元素不需要执行<code>poll</code>方法。</p>
 </body></html>
 
@@ -335,7 +335,7 @@
   
 </html>
 <script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"WP6N9TpOMsObERtX5Lzgdgj2-9Nh9j0Va\",\"API_KEY\":\"v5Wgu6lreC7ho45xunLPf8qN\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"WP6N9TpOMsObERtX5Lzgdgj2-9Nh9j0Va\",\"API_KEY\":\"v5Wgu6lreC7ho45xunLPf8qN\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"e931d9fd561eb5e97f275886f3d82c3a\"}}")
                 </script> <script type="text/javascript">window.addEventListener('load', function() {
     
     window.loadJs = function(d, m, a) {
