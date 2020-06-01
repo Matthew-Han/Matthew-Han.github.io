@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
+    
+    <title>
+      LeetCode #703 数据流中的第K大元素 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    
+<link rel="stylesheet" href="/style/style.css">
+
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
+    
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-text"> Problem Description</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#note"><span class="toc-text"> note</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eg"><span class="toc-text"> e.g.</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-text"> Solution</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-额外数组空间"><span class="toc-text"> 1. 额外数组空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-小顶堆"><span class="toc-text"> 2. 小顶堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#补充"><span class="toc-text"> 补充</span></a></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
+    </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
+    </div>
+    <div id="progress">
+      <div class="line"></div>
+    </div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
+
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">LeetCode #703 数据流中的第K大元素</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2020/05/30</span>
+        </span>
+
+        
+          <span class="item leancloud-visitors" id="/post/46834820-a1db-11ea-bfec-d3212239dc2e/" data-flag-title="LeetCode #703 数据流中的第K大元素">
+            <span class="iconfont icon-eye1"></span>
+            <span class="leancloud-visitors-count"></span>
+          </span>
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/算法">算法</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/算法">算法</a>
+                  
+                
+                  
+                    <a href="/tags/数据结构">数据结构</a>
+                  
+                
+                  
+                    <a href="/tags/leetcode">leetcode</a>
+                  
+                
+                  
+                    <a href="/tags/小顶堆">小顶堆</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description<a class="post-anchor" href="#problem-description"></a></h1>
+<p>设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。</p>
+<p>你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。</p>
+<h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note<a class="post-anchor" href="#note"></a></h2>
+<p>你可以假设 <code>nums</code> 的长度≥ <code>k-1</code> 且<code>k ≥ 1</code>。</p>
+<h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.<a class="post-anchor" href="#eg"></a></h2>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">int</span> k = <span class="hljs-number">3</span>;<br><span class="hljs-keyword">int</span>[] arr = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">2</span>];<br>KthLargest kthLargest = <span class="hljs-keyword">new</span> KthLargest(<span class="hljs-number">3</span>, arr);<br>kthLargest.add(<span class="hljs-number">3</span>);   <span class="hljs-comment">// returns 4</span><br>kthLargest.add(<span class="hljs-number">5</span>);   <span class="hljs-comment">// returns 5</span><br>kthLargest.add(<span class="hljs-number">10</span>);  <span class="hljs-comment">// returns 5</span><br>kthLargest.add(<span class="hljs-number">9</span>);   <span class="hljs-comment">// returns 8</span><br>kthLargest.add(<span class="hljs-number">4</span>);   <span class="hljs-comment">// returns 8</span><br></code></pre></td></tr></tbody></table></figure>
+<h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1>
+<h2 id="1-额外数组空间"><a class="markdownIt-Anchor" href="#1-额外数组空间"></a> 1. 额外数组空间<a class="post-anchor" href="#1-额外数组空间"></a></h2>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KthLargest</span> </span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> len;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> index;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List<Integer> newData;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">KthLargest</span><span class="hljs-params">(<span class="hljs-keyword">int</span> k, <span class="hljs-keyword">int</span>[] nums)</span> </span>{<br>        index = k;<br>        len = nums.length;<br>        newData = <span class="hljs-keyword">new</span> ArrayList<>(nums.length);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> num : nums) {<br>            newData.add(num);<br>        }<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val)</span> </span>{<br>        len++;<br>        newData.add(val);<br>        Collections.sort(newData);<br>        <span class="hljs-keyword">return</span> newData.get(len - index);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<p>不过还是用原始数组，更底层更快一点：</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KthLargest</span> </span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> len;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] data;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> index;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">KthLargest</span><span class="hljs-params">(<span class="hljs-keyword">int</span> k, <span class="hljs-keyword">int</span>[] nums)</span> </span>{<br>        index = k;<br>        len = nums.length;<br>        data = nums;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val)</span> </span>{<br>        len++;<br>        <span class="hljs-keyword">int</span>[] temp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[len];<br>        System.arraycopy(data, <span class="hljs-number">0</span>, temp, <span class="hljs-number">0</span>, data.length);<br>        temp[len - <span class="hljs-number">1</span>] = val;<br>        Arrays.sort(temp);<br>        data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[len];<br>        System.arraycopy(temp, <span class="hljs-number">0</span>, data, <span class="hljs-number">0</span>, temp.length);<br>        <span class="hljs-keyword">return</span> data[len - index];<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<h2 id="2-小顶堆"><a class="markdownIt-Anchor" href="#2-小顶堆"></a> 2. 小顶堆<a class="post-anchor" href="#2-小顶堆"></a></h2>
+<p>题目中表述了<code>add</code>方法返回第K大元素即可，所以其实我们不必维护整个数组，只需要维护K个从大到小的元素即可。表面<code>add</code>方法而已，不是真的新增。</p>
+<p>什么是堆？堆是一种<strong>非线性结构</strong>，可以把堆看作一个数组，也可以被看作一个完全二叉树，通俗来讲<strong>堆其实就是利用完全二叉树的结构来维护的一维数组</strong>。</p>
+<p>按照堆的特点可以把堆分为<strong>大顶堆</strong>和<strong>小顶堆</strong>：</p>
+<ol>
+<li>大顶堆：每个结点的值都<strong>大于</strong>或<strong>等于</strong>其左右孩子结点的值</li>
+<li>小顶堆：每个结点的值都<strong>小于</strong>或<strong>等于</strong>其左右孩子结点的值</li>
+</ol>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/703-minheap.png" target="_blank" rel="noopener" data-caption="大顶堆和小顶堆" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/703-minheap.png" alt="大顶堆和小顶堆"></a></p>
+<p>直接说用法：</p>
+<ul>
+<li>
+<p><strong>升序：使用大顶堆</strong></p>
+</li>
+<li>
+<p><strong>降序：使用小顶堆</strong></p>
+</li>
+</ul>
+<p>我们这边每次<code>add</code>方法需要返回第K个从大到小元素，所以每次执行<code>add</code>方法需要保留K个降序的元素，这里就是采用了小顶堆。我们可以用优先队列<code>PriorityQueue<Integer></code>来做（大顶堆的话需要重写排序方法，默认是升序）。<strong>优先队列的作用是保证每次取出的元素都是队列中权值最小的。</strong></p>
+<p>当堆内元素的个数小于等于K时，调用<code>add</code>方法入队；当第K+1个元素想入队时，和队首比较大小（队首是最小的）。比队首大，队首元素出队，新元素入队；比对首小，不作任何操作。这样就能保证队列的元素个数是K个，并且是队首是最小的（不一定是从小到大排序，<strong>但是队首一定是整个队列里最小的</strong>）。</p>
+<p>所以就是两步：</p>
+<ol>
+<li>控制队列大小为K</li>
+<li>保证队首的元素比新加入的元素大</li>
+</ol>
+<p>所以整个数组的第K大元素就是队列的队首<code>peek()</code>方法。</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KthLargest</span> </span>{<br>    <br>    <span class="hljs-comment">// 小顶堆</span><br>    <span class="hljs-keyword">private</span> PriorityQueue<Integer> q;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> k;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">KthLargestElementInaStream</span><span class="hljs-params">(<span class="hljs-keyword">int</span> k, <span class="hljs-keyword">int</span>[] nums)</span> </span>{<br>        <span class="hljs-keyword">this</span>.k = k;<br>        q = <span class="hljs-keyword">new</span> PriorityQueue<Integer>(k);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i : nums) {<br>            add(i);<br>        }<br>    }<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val)</span> </span>{<br>        <span class="hljs-keyword">if</span> (q.size() < k) {<br>            q.offer(val);<br><br>        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (q.peek() < val) {<br>            q.poll();<br>            q.offer(val);<br>        }<br>        <span class="hljs-keyword">return</span> q.peek();<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<h3 id="补充"><a class="markdownIt-Anchor" href="#补充"></a> 补充<a class="post-anchor" href="#补充"></a></h3>
+<p><code>PriorityQueue<Integer> queue = new PriorityQueue<>(1);</code>这样一个优先队列，将数组<code>[8, 5, 4, 12, 3]</code>按顺序执行<code>offer(element)</code>方法，打印的结果是<code>[3, 4, 5, 12, 8]</code>，在执行<code>offer(1)</code>，打印的结果是<code>[1, 4, 3, 12, 8, 5]</code>。排序就是在二叉树的基础上，叶子节点和父节点比大小，比父节点大，交换位置，直到比父节点小或到根节点。</p>
+</body></html>
+
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
+            
+            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
+            
+        </div>
+      </div>
+    </div>
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+    </div>
+    <div class="item right">
+        
+          <a href="/post/6d8c47a0-9353-11ea-9bbb-9b051857d619/">LeetCode #367 有效的完全平方数</a>
+        
+    </div>
+  </div>
+
+  
+
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
+    </div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/46834820-a1db-11ea-bfec-d3212239dc2e/">https://Matthew-Han.github.io/post/46834820-a1db-11ea-bfec-d3212239dc2e/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
+
+  <div id="comment"></div>
+
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
+</html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"RAsmwVuyX9Mdf6RE67gGINbW-9Nh9j0Va\",\"API_KEY\":\"0I7nMyVNmGj8NVtmQ0KqNf9c\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 

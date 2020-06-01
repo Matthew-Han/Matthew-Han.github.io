@@ -29,7 +29,7 @@
     
     <div id="post-toc" class="animated hiddenToc hide">
       <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-text"> Problem Description</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#note"><span class="toc-text"> note</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-text"> Solution</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#双向队列deque实现"><span class="toc-text"> 双向队列Deque实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双队列形成一个闭环"><span class="toc-text"> 双队列形成一个闭环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单个单向队列"><span class="toc-text"> 单个单向队列</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-text"> Problem Description</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#note"><span class="toc-text"> note</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-text"> Solution</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-双向队列deque实现"><span class="toc-text"> 1. 双向队列Deque实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-双队列形成一个闭环"><span class="toc-text"> 2. 双队列形成一个闭环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-单个单向队列"><span class="toc-text"> 3. 单个单向队列</span></a></li></ol></li></ol>
     </div>
     
     <div id="fixed-menu-wrap">
@@ -208,15 +208,11 @@
             <span>
                 
                   
-                    <a href="/tags/数据结构">数据结构</a>
-                  
-                
-                  
                     <a href="/tags/算法">算法</a>
                   
                 
                   
-                    <a href="/tags/栈">栈</a>
+                    <a href="/tags/数据结构">数据结构</a>
                   
                 
                   
@@ -225,6 +221,10 @@
                 
                   
                     <a href="/tags/队列">队列</a>
+                  
+                
+                  
+                    <a href="/tags/栈">栈</a>
                   
                 
             </span>
@@ -252,10 +252,10 @@
 <li>你可以假设所有操作都是有效的（例如, 对一个空的栈不会调用 pop 或者 top 操作）。</li>
 </ul>
 <h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1>
-<h2 id="双向队列deque实现"><a class="markdownIt-Anchor" href="#双向队列deque实现"></a> 双向队列Deque实现<a class="post-anchor" href="#双向队列deque实现"></a></h2>
+<h2 id="1-双向队列deque实现"><a class="markdownIt-Anchor" href="#1-双向队列deque实现"></a> 1. 双向队列Deque实现<a class="post-anchor" href="#1-双向队列deque实现"></a></h2>
 <p>利用双端队列Deque接口的实现类LinkedList可以很简洁的完成，Deque拥有一个<code>boolean offerFirst(E e);</code>方法。因为底层是双向链表，prev和next指针可以很好帮你实现头尾乱♂插。</p>
 <figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> </span>{<br><br>    Deque<Integer> deque;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>{<br>        deque = <span class="hljs-keyword">new</span> LinkedList<>();<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{<br>        deque.offerFirst(x);<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> deque.remove() ;<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> deque.element();<br>    }<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> deque.isEmpty();<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
-<h2 id="双队列形成一个闭环"><a class="markdownIt-Anchor" href="#双队列形成一个闭环"></a> 双队列形成一个闭环<a class="post-anchor" href="#双队列形成一个闭环"></a></h2>
+<h2 id="2-双队列形成一个闭环"><a class="markdownIt-Anchor" href="#2-双队列形成一个闭环"></a> 2. 双队列形成一个闭环<a class="post-anchor" href="#2-双队列形成一个闭环"></a></h2>
 <ol>
 <li>2个单向队列queue和reverseQueue；</li>
 <li>queue初次push时，判断是否为空，为空直接调用offer方法；</li>
@@ -266,7 +266,7 @@
 </ol>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/225-queue.png" target="_blank" rel="noopener" data-caption="闭环过程" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/225-queue.png" alt="闭环过程"></a></p>
 <figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStack</span> </span>{<br><br>    Queue<Integer> queue;<br>    Queue<Integer> reverseQueue;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyStack</span><span class="hljs-params">()</span> </span>{<br>        queue = <span class="hljs-keyword">new</span> LinkedList<>();<br>        reverseQueue = <span class="hljs-keyword">new</span> LinkedList<>();<br>    }<br>  <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{<br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 利用两个单向队列</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-keyword">if</span> (queue.isEmpty()) {<br>            queue.offer(x);<br>        } <span class="hljs-keyword">else</span> {<br>            reverseQueue.addAll(queue);<br>            queue.clear();<br>            queue.offer(x);<br>            queue.addAll(reverseQueue);<br>            reverseQueue.clear();<br>        }<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> queue.remove();<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> queue.element();<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> queue.isEmpty();<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
-<h2 id="单个单向队列"><a class="markdownIt-Anchor" href="#单个单向队列"></a> 单个单向队列<a class="post-anchor" href="#单个单向队列"></a></h2>
+<h2 id="3-单个单向队列"><a class="markdownIt-Anchor" href="#3-单个单向队列"></a> 3. 单个单向队列<a class="post-anchor" href="#3-单个单向队列"></a></h2>
 <p>其中注意：不要使用自身的forEach方法，根据队列的长度搞个循环即可。</p>
 <p>push方法核心代码：</p>
 <figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 单个单向队列</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>{<br>    singleQueue.add(x);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < singleQueue.size() - <span class="hljs-number">1</span>; i++) {<br>        singleQueue.add(singleQueue.poll());<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
@@ -335,7 +335,7 @@
   
 </html>
 <script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"WP6N9TpOMsObERtX5Lzgdgj2-9Nh9j0Va\",\"API_KEY\":\"v5Wgu6lreC7ho45xunLPf8qN\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"RAsmwVuyX9Mdf6RE67gGINbW-9Nh9j0Va\",\"API_KEY\":\"0I7nMyVNmGj8NVtmQ0KqNf9c\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
                 </script> <script type="text/javascript">window.addEventListener('load', function() {
     
     window.loadJs = function(d, m, a) {

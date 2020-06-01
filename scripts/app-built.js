@@ -440,7 +440,7 @@ require([
       visitor: true,
       recordIP: true,
       avatar: 'robohash',
-      placeholder: '2020，想出去旅游呀~'
+      placeholder: '2020，还想出去旅游呀~'
     })
   }
 
