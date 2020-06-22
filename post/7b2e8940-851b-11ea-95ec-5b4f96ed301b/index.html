@@ -263,7 +263,7 @@
 <p>官方题解是随机设置一个基准，理想情况是众数较多，很容易抽中，较少的次数可以完成推断，但是存在一种极限情况，就是每次随机基准都抽不到众数，那么会变成无穷尽的计算。最坏情况的时间复杂度为 <em>O</em>(∞)。</p>
 <h2 id="3-排序流"><a class="markdownIt-Anchor" href="#3-排序流"></a> 3. 排序流<a class="post-anchor" href="#3-排序流"></a></h2>
 <figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">secondMethod</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] nums)</span> </span>{<br>    Arrays.sort(nums);<br>    <span class="hljs-keyword">return</span> nums[nums.length / <span class="hljs-number">2</span>];<br>}<br></code></pre></td></tr></tbody></table></figure>
-<p>充分利用了n/2的特性，将数组排序后，无论数组的长度是奇数还是偶数，第<code>nums.length</code>一定是众数。</p>
+<p>充分利用了n/2的特性，将数组排序后，无论数组的长度是奇数还是偶数，第<code>nums.length / 2</code> 一定是众数。</p>
 <h2 id="4-投票流"><a class="markdownIt-Anchor" href="#4-投票流"></a> 4. 投票流<a class="post-anchor" href="#4-投票流"></a></h2>
 <p>该方法个人认为最有意思和最有拓展性。假设这样一个数组：</p>
 <p><code>[7, 7, 5, 7, 5, 1 | 5, 7 | 5, 5, 7, 7 | 7, 7, 7, 7]</code></p>

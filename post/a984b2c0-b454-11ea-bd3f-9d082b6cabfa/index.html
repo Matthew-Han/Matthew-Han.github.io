@@ -16,7 +16,7 @@
     <meta name="description" content="极度理性，爱憎分明" />
     
     <title>
-      2019.12.12 - Espada
+      LeetCode #892 三维形体的表面积 - Espada
     </title>
     <link rel="manifest" href="/manifest.json" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -26,6 +26,11 @@
   </head>
   <body>
     <canvas id='pagemap'></canvas>
+    
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-text"> Problem Description</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#note"><span class="toc-text"> note</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eg"><span class="toc-text"> e.g.</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-text"> Solution</span></a></li></ol>
+    </div>
     
     <div id="fixed-menu-wrap">
       <span class="iconfont icon-sousuo search-box menu-reset"></span>
@@ -170,15 +175,15 @@
         <article class="post-entry">
     <div class="header">
       
-      <div class="title">2019.12.12</div>
+      <div class="title">LeetCode #892 三维形体的表面积</div>
       <div class="meta">
         <span class="item">
           <span class="iconfont icon-time-circle"></span>
-          <span>2019/12/12</span>
+          <span>2020/06/22</span>
         </span>
 
         
-          <span class="item leancloud-visitors" id="/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/" data-flag-title="2019.12.12">
+          <span class="item leancloud-visitors" id="/post/a984b2c0-b454-11ea-bd3f-9d082b6cabfa/" data-flag-title="LeetCode #892 三维形体的表面积">
             <span class="iconfont icon-eye1"></span>
             <span class="leancloud-visitors-count"></span>
           </span>
@@ -190,7 +195,7 @@
           <span>
               
                 
-                  <a href="/categories/点滴">点滴</a>
+                  <a href="/categories/算法">算法</a>
                 
               
           </span>
@@ -203,15 +208,23 @@
             <span>
                 
                   
-                    <a href="/tags/生活">生活</a>
+                    <a href="/tags/数据结构">数据结构</a>
                   
                 
                   
-                    <a href="/tags/轨迹">轨迹</a>
+                    <a href="/tags/算法">算法</a>
                   
                 
                   
-                    <a href="/tags/日记">日记</a>
+                    <a href="/tags/leetcode">leetcode</a>
+                  
+                
+                  
+                    <a href="/tags/几何">几何</a>
+                  
+                
+                  
+                    <a href="/tags/数学">数学</a>
                   
                 
             </span>
@@ -221,19 +234,77 @@
       <div>
       </div>
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><div id="hbe-security">
-  <div class="hbe-input-container">
-  <input type="password" class="hbe-form-control" id="pass" placeholder="心态">
-    <label for="pass">心态</label>
-    <div class="bottom-line"></div>
-  </div>
-</div>
-<div id="decryptionError" style="display: none;">Incorrect Password!</div>
-<div id="noContentError" style="display: none;">No content to display!</div>
-<div id="encrypt-blog" style="display:none">
-U2FsdGVkX18/yuZDVnSFEVLgndxJ1HgTBN3YgRkOM6ng1i2YfDT5KfDtFZWzZ1jr7wx2y5lyRu6Zrv0nsJ4lUqSBFWPGZXwhkCRaR6tM4/MxCpgv4wmWNxsnnRy8IPWg5ga1hAbpN/D8uwGBn1kmVAxNEXkUkFaPDPhGjCR4OEqfO7YiFs+TEuN4kML0fjNFuZe/3feSUP/fJxs5uV3CpdQ3sUvwF3W2dIJur2m3ae+qWpYAwD5cHZowQ2KVX1nWwy2TOKe5fsh5X8p8kwRYKcfbQ+W8C9dyHFhjlBYam5oeL+VyWw3M9iSwJ+AsY6UceQCXTKDYQMMF8WyK5KLnjzG7qtgntcUf76NM2mcc7evlwxEzs7LKm9C+RaxSKavks3FcFgt0UHm6aN6nmWXcKGDL5fTh4LgjfqKuCJVTzms1g7rkZZ+cR8bf0usHboYVpnZbqNhpVvwRuCwK7VddUDki7J6qzP02p1SnXhmQlth7JxxX31Zs2yWnLc560jvo7HtMuXMb7dERDlhByZLhnzbuj9BensWsQ78XNARp6VqujfQRcu0F60w4uWPuGHfkZbkY5+B9pTam4iABAUiXnsX4sQ853hqZaKtwfwHTSIdvFXAJyh9xm3b6C3Aeg3Nis6yv0Cp6vOMYbu/wdkzTQ9EC8GjwAYLnKsmzygDigLTAeIpwhCLnWLuRegkw/VkmLgDH566Pq/J6CIQt//IbVF5cfnfFtnwuQ+VIy4gqsPlYfYjhdxoW8zagz6KhMKfhRX1Brn1dy1J2qsFpsII1o2qhhZ0zpttGJjqFiuLwlNI3BaAhmDHhDdqZuyEsAeu5kP6Z0gVECqy3RdV31NMc0eWhGP8/QXsxM1X3tmIsEPmZXnwVtjZxmL8OHc5Mos4fRUwXiLDnbZY+F3JotU1/1iVI+pOrlOPACxfHwPeSa7zQFX7TmRPT3HzRRZeiAbgyIR80upZ6BT2Pg0BcTNHgFz6kc3FjN65VCXeqSLdOOSWcnc1eoiT9mbbWS2bjxTMw+TuT1suhsXJIV2ExkvbSwv3Of0EPqUlvPB62lLTDOEpzLnBpWR4HW5WskWc7jBXZ3QZooLF6StR1bu+NZn/CVwN+gAyqS3CCByIR3rYPIs58GqIBvZ0Ijl+6bOUC4w0WyorW5n94RgZdYiHUCxcqAbesK46bA/iJd9caEH7+vDuD4L2tG6oK0r6HOjeFlyj43kePjR1KDJjAb+pKwaHwElNLf1EaH+Mh+SG6P86eknNmqBH9FVXA2HpvG5EdLKIvpZrLmNX5xtmAWebh2EyplsYh80EvLaq55XokO3EibqDOz02uG1xHxC3rIdaJUCnrAqU1t0UAJmsg7kAq4xoNBVsYMT2FOCynxmLA0bZkiCt5UaE8xwTtWp3wygKOSi64vh+whuUXKWGz5+3Kg8iIE7cshy5TjPwBgSsElDP3Z0ewC5Z+XXFX6P2H+wzpbpYEu9lHCjFcnVuxhI+/tuNCksnfauOJmGyI1b7pUfoACZMBvKg9rO3THCIZmyjVHZp5f+L/QB7CAFkpIpz3H2grVX4/D57oA0ZQz9gq0LDQJBaox/Wc4GfXdqso1P8dm4HmtP6ZhVi8SNLg8jLaW2OtvsFYFPRzJ5AVsf0t8JzTG7NVt2VTYSzGUxLh8Li6eTE94cL0OEy6UbxDuw/MdFnsUJIyHD6ue82+K9vAjcpSGeKjTdT+Fw7hSLsQAE6CHujq0gVtWfuG2b7VZ9pRSgfLKIo5fZ38njK88b0gF4hSZxHhkY1wW4bg+0xA29USPD4ZYtgYSDjMSwyGsDlDLYRUtchVDPS7UU0wgkaAQrUFMAfp3HS+yjOIRi65Au+VIstBon/qU4qQB1C0/BZCJOWK1mQ1gCJEaSh03vw8JmZR4KQ=
-</div>
-<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css"></body></html>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description<a class="post-anchor" href="#problem-description"></a></h1>
+<p>在 <code>N * N</code> 的网格上，我们放置一些 <code>1 * 1 * 1</code>  的立方体。</p>
+<p>每个值 <code>v = grid[i][j]</code>表示 v 个正方体叠放在对应单元格 (i, j) 上。</p>
+<p>请你返回最终形体的表面积。</p>
+<h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note<a class="post-anchor" href="#note"></a></h2>
+<ul>
+<li><code>1 <= N <= 50</code></li>
+<li><code>0 <= grid[i][j] <= 50</code></li>
+</ul>
+<h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.<a class="post-anchor" href="#eg"></a></h2>
+<ul>
+<li>
+<p><strong>示例 1：</strong></p>
+<ul>
+<li>输入：<code>[[2]]</code></li>
+<li>输出：10</li>
+</ul>
+</li>
+<li>
+<p><strong>示例 2：</strong></p>
+<ul>
+<li>输入：<code>[[1,2],[3,4]]</code></li>
+<li>输出：34</li>
+</ul>
+</li>
+<li>
+<p><strong>示例 3：</strong></p>
+<ul>
+<li>输入：<code>[[1,0],[0,2]]</code></li>
+<li>输出：16</li>
+</ul>
+</li>
+<li>
+<p><strong>示例 4：</strong></p>
+<ul>
+<li>输入：<code>[[1,1,1],[1,0,1],[1,1,1]]</code></li>
+<li>输出：32</li>
+</ul>
+</li>
+<li>
+<p><strong>示例 5：</strong></p>
+<ul>
+<li>输入：<code>[[2, 2, 2], [2, 1, 2], [2, 2, 2]]</code></li>
+<li>输出：46</li>
+</ul>
+</li>
+</ul>
+<h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1>
+<p>这题是<a href="https://leetcode-cn.com/problems/projection-area-of-3d-shapes/" target="_blank" rel="noopener">#883 三维形体投影面积</a>的升级版几何题目，883这题描述的利用一个二维数组的元素代表单个单元格的高度按照从左向右的顺序在xy平面上从上到下堆叠，求xy、yz、xz三个投影面积。</p>
+<p>883这题相对简单，投影面积就是求最大值，因为矮的会被高的「覆盖」，只要求三个面即可。</p>
+<p>示例图：</p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/892%20-%20projection%20-%201.png" target="_blank" rel="noopener" data-caption="解释" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/892%20-%20projection%20-%201.png" alt="解释"></a></p>
+<p>但是889这题就复杂了很多，他需要的是整个形体的表面积，而非投影面积。于是就带来了一个问题，被挡住的柱状形体可能存在表面积。</p>
+<p>一开始我思考的是按照883的方式，还是先求出6个面（整个形体）的投影面积，再加上「凹陷」的表面积即可。因为只有存在「凹陷」情况，才会多出一部分表面积，但是所谓的“正证法”，会遇到的情况就十分多样了。</p>
+<p>比如：</p>
+<ol>
+<li><code>[[1, 0, 1]]</code>和<code>[1, 0, 0, 1]</code></li>
+<li><code>[[1, 0], [0, 2]]</code></li>
+</ol>
+<p>当凹陷是2个单位时或者0的情况等等这些情况就比较复杂，凹陷的判断十分的纷繁凌乱，感觉这个办法就很蠢。</p>
+<p>在题解中看到了一个“阿姨”的方法，属实8错。他的思路是把所有柱子作为一个单位，求出所有柱子的表面积，如：<code>1</code>的表面积是<code>1 * 4 + 2</code>为6，<code>2</code>的表面积是<code>2 * 4 + 2</code>为10，再减去柱子与柱子之间相贴的面积。</p>
+<blockquote>
+<p>给阿姨倒一杯卡布奇诺。</p>
+</blockquote>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/892%20-%20projection%20-%202.png" target="_blank" rel="noopener" data-caption="阿姨的图" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/892%20-%20projection%20-%202.png" alt="阿姨的图"></a></p>
+<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/892%20-%20projection%20-%203.png" target="_blank" rel="noopener" data-caption="阿姨的图" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/892%20-%20projection%20-%203.png" alt="阿姨的图"></a></p>
+<p>所以，当我们遍历整个形体时，只要判断该柱子与「上面」和「左边」是否有接触，有接触且不为0（为0，即柱子不存在，也不会出现遮挡的情况）的话，就减去<strong>较矮的那个柱子的高度 * 2</strong>，因为是两面相贴，所以要乘以2。</p>
+<p>Java代码如下：</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">surfaceAreaPro</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] grid)</span> </span>{<br>    <span class="hljs-keyword">int</span> fucker = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < grid.length; i++) {<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j < grid[i].length; j++) {<br>            <span class="hljs-comment">// ① 柱子为0，则整个为0</span><br>            fucker += (<span class="hljs-number">4</span> * grid[i][j] == <span class="hljs-number">0</span> ? -<span class="hljs-number">2</span> : <span class="hljs-number">4</span> * grid[i][j]) + <span class="hljs-number">2</span>;<br><br>            <span class="hljs-comment">// ②</span><br>            <span class="hljs-keyword">if</span> (i - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && grid[i - <span class="hljs-number">1</span>][j] != <span class="hljs-number">0</span> && grid[i][j] != <span class="hljs-number">0</span>) {<br>                fucker -= Math.min(grid[i][j], grid[i - <span class="hljs-number">1</span>][j]) * <span class="hljs-number">2</span>;<br>            }<br>            <span class="hljs-comment">// ③</span><br>            <span class="hljs-keyword">if</span> (j - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && grid[i][j - <span class="hljs-number">1</span>] != <span class="hljs-number">0</span> && grid[i][j] != <span class="hljs-number">0</span>) {<br>                fucker -= Math.min(grid[i][j], grid[i][j - <span class="hljs-number">1</span>]) * <span class="hljs-number">2</span>;<br>            }<br>        }<br>    }<br>    <span class="hljs-keyword">return</span> fucker;<br>}<br></code></pre></td></tr></tbody></table></figure>
+<p>另外说明一点，这样写更简洁，但是效率还可以提升，提升在哪呢？因为当前柱子高度为0的时候，直接跳过即可。可是如上这样写即使当前柱子高度为0，①②③这三步都会走一遍会影响效率，但是看起来更简洁就vans了。</p>
+</body></html>
 
   
     <div class="post-reward">
@@ -254,12 +325,10 @@ U2FsdGVkX18/yuZDVnSFEVLgndxJ1HgTBN3YgRkOM6ng1i2YfDT5KfDtFZWzZ1jr7wx2y5lyRu6Zrv0n
   <div class="post-guide">
     <div class="item left">
         
-          <a href="/post/b11fe710-1fae-11ea-9d8a-c3eaf7e57853/">我的2019</a>
-        
     </div>
     <div class="item right">
         
-          <a href="/post/6992a7a0-1bb9-11ea-8031-ab9a560f0cb3/">arthas应对线上生产环境</a>
+          <a href="/post/46834820-a1db-11ea-bfec-d3212239dc2e/">LeetCode #703 数据流中的第K大元素</a>
         
     </div>
   </div>
@@ -271,7 +340,7 @@ U2FsdGVkX18/yuZDVnSFEVLgndxJ1HgTBN3YgRkOM6ng1i2YfDT5KfDtFZWzZ1jr7wx2y5lyRu6Zrv0n
       本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
     </div>
     <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/">https://Matthew-Han.github.io/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/</a>
+      永久链接：<a href="https://Matthew-Han.github.io/post/a984b2c0-b454-11ea-bd3f-9d082b6cabfa/">https://Matthew-Han.github.io/post/a984b2c0-b454-11ea-bd3f-9d082b6cabfa/</a>
     </div>
     <div class="declare">
       版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
