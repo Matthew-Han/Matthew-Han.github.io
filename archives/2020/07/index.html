@@ -16,21 +16,16 @@
     <meta name="description" content="极度理性，爱憎分明" />
     
     <title>
-      近期学习计划 - Espada
+      归档2020/7 - Espada
     </title>
     <link rel="manifest" href="/manifest.json" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
 <link rel="stylesheet" href="/style/style.css">
 
-  </head>
+  <meta name="generator" content="Hexo 4.2.0"></head>
   <body>
     <canvas id='pagemap'></canvas>
-    
-    <div id="post-toc" class="animated hiddenToc hide">
-      <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2020年5月开始的学习计划"><span class="toc-text"> 2020年5月开始的学习计划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进度记录"><span class="toc-text"> 进度记录</span></a></li></ol>
-    </div>
     
     <div id="fixed-menu-wrap">
       <span class="iconfont icon-sousuo search-box menu-reset"></span>
@@ -65,7 +60,7 @@
           首页
         </a>
         
-        <a href="/archives" class="">
+        <a href="/archives" class="current">
           归档
         </a>
         
@@ -119,7 +114,7 @@
             首页
           </a>
           
-          <a href="/archives" class="">
+          <a href="/archives" class="current">
             归档
           </a>
           
@@ -172,222 +167,43 @@
     </div>
     <div id="container">
       <div class="main animated bounceInRight delay-0.7s">
-        <article class="post-entry">
-    <div class="header">
-      
-        <div class="top">
-          <div class="iconfont icon-zuirehotxiankuang animated infinite heartBeat"></div>
+        <div id="archives">
+    
+        <div class="title">
+            归档 
+             - 2020/7
         </div>
-      
-      <div class="title">近期学习计划</div>
-      <div class="meta">
-        <span class="item">
-          <span class="iconfont icon-time-circle"></span>
-          <span>2019/08/13</span>
-        </span>
+    
 
-        
-          <span class="item leancloud-visitors" id="/post/fae94450-bd9c-11e9-bafd-2904b28e3726/" data-flag-title="近期学习计划">
-            <span class="iconfont icon-eye1"></span>
-            <span class="leancloud-visitors-count"></span>
-          </span>
-        
 
-         
-        <span class="item">
-          <span class="iconfont icon-folder"></span>
-          <span>
-              
-                
-                  <a href="/categories/点滴">点滴</a>
-                
-              
-          </span>
-        </span>
-        
-        
-         
-          <span class="item">
-            <span class="iconfont icon-tag1"></span>
-            <span>
-                
-                  
-                    <a href="/tags/学习计划">学习计划</a>
-                  
-                
-            </span>
-          </span>
-         
-      </div>
-      <div>
-      </div>
-    </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="2020年5月开始的学习计划"><a class="markdownIt-Anchor" href="#2020年5月开始的学习计划"></a> 2020年5月开始的学习计划<a class="post-anchor" href="#2020年5月开始的学习计划"></a></h1>
-<ul>
-<li>
-<p><strong>《码出高效》笔记</strong></p>
-<ul>
-<li>规范代码风格整理</li>
-<li>细节整理</li>
-<li>知识点整理</li>
-</ul>
-</li>
-<li>
-<p><strong>数据库</strong></p>
-<ul>
-<li>B+树、基础巩固</li>
-</ul>
-</li>
-<li>
-<p><strong>LeetCode刷题</strong></p>
-<ul>
-<li>长期计划</li>
-<li>Eazy难度全干完</li>
-<li>[<font color="red">动态规划</font>, <font color="orange">二分法</font>, <font color="green">排序</font>]重点巩固</li>
-</ul>
-</li>
-<li>
-<p><strong>Docker</strong></p>
-<ul>
-<li>重点系统学习</li>
-<li>但是不要花太多时间在上面</li>
-</ul>
-</li>
-<li>
-<p><strong>网红教你设计模式</strong></p>
-<ul>
-<li>持续更新</li>
-</ul>
-</li>
-</ul>
-<h1 id="进度记录"><a class="markdownIt-Anchor" href="#进度记录"></a> 进度记录<a class="post-anchor" href="#进度记录"></a></h1>
-<br>
-<div id="echarts8043" style="width: 100%;height: 500px;margin: 0 auto"></div>
-<script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
-<script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts8043'));
-        // 指定图表的配置项和数据
-        var option = {
-    title: {
-        text: "近期计划",
-        x: "center",
-        padding: 20
-    },
-    tooltip: {
-        trigger: "axis"
-    },
-    legend: {
-        data: ["期望投入", "实际投入"],
-        selectedMode: "multiple",
-        x: "left",
-        padding: 20,
-        borderColor: "#ccc"
-    },
-    toolbox: {
-        show: true,
-        feature: {
-            mark: {
-                show: true
-            },
-            dataView: {
-                show: true,
-                readOnly: true
-            },
-            magicType: {
-                show: false,
-                type: ["line", "bar"]
-            },
-            restore: {
-                show: true
-            },
-            saveAsImage: {
-                show: true
-            }
-        },
-        showTitle: true
-    },
-    calculable: true,
-    xAxis: [
-        {
-            type: "value",
-            boundaryGap: [0, 0.01]
-        }
-    ],
-    yAxis: [
-        {
-            type: "category",
-            data: ["数据库", "设计模式", "Docker", "《码出高效》笔记", "LeetCode"]
-        }
-    ],
-    series: [
-        {
-            name: "期望投入",
-            type: "bar",
-            data: [6, 8, 6, 8, 8]
-        },
-        {
-            name: "实际投入",
-            type: "bar",
-            data: [1, 2, 2, 8, 5]
-        }
-    ],
-    grid: {
-        x: 120
-    }
-}
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-</script></body></html>
 
-  
-    <div class="post-reward">
-    <div id="reward-button">龙鸣</div>
-      <div id="qr">
-        <div class="wrap">
-            
-            
-            <div class="bg-wrap">
-                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
-              "老罗"
-            </div>
-            
+
+    
+    
+    <section class="wrap">
+        <div class="meta">
+            <a href="/archives/2020" >
+                2020
+            </a>
         </div>
-      </div>
-    </div>
-  
-  <div class="post-guide">
-    <div class="item left">
-        
-          <a href="/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a>
-        
-    </div>
-    <div class="item right">
-        
-          <a href="/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/">2019.08.08</a>
-        
-    </div>
-  </div>
+        <div class="year">
+            
+            <article class="item">
+            <a href="/post/2ad612f0-bcd5-11ea-8844-eba35fffe767/" title="LeetCode #540 有序数组中的单一元素">
+                <span>2020/07/03</span>
+                <span>LeetCode #540 有序数组中的单一元素</span>
+            </a>
+            </article>
+            
+    
+        </div>
+    </section>
+      
+<div class="paginator">
+    <span class="page-number current">1</span>
+</div>
+</div>
 
-  
-
-  <div class="post-copyright">
-    <div class="auth">
-      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
-    </div>
-    <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/fae94450-bd9c-11e9-bafd-2904b28e3726/">https://Matthew-Han.github.io/post/fae94450-bd9c-11e9-bafd-2904b28e3726/</a>
-    </div>
-    <div class="declare">
-      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
-    </div>
-  </div>
-
-  <div id="comment"></div>
-
-  
-  
-</article>
         <footer>
           <div class="copyright">
             ©2020
