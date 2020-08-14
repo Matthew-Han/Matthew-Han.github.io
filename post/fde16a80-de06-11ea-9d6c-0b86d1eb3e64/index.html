@@ -16,7 +16,7 @@
     <meta name="description" content="极度理性，爱憎分明" />
     
     <title>
-      LeetCode 面试题 03.01. 三合一 - Espada
+      LeetCode 剑指 Offer #04 二维数组中的查找 - Espada
     </title>
     <link rel="manifest" href="/manifest.json" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -29,7 +29,7 @@
     
     <div id="post-toc" class="animated hiddenToc hide">
       <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-text"> Problem Description</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#eg"><span class="toc-text"> e.g.</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-text"> Solution</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-text"> Problem Description</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#eg"><span class="toc-text"> e.g.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#note"><span class="toc-text"> note</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-text"> Solution</span></a></li></ol>
     </div>
     
     <div id="fixed-menu-wrap">
@@ -175,15 +175,15 @@
         <article class="post-entry">
     <div class="header">
       
-      <div class="title">LeetCode 面试题 03.01. 三合一</div>
+      <div class="title">LeetCode 剑指 Offer #04 二维数组中的查找</div>
       <div class="meta">
         <span class="item">
           <span class="iconfont icon-time-circle"></span>
-          <span>2020/07/24</span>
+          <span>2020/08/14</span>
         </span>
 
         
-          <span class="item leancloud-visitors" id="/post/68f56ac0-cd85-11ea-a144-f7a4331a0642/" data-flag-title="LeetCode 面试题 03.01. 三合一">
+          <span class="item leancloud-visitors" id="/post/fde16a80-de06-11ea-9d6c-0b86d1eb3e64/" data-flag-title="LeetCode 剑指 Offer #04 二维数组中的查找">
             <span class="iconfont icon-eye1"></span>
             <span class="leancloud-visitors-count"></span>
           </span>
@@ -208,19 +208,7 @@
             <span>
                 
                   
-                    <a href="/tags/数据结构">数据结构</a>
-                  
-                
-                  
                     <a href="/tags/算法">算法</a>
-                  
-                
-                  
-                    <a href="/tags/数组">数组</a>
-                  
-                
-                  
-                    <a href="/tags/栈">栈</a>
                   
                 
                   
@@ -231,6 +219,14 @@
                     <a href="/tags/leetcode">leetcode</a>
                   
                 
+                  
+                    <a href="/tags/二叉搜索树">二叉搜索树</a>
+                  
+                
+                  
+                    <a href="/tags/深度优先搜索">深度优先搜索</a>
+                  
+                
             </span>
           </span>
          
@@ -239,56 +235,34 @@
       </div>
     </div>
     <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description<a class="post-anchor" href="#problem-description"></a></h1>
-<p>三合一。描述如何只用一个数组来实现三个栈。</p>
-<p>你应该实现：</p>
-<ol>
-<li>
-<p><code>push(stackNum, value)</code></p>
-</li>
-<li>
-<p><code>pop(stackNum)</code></p>
-</li>
-<li>
-<p><code>isEmpty(stackNum)</code></p>
-</li>
-<li>
-<p><code>peek(stackNum)</code></p>
-</li>
-</ol>
-<p>stackNum表示栈下标，value表示压入的值。</p>
-<p>构造函数会传入一个stackSize参数，代表每个栈的大小。</p>
+<p>在一个 <code>n * m</code> 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
 <h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.<a class="post-anchor" href="#eg"></a></h2>
+<p>现有矩阵 matrix 如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><code class="hljs plain">[<br>  [1, 4, 7, 11, 15],<br>  [2, 5, 8, 12, 19],<br>  [3, 6, 9, 16, 22],<br>  [10, 13, 14, 17, 24],<br>  [18, 21, 23, 26, 30]<br>]<br></code></pre></td></tr></tbody></table></figure>
 <ul>
 <li>
-<p>示例 1:</p>
-<ul>
-<li>输入：<figure class="highlight markdown"><table><tbody><tr><td class="code"><pre><code class="hljs markdown">["TripleInOne", "push", "push", "pop", "pop", "pop", "isEmpty"]<br>[[1], [0, 1], [0, 2], [0], [0], [0], [0]]<br></code></pre></td></tr></tbody></table></figure>
-</li>
-<li>输出：<figure class="highlight markdown"><table><tbody><tr><td class="code"><pre><code class="hljs markdown">[null, null, null, 1, -1, -1, true]<br></code></pre></td></tr></tbody></table></figure>
-</li>
-</ul>
-<p>说明：当栈为空时<code>pop, peek</code>返回-1，当栈满时<code>push</code>不压入元素。</p>
+<p>给定 <code>target</code> = 5，返回 <code>true</code>。</p>
 </li>
 <li>
-<p>示例 2:</p>
-<ul>
-<li>输入：<figure class="highlight markdown"><table><tbody><tr><td class="code"><pre><code class="hljs markdown">["TripleInOne", "push", "push", "push", "pop", "pop", "pop", "peek"]<br>[[2], [0, 1], [0, 2], [0, 3], [0], [0], [0], [0]]<br></code></pre></td></tr></tbody></table></figure>
-</li>
-<li>输出：<figure class="highlight markdown"><table><tbody><tr><td class="code"><pre><code class="hljs markdown">[null, null, null, null, 2, 1, -1, -1]<br></code></pre></td></tr></tbody></table></figure>
+<p>给定 <code>target</code> = 20，返回 <code>false</code>。</p>
 </li>
 </ul>
-</li>
+<h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note<a class="post-anchor" href="#note"></a></h2>
+<ul>
+<li><code>0 <= n <= 1000</code></li>
+<li><code>0 <= m <= 1000</code></li>
 </ul>
 <h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1>
-<p>用数组来实现栈是非常简单的，不过这里需要实现3个栈且只能用一个数组。那肯定是需要将这个数组分段利用指针去管理了。</p>
-<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/0301-flow.png" target="_blank" rel="noopener" data-caption="单个数组" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/0301-flow.png" alt="单个数组"></a></p>
-<ul>
-<li><code>pop</code>方法只要操作head指针的size即可：大于0，自减；小于等于0，<code>return -1</code>；</li>
-<li><code>peek</code>方法类似<code>pop</code>方法；</li>
-<li><code>push</code>方法，判断head指针的size，有空余，则移动指针去塞入新数据；</li>
-<li><code>isEmpty</code>方法，判断head指针的size，为0则为空。</li>
-</ul>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreeInOne</span> </span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span>[] data;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> size;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> capacity;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 执行用时： 13 ms , 在所有 Java 提交中击败了 56.62% 的用户</span><br><span class="hljs-comment">     * 内存消耗： 49.1 MB , 在所有 Java 提交中击败了 100.00% 的用户</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> stackSize</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ThreeInOne</span><span class="hljs-params">(<span class="hljs-keyword">int</span> stackSize)</span> </span>{<br>        capacity = stackSize * <span class="hljs-number">3</span>;<br>        size = capacity + <span class="hljs-number">3</span>;<br>        data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[size];<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-keyword">int</span> stackNum, <span class="hljs-keyword">int</span> value)</span> </span>{<br>        <span class="hljs-keyword">int</span> index = headIndex(stackNum);<br>        System.out.println(<span class="hljs-string">"index = "</span> + index);<br><br>        <span class="hljs-comment">// 头指针，容量计数功能，如果超过容量，就塞不了</span><br>        <span class="hljs-keyword">if</span> (data[index] < capacity / <span class="hljs-number">3</span>) {<br>            data[index]++;<br>            <span class="hljs-comment">// 剩余位置塞入数据</span><br>            data[index + data[index]] = value;<br>        }<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">pop</span><span class="hljs-params">(<span class="hljs-keyword">int</span> stackNum)</span> </span>{<br>        <span class="hljs-keyword">int</span> index = headIndex(stackNum);<br>        <span class="hljs-comment">// stack为空</span><br>        <span class="hljs-keyword">if</span> (data[index] == <span class="hljs-number">0</span>) {<br>            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>        } <span class="hljs-keyword">else</span> {<br>            <span class="hljs-keyword">int</span> temp = data[index + data[index]];<br>            data[index]--;<br>            <span class="hljs-comment">// 这里并不需要真的删除这个元素</span><br>            <span class="hljs-keyword">return</span> temp;<br>        }<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">peek</span><span class="hljs-params">(<span class="hljs-keyword">int</span> stackNum)</span> </span>{<br>        <span class="hljs-keyword">int</span> index = headIndex(stackNum);<br>        <span class="hljs-keyword">if</span> (data[index] == <span class="hljs-number">0</span>) {<br>            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>        } <span class="hljs-keyword">else</span> {<br>            <span class="hljs-keyword">return</span> data[index + data[index]];<br>        }<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(<span class="hljs-keyword">int</span> stackNum)</span> </span>{<br>        <span class="hljs-keyword">return</span> data[headIndex(stackNum)] == <span class="hljs-number">0</span>;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 根据stack下标取头指针</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> stackNum</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">headIndex</span><span class="hljs-params">(<span class="hljs-keyword">int</span> stackNum)</span> </span>{<br>        <span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">switch</span> (stackNum) {<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>                index = capacity / <span class="hljs-number">3</span> + <span class="hljs-number">1</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>                index = size - <span class="hljs-number">1</span> - capacity / <span class="hljs-number">3</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">default</span>:<br>        }<br>        <span class="hljs-keyword">return</span> index;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">"ThreeInOne{"</span> +<br>                <span class="hljs-string">"data="</span> + Arrays.toString(data) +<br>                <span class="hljs-string">", size="</span> + size +<br>                <span class="hljs-string">", capacity="</span> + capacity +<br>                <span class="hljs-string">'}'</span>;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<p>方法有很多，单纯双for循环暴力肯定太low。主要还是双指针、二分法这些。不过有个思路很好，站在该矩阵的右上角来看，这货就是一个「二叉搜索树」。</p>
+<p><strong>二叉搜索树的性质：</strong></p>
+<ol>
+<li>节点的左子树上的所有节点的值都小于等于节点的值；</li>
+<li>节点的右子树上的所有节点的值都大于等于节点的值；</li>
+<li>左子树和右子树也都是BST。</li>
+</ol>
+<p>那就模拟一颗二叉搜索树来做咯：</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LcOf04</span> </span>{<br><br>    <span class="hljs-keyword">boolean</span> flag = <span class="hljs-keyword">false</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 当成二叉搜索树来做</span><br><span class="hljs-comment">     * 执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户</span><br><span class="hljs-comment">     * 内存消耗： 45.5 MB , 在所有 Java 提交中击败了 65.46% 的用户</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> matrix</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> target</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">findNumberIn2DArray</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] matrix, <span class="hljs-keyword">int</span> target)</span> </span>{<br>        dfs(matrix, matrix.length - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, target);<br>        <span class="hljs-keyword">return</span> flag;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] matrix, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> j, <span class="hljs-keyword">int</span> target)</span> </span>{<br>        <span class="hljs-keyword">if</span> (i >= <span class="hljs-number">0</span> && i < matrix.length && j >= <span class="hljs-number">0</span> && j < matrix[<span class="hljs-number">0</span>].length) {<br>            <span class="hljs-keyword">if</span> (matrix[i][j] == target) {<br>                flag = <span class="hljs-keyword">true</span>;<br>            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (matrix[i][j] < target) {<br>                dfs(matrix, i, j + <span class="hljs-number">1</span>, target);<br>            } <span class="hljs-keyword">else</span> {<br>                dfs(matrix, i - <span class="hljs-number">1</span>, j, target);<br>            }<br>        }<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
+<p>其中注意下，如果用双指针、二分法最好从右上角为起点。</p>
 </body></html>
 
   
@@ -310,12 +284,10 @@
   <div class="post-guide">
     <div class="item left">
         
-          <a href="/post/658c1730-ddcf-11ea-9e4c-d3e8698fdb4b/">LeetCode #934 最短的桥</a>
-        
     </div>
     <div class="item right">
         
-          <a href="/post/2ad612f0-bcd5-11ea-8844-eba35fffe767/">LeetCode #540 有序数组中的单一元素</a>
+          <a href="/post/658c1730-ddcf-11ea-9e4c-d3e8698fdb4b/">LeetCode #934 最短的桥</a>
         
     </div>
   </div>
@@ -327,7 +299,7 @@
       本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
     </div>
     <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/68f56ac0-cd85-11ea-a144-f7a4331a0642/">https://Matthew-Han.github.io/post/68f56ac0-cd85-11ea-a144-f7a4331a0642/</a>
+      永久链接：<a href="https://Matthew-Han.github.io/post/fde16a80-de06-11ea-9d6c-0b86d1eb3e64/">https://Matthew-Han.github.io/post/fde16a80-de06-11ea-9d6c-0b86d1eb3e64/</a>
     </div>
     <div class="declare">
       版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！

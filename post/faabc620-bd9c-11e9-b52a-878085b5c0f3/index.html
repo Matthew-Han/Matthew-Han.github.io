@@ -250,7 +250,7 @@
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs6.png/wm" target="_blank" rel="noopener" data-caption="high指针向左移动" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs6.png/wm" alt="high指针向左移动"></a></p>
 <p>发现比<code>pivot</code>大，这继续向左移动。</p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs7.png/wm" target="_blank" rel="noopener" data-caption="两指针重合" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs7.png/wm" alt="两指针重合"></a></p>
-<p>传说当两指针重合的时候，夜晚将是血红之月🌛，野性驱使的人类将会幻化成狼人嗥叫，暗黑之礁的邪恶鱼人也会登上瓜哇岛，残忍猎杀大量秃头程序猿。emmmmm，当然更重要的是当两指针重合的时候，此时指向的<code>44</code>将会被<code>基准</code>值改写。</p>
+<p>当两指针重合的时候，此时指向的<code>44</code>将会被<code>基准</code>值改写。</p>
 <p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs8.png/wm" target="_blank" rel="noopener" data-caption="44被改写" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Quick%20Sort/qs8.png/wm" alt="44被改写"></a></p>
 <p>这时候一轮分治就OJBK了。可以清楚地看到（<s>好像这个例子不是很清楚的看到，果然是<code>size</code>太短了吗</s>），在<code>基准</code>值的左边数组大小都是小于<code>基准</code>值的，而右边数组都是大于<code>基准</code>值。这个时候就体现了快排的分治思想，相当于从<code>基准</code>中切一刀，左边的数组单独去排序，右边的数组单独去排序。这时候就变成了<code>[3, 5]</code>和<code>[63, 44]</code>继续递归快速排序，所以说快排实现的核心思想就是分治和递归。</p>
 <h1 id="java代码实现"><a class="markdownIt-Anchor" href="#java代码实现"></a> Java代码实现<a class="post-anchor" href="#java代码实现"></a></h1>
