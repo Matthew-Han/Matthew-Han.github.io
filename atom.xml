@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://Matthew-Han.github.io/"/>
-  <updated>2020-08-14T02:32:31.985Z</updated>
+  <updated>2020-08-14T02:34:39.596Z</updated>
   <id>https://Matthew-Han.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://Matthew-Han.github.io/post/658c1730-ddcf-11ea-9e4c-d3e8698fdb4b/"/>
     <id>https://Matthew-Han.github.io/post/658c1730-ddcf-11ea-9e4c-d3e8698fdb4b/</id>
     <published>2020-08-14T01:42:21.000Z</published>
-    <updated>2020-08-14T02:32:31.985Z</updated>
+    <updated>2020-08-14T02:34:39.596Z</updated>
     
     <content type="html"><![CDATA[<html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script></head><body><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description<a class="post-anchor" href="#problem-description"></a></h1><p>在给定的二维二进制数组 A 中，存在两座岛。（岛是由四面相连的 1 形成的一个最大组。）</p><p>现在，我们可以将 0 变为 1，以使两座岛连接起来，变成一座岛。</p><p>返回必须翻转的 0 的最小数目。（可以保证答案至少是 1。）</p><h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note<a class="post-anchor" href="#note"></a></h2><ul><li><code>1 <= A.length = A[0].length <= 100</code></li><li><code>A[i][j] == 0</code> 或 <code>A[i][j] == 1</code></li></ul><h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.<a class="post-anchor" href="#eg"></a></h2><ul><li><p><strong>示例 1：</strong></p><ul><li>输入：<code>[[0,1],[1,0]]</code></li><li>输出：1</li></ul></li><li><p><strong>示例 2：</strong></p><ul><li>输入：<code>[[0,1,0],[0,0,0],[0,0,1]]</code></li><li>输出：2</li></ul></li><li><p><strong>示例 3：</strong></p><ul><li>输入：<code>[[1,1,1,1,1],[1,0,0,0,1],[1,0,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]</code></li><li>输出：1</li></ul></li></ul><h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1><p>题目保证答案至少是1，那么一定是2个岛。岛的定义是上下左右相连所以斜着的不算。返回翻转0的最小值，这个最小值就是桥的长度，也就是「最短路径」。</p><p>一般看到「最短路径」我们会想到<code>bfs</code>、<code>A*</code>、<code>Dijkstra</code>算法，一般都是点对点的，这里是两个岛屿，所以<strong>只要将一个岛的所有边缘上的点都求一遍到第二个岛的路径</strong>，返回最小的路径就可以了。</p><p>所以问题就是怎么找出这两个岛？岛屿只有上下左右相连，所以可以根据深度优先搜索，将某坐标的上下左右进行搜索，如果是1则继续搜索，是0则终止。为了将两个岛区分开，我们需要将第一个找到的岛「涂色」，因为后面需要找第二个岛，如果都用1表示就没法区分开了。</p><p><strong>注意的点：</strong></p><ol><li>bfs去找第二个岛，因为是第一个岛的每个节点去广搜，所以<code>visited</code>访问标记每次循环需要初始化。</li><li>bfs周围的点如果是<code>-1</code>的话没必要入队，因为可能同是旁边的点（旁边的点会bfs一次，这里重复了），或者是第一个岛的非边缘的点，一定不是「最短路径」。</li><li>bfs一定能找到第二个岛的点，所以一定是在迭代里<code>return</code>的。</li><li>优化点也有，比如在该题其实不需要<code>visited</code>访问标记，每次初始化很浪费时间空间。</li></ol><figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShortestBridge</span> </span>{<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">shortestBridge</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] arr)</span> </span>{<br>        List<<span class="hljs-keyword">int</span>[]> firstLand = <span class="hljs-keyword">new</span> ArrayList<>();<br>        <span class="hljs-keyword">boolean</span>[][] visited = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[arr.length][arr[<span class="hljs-number">0</span>].length];<br>        <span class="hljs-keyword">boolean</span> flag = <span class="hljs-keyword">false</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < arr.length; i++) {<br>            <span class="hljs-keyword">if</span> (flag) {<br>                <span class="hljs-keyword">break</span>;<br>            }<br>          <span class="hljs-comment">// 设置一个flag，找到后需要继续遍历这个arr了。</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j < arr[i].length; j++) {<br>                <span class="hljs-keyword">if</span> (arr[i][j] == <span class="hljs-number">1</span>) {<br>                    dfs(arr, i, j, visited, firstLand);<br>                    flag = <span class="hljs-keyword">true</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                }<br>            }<br>        }<br>        <span class="hljs-keyword">int</span> ans = Integer.MAX_VALUE;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span>[] xy : firstLand) {<br>            <span class="hljs-comment">// 【注意】每次初始化访问标记【注意】</span><br>            visited = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[arr.length][arr[<span class="hljs-number">0</span>].length];<br>            ans = Math.min(ans, bfs(arr, xy[<span class="hljs-number">0</span>], xy[<span class="hljs-number">1</span>], visited));<br><br>        }<br>        <span class="hljs-keyword">return</span> ans;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> arr</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> x</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> y</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> visited</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> firstLand</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] arr, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">boolean</span>[][] visited, List<<span class="hljs-keyword">int</span>[]> firstLand)</span> </span>{<br>        <span class="hljs-keyword">if</span> (x >= <span class="hljs-number">0</span> && y >= <span class="hljs-number">0</span> && x < arr.length && y < arr[<span class="hljs-number">0</span>].length && !visited[x][y]) {<br>            visited[x][y] = <span class="hljs-keyword">true</span>;<br>            <span class="hljs-keyword">if</span> (arr[x][y] == <span class="hljs-number">0</span>) {<br>                <span class="hljs-keyword">return</span>;<br>            }<br>            arr[x][y] = -<span class="hljs-number">1</span>;<br>            firstLand.add(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y});<br>            <span class="hljs-comment">// 仅仅只有上下左右</span><br>            dfs(arr, x - <span class="hljs-number">1</span>, y, visited, firstLand);<br>            dfs(arr, x + <span class="hljs-number">1</span>, y, visited, firstLand);<br>            dfs(arr, x, y - <span class="hljs-number">1</span>, visited, firstLand);<br>            dfs(arr, x, y + <span class="hljs-number">1</span>, visited, firstLand);<br>        }<br>    }<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * wcnd，写死我了</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> arr</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> x</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> y</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> visited</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] arr, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">boolean</span>[][] visited)</span> </span>{<br>        <span class="hljs-comment">// 最后要减一</span><br>        <span class="hljs-keyword">int</span> len = -<span class="hljs-number">1</span>;<br>        Queue<<span class="hljs-keyword">int</span>[]> queue = <span class="hljs-keyword">new</span> LinkedList<>();<br>        queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y});<br>        visited[x][y] = <span class="hljs-keyword">true</span>;<br>        <span class="hljs-keyword">while</span> (!queue.isEmpty()) {<br>            <span class="hljs-keyword">int</span> limit = queue.size();<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < limit; i++) {<br>                <span class="hljs-keyword">int</span>[] curr = queue.poll();<br>                x = curr[<span class="hljs-number">0</span>];<br>                y = curr[<span class="hljs-number">1</span>];<br>                <span class="hljs-comment">// 找到了1</span><br>                <span class="hljs-keyword">if</span> (arr[x][y] == <span class="hljs-number">1</span>) {<br>                    <span class="hljs-keyword">return</span> len;<br>                }<br>                <span class="hljs-comment">// 如果周围的节点是-1的话，没必要入队</span><br>                <span class="hljs-keyword">if</span> (x - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && !visited[x - <span class="hljs-number">1</span>][y] && arr[x - <span class="hljs-number">1</span>][y] != -<span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x - <span class="hljs-number">1</span>, y});<br>                    visited[x - <span class="hljs-number">1</span>][y] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (x + <span class="hljs-number">1</span> < arr.length && !visited[x + <span class="hljs-number">1</span>][y] && arr[x + <span class="hljs-number">1</span>][y] != -<span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x + <span class="hljs-number">1</span>, y});<br>                    visited[x + <span class="hljs-number">1</span>][y] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (y - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && !visited[x][y - <span class="hljs-number">1</span>] && arr[x][y - <span class="hljs-number">1</span>] != -<span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y - <span class="hljs-number">1</span>});<br>                    visited[x][y - <span class="hljs-number">1</span>] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (y + <span class="hljs-number">1</span> < arr[<span class="hljs-number">0</span>].length && !visited[x][y + <span class="hljs-number">1</span>] && arr[x][y + <span class="hljs-number">1</span>] != -<span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y + <span class="hljs-number">1</span>});<br>                    visited[x][y + <span class="hljs-number">1</span>] = <span class="hljs-keyword">true</span>;<br>                }<br>            }<br>            len++;<br>        }<br>        <span class="hljs-comment">// 一定是可以找到最短路径的，所以这里返回的是错误的</span><br>        <span class="hljs-keyword">return</span> Integer.MAX_VALUE;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure></body></html>]]></content>
     
@@ -71,13 +71,13 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
+      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
     
       <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
     
-      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
     
-      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
+      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
     
   </entry>
   
@@ -232,11 +232,11 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
+      <category term="队列" scheme="https://Matthew-Han.github.io/tags/%E9%98%9F%E5%88%97/"/>
     
       <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
     
-      <category term="队列" scheme="https://Matthew-Han.github.io/tags/%E9%98%9F%E5%88%97/"/>
+      <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
     
   </entry>
   
@@ -293,9 +293,9 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
-    
       <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
+    
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
     
   </entry>
   
@@ -324,13 +324,13 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
+      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
     
       <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
     
-      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
     
-      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
+      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
     
   </entry>
   
@@ -356,9 +356,9 @@
     
       <category term="数据结构" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
-    
       <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
+    
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
     
       <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
     
