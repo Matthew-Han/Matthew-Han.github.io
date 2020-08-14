@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
+    
+    <title>
+      LeetCode #934 最短的桥 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    
+<link rel="stylesheet" href="/style/style.css">
+
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
+    
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-text"> Problem Description</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#note"><span class="toc-text"> note</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eg"><span class="toc-text"> e.g.</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-text"> Solution</span></a></li></ol>
+    </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
+    </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
+    </div>
+    <div id="progress">
+      <div class="line"></div>
+    </div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
+
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">LeetCode #934 最短的桥</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2020/08/14</span>
+        </span>
+
+        
+          <span class="item leancloud-visitors" id="/post/658c1730-ddcf-11ea-9e4c-d3e8698fdb4b/" data-flag-title="LeetCode #934 最短的桥">
+            <span class="iconfont icon-eye1"></span>
+            <span class="leancloud-visitors-count"></span>
+          </span>
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/算法">算法</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/数据结构">数据结构</a>
+                  
+                
+                  
+                    <a href="/tags/算法">算法</a>
+                  
+                
+                  
+                    <a href="/tags/leetcode">leetcode</a>
+                  
+                
+                  
+                    <a href="/tags/深度优先搜索">深度优先搜索</a>
+                  
+                
+                  
+                    <a href="/tags/广度优先搜索">广度优先搜索</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description<a class="post-anchor" href="#problem-description"></a></h1>
+<p>在给定的二维二进制数组 A 中，存在两座岛。（岛是由四面相连的 1 形成的一个最大组。）</p>
+<p>现在，我们可以将 0 变为 1，以使两座岛连接起来，变成一座岛。</p>
+<p>返回必须翻转的 0 的最小数目。（可以保证答案至少是 1。）</p>
+<h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note<a class="post-anchor" href="#note"></a></h2>
+<ul>
+<li><code>1 <= A.length = A[0].length <= 100</code></li>
+<li><code>A[i][j] == 0</code> 或 <code>A[i][j] == 1</code></li>
+</ul>
+<h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.<a class="post-anchor" href="#eg"></a></h2>
+<ul>
+<li>
+<p><strong>示例 1：</strong></p>
+<ul>
+<li>输入：<code>[[0,1],[1,0]]</code></li>
+<li>输出：1</li>
+</ul>
+</li>
+<li>
+<p><strong>示例 2：</strong></p>
+<ul>
+<li>输入：<code>[[0,1,0],[0,0,0],[0,0,1]]</code></li>
+<li>输出：2</li>
+</ul>
+</li>
+<li>
+<p><strong>示例 3：</strong></p>
+<ul>
+<li>输入：<code>[[1,1,1,1,1],[1,0,0,0,1],[1,0,1,0,1],[1,0,0,0,1],[1,1,1,1,1]]</code></li>
+<li>输出：1</li>
+</ul>
+</li>
+</ul>
+<h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1>
+<p>题目保证答案至少是1，那么一定是2个岛。岛的定义是上下左右相连所以斜着的不算。返回翻转0的最小值，这个最小值就是桥的长度，也就是「最短路径」。</p>
+<p>一般看到「最短路径」我们会想到<code>bfs</code>、<code>A*</code>、<code>Dijkstra</code>算法，一般都是点对点的，这里是两个岛屿，所以<strong>只要将一个岛的所有边缘上的点都求一遍到第二个岛的路径</strong>，返回最小的路径就可以了。</p>
+<p>所以问题就是怎么找出这两个岛？岛屿只有上下左右相连，所以可以根据深度优先搜索，将某坐标的上下左右进行搜索，如果是1则继续搜索，是0则终止。为了将两个岛区分开，我们需要将第一个找到的岛「涂色」，因为后面需要找第二个岛，如果都用1表示就没法区分开了。</p>
+<p><strong>注意的点：</strong></p>
+<ol>
+<li>bfs去找第二个岛，因为是第一个岛的每个节点去广搜，所以<code>visited</code>访问标记每次循环需要初始化。</li>
+<li>bfs周围的点如果是<code>-1</code>的话没必要入队，因为可能同是旁边的点（旁边的点会bfs一次，这里重复了），或者是第一个岛的非边缘的点，一定不是「最短路径」。</li>
+<li>bfs一定能找到第二个岛的点，所以一定是在迭代里<code>return</code>的。</li>
+<li>优化点也有，比如在该题其实不需要<code>visited</code>访问标记，每次初始化很浪费时间空间。</li>
+</ol>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShortestBridge</span> </span>{<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">shortestBridge</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] arr)</span> </span>{<br>        List<<span class="hljs-keyword">int</span>[]> firstLand = <span class="hljs-keyword">new</span> ArrayList<>();<br>        <span class="hljs-keyword">boolean</span>[][] visited = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[arr.length][arr[<span class="hljs-number">0</span>].length];<br>        <span class="hljs-keyword">boolean</span> flag = <span class="hljs-keyword">false</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < arr.length; i++) {<br>            <span class="hljs-keyword">if</span> (flag) {<br>                <span class="hljs-keyword">break</span>;<br>            }<br>          	<span class="hljs-comment">// 设置一个flag，找到后需要继续遍历这个arr了。</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j < arr[i].length; j++) {<br>                <span class="hljs-keyword">if</span> (arr[i][j] == <span class="hljs-number">1</span>) {<br>                    dfs(arr, i, j, visited, firstLand);<br>                    flag = <span class="hljs-keyword">true</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                }<br>            }<br>        }<br>        <span class="hljs-keyword">int</span> ans = Integer.MAX_VALUE;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span>[] xy : firstLand) {<br>            <span class="hljs-comment">// 【注意】每次初始化访问标记【注意】</span><br>            visited = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[arr.length][arr[<span class="hljs-number">0</span>].length];<br>            ans = Math.min(ans, bfs(arr, xy[<span class="hljs-number">0</span>], xy[<span class="hljs-number">1</span>], visited));<br><br>        }<br>        <span class="hljs-keyword">return</span> ans;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> arr</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> x</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> y</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> visited</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> firstLand</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] arr, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">boolean</span>[][] visited, List<<span class="hljs-keyword">int</span>[]> firstLand)</span> </span>{<br>        <span class="hljs-keyword">if</span> (x >= <span class="hljs-number">0</span> && y >= <span class="hljs-number">0</span> && x < arr.length && y < arr[<span class="hljs-number">0</span>].length && !visited[x][y]) {<br>            visited[x][y] = <span class="hljs-keyword">true</span>;<br>            <span class="hljs-keyword">if</span> (arr[x][y] == <span class="hljs-number">0</span>) {<br>                <span class="hljs-keyword">return</span>;<br>            }<br>            arr[x][y] = -<span class="hljs-number">1</span>;<br>            firstLand.add(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y});<br>            <span class="hljs-comment">// 仅仅只有上下左右</span><br>            dfs(arr, x - <span class="hljs-number">1</span>, y, visited, firstLand);<br>            dfs(arr, x + <span class="hljs-number">1</span>, y, visited, firstLand);<br>            dfs(arr, x, y - <span class="hljs-number">1</span>, visited, firstLand);<br>            dfs(arr, x, y + <span class="hljs-number">1</span>, visited, firstLand);<br>        }<br>    }<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * wcnd，写死我了</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> arr</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> x</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> y</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> visited</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] arr, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">boolean</span>[][] visited)</span> </span>{<br>        <span class="hljs-comment">// 最后要减一</span><br>        <span class="hljs-keyword">int</span> len = -<span class="hljs-number">1</span>;<br>        Queue<<span class="hljs-keyword">int</span>[]> queue = <span class="hljs-keyword">new</span> LinkedList<>();<br>        queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y});<br>        visited[x][y] = <span class="hljs-keyword">true</span>;<br>        <span class="hljs-keyword">while</span> (!queue.isEmpty()) {<br>            <span class="hljs-keyword">int</span> limit = queue.size();<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < limit; i++) {<br>                <span class="hljs-keyword">int</span>[] curr = queue.poll();<br>                x = curr[<span class="hljs-number">0</span>];<br>                y = curr[<span class="hljs-number">1</span>];<br>                <span class="hljs-comment">// 找到了1</span><br>                <span class="hljs-keyword">if</span> (arr[x][y] == <span class="hljs-number">1</span>) {<br>                    <span class="hljs-keyword">return</span> len;<br>                }<br>                <span class="hljs-comment">// 如果周围的节点是-1的话，没必要入队</span><br>                <span class="hljs-keyword">if</span> (x - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && !visited[x - <span class="hljs-number">1</span>][y] && arr[x - <span class="hljs-number">1</span>][y] != -<span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x - <span class="hljs-number">1</span>, y});<br>                    visited[x - <span class="hljs-number">1</span>][y] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (x + <span class="hljs-number">1</span> < arr.length && !visited[x + <span class="hljs-number">1</span>][y] && arr[x + <span class="hljs-number">1</span>][y] != -<span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x + <span class="hljs-number">1</span>, y});<br>                    visited[x + <span class="hljs-number">1</span>][y] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (y - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && !visited[x][y - <span class="hljs-number">1</span>] && arr[x][y - <span class="hljs-number">1</span>] != -<span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y - <span class="hljs-number">1</span>});<br>                    visited[x][y - <span class="hljs-number">1</span>] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (y + <span class="hljs-number">1</span> < arr[<span class="hljs-number">0</span>].length && !visited[x][y + <span class="hljs-number">1</span>] && arr[x][y + <span class="hljs-number">1</span>] != -<span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y + <span class="hljs-number">1</span>});<br>                    visited[x][y + <span class="hljs-number">1</span>] = <span class="hljs-keyword">true</span>;<br>                }<br>            }<br>            len++;<br>        }<br>        <span class="hljs-comment">// 一定是可以找到最短路径的，所以这里返回的是错误的</span><br>        <span class="hljs-keyword">return</span> Integer.MAX_VALUE;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+</body></html>
+
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
+            
+            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
+            
+        </div>
+      </div>
+    </div>
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+    </div>
+    <div class="item right">
+        
+          <a href="/post/68f56ac0-cd85-11ea-a144-f7a4331a0642/">LeetCode 面试题 03.01. 三合一</a>
+        
+    </div>
+  </div>
+
+  
+
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
+    </div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/658c1730-ddcf-11ea-9e4c-d3e8698fdb4b/">https://Matthew-Han.github.io/post/658c1730-ddcf-11ea-9e4c-d3e8698fdb4b/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
+
+  <div id="comment"></div>
+
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
+</html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 
