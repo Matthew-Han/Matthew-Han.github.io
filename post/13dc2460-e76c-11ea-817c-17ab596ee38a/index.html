@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="极度理性，爱憎分明" />
+    
+    <title>
+      LeetCode #994 腐烂的橘子 - Espada
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    
+<link rel="stylesheet" href="/style/style.css">
+
+  </head>
+  <body>
+    <canvas id='pagemap'></canvas>
+    
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#problem-description"><span class="toc-text"> Problem Description</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#note"><span class="toc-text"> note</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eg"><span class="toc-text"> e.g.</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#solution"><span class="toc-text"> Solution</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#多源广度优先搜索"><span class="toc-text"> 多源广度优先搜索</span></a></li></ol></li></ol>
+    </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
+    </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
+    </div>
+    <div id="progress">
+      <div class="line"></div>
+    </div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          首页
+        </a>
+        
+        <a href="/archives" class="">
+          归档
+        </a>
+        
+        <a href="/categories" class="">
+          分类
+        </a>
+        
+        <a href="/tags" class="">
+          标签
+        </a>
+        
+        <a href="/friends" class="">
+          友链
+        </a>
+        
+        <a href="/about" class="">
+          关于
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">Espada</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">Espada</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
+
+        <div class="nav">
+          
+          <a href="/" class="">
+            首页
+          </a>
+          
+          <a href="/archives" class="">
+            归档
+          </a>
+          
+          <a href="/categories" class="">
+            分类
+          </a>
+          
+          <a href="/tags" class="">
+            标签
+          </a>
+          
+          <a href="/friends" class="">
+            友链
+          </a>
+          
+          <a href="/about" class="">
+            关于
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/Matthew-Han" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="https://twitter.com/_yuanmo_" target="_block">
+              <span class="iconfont icon-twitter"></span>
+            </a>
+            
+            <a href="https://www.instagram.com/yuanmo233" target="_block">
+              <span class="iconfont icon-instagram"></span>
+            </a>
+            
+            <a href="https://weibo.com/MatthewHan96" target="_block">
+              <span class="iconfont icon-weibo"></span>
+            </a>
+            
+            <a href="tencent://message/?uin=837204579" target="_block">
+              <span class="iconfont icon-QQ"></span>
+            </a>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">LeetCode #994 腐烂的橘子</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2020/08/26</span>
+        </span>
+
+        
+          <span class="item leancloud-visitors" id="/post/13dc2460-e76c-11ea-817c-17ab596ee38a/" data-flag-title="LeetCode #994 腐烂的橘子">
+            <span class="iconfont icon-eye1"></span>
+            <span class="leancloud-visitors-count"></span>
+          </span>
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/算法">算法</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/数据结构">数据结构</a>
+                  
+                
+                  
+                    <a href="/tags/算法">算法</a>
+                  
+                
+                  
+                    <a href="/tags/leetcode">leetcode</a>
+                  
+                
+                  
+                    <a href="/tags/广度优先搜索">广度优先搜索</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description<a class="post-anchor" href="#problem-description"></a></h1>
+<p>在给定的网格中，每个单元格可以有以下三个值之一：</p>
+<ul>
+<li>
+<p>值 0 代表空单元格；</p>
+</li>
+<li>
+<p>值 1 代表新鲜橘子；</p>
+</li>
+<li>
+<p>值 2 代表腐烂的橘子。</p>
+</li>
+</ul>
+<p>每分钟，任何与腐烂的橘子（在 4 个正方向上）相邻的新鲜橘子都会腐烂。</p>
+<p>返回直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 -1。</p>
+<h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note<a class="post-anchor" href="#note"></a></h2>
+<ul>
+<li><code>1 <= grid.length <= 10</code></li>
+<li><code>1 <= grid[0].length <= 10</code></li>
+<li><code>grid[i][j]</code> 仅为 <code>0</code>、<code>1</code> 或 <code>2</code></li>
+</ul>
+<h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.<a class="post-anchor" href="#eg"></a></h2>
+<ul>
+<li>
+<p><strong>示例 1：</strong></p>
+<ul>
+<li><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/994-oranges.png" target="_blank" rel="noopener" data-caption="示例1" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/leetcode/994-oranges.png" alt="示例1"></a></li>
+<li>输入：<code>[[2, 1, 1],[1, 1, 0],[0, 1, 1]]</code></li>
+<li>输出：<code>4</code></li>
+</ul>
+</li>
+<li>
+<p><strong>示例 2：</strong></p>
+<ul>
+<li>输入：<code>[[2, 1, 1],[0, 1, 1],[1, 0, 1]]</code></li>
+<li>输出：<code>-1</code></li>
+</ul>
+</li>
+<li>
+<p><strong>示例 3：</strong></p>
+<ul>
+<li>输入：<code>[[0, 2]]</code></li>
+<li>输出：<code>0</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution<a class="post-anchor" href="#solution"></a></h1>
+<p>网格、感染初一看就是深搜的题。</p>
+<p>一分钟上下左右感染一个，感染的橘子又会上下左右感染邻近的新鲜的橘子，搁这生化危机呢。</p>
+<p>每分钟感染周围（上下左右）的一排，那么用BFS走一走把所有的橘子感染一下（着色），求出最大深度<code>max</code>，然后正常遍历一下网格看还有没有新鲜橘子，有的话，<code>return -1</code>；没有的话<code>return max</code>。</p>
+<p>一提交，GG了。</p>
+<blockquote>
+<p>题目妹说只有一个「感染源」啊</p>
+</blockquote>
+<p>如右边这种情况：<code>[[2],[1],[1],[1],[2],[1],[1]]</code>。它拥有2个「感染源」，最小分钟是2分钟，因为这2个「感染源」是同时作用邻近的新鲜橘子的。</p>
+<p>那要怎么让多个起点同时遍历呢？</p>
+<p>脑子里的第一个笨办法，就是先列举出所有的烂橘子，将每个烂橘子可达的所有点都遍历一遍然后着色，着什么色呢？<strong>分钟数</strong>。一个初始烂橘子的第一围的新鲜橘子被感染了，花费的时间是1分钟，然后这一围被感染的橘子成为了新的感染源，去感染其周围的新鲜橘子，下一轮的花费的时间还是1分钟，一共2分钟，将这个分钟数写到网格中，为了加以区分用负数表示。如：第一分钟被感染的新鲜橘子<code>grid[x][y] = -1</code>;第二分钟被感染的新鲜橘子<code>grid[x][y] = -2</code>。因为存在一个新鲜的橘子会被多个「感染源」感染的情况，所以一个新鲜的橘子的这个「感染分钟数」是多个，我们比较一下选最小的那个即可（在代码里是赋值比较大的，因为是负数）。</p>
+<p>这样就完成了所有的新鲜的橘子，最快被感染的着色时间。我们常规遍历一遍，求出最大的那个时间就是总共花费的时间。如果网格中还存在新鲜的橘子，就直接<code>return -1</code>。</p>
+<p><code>Java代码：</code></p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RottingOranges</span> </span>{<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 这题主要是一个新鲜橘子会被多个「源」传染，所以「最短路径」需要取最小的，也就是每个新鲜橘子被感染的是最近的烂橘子，</span><br><span class="hljs-comment">     * 最后只要找出网格中最大的最短路径就行了。</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * 1. 先找出所有的烂橘子（val = 2），每个烂橘子bfs遍历</span><br><span class="hljs-comment">     * 2. 每个烂橘子bfs遍历能到达（传染）的所有新鲜橘子（val = 1）给他们赋路径值（负数用于区分），这批新鲜的橘子就变成「伪 - 新鲜橘子」</span><br><span class="hljs-comment">     * 3. 「伪 - 新鲜橘子」被赋值后可能还会被「最近的烂橘子」感染，所以这里需要比较最近的烂橘子（最短路径），更新最短路径</span><br><span class="hljs-comment">     * 4. 比较所有网格的新鲜橘子的val，理论上取一个最大值，因为赋值的是负值，所以是取最小值。</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> grid</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">orangesRotting</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] grid)</span> </span>{<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < grid.length; i++) {<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j < grid[i].length; j++) {<br>                <span class="hljs-keyword">if</span> (grid[i][j] == <span class="hljs-number">2</span>) {<br>                    bfs(grid, i, j);<br>                }<br>            }<br>        }<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span>[] ints : grid) {<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> anInt : ints) {<br>                <span class="hljs-keyword">if</span> (anInt == <span class="hljs-number">1</span>) {<br>                    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>                }<br>            }<br>        }<br>        <span class="hljs-keyword">int</span> min = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span>[] ints : grid) {<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> anInt : ints) {<br>                min = Math.min(min, anInt);<br>            }<br>        }<br>        <span class="hljs-keyword">return</span> -min;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] grid, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> j)</span> </span>{<br>        <span class="hljs-keyword">boolean</span>[][] visited = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[grid.length][grid[<span class="hljs-number">0</span>].length];<br>        Queue<<span class="hljs-keyword">int</span>[]> queue = <span class="hljs-keyword">new</span> LinkedList<>();<br>        queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{i, j});<br>        visited[i][j] = <span class="hljs-keyword">true</span>;<br>        <span class="hljs-keyword">int</span> depth = -<span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">while</span> (!queue.isEmpty()) {<br>            <span class="hljs-keyword">int</span> limit = queue.size();<br>            depth++;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k < limit; k++) {<br>                <span class="hljs-keyword">int</span>[] xy = queue.poll();<br>                <span class="hljs-keyword">int</span> x = xy[<span class="hljs-number">0</span>];<br>                <span class="hljs-keyword">int</span> y = xy[<span class="hljs-number">1</span>];<br>                visited[x][y] = <span class="hljs-keyword">true</span>;<br>                <span class="hljs-comment">// 当橘子是好的，或者已经腐烂的（为负数）改成腐烂时间</span><br>                <span class="hljs-comment">// 如果已有腐烂时间的橘子，这判断更新（因为是负数，所以是max）</span><br>                <span class="hljs-keyword">if</span> (grid[x][y] < <span class="hljs-number">0</span>) {<br>                    grid[x][y] = Math.max(grid[x][y], -depth);<br>                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (grid[x][y] == <span class="hljs-number">1</span>) {<br>                    grid[x][y] = -depth;<br>                }<br><br>                <span class="hljs-keyword">if</span> (x - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && !visited[x - <span class="hljs-number">1</span>][y] && grid[x - <span class="hljs-number">1</span>][y] != <span class="hljs-number">2</span> && grid[x - <span class="hljs-number">1</span>][y] != <span class="hljs-number">0</span>) {<br>                    queue.add(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x - <span class="hljs-number">1</span>, y});<br>                }<br>                <span class="hljs-keyword">if</span> (x + <span class="hljs-number">1</span> < grid.length && !visited[x + <span class="hljs-number">1</span>][y] && grid[x + <span class="hljs-number">1</span>][y] != <span class="hljs-number">2</span> && grid[x + <span class="hljs-number">1</span>][y] != <span class="hljs-number">0</span>) {<br>                    queue.add(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x + <span class="hljs-number">1</span>, y});<br>                }<br>                <span class="hljs-keyword">if</span> (y - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && !visited[x][y - <span class="hljs-number">1</span>] && grid[x][y - <span class="hljs-number">1</span>] != <span class="hljs-number">2</span> && grid[x][y - <span class="hljs-number">1</span>] != <span class="hljs-number">0</span>) {<br>                    queue.add(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y - <span class="hljs-number">1</span>});<br>                }<br>                <span class="hljs-keyword">if</span> (y + <span class="hljs-number">1</span> < grid[<span class="hljs-number">0</span>].length && !visited[x][y + <span class="hljs-number">1</span>] && grid[x][y + <span class="hljs-number">1</span>] != <span class="hljs-number">2</span> && grid[x][y + <span class="hljs-number">1</span>] != <span class="hljs-number">0</span>) {<br>                    queue.add(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y + <span class="hljs-number">1</span>});<br>                }<br>            }<br>        }<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<h2 id="多源广度优先搜索"><a class="markdownIt-Anchor" href="#多源广度优先搜索"></a> 多源广度优先搜索<a class="post-anchor" href="#多源广度优先搜索"></a></h2>
+<p>上面的的那个思路虽然可行，但是性能有点拉胯，因为一个格子被多次访问了。回到上面说的</p>
+<blockquote>
+<p>那要怎么让多个起点同时遍历呢？</p>
+</blockquote>
+<p>其实BFS模板一般只有一个初始节点，当把所有的烂橘子当做第一层，模拟同时感染周围的新鲜橘子，他的周围的新鲜的橘子就都是下一轮的目标了，都是同时的。所以事情就变得简单了起来。</p>
+<p><strong>其中特别注意一些特殊情况，例如只有烂橘子、只有好橘子；还有就是BFS图的遍历要特别注意<code>visited</code>访问标记要在加入到队列之后就要设置了。</strong></p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">orangesRotting</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] grid)</span> </span>{<br>        <span class="hljs-keyword">boolean</span>[][] visited = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[grid.length][grid[<span class="hljs-number">0</span>].length];<br>        Queue<<span class="hljs-keyword">int</span>[]> queue = <span class="hljs-keyword">new</span> LinkedList<>();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < grid.length; i++) {<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j < grid[i].length; j++) {<br>                <span class="hljs-comment">// 所有的烂橘子都加入队列</span><br>                <span class="hljs-keyword">if</span> (grid[i][j] == <span class="hljs-number">2</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{i, j});<br>                    visited[i][j] = <span class="hljs-keyword">true</span>;<br>                }<br>            }<br>        }<br>        <span class="hljs-keyword">int</span> depth = <span class="hljs-number">0</span>;<br>        <span class="hljs-comment">// flag是判断有没有烂橘子</span><br>        <span class="hljs-keyword">boolean</span> flag = <span class="hljs-keyword">false</span>;<br>        <span class="hljs-keyword">while</span> (!queue.isEmpty()) {<br>            flag = <span class="hljs-keyword">true</span>;<br>            depth++;<br>            <span class="hljs-keyword">int</span> limit = queue.size();<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i < limit; i++) {<br>                <span class="hljs-keyword">int</span>[] xy = queue.poll();<br>                <span class="hljs-keyword">int</span> x = xy[<span class="hljs-number">0</span>];<br>                <span class="hljs-keyword">int</span> y = xy[<span class="hljs-number">1</span>];<br>                visited[x][y] = <span class="hljs-keyword">true</span>;<br>                <span class="hljs-keyword">if</span> (grid[x][y] == <span class="hljs-number">1</span>) {<br>                    grid[x][y] = <span class="hljs-number">2</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (x - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && !visited[x - <span class="hljs-number">1</span>][y] && grid[x - <span class="hljs-number">1</span>][y] == <span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x - <span class="hljs-number">1</span>, y});<br>                    <span class="hljs-comment">// 这里要先控制访问标记，防止被下个 if 代码逻辑重复加入了</span><br>                    visited[x - <span class="hljs-number">1</span>][y] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (x + <span class="hljs-number">1</span> < grid.length && !visited[x + <span class="hljs-number">1</span>][y] && grid[x + <span class="hljs-number">1</span>][y] == <span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x + <span class="hljs-number">1</span>, y});<br>                    visited[x + <span class="hljs-number">1</span>][y] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (y - <span class="hljs-number">1</span> >= <span class="hljs-number">0</span> && !visited[x][y - <span class="hljs-number">1</span>] && grid[x][y - <span class="hljs-number">1</span>] == <span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y - <span class="hljs-number">1</span>});<br>                    visited[x][y - <span class="hljs-number">1</span>] = <span class="hljs-keyword">true</span>;<br>                }<br>                <span class="hljs-keyword">if</span> (y + <span class="hljs-number">1</span> < grid[<span class="hljs-number">0</span>].length && !visited[x][y + <span class="hljs-number">1</span>] && grid[x][y + <span class="hljs-number">1</span>] == <span class="hljs-number">1</span>) {<br>                    queue.offer(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{x, y + <span class="hljs-number">1</span>});<br>                    visited[x][y + <span class="hljs-number">1</span>] = <span class="hljs-keyword">true</span>;<br>                }<br>            }<br>        }<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span>[] ints : grid) {<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> anInt : ints) {<br>                <span class="hljs-keyword">if</span> (anInt == <span class="hljs-number">1</span>) {<br>                    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>                }<br>            }<br>        }<br>        <span class="hljs-keyword">return</span> flag ? depth - <span class="hljs-number">1</span> : depth;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure></body></html>
+
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
+            
+            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
+            
+        </div>
+      </div>
+    </div>
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+    </div>
+    <div class="item right">
+        
+          <a href="/post/a0c666d0-df31-11ea-a0a7-39ac104f8724/">LeetCode #378 有序矩阵中第K小的元素</a>
+        
+    </div>
+  </div>
+
+  
+
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
+    </div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/13dc2460-e76c-11ea-817c-17ab596ee38a/">https://Matthew-Han.github.io/post/13dc2460-e76c-11ea-817c-17ab596ee38a/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
+
+  <div id="comment"></div>
+
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2020
+            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
+</html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 
