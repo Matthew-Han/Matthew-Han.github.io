@@ -16,16 +16,21 @@
     <meta name="description" content="极度理性，爱憎分明" />
     
     <title>
-      标签 - Espada
+      走进JVM之字节码与类加载 - Espada
     </title>
     <link rel="manifest" href="/manifest.json" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     
 <link rel="stylesheet" href="/style/style.css">
 
-  <meta name="generator" content="Hexo 4.2.0"></head>
+  </head>
   <body>
     <canvas id='pagemap'></canvas>
+    
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字节码"><span class="toc-text"> 字节码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类加载过程"><span class="toc-text"> 类加载过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#流程"><span class="toc-text"> 流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类加载器"><span class="toc-text"> 类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1根加载器bootstrap"><span class="toc-text"> 1.根加载器（Bootstrap）</span></a></li></ol></li></ol></li></ol>
+    </div>
     
     <div id="fixed-menu-wrap">
       <span class="iconfont icon-sousuo search-box menu-reset"></span>
@@ -68,7 +73,7 @@
           分类
         </a>
         
-        <a href="/tags" class="current">
+        <a href="/tags" class="">
           标签
         </a>
         
@@ -122,7 +127,7 @@
             分类
           </a>
           
-          <a href="/tags" class="current">
+          <a href="/tags" class="">
             标签
           </a>
           
@@ -167,51 +172,165 @@
     </div>
     <div id="container">
       <div class="main animated bounceInRight delay-0.7s">
-        <div id="archives">
-    
-        <div class="title">
-            标签 - JVM
-        </div>
-    
-
-
-
-
-    
-    
-    <section class="wrap">
-        <div class="meta">
-            <a href="/archives/2020" >
-                2020
-            </a>
-        </div>
-        <div class="year">
-            
-            <article class="item">
-            <a href="/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/" title="走进JVM之字节码与类加载">
-                <span>2020/09/22</span>
-                <span>走进JVM之字节码与类加载</span>
-            </a>
-            </article>
-            
-
-
-            <article class="item">
-            <a href="/post/bd0fa690-fcae-11ea-897f-29deed537cb3/" title="走进JVM之GC">
-                <span>2020/09/22</span>
-                <span>走进JVM之GC</span>
-            </a>
-            </article>
-            
-    
-        </div>
-    </section>
+        <article class="post-entry">
+    <div class="header">
       
-<div class="paginator">
-    <span class="page-number current">1</span>
-</div>
-</div>
+      <div class="title">走进JVM之字节码与类加载</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2020/09/22</span>
+        </span>
 
+        
+          <span class="item leancloud-visitors" id="/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/" data-flag-title="走进JVM之字节码与类加载">
+            <span class="iconfont icon-eye1"></span>
+            <span class="leancloud-visitors-count"></span>
+          </span>
+        
+
+         
+        <span class="item">
+          <span class="iconfont icon-folder"></span>
+          <span>
+              
+                
+                  <a href="/categories/Java技术">Java技术</a>
+                
+              
+          </span>
+        </span>
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/字节码">字节码</a>
+                  
+                
+                  
+                    <a href="/tags/JVM">JVM</a>
+                  
+                
+                  
+                    <a href="/tags/Java">Java</a>
+                  
+                
+                  
+                    <a href="/tags/类加载过程">类加载过程</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="字节码"><a class="markdownIt-Anchor" href="#字节码"></a> 字节码<a class="post-anchor" href="#字节码"></a></h1>
+<p>JVM主流还是HotSpot，是OpenJDK最主流的一种。</p>
+<p>跨平台需要一个中间层，那就是字节码（ByteCode），JVM会将字节码编译执行，热点代码还会通过JIT动态编译成机器码提高效率。</p>
+<p>一个Java类文件，用十六进制表示二进制流。其中，起始的4个直接非常特殊：cafe babe。是Gosling定义的一个魔法数，标志该文件是一个Java类文件。</p>
+<p>JVM在字节码上设计一套操作码助记符，用特殊的单词来标记。</p>
+<p>一个<code>.java</code>文件转换成字节码甚至是机器码文件需要以下几步：</p>
+<p><code>Java</code> ==> <code>词法解析</code> = token流 => <code>语法解析</code> ==> <code>语义分析</code> ==> <code>生成字节码</code> ==> <code>字节码</code></p>
+<p>其中，语法解析的目的是组装成一颗语法树，再通过<code>语义分析</code>阶段检查类型、关键字、作用域是否合规。</p>
+<p>字节码必须通过<strong>类加载过程</strong>加载到JVM环境后才可以执行。执行有3种模式</p>
+<ul>
+<li>解释执行</li>
+<li>JIT编译执行</li>
+<li>JIT编译执行与解释混合执行</li>
+</ul>
+<p>主流的JVM就是混合执行，在控制台输入<code>java -version</code>也可以看到<code>mixed mode</code>的字样，表示是混合执行。</p>
+<h1 id="类加载过程"><a class="markdownIt-Anchor" href="#类加载过程"></a> 类加载过程<a class="post-anchor" href="#类加载过程"></a></h1>
+<p>类是在运行期间第一次使用时动态加载的，而不是一次性加载所有类。因为如果一次性加载，那么会占用很多的内存。</p>
+<h2 id="流程"><a class="markdownIt-Anchor" href="#流程"></a> 流程<a class="post-anchor" href="#流程"></a></h2>
+<p>主要分成<strong>三大步</strong>：</p>
+<ol>
+<li>
+<p>加载</p>
+<p>只是类加载的第一个阶段，不要和类加载混淆。主要干三件事情：</p>
+<ul>
+<li>通过类的完全限定名称获取定义该类的二进制字节流。</li>
+<li>将该字节流表示的静态存储结构转换为方法区的运行时存储结构。</li>
+<li>在内存中生成一个代表该类的 Class 对象，作为方法区中该类各种数据的访问入口。</li>
+</ul>
+</li>
+<li>
+<p>连接（验证、准备、解析）</p>
+</li>
+<li>
+<p>初始化</p>
+<p>分为主动引用和被动应用。</p>
+<ul>
+<li>
+<p>主动引用：</p>
+<p><code>new</code>关键字、<code>main</code>类等</p>
+</li>
+<li>
+<p>被动引用：</p>
+<p>静态字段、常量、<code>SuperClass[] sca = new SuperClass[10];</code>这样一个数组的初始化。</p>
+<p>通过数组定义来引用类，不会触发此类的初始化。该过程会对数组类进行初始化，数组类是一个由虚拟机自动生成的、直接继承自 Object 的子类，其中包含了数组的属性和方法。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>初始化的过程：读取字节码的二进制数据到内存中，在JVM的方法区内，然后利用字节码文件创建一个Class对象作用在堆区。</p>
+<p>所以说类加载是一个将.class字节码文件实例化成Class对象并进行相关初始化的过程。</p>
+<h2 id="类加载器"><a class="markdownIt-Anchor" href="#类加载器"></a> 类加载器<a class="post-anchor" href="#类加载器"></a></h2>
+<p>三大加载器</p>
+<h3 id="1根加载器bootstrap"><a class="markdownIt-Anchor" href="#1根加载器bootstrap"></a> 1.根加载器（Bootstrap）<a class="post-anchor" href="#1根加载器bootstrap"></a></h3>
+</body></html>
+
+  
+    <div class="post-reward">
+    <div id="reward-button">龙鸣</div>
+      <div id="qr">
+        <div class="wrap">
+            
+            
+            <div class="bg-wrap">
+                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
+              "老罗"
+            </div>
+            
+        </div>
+      </div>
+    </div>
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+    </div>
+    <div class="item right">
+        
+          <a href="/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a>
+        
+    </div>
+  </div>
+
+  
+
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
+    </div>
+    <div class="link">
+      永久链接：<a href="https://Matthew-Han.github.io/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">https://Matthew-Han.github.io/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
+    </div>
+  </div>
+
+  <div id="comment"></div>
+
+  
+  
+</article>
         <footer>
           <div class="copyright">
             ©2020
