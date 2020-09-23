@@ -29,7 +29,7 @@
     
     <div id="post-toc" class="animated hiddenToc hide">
       <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字节码"><span class="toc-text"> 字节码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类加载过程"><span class="toc-text"> 类加载过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#流程"><span class="toc-text"> 流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类加载器"><span class="toc-text"> 类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1根加载器bootstrap"><span class="toc-text"> 1.根加载器（Bootstrap）</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字节码"><span class="toc-text"> 字节码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类加载过程"><span class="toc-text"> 类加载过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#流程"><span class="toc-text"> 流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类加载器"><span class="toc-text"> 类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1根加载器bootstrap"><span class="toc-text"> 1.根加载器（Bootstrap）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2扩展类加载器platform"><span class="toc-text"> 2.扩展类加载器（Platform）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3应用类加载器application"><span class="toc-text"> 3.应用类加载器（Application）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4自定义加载器"><span class="toc-text"> 4.自定义加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#classloader"><span class="toc-text"> ClassLoader</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#loadclass方法"><span class="toc-text"> loadClass方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#findclass方法"><span class="toc-text"> findClass方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#defineclass方法"><span class="toc-text"> defineClass方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#什么时候需要自定义类加载器"><span class="toc-text"> 什么时候需要自定义类加载器？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5热部署"><span class="toc-text"> 5.热部署</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6线程上下文加载器"><span class="toc-text"> 6.线程上下文加载器</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
     
     <div id="fixed-menu-wrap">
@@ -260,7 +260,7 @@
 </ul>
 </li>
 <li>
-<p>连接（验证、准备、解析）</p>
+<p>链接（验证、准备、解析）</p>
 </li>
 <li>
 <p>初始化</p>
@@ -281,9 +281,73 @@
 <p>初始化的过程：读取字节码的二进制数据到内存中，在JVM的方法区内，然后利用字节码文件创建一个Class对象作用在堆区。</p>
 <p>所以说类加载是一个将.class字节码文件实例化成Class对象并进行相关初始化的过程。</p>
 <h2 id="类加载器"><a class="markdownIt-Anchor" href="#类加载器"></a> 类加载器<a class="post-anchor" href="#类加载器"></a></h2>
-<p>三大加载器</p>
+<p>双亲委派模型，或者叫「溯源委派加载模型」更合适。因为类加载器类似原始部落，存在权利等级制度，最高的一层是BootStrap。</p>
+<p>低层次的当前类加载器，不能覆盖更高层的加载器加载的类。<strong>所以低层的加载器想要加载某个类时，需要向上逐级询问</strong>：该类加载了吗？高一级的父加载器往往都是懒狗，收到下级的请求会转发该请求给自身的上级。</p>
+<p><strong>所以一次询问一定会传递到BootStrap ClassLoader</strong>。加载不到时，才会逐级向下尝试加载。如果父类都加载不了，就会允许当前类加载器加载，不然肯定是优先父类加载器加载。</p>
+<p>所以是按需加载。</p>
+<p>父子关系是通过组合关系实现，非继承关系。</p>
+<p><strong>这个模型的好处：</strong></p>
+<ol>
+<li>避免重复加载</li>
+<li>安全性问题，防止核心的加载器已加载的类被「覆盖、篡改」</li>
+</ol>
+<p><strong>例子：</strong></p>
+<p>​	比如在自己开发的环境中，不要定义和核心API同名的包名。</p>
 <h3 id="1根加载器bootstrap"><a class="markdownIt-Anchor" href="#1根加载器bootstrap"></a> 1.根加载器（Bootstrap）<a class="post-anchor" href="#1根加载器bootstrap"></a></h3>
-</body></html>
+<p>最底层的加载器，由C++实现，没有父加载器所以没有继承<code>java.lang.ClassLoader</code>，负责将存放在<code><JRE_HOME>\lib</code>目录中的，或者被 <code>-Xbootclasspath</code>参数所指定的路径中的。</p>
+<p>负责装载最核心的类：Object、System、String等。</p>
+<p>根类加载器加载的类，打印他的<code>Classloader</code>只会是null，因为不是在JVM体系内。</p>
+<p>例如：<code>System.out.println(Object.class.getClassLoader());</code></p>
+<h3 id="2扩展类加载器platform"><a class="markdownIt-Anchor" href="#2扩展类加载器platform"></a> 2.扩展类加载器（Platform）<a class="post-anchor" href="#2扩展类加载器platform"></a></h3>
+<p>纯Java语言编写。用于加载一些扩展的系统类（也就是安全性和重要性比上者稍差一点），比如：XML、加密、压缩。</p>
+<p>这个类加载器是由 ExtClassLoader（sun.misc.Launcher$ExtClassLoader）实现。它负责将<code><JAVA_HOME>/lib/ext</code>或者被<code>java.ext.dir</code>系统变量所指定路径中的所有类库加载到内存中，开发者可以直接使用扩展类加载器。</p>
+<p>Java9之前是ExtClass，之后是PlatformClass。</p>
+<h3 id="3应用类加载器application"><a class="markdownIt-Anchor" href="#3应用类加载器application"></a> 3.应用类加载器（Application）<a class="post-anchor" href="#3应用类加载器application"></a></h3>
+<p>这个类加载器是由 AppClassLoader（sun.misc.Launcher$AppClassLoader）实现的。</p>
+<p>负责加载用户类路径（ClassPath）上所指定的类库，开发者可以直接使用这个类加载器。比如自己写的<code>TestFuck</code>类，该类就是被该加载器所加载。</p>
+<h3 id="4自定义加载器"><a class="markdownIt-Anchor" href="#4自定义加载器"></a> 4.自定义加载器<a class="post-anchor" href="#4自定义加载器"></a></h3>
+<h4 id="classloader"><a class="markdownIt-Anchor" href="#classloader"></a> ClassLoader<a class="post-anchor" href="#classloader"></a></h4>
+<p>该类和Class都位于<code>java.lang</code>这个包下，主要是对双亲委派模型的实现。</p>
+<h5 id="loadclass方法"><a class="markdownIt-Anchor" href="#loadclass方法"></a> loadClass方法<a class="post-anchor" href="#loadclass方法"></a></h5>
+<blockquote>
+<p>经典递归实现</p>
+</blockquote>
+<ol>
+<li>先检查当前类是否已经在当前加载器加载了，如果没有，向上请求（上级也是这个模式）</li>
+<li>直到父类加载器抛出ClassNotFoundException，此时尝试自己去加载。</li>
+</ol>
+<p>一般不覆写该方法，因为还是要遵循双亲委派模型的机制。</p>
+<h5 id="findclass方法"><a class="markdownIt-Anchor" href="#findclass方法"></a> findClass方法<a class="post-anchor" href="#findclass方法"></a></h5>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> Class<?> findClass(String name) <span class="hljs-keyword">throws</span> ClassNotFoundException {<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ClassNotFoundException(name);<br>}<br></code></pre></td></tr></tbody></table></figure>
+<p>源码很简单，该方法需要覆写，因为上面说了，<strong>loadClass是递归父类加载器直到抛出该异常</strong>。那么需要覆写该方法实现自己的自定义的类。</p>
+<h5 id="defineclass方法"><a class="markdownIt-Anchor" href="#defineclass方法"></a> defineClass方法<a class="post-anchor" href="#defineclass方法"></a></h5>
+<p>通常与<code>findClass</code>方法一起使用，在<code>findClass</code>里面调用该方法返回。</p>
+<p>继承<code>ClassLoader</code>类，覆写<code>findClass</code>方法。</p>
+<h5 id="什么时候需要自定义类加载器"><a class="markdownIt-Anchor" href="#什么时候需要自定义类加载器"></a> 什么时候需要自定义类加载器？<a class="post-anchor" href="#什么时候需要自定义类加载器"></a></h5>
+<ol>
+<li>隔离加载类：中间件不同的jar包相互影响</li>
+<li>修改类的加载方式</li>
+<li>扩展加载源：网络层面、数据库、电视机顶盒也能加载</li>
+<li>防止源码泄露</li>
+</ol>
+<h3 id="5热部署"><a class="markdownIt-Anchor" href="#5热部署"></a> 5.热部署<a class="post-anchor" href="#5热部署"></a></h3>
+<p>当我们的一个类已经被加载后，通过双亲委派模型，他并不会重新加载。但是我们在编译器中开发的时候可以选择热部署的方式。他又是怎么实现的呢？</p>
+<p>双亲委派模型的核心在于<code>loadClass</code>方法，<strong>如果直接略过或者覆写该方法</strong>，就不会出现无限向上级请求加载的情况了（递归倒了，哭😢）。</p>
+<p><strong>破坏双亲委派模型的2种方式：</strong></p>
+<ol>
+<li>不走<code>loadClass</code>方法</li>
+<li>将上级类加载器下本应该（交给父加载器加载）加载的jar包删了，这样上级就会抛出异常，直到逐级返回下级加载「虚假的类」</li>
+</ol>
+<p>第二种方式有点嗯了。。</p>
+<h4 id="6线程上下文加载器"><a class="markdownIt-Anchor" href="#6线程上下文加载器"></a> 6.线程上下文加载器<a class="post-anchor" href="#6线程上下文加载器"></a></h4>
+<p>我们根加载器属实位高权重，但是保不准它也有求于小弟的时候。比如<code>mysql-connect-java.jar</code>，每个计科学生都知道的经典数据库驱动。</p>
+<p>在BootStrap加载器下有个<code>rt.jar</code>中有个类叫做<code>java.sql.DriverManager</code>，会去加载<code>Driver.class</code>，而该class是一个接口，并没有实现类，它的实现类在第三方的jar包中，也就是驱动中的类，相当于反向加载了。</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Void <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{<br>    ServiceLoader<Driver> loadedDrivers = ServiceLoader.load(Driver<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<br></code></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>这里的Void是定义的一个类，不是void关键字。</p>
+</blockquote>
+<p>双亲委派模型可不允许反向加载，所以这里采用的是线程上下文加载器，该方式虽然也破坏了双亲委派模型，但是更为灵活。</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java">ClassLoader cl = Thread.currentThread().getContextClassLoader();<br><span class="hljs-keyword">return</span> ServiceLoader.load(service, cl);<br></code></pre></td></tr></tbody></table></figure></body></html>
 
   
     <div class="post-reward">
