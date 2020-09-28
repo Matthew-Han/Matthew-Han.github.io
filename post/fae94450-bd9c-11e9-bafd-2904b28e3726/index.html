@@ -29,7 +29,7 @@
     
     <div id="post-toc" class="animated hiddenToc hide">
       <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2020年5月开始的学习计划"><span class="toc-text"> 2020年5月开始的学习计划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进度记录"><span class="toc-text"> 进度记录</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2020年9月开始的学习计划"><span class="toc-text"> 2020年9月开始的学习计划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进度记录"><span class="toc-text"> 进度记录</span></a></li></ol>
     </div>
     
     <div id="fixed-menu-wrap">
@@ -222,8 +222,37 @@
       <div>
       </div>
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="2020年5月开始的学习计划"><a class="markdownIt-Anchor" href="#2020年5月开始的学习计划"></a> 2020年5月开始的学习计划<a class="post-anchor" href="#2020年5月开始的学习计划"></a></h1>
+    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><h1 id="2020年9月开始的学习计划"><a class="markdownIt-Anchor" href="#2020年9月开始的学习计划"></a> 2020年9月开始的学习计划<a class="post-anchor" href="#2020年9月开始的学习计划"></a></h1>
 <ul>
+<li>
+<p><strong>JUC相关</strong></p>
+<ul>
+<li>关键字</li>
+<li>Api</li>
+<li>多线程、高并发</li>
+</ul>
+</li>
+<li>
+<p><strong>JVM相关</strong></p>
+<ul>
+<li>GC相关</li>
+<li>类加载机制</li>
+<li>内存模型</li>
+</ul>
+</li>
+<li>
+<p><strong>Spring源码</strong></p>
+<ul>
+<li>极客时间小马哥课程学习</li>
+</ul>
+</li>
+<li>
+<p><strong>Redis深入</strong></p>
+<ul>
+<li>《Redis开发与实战》书籍学习</li>
+<li>网课学习（暂未定）</li>
+</ul>
+</li>
 <li>
 <p><strong>《码出高效》笔记</strong></p>
 <ul>
@@ -235,22 +264,28 @@
 <li>
 <p><strong>数据库</strong></p>
 <ul>
+<li>基本按照极客时间《MySQL45讲》来学习了。</li>
 <li>B+树、基础巩固</li>
+<li>日志系统</li>
+<li>事务</li>
 </ul>
 </li>
 <li>
-<p><strong>LeetCode刷题</strong></p>
+<p><strong>LeetCode刷题（基本结束）</strong></p>
+</li>
+<li>
+<p>长期计划</p>
 <ul>
-<li>长期计划</li>
 <li>Easy难度全干完</li>
 <li>[<font color="red">动态规划</font>, <font color="orange">贪心</font>, <font color="green">位运算</font>]重点巩固</li>
+<li>只需要每天刷「每日一题」和有空参加下周赛即可</li>
 </ul>
 </li>
 <li>
 <p><strong>Docker</strong></p>
 <ul>
 <li>重点系统学习</li>
-<li>但是不要花太多时间在上面</li>
+<li>近期不打算花时间了</li>
 </ul>
 </li>
 <li>
@@ -262,11 +297,11 @@
 </ul>
 <h1 id="进度记录"><a class="markdownIt-Anchor" href="#进度记录"></a> 进度记录<a class="post-anchor" href="#进度记录"></a></h1>
 <br>
-<div id="echarts3347" style="width: 100%;height: 500px;margin: 0 auto"></div>
+<div id="echarts4629" style="width: 100%;height: 500px;margin: 0 auto"></div>
 <script src="https://cdn.bootcss.com/echarts/3.8.0/echarts.common.min.js"></script>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts3347'));
+        var myChart = echarts.init(document.getElementById('echarts4629'));
         // 指定图表的配置项和数据
         var option = {
     title: {
@@ -317,19 +352,19 @@
     yAxis: [
         {
             type: "category",
-            data: ["数据库", "设计模式", "Docker", "《码出高效》笔记", "LeetCode"]
+            data: ["JVM", "JUC", "Spring源码", "Redis", "数据库", "设计模式", "Docker", "《码出高效》笔记", "LeetCode"]
         }
     ],
     series: [
         {
             name: "期望投入",
             type: "bar",
-            data: [6, 8, 6, 8, 8]
+            data: [6, 6, 6, 6, 6, 8, 6, 8, 8]
         },
         {
             name: "实际投入",
             type: "bar",
-            data: [4, 2, 2, 8, 8]
+            data: [6, 2, 1, 1, 4, 2, 2, 8, 8]
         }
     ],
     grid: {
