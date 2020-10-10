@@ -1,897 +1,1024 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <script>
-  var _hmt = _hmt || []
-  ;(function() {
-    var hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
-    var s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-</script> 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="极度理性，爱憎分明" />
-    
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="极度理性，爱憎分明">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <title>
-       一个极度理性的人  - Espada
+        
+          Espada
+        
     </title>
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
-    
-<link rel="stylesheet" href="/style/style.css">
 
-  <meta name="generator" content="Hexo 4.2.0"></head>
-  <body>
-    <canvas id='pagemap'></canvas>
+    <link rel="canonical" href="https://Matthew-Han.github.io/page/4/">
+
+    <!-- Bootstrap Core CSS -->
     
-    <div id="fixed-menu-wrap">
-      <span class="iconfont icon-sousuo search-box menu-reset"></span>
-      <span class="icon-toc menu-reset">Toc</span>
-      <span class="iconfont icon-arrowup menu-reset"></span>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <div id="fixed-menu">
-      <span class="iconfont icon-menu-"></span>
-    </div>
-    <div id="progress">
-      <div class="line"></div>
-    </div>
-    <div id="search-shade" class="animated hiddenSearch hide">
-      <div class="input-wrap">
-        <span class="iconfont icon-sousuo search-box"></span>
-        <input type="text" placeholder="Search" />
-        <span class="iconfont icon-close"></span>
-      </div>
-      <div class="search-result">
-        <div class="meta">
-          <span><b id="result-count">0</b> results found</span>
-          <img src="/images/logo.jpeg" />
-        </div>
-        <ul id="result-box"></ul>
-      </div>
-    </div>
-    <div id="menu-mask" class="animated hideMenuMask hide">
-      <span class="iconfont icon-close"></span>
-      <div class="nav">
-        
-        <a href="/" class="">
-          首页
-        </a>
-        
-        <a href="/archives" class="">
-          归档
-        </a>
-        
-        <a href="/categories" class="">
-          分类
-        </a>
-        
-        <a href="/tags" class="">
-          标签
-        </a>
-        
-        <a href="/friends" class="">
-          友链
-        </a>
-        
-        <a href="/about" class="">
-          关于
-        </a>
-        
-      </div>
-    </div>
-    <div id="header">
-      <div class="intro">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <div class="author">Espada</div>
-      </div>
-      <div class="nav">
-        <span class="iconfont icon-menu menu-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-    </div>
-    <div id="side" class="animated bounceInLeft">
-      <div class="shrink">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <span class="iconfont icon-menu toggle-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-      <div class="magnify">
-        <div class="about">
-          <div class="author">Espada</div>
-          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
 
-        <div class="nav">
-          
-          <a href="/" class="">
-            首页
-          </a>
-          
-          <a href="/archives" class="">
-            归档
-          </a>
-          
-          <a href="/categories" class="">
-            分类
-          </a>
-          
-          <a href="/tags" class="">
-            标签
-          </a>
-          
-          <a href="/friends" class="">
-            友链
-          </a>
-          
-          <a href="/about" class="">
-            关于
-          </a>
-          
-          <a href="#" class="search-box">
-            <span class="iconfont icon-sousuo"></span>
-          </a>
-        </div>
-        <div class="bottom">
-          <div class="follow">
-            
-            <a href="https://github.com/Matthew-Han" target="_block">
-              <span class="iconfont icon-github"></span>
-            </a>
-            
-            <a href="https://twitter.com/_yuanmo_" target="_block">
-              <span class="iconfont icon-twitter"></span>
-            </a>
-            
-            <a href="https://www.instagram.com/yuanmo233" target="_block">
-              <span class="iconfont icon-instagram"></span>
-            </a>
-            
-            <a href="https://weibo.com/MatthewHan96" target="_block">
-              <span class="iconfont icon-weibo"></span>
-            </a>
-            
-            <a href="tencent://message/?uin=837204579" target="_block">
-              <span class="iconfont icon-QQ"></span>
-            </a>
-             
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="container">
-      <div class="main animated bounceInRight delay-0.7s">
-        
-<div class="posts">
-  <ul>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="bg">
-        <a
-          href="/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/"
-          class="photo"
-          title="2019.12.12"
-          style="background-image: url( https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/12.12/12.12.jpg/zip )"
-        ></a>
-      </div>
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/">2019.12.12</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/12/12</span>
-        </div>
-        
-        <div class="excerpt post-wrap">永远不会是真。</div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/点滴">点滴</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/生活">生活</a>
-                  
-                <a href="/tags/轨迹">轨迹</a>
-                  
-                <a href="/tags/日记">日记</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/6992a7a0-1bb9-11ea-8031-ab9a560f0cb3/">arthas应对线上生产环境</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/12/11</span>
-        </div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/6992a7a0-1bb9-11ea-8031-ab9a560f0cb3/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/6992a7a0-1bb9-11ea-8031-ab9a560f0cb3/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/6992a7a0-1bb9-11ea-8031-ab9a560f0cb3/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/237a2190-1258-11ea-a4fe-c7eac48cbd2c/">Redis搭配生产者消费者模型</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/11/29</span>
-        </div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/Java技术">Java技术</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/多线程">多线程</a>
-                  
-                <a href="/tags/消息">消息</a>
-                  
-                <a href="/tags/消息队列">消息队列</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/237a2190-1258-11ea-a4fe-c7eac48cbd2c/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/237a2190-1258-11ea-a4fe-c7eac48cbd2c/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/237a2190-1258-11ea-a4fe-c7eac48cbd2c/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="bg">
-        <a
-          href="/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/"
-          class="photo"
-          title="谜の生产力插件/工具推荐（一）"
-          style="background-image: url( https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/tool.jpg/zip )"
-        ></a>
-      </div>
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/">谜の生产力插件/工具推荐（一）</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/11/27</span>
-        </div>
-        
-        <div class="excerpt post-wrap"><blockquote>
-<p>可能会让你变得卡，反而降低了生产力。</p>
-</blockquote></div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/其他技术">其他技术</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/工具推荐">工具推荐</a>
-                  
-                <a href="/tags/生产力">生产力</a>
-                  
-                <a href="/tags/教程">教程</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/32c6b4c0-09e7-11ea-8010-7bbe2de22c19/">Windows平台Redis Cluster集群模式的坑</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/11/18</span>
-        </div>
-        
-        <div class="excerpt post-wrap"><blockquote>
-<p>更多的master♂来守护你</p>
-</blockquote></div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/中间件">中间件</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/redis">redis</a>
-                  
-                <a href="/tags/集群">集群</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/32c6b4c0-09e7-11ea-8010-7bbe2de22c19/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/32c6b4c0-09e7-11ea-8010-7bbe2de22c19/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/32c6b4c0-09e7-11ea-8010-7bbe2de22c19/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/67db7cc0-fea4-11e9-834c-4d127eed9f1a/">Shiro在跨域请求中会遇到的302重定向问题</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/11/04</span>
-        </div>
-        
-        <div class="excerpt post-wrap"><blockquote>
-<p>严格的老师</p>
-</blockquote></div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/Java技术">Java技术</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/Shiro">Shiro</a>
-                  
-                <a href="/tags/CORS">CORS</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/67db7cc0-fea4-11e9-834c-4d127eed9f1a/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/67db7cc0-fea4-11e9-834c-4d127eed9f1a/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/67db7cc0-fea4-11e9-834c-4d127eed9f1a/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="bg">
-        <a
-          href="/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/"
-          class="photo"
-          title="@CurrentUser注解新配方"
-          style="background-image: url( https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/CurrentUser/salt.jpg/zip )"
-        ></a>
-      </div>
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/">@CurrentUser注解新配方</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/10/29</span>
-        </div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/Java技术">Java技术</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/Spring">Spring</a>
-                  
-                <a href="/tags/CurrentUser">CurrentUser</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="bg">
-        <a
-          href="/post/ebad3220-f600-11e9-a320-89dae6093596/"
-          class="photo"
-          title="什么是领域模型？我们常用的贫血模型是否已经过时？"
-          style="background-image: url( https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B/%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B.png/zip )"
-        ></a>
-      </div>
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/ebad3220-f600-11e9-a320-89dae6093596/">什么是领域模型？我们常用的贫血模型是否已经过时？</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/10/24</span>
-        </div>
-        
-        <div class="excerpt post-wrap"><blockquote>
-<p><strong>本文转自<a href="https://zhuanlan.zhihu.com/p/32459776" target="_blank" rel="noopener">知乎</a>，作者：<a href="https://www.zhihu.com/org/mei-tuan-dian-ping-ji-shu-tuan-dui/activities" target="_blank" rel="noopener">美团技术团队</a></strong></p>
-</blockquote></div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/设计模式">设计模式</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/领域模型">领域模型</a>
-                  
-                <a href="/tags/DDD">DDD</a>
-                  
-                <a href="/tags/架构模式">架构模式</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/ebad3220-f600-11e9-a320-89dae6093596/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/ebad3220-f600-11e9-a320-89dae6093596/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/ebad3220-f600-11e9-a320-89dae6093596/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="bg">
-        <a
-          href="/post/43892940-eb34-11e9-8e01-011debd96741/"
-          class="photo"
-          title="《码出高效》系列笔记（三）：异常与日志"
-          style="background-image: url( https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/%E5%BC%82%E5%B8%B8%E4%B8%8E%E6%97%A5%E5%BF%97.png )"
-        ></a>
-      </div>
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/43892940-eb34-11e9-8e01-011debd96741/">《码出高效》系列笔记（三）：异常与日志</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/10/10</span>
-        </div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/Java技术">Java技术</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/笔记">笔记</a>
-                  
-                <a href="/tags/Easy Coding">Easy Coding</a>
-                  
-                <a href="/tags/异常">异常</a>
-                  
-                <a href="/tags/日志">日志</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/43892940-eb34-11e9-8e01-011debd96741/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/43892940-eb34-11e9-8e01-011debd96741/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/43892940-eb34-11e9-8e01-011debd96741/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-     
-
-    
-
-  <li class="item">
-
-      
-
-      
-      <div class="bg">
-        <a
-          href="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/"
-          class="photo"
-          title="2019.09.30"
-          style="background-image: url( https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/9.30/animal-close-up-cute-146290.jpg/zip )"
-        ></a>
-      </div>
-      
-      <div class="describe">
-        <div class="title">
-          <a href="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">2019.09.30</a>
-        </div>
-        <div class="date">
-          <span class="iconfont icon-time-circle"></span>
-          <span>19/09/30</span>
-        </div>
-        
-        <div class="excerpt post-wrap">永远不会是真。</div>
-        
-        <div class="meta">
-          <div class="l">
-            <div class="warp">
-              
-              <span class="iconfont icon-folder"></span>
-              <span class="desp">
-                 
-                <a href="/categories/点滴">点滴</a>
-                 
-              </span>
-              
-            </div>
-
-            
-            <div class="warp">
-              <span class="iconfont icon-tag1"></span>
-              <span class="desp">
-                 
-                <a href="/tags/生活">生活</a>
-                  
-                <a href="/tags/轨迹">轨迹</a>
-                  
-                <a href="/tags/日记">日记</a>
-                 
-              </span>
-            </div>
-            
-            <div class="warp">
-              <div class="share" data-url="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">
-                <span class="iconfont icon-share"></span>
-              </div>
-              <div class="desp share" data-url="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">
-                <a href="#">分享</a>
-              </div>
-            </div>
-          </div>
-          <div class="r">
-            <a href="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">Read More</a>
-          </div>
-        </div>
-      </div>
-    </li>
-    
-  </ul>
-</div>
-
-<div class="paginator">
-  <a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a>
-</div>
-
-        <footer>
-          <div class="copyright">
-            ©2020
-            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
-            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
-          </div>
-          
-        </footer>
-      </div>
-    </div>
-  </body>
-  
-</html>
-<script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
-                </script> <script type="text/javascript">window.addEventListener('load', function() {
-    
-    window.loadJs = function(d, m, a) {
-      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
-      var b = document.createElement('script')
-      b.defer = true
-      b.setAttribute('type', 'text/javascript')
-      b.setAttribute('charset', 'UTF-8')
-      b.setAttribute('async', 'true')
-      b.setAttribute('src', d)
-      m && b.setAttribute('data-main', '/scripts/app-built')
-      if (typeof a === 'function') {
-        if (window.attachEvent) {
-          b.onreadystatechange = function() {
-            var e = b.readyState
-            if (e === 'loaded' || e === 'complete') {
-              b.onreadystatechange = null
-              a()
-            }
-          }
-        } else {
-          b.onload = a
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
         }
-      }
-      c.appendChild(b)
     }
-    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
-  })</script> <script type="text/javascript">
-                  ;(function() {
-                    var bp = document.createElement('script')
-                    var curProtocol = window.location.protocol.split(':')[0]
-                    if (curProtocol === 'https') {
-                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
-                    } else {
-                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
-                    }
-                    var s = document.getElementsByTagName('script')[0]
-                    s.parentNode.insertBefore(bp, s)
-                  })()
-                </script> 
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Espada</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">一个极度理性的人</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/post/5ab83c90-1cea-11ea-8d2d-637e03d8f4d1/">
+        <h2 class="post-title">
+            2019.12.12
+        </h2>
+        <h3 class="post-subtitle">
+            单位食堂桌上的抽纸，从原来的3层换成了清风原木的200抽2层，这个冬天好像更冷了。
+        </h3>
+        <div class="post-content-preview">
+            
+  
+  
+    心态
+    
+  
+
+Incorrect Password!
+No content to display!
+
+U2FsdGVkX18wdp17yG0ujdkIhdTDhUHoz3mQbeFmKTEPMVWpj+q2w4ZozA/CzhTLefEgfuDqKT+xn9qjgZhGNEPfbrgEaAjipcHq8KIwUzzDS1cIWuGnvYCZEgq/LfNbnL......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-12-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/237a2190-1258-11ea-a4fe-c7eac48cbd2c/">
+        <h2 class="post-title">
+            Redis搭配生产者消费者模型
+        </h2>
+        <h3 class="post-subtitle">
+            Redis：👴说了👴只是缓存！
+        </h3>
+        <div class="post-content-preview">
+             前言
+Redis作为一款优秀的缓存中间件，人们总是寄予他新的厚望。其列表类型的阻塞操作可以实现消息队列。
+在场景中使用可以牢记以下口诀：
+
+
+lpush + lpop = Stack(栈)
+
+
+lpush + rpop = Queue(队列)
+
+
+lpsh + ltrim = Capped Collection(有限集合)
+
+
+lpush + brpop = Message Queue(消......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-11-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/c875c320-10b4-11ea-b56b-c33ebe3aaf5c/">
+        <h2 class="post-title">
+            谜の生产力插件/工具推荐（一）
+        </h2>
+        <h3 class="post-subtitle">
+            可能会让你变得卡，反而降低了生产力。
+        </h3>
+        <div class="post-content-preview">
+             说明
+以下推荐的工具都是个人挖掘和网友介绍得来，相对于程序开发者来说较为友好。
+ Chrome插件相关
+
+过多的插件会影响使用体验。
+
+ Octotree
+过去我们在GayHub上预览代码时，常常需要不停地前进下一页和回退上一页操作来更全面的获取想要的信息。虽然GayHub有着不错的搜索功能，但是对于一个陌生的项目来说，它的结构没有很清晰直观地展示出来，我们无法快速定位到任何一处来浏览我们......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-11-27
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/32c6b4c0-09e7-11ea-8010-7bbe2de22c19/">
+        <h2 class="post-title">
+            Windows平台Redis Cluster集群模式的坑
+        </h2>
+        <h3 class="post-subtitle">
+            更多的master♂来守护你
+        </h3>
+        <div class="post-content-preview">
+             前言
+在一台迷のWindows机器上搭建了一个单节点模拟的三主三从redis集群，过程中有一些坑记录下。
+ cluster模式
+Redis的Cluster模式工作至少需要三个主节点，所以一般采用三主三从实现负载。
+较理想的环境是一个实例单节点部署主从，多个实例实现集群。
+
+由于Redis Cluster采用哈希分区规则，哈希分区一般有以下几种方式：
+
+节点取余分区
+一致性哈希分区
+虚拟槽分......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-11-18
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/67db7cc0-fea4-11e9-834c-4d127eed9f1a/">
+        <h2 class="post-title">
+            Shiro在跨域请求中会遇到的302重定向问题
+        </h2>
+        <h3 class="post-subtitle">
+            太严格了呀，CORS老师。
+        </h3>
+        <div class="post-content-preview">
+             背景
+这边要开发一套带有权限认证的平台，懒得自己写拦截器，于是还是打算利用Shiro安全框架，由于采用的还是Cookie-Session那老一套，并没有封装成token暂时也不用考虑集群多实例共享session的问题，所以其实前端的每次请求报文都是需要携带cookie的，cookie里面的jsessionid就是验证对应服务端中的session-data能否匹配。但是这次联调处理并不顺利，......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-11-04
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/592e1c90-fa2c-11e9-9168-d51acd3a11fc/">
+        <h2 class="post-title">
+            @CurrentUser注解新配方
+        </h2>
+        <h3 class="post-subtitle">
+            今天办公室有点冷
+        </h3>
+        <div class="post-content-preview">
+             背景
+自定义@CurrentUser注解想实现当前已登录的用户对象在各层之间进行数据交互，在简书上有一篇比较出名的解决方法：通过自定义@CurrentUser获取当前登录用户
+但是在安全框架Shiro中，通过webRequest.getAttribute(&quot;currentUser&quot;, RequestAttributes.SCOPE_REQUEST)却并不可行，👴也不⑧......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-10-29
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/ebad3220-f600-11e9-a320-89dae6093596/">
+        <h2 class="post-title">
+            什么是领域模型？我们常用的贫血模型是否已经过时？
+        </h2>
+        <h3 class="post-subtitle">
+            Dao==>Service/Manager==>Web，这是对应贫血领域模型的典型架构，当初因为降低了Java的门槛而发扬光大，之后因为暴漏的各种Hell而被批成了Shit。
+        </h3>
+        <div class="post-content-preview">
+            
+本文转自知乎，作者：美团技术团队
+
+ 前言
+至少30年以前，一些软件设计人员就已经意识到领域建模和设计的重要性，并形成一种思潮，Eric Evans将其定义为领域驱动设计（Domain-Driven Design，简称DDD）。在互联网开发“小步快跑，迭代试错”的大环境下，DDD似乎是一种比较“古老而缓慢”的思想。然而，由于互联网公司也逐渐深入实体经济，业务日益复杂，我们在开发中也越来越多......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by 美团技术团队 on
+        2019-10-24
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/43892940-eb34-11e9-8e01-011debd96741/">
+        <h2 class="post-title">
+            《码出高效》系列笔记（三）：异常与日志
+        </h2>
+        <h3 class="post-subtitle">
+            向代码致敬，寻找你的第[83]行。
+        </h3>
+        <div class="post-content-preview">
+            
+良好的编码风格和完善统一的规约是最高效的方式。
+
+ 前言
+本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第三篇章：异常与日志篇。
+本系列目录：
+
+《码出高效》系列笔记（一）：面向对象中的类
+《码出高效》系列笔记（一）：面向对象中的方法
+《码出高效》系列笔记（一）：面向对象中的其他知识点
+《码出高效》系列笔记（二）：代码风格
+《码出高效》系列笔记（三）：异常与日志
+......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-10-10
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">
+        <h2 class="post-title">
+            2019.09.30
+        </h2>
+        <h3 class="post-subtitle">
+            2019.09.30
+        </h3>
+        <div class="post-content-preview">
+            
+  
+  
+    等待
+    
+  
+
+Incorrect Password!
+No content to display!
+
+U2FsdGVkX1+iTyLosYneB6aPrWIgdPIOe7WXfEM2XQ7++SCZKN2uadL5NFLZtWV3PueadKUl/Lm7tcKp/4esyVctoDeNQKtUdebu43wZBlQpnszN1IJXBNUQ/n2DeSsim0......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-09-30
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/3f573050-d915-11e9-9d5e-538baaf5d924/">
+        <h2 class="post-title">
+            D区
+        </h2>
+        <h3 class="post-subtitle">
+            D区
+        </h3>
+        <div class="post-content-preview">
+            
+那些老师也挺不容易的…
+
+ 1
+“我上次是不得已啊...”
+“我是不要再做这个胃镜了。”
+…
+“好像大家都很怕这个胃镜啊...”我刨了两口饭。
+当晚，胃灼、不适愈发明显。
+手术台、注射剂、胃癌细胞一幕幕浮现我的眼前。
+
+晚饭时刚聊完这个话题，就轮到我了吗？
+
+其实胃镜我很早就想做了，从小到大一直很瘦。小时候营养科去诊查过，微量元素也检测过并未发现有什么异常，只能默默归咎于体质和饮食。果然是......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-09-17
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/page/3/">&larr; Newer Posts</a>
+        </li>
+    
+    
+        <li class="next">
+            <a href="/page/5/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                            <a href="/tags/#生活" title="生活" rel="5">生活</a>
+                            
+                        
+                            
+                            <a href="/tags/#轨迹" title="轨迹" rel="7">轨迹</a>
+                            
+                        
+                            
+                            <a href="/tags/#日记" title="日记" rel="5">日记</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#数据结构" title="数据结构" rel="16">数据结构</a>
+                            
+                        
+                            
+                            <a href="/tags/#算法" title="算法" rel="13">算法</a>
+                            
+                        
+                            
+                            <a href="/tags/#数组" title="数组" rel="5">数组</a>
+                            
+                        
+                            
+                            <a href="/tags/#栈" title="栈" rel="4">栈</a>
+                            
+                        
+                            
+                            <a href="/tags/#stack" title="stack" rel="4">stack</a>
+                            
+                        
+                            
+                            <a href="/tags/#leetcode" title="leetcode" rel="12">leetcode</a>
+                            
+                        
+                            
+                            <a href="/tags/#队列" title="队列" rel="2">队列</a>
+                            
+                        
+                            
+                            <a href="/tags/#二分法" title="二分法" rel="2">二分法</a>
+                            
+                        
+                            
+                            <a href="/tags/#二叉搜索树" title="二叉搜索树" rel="2">二叉搜索树</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#深度优先搜索" title="深度优先搜索" rel="2">深度优先搜索</a>
+                            
+                        
+                            
+                            <a href="/tags/#广度优先搜索" title="广度优先搜索" rel="2">广度优先搜索</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#笔记" title="笔记" rel="9">笔记</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#Shiro" title="Shiro" rel="3">Shiro</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#集合" title="集合" rel="3">集合</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#Easy Coding" title="Easy Coding" rel="8">Easy Coding</a>
+                            
+                        
+                            
+                            <a href="/tags/#面向对象" title="面向对象" rel="3">面向对象</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#职业" title="职业" rel="2">职业</a>
+                            
+                        
+                            
+                            <a href="/tags/#职场" title="职场" rel="2">职场</a>
+                            
+                        
+                            
+                            <a href="/tags/#多线程" title="多线程" rel="3">多线程</a>
+                            
+                        
+                            
+                            <a href="/tags/#并发" title="并发" rel="2">并发</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#JVM" title="JVM" rel="3">JVM</a>
+                            
+                        
+                            
+                            <a href="/tags/#Java" title="Java" rel="3">Java</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#泛型" title="泛型" rel="2">泛型</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#设计模式" title="设计模式" rel="3">设计模式</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="/img/avatar.jpeg" />
+                        
+
+                        
+                            <p>你现在做的每一步，都是为了去接近你期望的未来。</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://twitter.com/_yuanmo_">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="http://weibo.com/matthewhan96">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank"  href="https://github.com/Matthew-Han">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="http://jerryc.me/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    Ported by Kaijun
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Build by 元末
+                    <!--iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

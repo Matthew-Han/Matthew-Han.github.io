@@ -1,236 +1,204 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <script>
-  var _hmt = _hmt || []
-  ;(function() {
-    var hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
-    var s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-</script> 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="极度理性，爱憎分明" />
-    
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="极度理性，爱憎分明">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <title>
-      张小龙的微信公开课 - Espada
+        
+          张小龙的微信公开课 - Espada
+        
     </title>
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/">
+
+    <!-- Bootstrap Core CSS -->
     
-<link rel="stylesheet" href="/style/style.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 
-  </head>
-  <body>
-    <canvas id='pagemap'></canvas>
+
+    <!-- Custom CSS -->
     
-    <div id="post-toc" class="animated hiddenToc hide">
-      <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#公开课的内容"><span class="toc-text"> 公开课的内容</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#个人的看法"><span class="toc-text"> 个人的看法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#公开课中思考"><span class="toc-text"> 公开课中思考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#公开课视频"><span class="toc-text"> 公开课视频</span></a></li></ol>
-    </div>
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
     
-    <div id="fixed-menu-wrap">
-      <span class="iconfont icon-sousuo search-box menu-reset"></span>
-      <span class="icon-toc menu-reset">Toc</span>
-      <span class="iconfont icon-arrowup menu-reset"></span>
-    </div>
-    <div id="fixed-menu">
-      <span class="iconfont icon-menu-"></span>
-    </div>
-    <div id="progress">
-      <div class="line"></div>
-    </div>
-    <div id="search-shade" class="animated hiddenSearch hide">
-      <div class="input-wrap">
-        <span class="iconfont icon-sousuo search-box"></span>
-        <input type="text" placeholder="Search" />
-        <span class="iconfont icon-close"></span>
-      </div>
-      <div class="search-result">
-        <div class="meta">
-          <span><b id="result-count">0</b> results found</span>
-          <img src="/images/logo.jpeg" />
-        </div>
-        <ul id="result-box"></ul>
-      </div>
-    </div>
-    <div id="menu-mask" class="animated hideMenuMask hide">
-      <span class="iconfont icon-close"></span>
-      <div class="nav">
-        
-        <a href="/" class="">
-          首页
-        </a>
-        
-        <a href="/archives" class="">
-          归档
-        </a>
-        
-        <a href="/categories" class="">
-          分类
-        </a>
-        
-        <a href="/tags" class="">
-          标签
-        </a>
-        
-        <a href="/friends" class="">
-          友链
-        </a>
-        
-        <a href="/about" class="">
-          关于
-        </a>
-        
-      </div>
-    </div>
-    <div id="header">
-      <div class="intro">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <div class="author">Espada</div>
-      </div>
-      <div class="nav">
-        <span class="iconfont icon-menu menu-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-    </div>
-    <div id="side" class="animated bounceInLeft">
-      <div class="shrink">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <span class="iconfont icon-menu toggle-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-      <div class="magnify">
-        <div class="about">
-          <div class="author">Espada</div>
-          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
         </div>
 
-        <div class="nav">
-          
-          <a href="/" class="">
-            首页
-          </a>
-          
-          <a href="/archives" class="">
-            归档
-          </a>
-          
-          <a href="/categories" class="">
-            分类
-          </a>
-          
-          <a href="/tags" class="">
-            标签
-          </a>
-          
-          <a href="/friends" class="">
-            友链
-          </a>
-          
-          <a href="/about" class="">
-            关于
-          </a>
-          
-          <a href="#" class="search-box">
-            <span class="iconfont icon-sousuo"></span>
-          </a>
-        </div>
-        <div class="bottom">
-          <div class="follow">
-            
-            <a href="https://github.com/Matthew-Han" target="_block">
-              <span class="iconfont icon-github"></span>
-            </a>
-            
-            <a href="https://twitter.com/_yuanmo_" target="_block">
-              <span class="iconfont icon-twitter"></span>
-            </a>
-            
-            <a href="https://www.instagram.com/yuanmo233" target="_block">
-              <span class="iconfont icon-instagram"></span>
-            </a>
-            
-            <a href="https://weibo.com/MatthewHan96" target="_block">
-              <span class="iconfont icon-weibo"></span>
-            </a>
-            
-            <a href="tencent://message/?uin=837204579" target="_block">
-              <span class="iconfont icon-QQ"></span>
-            </a>
-             
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="container">
-      <div class="main animated bounceInRight delay-0.7s">
-        <article class="post-entry">
-    <div class="header">
-      
-      <div class="title">张小龙的微信公开课</div>
-      <div class="meta">
-        <span class="item">
-          <span class="iconfont icon-time-circle"></span>
-          <span>2020/01/09</span>
-        </span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
 
-        
-          <span class="item leancloud-visitors" id="/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/" data-flag-title="张小龙的微信公开课">
-            <span class="iconfont icon-eye1"></span>
-            <span class="leancloud-visitors-count"></span>
-          </span>
-        
+                    
 
-         
-        <span class="item">
-          <span class="iconfont icon-folder"></span>
-          <span>
-              
-                
-                  <a href="/categories/点滴">点滴</a>
-                
-              
-          </span>
-        </span>
-        
-        
-         
-          <span class="item">
-            <span class="iconfont icon-tag1"></span>
-            <span>
-                
-                  
-                    <a href="/tags/张小龙">张小龙</a>
-                  
-                
-                  
-                    <a href="/tags/公开课">公开课</a>
-                  
-                
-                  
-                    <a href="/tags/微信">微信</a>
-                  
-                
-            </span>
-          </span>
-         
-      </div>
-      <div>
-      </div>
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><blockquote>
-<p>当初我只是想点亮QQ个人资料卡上的微信图标</p>
-</blockquote>
-<a id="more"></a>
-<h1 id="公开课的内容"><a class="markdownIt-Anchor" href="#公开课的内容"></a> 公开课的内容<a class="post-anchor" href="#公开课的内容"></a></h1>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/wechat/wechat.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#张小龙" title="张小龙">张小龙</a>
+                        
+                          <a class="tag" href="/tags/#公开课" title="公开课">公开课</a>
+                        
+                          <a class="tag" href="/tags/#微信" title="微信">微信</a>
+                        
+                    </div>
+                    <h1>张小龙的微信公开课</h1>
+                    <h2 class="subheading">当初我只是想点亮QQ个人资料卡上的微信图标</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2020-01-09
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="公开课的内容"><a class="markdownIt-Anchor" href="#公开课的内容"></a> 公开课的内容</h1>
 <blockquote>
 <p>张小龙的演讲内容个人概括（怎么感觉像和领导开会记笔记一样。。）</p>
 </blockquote>
@@ -251,7 +219,7 @@
 <li>朋友圈之所以默认是发照片视频的，是因为当时的认识是，让十几亿人发文字是不容易的，但是发照片是每个人都可以做到的。</li>
 <li>新版本的小预告：微信的发力方向是指是短内容为主，近期可能会与大家见面；由于春节到来，红包上也有了新的创造，希望你能够发挥创造力。</li>
 </ol>
-<h1 id="个人的看法"><a class="markdownIt-Anchor" href="#个人的看法"></a> 个人的看法<a class="post-anchor" href="#个人的看法"></a></h1>
+<h1 id="个人的看法"><a class="markdownIt-Anchor" href="#个人的看法"></a> 个人的看法</h1>
 <p>很多人不懂为什么有了QQ，为什么还会诞生出微信，感觉两者完全是重合冗余的。很多曾经将QQ作为主力信息交流工具的人来说，可能微信放在今天在他们眼里依然不算是一个「好用」的产品：</p>
 <ul>
 <li>朋友圈只能看共同好友的评论</li>
@@ -260,13 +228,13 @@
 <li>QQ空间的保留的那份感动…</li>
 </ul>
 <p>看起来好像就是微信的内容丰富度不如QQ及其衍生品，但事实上果真如此吗？仅是一个「公众号」便开辟出了一种新的模式，它的诞生是在4G普及、移动互联网爆发的前两年，虽然之初具有一定门槛和复杂度，但是给了很多有想法、想表达的人一个渠道，所拓展出来的业务繁荣程度是令人难以想象的。包括后面的「小程序」，在公开课中张小龙也叙述到移动互联网的背景下，微信作为载体的「小程序」之间的信息数据交流的会更加无碍且高效，海量数据更好地用于服务用户。</p>
-<h2 id="公开课中思考"><a class="markdownIt-Anchor" href="#公开课中思考"></a> 公开课中思考<a class="post-anchor" href="#公开课中思考"></a></h2>
+<h2 id="公开课中思考"><a class="markdownIt-Anchor" href="#公开课中思考"></a> 公开课中思考</h2>
 <ul>
 <li>
 <p><strong>第一点：</strong> 服务商利用隐私虽然会带来更高效、更精准的服务，但就像一把双刃剑同时也会带来隐私泄露、垃圾营销等问题。而如今天网系统、各种人脸智能化识别、数据流通的当代社会，个人的隐私空间已经压缩到了最小。解决这一类问题，其实和一个「度」有关。需要保证海量数据哪一部分数据只能被谁利用，哪一部分只能生产在什么领域，是一个需要多领域一起长期摸索的过程。</p>
 </li>
 <li>
-<p><strong>第二点：</strong> 尤其是在移动互联网的今天，虽然互联网上的信息唾手可得，但是有相当一部分流量是被动获取的，供应商根据你的浏览记录、兴趣点、标签、行为操作等等属性来编织一张属于你的用户画像，为了尽可能的保证你在他们的服务上多「逗留」一会儿，为你推送的内容往往是算法+人气、热度精心筛选的。有些人说这是一种不好的模式，因为它不但局限你的思维，让你无法从其他的切入点切入，而且还会恶性循环，需要我们自身打破这种被动获取的方式，尽可能地主动地搜寻探索我们感兴趣的领域。我无法完全赞同这种观点，首先未免小看或者说不了解该推送算法。这类算法应用不仅仅是简单的只会推送给用户感兴趣的东西，它背后的处理逻辑是极其复杂且繁琐的，这种类似人工智能的应用会不断试探你，不停的修正、重构一个真正的你，即使你在YouTube、Bilibili这些视频网站上只看<font color="red">游戏</font>视频，<strong>suggest to you</strong>也绝不会蠢到单纯的以为你只是一个狂热到生命中只有<font color="red">游戏</font>的玩家。人们都应该有自己独立思考的能力和主观能动性，不要轻易的被煽动和相信，理性中夹杂着辩证的思维去分析事物，会让这个世界更美好:)</p>
+<p><strong>第二点：</strong> 尤其是在移动互联网的今天，虽然互联网上的信息唾手可得，但是有相当一部分流量是被动获取的，供应商根据你的浏览记录、兴趣点、标签、行为操作等等属性来编织一张属于你的用户画像，为了尽可能的保证你在他们的服务上多「逗留」一会儿，为你推送的内容往往是算法+人气、热度精心筛选的。有些人说这是一种不好的模式，因为它不但局限你的思维，让你无法从其他的切入点切入，而且还会恶性循环，需要我们自身打破这种被动获取的方式，尽可能地主动地搜寻探索我们感兴趣的领域。我无法完全赞同这种观点，首先未免小看或者说不了解该推送算法。这类算法应用不仅仅是简单的只会推送给用户感兴趣的东西，它背后的处理逻辑是极其复杂且繁琐的，这种类似人工智能的应用会不断试探你，不停的修正、重构一个真正的你，即使你在YouTube、Bilibili这些视频网站上只看<font color = red>游戏</font>视频，<strong>suggest to you</strong>也绝不会蠢到单纯的以为你只是一个狂热到生命中只有<font color = red>游戏</font>的玩家。人们都应该有自己独立思考的能力和主观能动性，不要轻易的被煽动和相信，理性中夹杂着辩证的思维去分析事物，会让这个世界更美好:)</p>
 </li>
 <li>
 <p><strong>第三点：</strong> 「附近的人」刚上线时，张小龙有着隐隐的不安，觉得打破了和附近的人的界限，可能会引发一系列的问题。当然可能有些人已经尝试或成功把这一功能当做约*来用。扩大5000个好友数目限定同样也会让张小龙感到担忧，说实话我比较好奇这个的上限<strong>5000</strong>数字到底是如何定下来的，好友数目的增长会带来哪些不可控的影响？好友位的增多提高了不法分子的效率，一个账号的能力得到了提升，节省了多账号的成本；「对不起，好友满了，加不了了。」变得难以说出口了（笑</p>
@@ -293,110 +261,326 @@
 </ul>
 </li>
 </ul>
-<h1 id="公开课视频"><a class="markdownIt-Anchor" href="#公开课视频"></a> 公开课视频<a class="post-anchor" href="#公开课视频"></a></h1>
+<h1 id="公开课视频"><a class="markdownIt-Anchor" href="#公开课视频"></a> 公开课视频</h1>
 <iframe width="100%" height="600" src="//player.bilibili.com/player.html?aid=82658881&cid=141426489&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-</body></html>
 
-  
-    <div class="post-reward">
-    <div id="reward-button">龙鸣</div>
-      <div id="qr">
-        <div class="wrap">
-            
-            
-            <div class="bg-wrap">
-                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
-              "老罗"
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/24ffa600-367c-11ea-ba8c-fb7580846ffa/" data-toggle="tooltip" data-placement="top" title="多线程之竞争与锁">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/bce6bdb0-278a-11ea-9afb-77b212895fb9/" data-toggle="tooltip" data-placement="top" title="Mybatis 多对多映射的小问题">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
             </div>
-            
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#张小龙" title="张小龙">张小龙</a>
+                        
+                          <a class="tag" href="/tags/#公开课" title="公开课">公开课</a>
+                        
+                          <a class="tag" href="/tags/#微信" title="微信">微信</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="http://jerryc.me/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
         </div>
-      </div>
     </div>
-  
-  <div class="post-guide">
-    <div class="item left">
-        
-          <a href="/post/24ffa600-367c-11ea-ba8c-fb7580846ffa/">多线程之竞争与锁</a>
-        
-    </div>
-    <div class="item right">
-        
-          <a href="/post/bce6bdb0-278a-11ea-9afb-77b212895fb9/">Mybatis 多对多映射的小问题</a>
-        
-    </div>
-  </div>
-
-  
-
-  <div class="post-copyright">
-    <div class="auth">
-      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
-    </div>
-    <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/">https://Matthew-Han.github.io/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/</a>
-    </div>
-    <div class="declare">
-      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
-    </div>
-  </div>
-
-  <div id="comment"></div>
-
-  
-  
 </article>
-        <footer>
-          <div class="copyright">
-            ©2020
-            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
-            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
-          </div>
-          
-        </footer>
-      </div>
-    </div>
-  </body>
-  
-</html>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
-                </script> <script type="text/javascript">window.addEventListener('load', function() {
-    
-    window.loadJs = function(d, m, a) {
-      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
-      var b = document.createElement('script')
-      b.defer = true
-      b.setAttribute('type', 'text/javascript')
-      b.setAttribute('charset', 'UTF-8')
-      b.setAttribute('async', 'true')
-      b.setAttribute('src', d)
-      m && b.setAttribute('data-main', '/scripts/app-built')
-      if (typeof a === 'function') {
-        if (window.attachEvent) {
-          b.onreadystatechange = function() {
-            var e = b.readyState
-            if (e === 'loaded' || e === 'complete') {
-              b.onreadystatechange = null
-              a()
-            }
-          }
-        } else {
-          b.onload = a
-        }
-      }
-      c.appendChild(b)
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/";
+    var disqus_url = "https://matthew-han.github.io/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
     }
-    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
-  })</script> <script type="text/javascript">
-                  ;(function() {
-                    var bp = document.createElement('script')
-                    var curProtocol = window.location.protocol.split(':')[0]
-                    if (curProtocol === 'https') {
-                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
-                    } else {
-                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
-                    }
-                    var s = document.getElementsByTagName('script')[0]
-                    s.parentNode.insertBefore(bp, s)
-                  })()
-                </script> 
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    Ported by Kaijun
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Build by 元末
+                    <!--iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,232 +1,204 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <script>
-  var _hmt = _hmt || []
-  ;(function() {
-    var hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
-    var s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-</script> 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="极度理性，爱憎分明" />
-    
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="极度理性，爱憎分明">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <title>
-      走进JVM之GC - Espada
+        
+          走进JVM之GC - Espada
+        
     </title>
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">
+
+    <!-- Bootstrap Core CSS -->
     
-<link rel="stylesheet" href="/style/style.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 
-  </head>
-  <body>
-    <canvas id='pagemap'></canvas>
+
+    <!-- Custom CSS -->
     
-    <div id="post-toc" class="animated hiddenToc hide">
-      <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gc知识点"><span class="toc-text"> GC知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#判断一个对象是否可以回收"><span class="toc-text"> 判断一个对象是否可以回收</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-引用计数法"><span class="toc-text"> 1. 引用计数法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-gc-root可达性算法"><span class="toc-text"> 2. GC root（可达性算法）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾回收算法"><span class="toc-text"> 垃圾回收算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1标记-清除算法"><span class="toc-text"> 1.标记 - 清除算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2标记-整理算法压缩算法"><span class="toc-text"> 2.标记 - 整理算法（压缩算法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3复制算法"><span class="toc-text"> 3.复制算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4分代收集算法"><span class="toc-text"> 4.分代收集算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5总结-内存"><span class="toc-text"> 5.总结   </span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集器"><span class="toc-text"> 垃圾收集器</span></a></li></ol></li></ol>
-    </div>
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
     
-    <div id="fixed-menu-wrap">
-      <span class="iconfont icon-sousuo search-box menu-reset"></span>
-      <span class="icon-toc menu-reset">Toc</span>
-      <span class="iconfont icon-arrowup menu-reset"></span>
-    </div>
-    <div id="fixed-menu">
-      <span class="iconfont icon-menu-"></span>
-    </div>
-    <div id="progress">
-      <div class="line"></div>
-    </div>
-    <div id="search-shade" class="animated hiddenSearch hide">
-      <div class="input-wrap">
-        <span class="iconfont icon-sousuo search-box"></span>
-        <input type="text" placeholder="Search" />
-        <span class="iconfont icon-close"></span>
-      </div>
-      <div class="search-result">
-        <div class="meta">
-          <span><b id="result-count">0</b> results found</span>
-          <img src="/images/logo.jpeg" />
-        </div>
-        <ul id="result-box"></ul>
-      </div>
-    </div>
-    <div id="menu-mask" class="animated hideMenuMask hide">
-      <span class="iconfont icon-close"></span>
-      <div class="nav">
-        
-        <a href="/" class="">
-          首页
-        </a>
-        
-        <a href="/archives" class="">
-          归档
-        </a>
-        
-        <a href="/categories" class="">
-          分类
-        </a>
-        
-        <a href="/tags" class="">
-          标签
-        </a>
-        
-        <a href="/friends" class="">
-          友链
-        </a>
-        
-        <a href="/about" class="">
-          关于
-        </a>
-        
-      </div>
-    </div>
-    <div id="header">
-      <div class="intro">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <div class="author">Espada</div>
-      </div>
-      <div class="nav">
-        <span class="iconfont icon-menu menu-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-    </div>
-    <div id="side" class="animated bounceInLeft">
-      <div class="shrink">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <span class="iconfont icon-menu toggle-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-      <div class="magnify">
-        <div class="about">
-          <div class="author">Espada</div>
-          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
         </div>
 
-        <div class="nav">
-          
-          <a href="/" class="">
-            首页
-          </a>
-          
-          <a href="/archives" class="">
-            归档
-          </a>
-          
-          <a href="/categories" class="">
-            分类
-          </a>
-          
-          <a href="/tags" class="">
-            标签
-          </a>
-          
-          <a href="/friends" class="">
-            友链
-          </a>
-          
-          <a href="/about" class="">
-            关于
-          </a>
-          
-          <a href="#" class="search-box">
-            <span class="iconfont icon-sousuo"></span>
-          </a>
-        </div>
-        <div class="bottom">
-          <div class="follow">
-            
-            <a href="https://github.com/Matthew-Han" target="_block">
-              <span class="iconfont icon-github"></span>
-            </a>
-            
-            <a href="https://twitter.com/_yuanmo_" target="_block">
-              <span class="iconfont icon-twitter"></span>
-            </a>
-            
-            <a href="https://www.instagram.com/yuanmo233" target="_block">
-              <span class="iconfont icon-instagram"></span>
-            </a>
-            
-            <a href="https://weibo.com/MatthewHan96" target="_block">
-              <span class="iconfont icon-weibo"></span>
-            </a>
-            
-            <a href="tencent://message/?uin=837204579" target="_block">
-              <span class="iconfont icon-QQ"></span>
-            </a>
-             
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="container">
-      <div class="main animated bounceInRight delay-0.7s">
-        <article class="post-entry">
-    <div class="header">
-      
-      <div class="title">走进JVM之GC</div>
-      <div class="meta">
-        <span class="item">
-          <span class="iconfont icon-time-circle"></span>
-          <span>2020/09/22</span>
-        </span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
 
-        
-          <span class="item leancloud-visitors" id="/post/bd0fa690-fcae-11ea-897f-29deed537cb3/" data-flag-title="走进JVM之GC">
-            <span class="iconfont icon-eye1"></span>
-            <span class="leancloud-visitors-count"></span>
-          </span>
-        
+                    
 
-         
-        <span class="item">
-          <span class="iconfont icon-folder"></span>
-          <span>
-              
-                
-                  <a href="/categories/Java技术">Java技术</a>
-                
-              
-          </span>
-        </span>
-        
-        
-         
-          <span class="item">
-            <span class="iconfont icon-tag1"></span>
-            <span>
-                
-                  
-                    <a href="/tags/JVM">JVM</a>
-                  
-                
-                  
-                    <a href="/tags/Java">Java</a>
-                  
-                
-                  
-                    <a href="/tags/GC">GC</a>
-                  
-                
-            </span>
-          </span>
-         
-      </div>
-      <div>
-      </div>
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><ul>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
+                        
+                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                          <a class="tag" href="/tags/#GC" title="GC">GC</a>
+                        
+                    </div>
+                    <h1>走进JVM之GC</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2020-09-22
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><ul>
 <li><a href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/" target="_blank" rel="noopener">《码出高效》系列笔记（一）：面向对象中的类</a></li>
 <li><a href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/" target="_blank" rel="noopener">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
 <li><a href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/" target="_blank" rel="noopener">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
@@ -239,22 +211,22 @@
 <li><a href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/" target="_blank" rel="noopener">走进JVM之字节码与类加载</a></li>
 <li><a href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/" target="_blank" rel="noopener">走进JVM之GC</a></li>
 </ul>
-<h1 id="gc知识点"><a class="markdownIt-Anchor" href="#gc知识点"></a> GC知识点<a class="post-anchor" href="#gc知识点"></a></h1>
+<h1 id="gc知识点"><a class="markdownIt-Anchor" href="#gc知识点"></a> GC知识点</h1>
 <p>主要分三个部分：</p>
 <ol>
 <li>如何判断该对象要回收（是垃圾）</li>
 <li>回收的算法有哪些？</li>
 <li>垃圾收集器</li>
 </ol>
-<h2 id="判断一个对象是否可以回收"><a class="markdownIt-Anchor" href="#判断一个对象是否可以回收"></a> 判断一个对象是否可以回收<a class="post-anchor" href="#判断一个对象是否可以回收"></a></h2>
-<h3 id="1-引用计数法"><a class="markdownIt-Anchor" href="#1-引用计数法"></a> 1. 引用计数法<a class="post-anchor" href="#1-引用计数法"></a></h3>
+<h2 id="判断一个对象是否可以回收"><a class="markdownIt-Anchor" href="#判断一个对象是否可以回收"></a> 判断一个对象是否可以回收</h2>
+<h3 id="1-引用计数法"><a class="markdownIt-Anchor" href="#1-引用计数法"></a> 1. 引用计数法</h3>
 <blockquote>
 <p>Python采用该种算法，但是解决了相互引用的问题</p>
 </blockquote>
 <p>为对象添加一个引用计数器，当对象增加一个引用时计数器加 1，引用失效时计数器减 1。引用计数为 0 的对象可被回收。</p>
 <p>在两个对象出现循环引用的情况下，此时引用计数器永远不为 0，导致无法对它们进行回收。正是因为循环引用的存在，因此 Java 虚拟机不使用引用计数算法。</p>
-<h3 id="2-gc-root可达性算法"><a class="markdownIt-Anchor" href="#2-gc-root可达性算法"></a> 2. GC root（可达性算法）<a class="post-anchor" href="#2-gc-root可达性算法"></a></h3>
-<p><a href="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/83d909d2-3858-4fe1-8ff4-16471db0b180.png" target="_blank" rel="noopener" data-caption="gc root" data-fancybox="images"><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/83d909d2-3858-4fe1-8ff4-16471db0b180.png" alt="gc root"></a></p>
+<h3 id="2-gc-root可达性算法"><a class="markdownIt-Anchor" href="#2-gc-root可达性算法"></a> 2. GC root（可达性算法）</h3>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/83d909d2-3858-4fe1-8ff4-16471db0b180.png" alt="gc root" /></p>
 <p>从GCroot出发遍历，标记每个可访达的对象为活动对象，遍历不到的对象（Obj4）就会被接下来要讲的几种算法回收了。</p>
 <p><strong>GC root可以是以下几种：</strong></p>
 <ul>
@@ -269,42 +241,42 @@
 <p>误报和漏报的理解：误报大不了不回收嘛，漏报比较严重。垃圾回收是先标记活的对象，后回收死的对象，那么如果标记好后，其它线程产生了垃圾，即将活的变死了，这种内存是不会释放的。另外，如果这时产生了新对象，由于没被标记为活的，所以被释放了，这就危险了。</p>
 <p><strong>Q：如何解决？（实际JVM虚拟机并不会出现这种情况）</strong></p>
 <p><strong>A：Stop-the-world 以及安全点（安全词），垃圾回收线程工作时，其他非垃圾回收线程一律等待！</strong></p>
-<h2 id="垃圾回收算法"><a class="markdownIt-Anchor" href="#垃圾回收算法"></a> 垃圾回收算法<a class="post-anchor" href="#垃圾回收算法"></a></h2>
-<h3 id="1标记-清除算法"><a class="markdownIt-Anchor" href="#1标记-清除算法"></a> 1.标记 - 清除算法<a class="post-anchor" href="#1标记-清除算法"></a></h3>
+<h2 id="垃圾回收算法"><a class="markdownIt-Anchor" href="#垃圾回收算法"></a> 垃圾回收算法</h2>
+<h3 id="1标记-清除算法"><a class="markdownIt-Anchor" href="#1标记-清除算法"></a> 1.标记 - 清除算法</h3>
 <p>利用GC root遍历到的标记（非垃圾），那么其余的就是垃圾了，<strong>直接把剩下的对象标记为空闲内存</strong>。</p>
-<p><a href="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/005b481b-502b-4e3f-985d-d043c2b330aa.png" target="_blank" rel="noopener" data-caption="清除" data-fancybox="images"><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/005b481b-502b-4e3f-985d-d043c2b330aa.png" alt="清除"></a></p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/005b481b-502b-4e3f-985d-d043c2b330aa.png" alt="清除" /></p>
 <ul>
 <li>优点：标记和清除的过程效率不高</li>
 <li>缺点：产生大量不连续碎片，就无法给大内存的对象分配空间了</li>
 </ul>
-<h3 id="2标记-整理算法压缩算法"><a class="markdownIt-Anchor" href="#2标记-整理算法压缩算法"></a> 2.标记 - 整理算法（压缩算法）<a class="post-anchor" href="#2标记-整理算法压缩算法"></a></h3>
+<h3 id="2标记-整理算法压缩算法"><a class="markdownIt-Anchor" href="#2标记-整理算法压缩算法"></a> 2.标记 - 整理算法（压缩算法）</h3>
 <p>即把存活的对象聚集到内存区域的起始位置，从而留下一段连续的内存空间。</p>
 <ul>
 <li>优点：结果是很美好的，拥有了连续的内存空间，所以一般老年代使用该种算法，因为老年代的频率明显比新生代低很多。</li>
 <li>缺点：性能拉胯，毕竟要移动。（让我想到了为么MySQL用b+树，而不用有序数组，因为数据量大的时候插入、删除、移动的效率太低下了）</li>
 </ul>
-<p><a href="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ccd773a5-ad38-4022-895c-7ac318f31437.png" target="_blank" rel="noopener" data-caption="压缩" data-fancybox="images"><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ccd773a5-ad38-4022-895c-7ac318f31437.png" alt="压缩"></a></p>
-<h3 id="3复制算法"><a class="markdownIt-Anchor" href="#3复制算法"></a> 3.复制算法<a class="post-anchor" href="#3复制算法"></a></h3>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ccd773a5-ad38-4022-895c-7ac318f31437.png" alt="压缩" /></p>
+<h3 id="3复制算法"><a class="markdownIt-Anchor" href="#3复制算法"></a> 3.复制算法</h3>
 <p>将内存划分为大小相等的两块（Java8的中S0、S1），每次只使用其中一块，当这一块内存用完了就将还存活的对象复制到另一块上面，然后再把使用过的内存空间进行一次清理。（有点像数组的System.arraycopy，利用from和to两个指针）。</p>
 <p>所以所谓的S0和S1是相互复制然后全标记的，都会成为「空」的空间和复制来的对象的空间。</p>
 <p>主要的不足是每次S0和S1肯定有一块是空的，为了接下来的复制，所以也算是小浪费。</p>
 <blockquote>
 <p>HotSpot 虚拟机的 Eden 和 Survivor 大小比例默认为 8:1，保证了内存的利用率达到 90%。如果每次回收有多于 10% 的对象存活，那么一块 Survivor 就不够用了，此时需要依赖于老年代进行空间分配担保，也就是借用老年代的空间存储放不下的对象。</p>
 </blockquote>
-<p><a href="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b2b77b9e-958c-4016-8ae5-9c6edd83871e.png" target="_blank" rel="noopener" data-caption="复制算法" data-fancybox="images"><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b2b77b9e-958c-4016-8ae5-9c6edd83871e.png" alt="复制算法"></a></p>
-<h3 id="4分代收集算法"><a class="markdownIt-Anchor" href="#4分代收集算法"></a> 4.分代收集算法<a class="post-anchor" href="#4分代收集算法"></a></h3>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b2b77b9e-958c-4016-8ae5-9c6edd83871e.png" alt="复制算法" /></p>
+<h3 id="4分代收集算法"><a class="markdownIt-Anchor" href="#4分代收集算法"></a> 4.分代收集算法</h3>
 <p>现在的商业虚拟机采用分代收集算法，它根据对象存活周期将内存划分为几块，不同块采用适当的收集算法。</p>
 <p>一般将堆分为新生代和老年代。</p>
 <ul>
 <li>新生代使用：复制算法</li>
 <li>老年代使用：标记 - 清除 或者 标记 - 整理 算法</li>
 </ul>
-<h3 id="5总结-内存"><a class="markdownIt-Anchor" href="#5总结-内存"></a> 5.总结   <a href="https://static001.geekbang.org/resource/image/2c/e5/2cc29b8de676d3747416416a3523e4e5.png" target="_blank" rel="noopener" data-caption="内存" data-fancybox="images"><img src="https://static001.geekbang.org/resource/image/2c/e5/2cc29b8de676d3747416416a3523e4e5.png" alt="内存"></a><a class="post-anchor" href="#5总结-内存"></a></h3>
+<h3 id="5总结-内存"><a class="markdownIt-Anchor" href="#5总结-内存"></a> 5.总结   <img src="https://static001.geekbang.org/resource/image/2c/e5/2cc29b8de676d3747416416a3523e4e5.png" alt="内存" /></h3>
 <p>先Minor GC（Young GC），再Major GC（Full GC）。S0/S1交换14次后晋升至老年代（Java8之后是元空间，位于本地内存），jvm默认值是15。</p>
 <p>一般来说OOM是内存耗尽，也有超大内存（不多）的情况。</p>
-<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/gc/gc%20flow.png" target="_blank" rel="noopener" data-caption="gc-flow" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/gc/gc%20flow.png" alt="gc-flow"></a></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/gc/gc%20flow.png" alt="gc-flow" /></p>
 <p>以上是我画的图，其中少了一步，当新生代晋升至老年代的时候失败怎么办？其实这里是执行Major GC，也就是走下面的那条流程。</p>
-<h2 id="垃圾收集器"><a class="markdownIt-Anchor" href="#垃圾收集器"></a> 垃圾收集器<a class="post-anchor" href="#垃圾收集器"></a></h2>
+<h2 id="垃圾收集器"><a class="markdownIt-Anchor" href="#垃圾收集器"></a> 垃圾收集器</h2>
 <p>可以简单理解成新生代搞一个收集器，老年代搞一个收集器，Java8默认的就是Parallel + Parallel Old收集器</p>
 <ol>
 <li>
@@ -315,13 +287,13 @@
 </li>
 <li>
 <p>并发回收：CMS（ConcMarkSweep，并发标记清除）：其实有STW，也有并行。后备方案是Serial Old。而且是标记清除，会有碎片，会导致提前Major GC；吞吐量低，但是适用是高并发、快速响应的场景。</p>
-<p><a href="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/62e77997-6957-4b68-8d12-bfd609bb2c68.jpg" target="_blank" rel="noopener" data-caption="CMS" data-fancybox="images"><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/62e77997-6957-4b68-8d12-bfd609bb2c68.jpg" alt="CMS"></a></p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/62e77997-6957-4b68-8d12-bfd609bb2c68.jpg" alt="CMS" /></p>
 </li>
 <li>
 <p>Java9之后的：G1，Java11之后的：ZGC（在G1基础上），使命就是为了替换CMS。</p>
 </li>
 </ol>
-<p><a href="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c625baa0-dde6-449e-93df-c3a67f2f430f.jpg" target="_blank" rel="noopener" data-caption="垃圾回收器" data-fancybox="images"><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c625baa0-dde6-449e-93df-c3a67f2f430f.jpg" alt="垃圾回收器"></a></p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c625baa0-dde6-449e-93df-c3a67f2f430f.jpg" alt="垃圾回收器" /></p>
 <p><strong>JVM调优配了新生代，老年代会跟着配对应的垃圾收集器。</strong></p>
 <p>除了以上4种，主要还有以下3种：</p>
 <ol>
@@ -333,7 +305,7 @@
 </li>
 <li>
 <p>ParOld</p>
-<p><a href="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/278fe431-af88-4a95-a895-9c3b80117de3.jpg" target="_blank" rel="noopener" data-caption="ParOld" data-fancybox="images"><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/278fe431-af88-4a95-a895-9c3b80117de3.jpg" alt="ParOld"></a></p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/278fe431-af88-4a95-a895-9c3b80117de3.jpg" alt="ParOld" /></p>
 </li>
 </ol>
 <table>
@@ -393,108 +365,324 @@
 <p>G1可以设置STW的时间，假如设置太小，就会频繁GC，降低吞吐量</p>
 </li>
 </ol>
-</body></html>
 
-  
-    <div class="post-reward">
-    <div id="reward-button">龙鸣</div>
-      <div id="qr">
-        <div class="wrap">
-            
-            
-            <div class="bg-wrap">
-                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
-              "老罗"
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/" data-toggle="tooltip" data-placement="top" title="走进JVM之字节码与类加载">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/a6222fa0-ebf3-11ea-b9c4-17e39dadc010/" data-toggle="tooltip" data-placement="top" title="MySQL实战45讲（基础篇）">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
             </div>
-            
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
+                        
+                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                          <a class="tag" href="/tags/#GC" title="GC">GC</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="http://jerryc.me/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
         </div>
-      </div>
     </div>
-  
-  <div class="post-guide">
-    <div class="item left">
-        
-          <a href="/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a>
-        
-    </div>
-    <div class="item right">
-        
-          <a href="/post/a6222fa0-ebf3-11ea-b9c4-17e39dadc010/">MySQL实战45讲（基础篇）</a>
-        
-    </div>
-  </div>
-
-  
-
-  <div class="post-copyright">
-    <div class="auth">
-      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
-    </div>
-    <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">https://Matthew-Han.github.io/post/bd0fa690-fcae-11ea-897f-29deed537cb3/</a>
-    </div>
-    <div class="declare">
-      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
-    </div>
-  </div>
-
-  <div id="comment"></div>
-
-  
-  
 </article>
-        <footer>
-          <div class="copyright">
-            ©2020
-            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
-            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
-          </div>
-          
-        </footer>
-      </div>
-    </div>
-  </body>
-  
-</html>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
-                </script> <script type="text/javascript">window.addEventListener('load', function() {
-    
-    window.loadJs = function(d, m, a) {
-      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
-      var b = document.createElement('script')
-      b.defer = true
-      b.setAttribute('type', 'text/javascript')
-      b.setAttribute('charset', 'UTF-8')
-      b.setAttribute('async', 'true')
-      b.setAttribute('src', d)
-      m && b.setAttribute('data-main', '/scripts/app-built')
-      if (typeof a === 'function') {
-        if (window.attachEvent) {
-          b.onreadystatechange = function() {
-            var e = b.readyState
-            if (e === 'loaded' || e === 'complete') {
-              b.onreadystatechange = null
-              a()
-            }
-          }
-        } else {
-          b.onload = a
-        }
-      }
-      c.appendChild(b)
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/bd0fa690-fcae-11ea-897f-29deed537cb3/";
+    var disqus_url = "https://matthew-han.github.io/post/bd0fa690-fcae-11ea-897f-29deed537cb3/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
     }
-    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
-  })</script> <script type="text/javascript">
-                  ;(function() {
-                    var bp = document.createElement('script')
-                    var curProtocol = window.location.protocol.split(':')[0]
-                    if (curProtocol === 'https') {
-                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
-                    } else {
-                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
-                    }
-                    var s = document.getElementsByTagName('script')[0]
-                    s.parentNode.insertBefore(bp, s)
-                  })()
-                </script> 
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    Ported by Kaijun
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Build by 元末
+                    <!--iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

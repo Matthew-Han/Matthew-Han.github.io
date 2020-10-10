@@ -1,241 +1,214 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <script>
-  var _hmt = _hmt || []
-  ;(function() {
-    var hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
-    var s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-</script> 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="极度理性，爱憎分明" />
-    
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="极度理性，爱憎分明">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <title>
-      千千万万设计模式之单例模式 - Espada
+        
+          千千万万设计模式之单例模式 - Espada
+        
     </title>
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/">
+
+    <!-- Bootstrap Core CSS -->
     
-<link rel="stylesheet" href="/style/style.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 
-  </head>
-  <body>
-    <canvas id='pagemap'></canvas>
+
+    <!-- Custom CSS -->
     
-    <div id="post-toc" class="animated hiddenToc hide">
-      <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式的思想"><span class="toc-text"> 设计模式的思想</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#单例模式介绍"><span class="toc-text"> 单例模式介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java类加载顺序"><span class="toc-text"> Java类加载顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#饿汉式单例模式"><span class="toc-text"> 饿汉式单例模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#懒汉式单例模式"><span class="toc-text"> 懒汉式单例模式</span></a></li></ol>
-    </div>
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
     
-    <div id="fixed-menu-wrap">
-      <span class="iconfont icon-sousuo search-box menu-reset"></span>
-      <span class="icon-toc menu-reset">Toc</span>
-      <span class="iconfont icon-arrowup menu-reset"></span>
-    </div>
-    <div id="fixed-menu">
-      <span class="iconfont icon-menu-"></span>
-    </div>
-    <div id="progress">
-      <div class="line"></div>
-    </div>
-    <div id="search-shade" class="animated hiddenSearch hide">
-      <div class="input-wrap">
-        <span class="iconfont icon-sousuo search-box"></span>
-        <input type="text" placeholder="Search" />
-        <span class="iconfont icon-close"></span>
-      </div>
-      <div class="search-result">
-        <div class="meta">
-          <span><b id="result-count">0</b> results found</span>
-          <img src="/images/logo.jpeg" />
-        </div>
-        <ul id="result-box"></ul>
-      </div>
-    </div>
-    <div id="menu-mask" class="animated hideMenuMask hide">
-      <span class="iconfont icon-close"></span>
-      <div class="nav">
-        
-        <a href="/" class="">
-          首页
-        </a>
-        
-        <a href="/archives" class="">
-          归档
-        </a>
-        
-        <a href="/categories" class="">
-          分类
-        </a>
-        
-        <a href="/tags" class="">
-          标签
-        </a>
-        
-        <a href="/friends" class="">
-          友链
-        </a>
-        
-        <a href="/about" class="">
-          关于
-        </a>
-        
-      </div>
-    </div>
-    <div id="header">
-      <div class="intro">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <div class="author">Espada</div>
-      </div>
-      <div class="nav">
-        <span class="iconfont icon-menu menu-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-    </div>
-    <div id="side" class="animated bounceInLeft">
-      <div class="shrink">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <span class="iconfont icon-menu toggle-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-      <div class="magnify">
-        <div class="about">
-          <div class="author">Espada</div>
-          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
         </div>
 
-        <div class="nav">
-          
-          <a href="/" class="">
-            首页
-          </a>
-          
-          <a href="/archives" class="">
-            归档
-          </a>
-          
-          <a href="/categories" class="">
-            分类
-          </a>
-          
-          <a href="/tags" class="">
-            标签
-          </a>
-          
-          <a href="/friends" class="">
-            友链
-          </a>
-          
-          <a href="/about" class="">
-            关于
-          </a>
-          
-          <a href="#" class="search-box">
-            <span class="iconfont icon-sousuo"></span>
-          </a>
-        </div>
-        <div class="bottom">
-          <div class="follow">
-            
-            <a href="https://github.com/Matthew-Han" target="_block">
-              <span class="iconfont icon-github"></span>
-            </a>
-            
-            <a href="https://twitter.com/_yuanmo_" target="_block">
-              <span class="iconfont icon-twitter"></span>
-            </a>
-            
-            <a href="https://www.instagram.com/yuanmo233" target="_block">
-              <span class="iconfont icon-instagram"></span>
-            </a>
-            
-            <a href="https://weibo.com/MatthewHan96" target="_block">
-              <span class="iconfont icon-weibo"></span>
-            </a>
-            
-            <a href="tencent://message/?uin=837204579" target="_block">
-              <span class="iconfont icon-QQ"></span>
-            </a>
-             
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="container">
-      <div class="main animated bounceInRight delay-0.7s">
-        <article class="post-entry">
-    <div class="header">
-      
-      <div class="title">千千万万设计模式之单例模式</div>
-      <div class="meta">
-        <span class="item">
-          <span class="iconfont icon-time-circle"></span>
-          <span>2019/07/30</span>
-        </span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
 
-        
-          <span class="item leancloud-visitors" id="/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/" data-flag-title="千千万万设计模式之单例模式">
-            <span class="iconfont icon-eye1"></span>
-            <span class="leancloud-visitors-count"></span>
-          </span>
-        
+                    
 
-         
-        <span class="item">
-          <span class="iconfont icon-folder"></span>
-          <span>
-              
-                
-                  <a href="/categories/设计模式">设计模式</a>
-                
-              
-          </span>
-        </span>
-        
-        
-         
-          <span class="item">
-            <span class="iconfont icon-tag1"></span>
-            <span>
-                
-                  
-                    <a href="/tags/单例模式">单例模式</a>
-                  
-                
-                  
-                    <a href="/tags/设计模式">设计模式</a>
-                  
-                
-            </span>
-          </span>
-         
-      </div>
-      <div>
-      </div>
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><blockquote>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#单例模式" title="单例模式">单例模式</a>
+                        
+                          <a class="tag" href="/tags/#设计模式" title="设计模式">设计模式</a>
+                        
+                    </div>
+                    <h1>千千万万设计模式之单例模式</h1>
+                    <h2 class="subheading">这下好了，对象也要共享不让你new了。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-07-30
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
 <p>这下好了，对象也要共享不让你new了。</p>
 </blockquote>
-<a id="more"></a>
 <p><em>本系列已经开源至GitHub，repository<a href="https://github.com/Matthew-Han/java-design-pattern" target="_blank" rel="noopener">地址</a>。</em></p>
 <p><em>最初只是为了做个人笔记，参考了前人的笔记和博客，在这里我用更接潮流、更接地气的例子来帮助加深理解记忆。</em></p>
 <p><em>由于本人技术水平也有限，着重点在于思想的理解，若出现任何错误、不恰当内容，欢迎各位前来<a href="https://github.com/Matthew-Han/java-design-pattern/issues" target="_blank" rel="noopener">issues</a>指正。</em></p>
 <p><em>感谢任何分享、开源学习教程的前辈，正是有你们这一群乐于奉献的人才让整个生态变得生机勃勃、让这个行业日新月异。</em></p>
-<h1 id="设计模式的思想"><a class="markdownIt-Anchor" href="#设计模式的思想"></a> 设计模式的思想<a class="post-anchor" href="#设计模式的思想"></a></h1>
+<h1 id="设计模式的思想"><a class="markdownIt-Anchor" href="#设计模式的思想"></a> 设计模式的思想</h1>
 <p><em>新开个系列，把前人写的设计模式好好地学习钻研下，这里做点笔记。这里参考的博文<a href="https://www.jianshu.com/p/43bfb4516dd8" target="_blank" rel="noopener">地址</a></em></p>
 <p>什么是设计模式？放在两年前的我，不但不了解它，也不会去重视它。我只在乎能够猥琐实现，程序运行不报错。但是在版本快速迭代、需求明天就改、框架稳定升级的现在，自己也写了不少代码，积累了一些经验和知识，在快速成长的过程中，愈发觉得优秀的开发工程师就是会比平庸的开发工程师在设计、建模的过程中去花更多时间去思考、去推理。<s>其实我觉得我也算是考虑问题比较全面、比较细致的人了（大雾</s>）。</p>
 <p>这里又可以引申出面向对象和面向过程，优秀的开发工程师可以把面向过程的程序写得非常内聚、可扩展性好、具备一定的复用性；而平庸的程序员用面向对象的语言一样也能把程序写得松散随意、毫无抽象与建模、模块耦合严重、维护性差。而设计模式也是考究程序员对业务的建模能力，以及对架构的宏观掌握能力，面向对象来说，以对象模型为核心，丰富模型的内涵，扩展模型的外延，通过模型的行为组合去共同解决某一力问题，抽象的能力必不可少。</p>
 <p>啥是面向对象？总结就是四大特性：封装、继承、多态、抽象。这里不细讲了，留到之后在总结一篇post吧。</p>
-<h1 id="单例模式介绍"><a class="markdownIt-Anchor" href="#单例模式介绍"></a> 单例模式介绍<a class="post-anchor" href="#单例模式介绍"></a></h1>
+<h1 id="单例模式介绍"><a class="markdownIt-Anchor" href="#单例模式介绍"></a> 单例模式介绍</h1>
 <p>我们先不谈什么是单例模式，我想其实很多人其实最关心的是什么时候需要用到单例模式？使用单例模式之后有什么提升与益处？</p>
 <p>首先我们知道单例单例，可以简单理解为单个实例，而实例化是指在面向对象的编程中，把用类创建对象的过程称为实例化。是将一个抽象的概念类，具体到该类实物的过程。</p>
 <p>那么什么情况下会优先、或者强制使用单例模式创建实例呢：</p>
@@ -252,20 +225,20 @@
 <li>登记式单例模式：它的单例在类被装载的时候就被实例化了，内部也算是饿汉式单例模式。</li>
 </ul>
 <p>登记式单例模式由于本人不太熟悉，所以在本文中只讲述前两种。</p>
-<h1 id="java类加载顺序"><a class="markdownIt-Anchor" href="#java类加载顺序"></a> Java类加载顺序<a class="post-anchor" href="#java类加载顺序"></a></h1>
+<h1 id="java类加载顺序"><a class="markdownIt-Anchor" href="#java类加载顺序"></a> Java类加载顺序</h1>
 <p>为什么要叫饿汉式、懒汉式呢？饿汉式则可以想象成因为太饿了，在类加载时就迫不及待完成了实例化，但是如果从初始化到线程结束都没有使用过的，就是变成了资源浪费。这里需要拓展下Java类的加载机制：</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> Initialization</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 类的初始化顺序</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/30 10:02</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Initialization</span> </span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> IKun iKun = <span class="hljs-keyword">new</span> IKun();<br><br>    <span class="hljs-keyword">static</span> {<br>        System.out.println(<span class="hljs-string">"静态代码块"</span>);<br>    }<br><br>    {<br>        System.out.println(<span class="hljs-string">"非静态代码块"</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Initialization</span><span class="hljs-params">()</span></span>{<br>        System.out.println(<span class="hljs-string">"构造器"</span>);<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>        System.out.println(<span class="hljs-string">"top-静态函数"</span>);<br>        <span class="hljs-keyword">new</span> Initialization();<br>        System.out.println(<span class="hljs-string">"bottom-静态函数"</span>);<br>    }<br>}<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IKun</span></span>{<br><br>    IKun(){ System.out.println(<span class="hljs-string">"静态变量"</span>); }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
-<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton1.png/wm" target="_blank" rel="noopener" data-caption="Java类加载顺序" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton1.png/wm" alt="Java类加载顺序"></a></p>
-<p>从打印的结果可以看到Java类的加载顺序大致是：<br>
-<code>静态成员/静态代码块</code> --> <code>main方法</code> --> <code>非静态成员/非静态代码块</code> --> <code>构造器</code></p>
-<h1 id="饿汉式单例模式"><a class="markdownIt-Anchor" href="#饿汉式单例模式"></a> 饿汉式单例模式<a class="post-anchor" href="#饿汉式单例模式"></a></h1>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> Initialization</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 类的初始化顺序</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/30 10:02</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Initialization</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> IKun iKun = <span class="keyword">new</span> IKun();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"非静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Initialization</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"构造器"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"top-静态函数"</span>);</span><br><span class="line">        <span class="keyword">new</span> Initialization();</span><br><span class="line">        System.out.println(<span class="string">"bottom-静态函数"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IKun</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    IKun()&#123; System.out.println(<span class="string">"静态变量"</span>); &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton1.png/wm" alt="Java类加载顺序" /></p>
+<p>从打印的结果可以看到Java类的加载顺序大致是：<br />
+<code>静态成员/静态代码块</code> --&gt; <code>main方法</code> --&gt; <code>非静态成员/非静态代码块</code> --&gt; <code>构造器</code></p>
+<h1 id="饿汉式单例模式"><a class="markdownIt-Anchor" href="#饿汉式单例模式"></a> 饿汉式单例模式</h1>
 <p>上面讲到了，饿汉式单例是在类加载就是内部实例化对象，并且不允许外部创建实例。饿汉式单例模式的实现也比较简单，记住无参构造器私有化，内部实例化对象，外部通过<code>static</code>方法获取对象。</p>
 <p>我们都知道坤坤是一个对细节把控很有追求的人，从那段舞蹈的诸多细节就能够看出来。尤其是最后的白色吊带滑落，堪称经典之举，坤坤通过有意的小失误将前面表演精心铺垫的「舞王」设定迅速推翻，营造了一种反差萌拉近与粉丝的距离，白带异常的表现也让粉丝们感同身受。</p>
-<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton1.gif" target="_blank" rel="noopener" data-caption="白色吊带异常" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton1.gif" alt="白色吊带异常"></a></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton1.gif" alt="白色吊带异常" /></p>
 <p>坤坤自从白色吊带表演大火🔥之后，淘宝厂商为了恰烂钱💰纷纷效仿推出「坤坤同款异常白色吊带」、「坤坤潮流异常背带」的爆款产品。谁知道厂商还没开始恰烂钱💰的时候，坤坤就机智的把「坤式白色吊带」和「白色吊带异常」申请了发明专利、外观设计专利、实用专利，将「坤式白色吊带」这个<code>商品</code>和「白色吊带异常」这个<code>艺术作品</code>的所有权把握在了自己手里。「白色吊带异常」的表演不允许外界直接模仿、抄袭，必须先向坤坤申请，支付一定费用才购买了「坤式白色吊带」<code>对象</code>的<code>licence</code>后才可以表演「白色吊带异常」，<strong>并且使用完后要进行归还</strong>，这样就能确保只有一个白色吊带在外部商演能够很好的锁定。孙哥烂钱💰都恰得没这么6嗷~</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> EarlySingleton</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 饿汉式单例模式</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/30 10:50</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EarlySingleton</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 独享的moment</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">EarlySingleton</span><span class="hljs-params">()</span></span>{}<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 内部实例化一个白色吊带对象</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> EarlySingleton suspenders = <span class="hljs-keyword">new</span> EarlySingleton();<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 全局入口点</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> EarlySingleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span>{<br>        <span class="hljs-keyword">return</span> suspenders;<br>    }<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 白带异常的演出</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Suspenders <span class="hljs-title">slipping</span><span class="hljs-params">()</span></span>{<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Suspenders(<span class="hljs-string">"white"</span>,<span class="hljs-string">"白色吊带异常"</span>);<br>    }<br><br><br>}<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 坤坤申请专利了嗷</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@ToString</span><br><span class="hljs-meta">@Setter</span>(value = AccessLevel.PUBLIC)<br><span class="hljs-meta">@Getter</span>(value = AccessLevel.PUBLIC)<br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Suspenders</span></span>{<br><br><br>    <span class="hljs-keyword">private</span> String color;<br>    <span class="hljs-keyword">private</span> String action;<br><br>}<br></code></pre></td></tr></tbody></table></figure>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>{<br>    <span class="hljs-comment">// 向坤坤申请</span><br>    EarlySingleton s = EarlySingleton.getInstance();<br>    assertNotNull(s);<br>    <span class="hljs-comment">// 白色吊带异常演出</span><br>    System.out.println(s.slipping());<br>}<br></code></pre></td></tr></tbody></table></figure>
-<p><a href="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton2.png/wm" target="_blank" rel="noopener" data-caption="共享白色吊带√" data-fancybox="images"><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton2.png/wm" alt="共享白色吊带√"></a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> EarlySingleton</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 饿汉式单例模式</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/30 10:50</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EarlySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 独享的moment</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">EarlySingleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 内部实例化一个白色吊带对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> EarlySingleton suspenders = <span class="keyword">new</span> EarlySingleton();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 全局入口点</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EarlySingleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> suspenders;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 白带异常的演出</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Suspenders <span class="title">slipping</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Suspenders(<span class="string">"white"</span>,<span class="string">"白色吊带异常"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 坤坤申请专利了嗷</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="meta">@Setter</span>(value = AccessLevel.PUBLIC)</span><br><span class="line"><span class="meta">@Getter</span>(value = AccessLevel.PUBLIC)</span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Suspenders</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String color;</span><br><span class="line">    <span class="keyword">private</span> String action;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 向坤坤申请</span></span><br><span class="line">    EarlySingleton s = EarlySingleton.getInstance();</span><br><span class="line">    assertNotNull(s);</span><br><span class="line">    <span class="comment">// 白色吊带异常演出</span></span><br><span class="line">    System.out.println(s.slipping());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/singleton2.png/wm" alt="共享白色吊带√" /></p>
 <p><strong>优点：</strong></p>
 <ul>
 <li>线程安全</li>
@@ -274,9 +247,9 @@
 <ul>
 <li>类初始化实例化对象后未被调用则是浪费资源的表现</li>
 </ul>
-<h1 id="懒汉式单例模式"><a class="markdownIt-Anchor" href="#懒汉式单例模式"></a> 懒汉式单例模式<a class="post-anchor" href="#懒汉式单例模式"></a></h1>
+<h1 id="懒汉式单例模式"><a class="markdownIt-Anchor" href="#懒汉式单例模式"></a> 懒汉式单例模式</h1>
 <p>坤坤虽然唱跳俱佳，但也耐不住是条懒狗🐶，只有等到电话、message、inbox连环催，他才开始发货。</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> LazilySingleton</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 懒汉式单例模式</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/30 15:46</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LazilySingleton</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 同样的避免外部实例化</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">LazilySingleton</span><span class="hljs-params">()</span> </span>{<br>    }<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> LazilySingleton suspenders = <span class="hljs-keyword">null</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 线程不安全</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> LazilySingleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>{<br>        <span class="hljs-keyword">if</span> (suspenders == <span class="hljs-keyword">null</span>) {<br>            suspenders = <span class="hljs-keyword">new</span> LazilySingleton();<br>        }<br>        <span class="hljs-keyword">return</span> suspenders;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> LazilySingleton</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 懒汉式单例模式</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/30 15:46</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazilySingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 同样的避免外部实例化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">LazilySingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LazilySingleton suspenders = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程不安全</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazilySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (suspenders == <span class="keyword">null</span>) &#123;</span><br><span class="line">            suspenders = <span class="keyword">new</span> LazilySingleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> suspenders;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>优点：</strong></p>
 <ul>
 <li>单例实例在第一次被使用时构建</li>
@@ -287,7 +260,7 @@
 </ul>
 <p><strong>注：</strong> 为什么说懒汉式单例模式是线程不安全的呢，假如有两个客户<code>线程</code>准备购买「坤式白色吊带」和「白色吊带异常」进行商演，第一位客户提出申请，坤坤刚回复马上交付，另一位客户的聊天窗口弹了出来也问能马上交付吗？坤坤一急立马把「白色吊带」和「白色吊带异常」的<code>licence</code>的交付第二位客户，交付完之后坤坤想到第一位客户也在等待，于是又把新的「白色吊带」和<code>license</code>交付给了第一位客户。然而现在已经有两个<code>对象</code>游离在外了，坤坤表示头很大。</p>
 <p>坤坤发现自己亲自处理不但没牌面，而且容易出事情，但是交给经纪人又不放心，思来想去坤坤还是决定把这项业务交给哥哥孙笑川打理，自己则脱离去做更纯粹的音乐去了。</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@ClassName</span> Singleton</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 静态内部类</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> MatthewHan</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2019/7/30 16:16</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>{<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 把业务交给哥哥孙笑川打理</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SunXiaoChuan</span></span>{<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Singleton suspenders = <span class="hljs-keyword">new</span> Singleton();<br>    }<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span></span>{}<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span>{<br>        <span class="hljs-keyword">return</span> SunXiaoChuan.suspenders;<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span> Singleton</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 静态内部类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> MatthewHan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2019/7/30 16:16</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 把业务交给哥哥孙笑川打理</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SunXiaoChuan</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> Singleton suspenders = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SunXiaoChuan.suspenders;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>优点：</strong></p>
 <ul>
 <li>线程安全</li>
@@ -298,108 +271,322 @@
 <li>暂无</li>
 </ul>
 <p>还是孙哥办事靠谱嗷，毕竟恰烂钱💰带师~</p>
-</body></html>
 
-  
-    <div class="post-reward">
-    <div id="reward-button">龙鸣</div>
-      <div id="qr">
-        <div class="wrap">
-            
-            
-            <div class="bg-wrap">
-                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
-              "老罗"
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/faabc62a-bd9c-11e9-b52a-878085b5c0f3/" data-toggle="tooltip" data-placement="top" title="Apache Maven标签详解">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/" data-toggle="tooltip" data-placement="top" title="千千万万设计模式之适配器模式">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
             </div>
-            
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#单例模式" title="单例模式">单例模式</a>
+                        
+                          <a class="tag" href="/tags/#设计模式" title="设计模式">设计模式</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="http://jerryc.me/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
         </div>
-      </div>
     </div>
-  
-  <div class="post-guide">
-    <div class="item left">
-        
-          <a href="/post/faabc62a-bd9c-11e9-b52a-878085b5c0f3/">Apache Maven标签详解</a>
-        
-    </div>
-    <div class="item right">
-        
-          <a href="/post/faabc629-bd9c-11e9-b52a-878085b5c0f3/">千千万万设计模式之适配器模式</a>
-        
-    </div>
-  </div>
-
-  
-
-  <div class="post-copyright">
-    <div class="auth">
-      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
-    </div>
-    <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/">https://Matthew-Han.github.io/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/</a>
-    </div>
-    <div class="declare">
-      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
-    </div>
-  </div>
-
-  <div id="comment"></div>
-
-  
-  
 </article>
-        <footer>
-          <div class="copyright">
-            ©2020
-            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
-            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
-          </div>
-          
-        </footer>
-      </div>
-    </div>
-  </body>
-  
-</html>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
-                </script> <script type="text/javascript">window.addEventListener('load', function() {
-    
-    window.loadJs = function(d, m, a) {
-      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
-      var b = document.createElement('script')
-      b.defer = true
-      b.setAttribute('type', 'text/javascript')
-      b.setAttribute('charset', 'UTF-8')
-      b.setAttribute('async', 'true')
-      b.setAttribute('src', d)
-      m && b.setAttribute('data-main', '/scripts/app-built')
-      if (typeof a === 'function') {
-        if (window.attachEvent) {
-          b.onreadystatechange = function() {
-            var e = b.readyState
-            if (e === 'loaded' || e === 'complete') {
-              b.onreadystatechange = null
-              a()
-            }
-          }
-        } else {
-          b.onload = a
-        }
-      }
-      c.appendChild(b)
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/";
+    var disqus_url = "https://matthew-han.github.io/post/faabc627-bd9c-11e9-b52a-878085b5c0f3/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
     }
-    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
-  })</script> <script type="text/javascript">
-                  ;(function() {
-                    var bp = document.createElement('script')
-                    var curProtocol = window.location.protocol.split(':')[0]
-                    if (curProtocol === 'https') {
-                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
-                    } else {
-                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
-                    }
-                    var s = document.getElementsByTagName('script')[0]
-                    s.parentNode.insertBefore(bp, s)
-                  })()
-                </script> 
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    Ported by Kaijun
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Build by 元末
+                    <!--iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

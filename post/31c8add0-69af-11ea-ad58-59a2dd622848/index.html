@@ -1,243 +1,211 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <script>
-  var _hmt = _hmt || []
-  ;(function() {
-    var hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
-    var s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-</script> 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="极度理性，爱憎分明" />
-    
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="极度理性，爱憎分明">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <title>
-      《码出高效》系列笔记（四）：元素的比较 - Espada
+        
+          《码出高效》系列笔记（四）：元素的比较 - Espada
+        
     </title>
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/31c8add0-69af-11ea-ad58-59a2dd622848/">
+
+    <!-- Bootstrap Core CSS -->
     
-<link rel="stylesheet" href="/style/style.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 
-  </head>
-  <body>
-    <canvas id='pagemap'></canvas>
+
+    <!-- Custom CSS -->
     
-    <div id="post-toc" class="animated hiddenToc hide">
-      <span class="title">Toc</span>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#元素的比较"><span class="toc-text"> 元素的比较</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#comparable"><span class="toc-text"> Comparable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#comparator"><span class="toc-text"> Comparator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#排序"><span class="toc-text"> 排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#timsort"><span class="toc-text"> TimSort</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hashcode和equals"><span class="toc-text"> hashCode和equals</span></a></li></ol></li></ol>
-    </div>
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
     
-    <div id="fixed-menu-wrap">
-      <span class="iconfont icon-sousuo search-box menu-reset"></span>
-      <span class="icon-toc menu-reset">Toc</span>
-      <span class="iconfont icon-arrowup menu-reset"></span>
-    </div>
-    <div id="fixed-menu">
-      <span class="iconfont icon-menu-"></span>
-    </div>
-    <div id="progress">
-      <div class="line"></div>
-    </div>
-    <div id="search-shade" class="animated hiddenSearch hide">
-      <div class="input-wrap">
-        <span class="iconfont icon-sousuo search-box"></span>
-        <input type="text" placeholder="Search" />
-        <span class="iconfont icon-close"></span>
-      </div>
-      <div class="search-result">
-        <div class="meta">
-          <span><b id="result-count">0</b> results found</span>
-          <img src="/images/logo.jpeg" />
-        </div>
-        <ul id="result-box"></ul>
-      </div>
-    </div>
-    <div id="menu-mask" class="animated hideMenuMask hide">
-      <span class="iconfont icon-close"></span>
-      <div class="nav">
-        
-        <a href="/" class="">
-          首页
-        </a>
-        
-        <a href="/archives" class="">
-          归档
-        </a>
-        
-        <a href="/categories" class="">
-          分类
-        </a>
-        
-        <a href="/tags" class="">
-          标签
-        </a>
-        
-        <a href="/friends" class="">
-          友链
-        </a>
-        
-        <a href="/about" class="">
-          关于
-        </a>
-        
-      </div>
-    </div>
-    <div id="header">
-      <div class="intro">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <div class="author">Espada</div>
-      </div>
-      <div class="nav">
-        <span class="iconfont icon-menu menu-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-    </div>
-    <div id="side" class="animated bounceInLeft">
-      <div class="shrink">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <span class="iconfont icon-menu toggle-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-      <div class="magnify">
-        <div class="about">
-          <div class="author">Espada</div>
-          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
         </div>
 
-        <div class="nav">
-          
-          <a href="/" class="">
-            首页
-          </a>
-          
-          <a href="/archives" class="">
-            归档
-          </a>
-          
-          <a href="/categories" class="">
-            分类
-          </a>
-          
-          <a href="/tags" class="">
-            标签
-          </a>
-          
-          <a href="/friends" class="">
-            友链
-          </a>
-          
-          <a href="/about" class="">
-            关于
-          </a>
-          
-          <a href="#" class="search-box">
-            <span class="iconfont icon-sousuo"></span>
-          </a>
-        </div>
-        <div class="bottom">
-          <div class="follow">
-            
-            <a href="https://github.com/Matthew-Han" target="_block">
-              <span class="iconfont icon-github"></span>
-            </a>
-            
-            <a href="https://twitter.com/_yuanmo_" target="_block">
-              <span class="iconfont icon-twitter"></span>
-            </a>
-            
-            <a href="https://www.instagram.com/yuanmo233" target="_block">
-              <span class="iconfont icon-instagram"></span>
-            </a>
-            
-            <a href="https://weibo.com/MatthewHan96" target="_block">
-              <span class="iconfont icon-weibo"></span>
-            </a>
-            
-            <a href="tencent://message/?uin=837204579" target="_block">
-              <span class="iconfont icon-QQ"></span>
-            </a>
-             
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="container">
-      <div class="main animated bounceInRight delay-0.7s">
-        <article class="post-entry">
-    <div class="header">
-      
-      <div class="title">《码出高效》系列笔记（四）：元素的比较</div>
-      <div class="meta">
-        <span class="item">
-          <span class="iconfont icon-time-circle"></span>
-          <span>2020/03/19</span>
-        </span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
 
-        
-          <span class="item leancloud-visitors" id="/post/31c8add0-69af-11ea-ad58-59a2dd622848/" data-flag-title="《码出高效》系列笔记（四）：元素的比较">
-            <span class="iconfont icon-eye1"></span>
-            <span class="leancloud-visitors-count"></span>
-          </span>
-        
+                    
 
-         
-        <span class="item">
-          <span class="iconfont icon-folder"></span>
-          <span>
-              
-                
-                  <a href="/categories/Java技术">Java技术</a>
-                
-              
-          </span>
-        </span>
-        
-        
-         
-          <span class="item">
-            <span class="iconfont icon-tag1"></span>
-            <span>
-                
-                  
-                    <a href="/tags/数据结构">数据结构</a>
-                  
-                
-                  
-                    <a href="/tags/笔记">笔记</a>
-                  
-                
-                  
-                    <a href="/tags/集合">集合</a>
-                  
-                
-                  
-                    <a href="/tags/元素">元素</a>
-                  
-                
-                  
-                    <a href="/tags/Easy Coding">Easy Coding</a>
-                  
-                
-            </span>
-          </span>
-         
-      </div>
-      <div>
-      </div>
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><blockquote>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#集合" title="集合">集合</a>
+                        
+                          <a class="tag" href="/tags/#元素" title="元素">元素</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                    </div>
+                    <h1>《码出高效》系列笔记（四）：元素的比较</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2020-03-19
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
 <p>良好的编码风格和完善统一的规约是最高效的方式。</p>
 </blockquote>
-<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言<a class="post-anchor" href="#前言"></a></h1>
+<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
 <p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第四篇章第三节：数据结构与集合的元素的比较篇。</p>
 <p><strong>本系列目录</strong>：</p>
 <ul>
@@ -253,32 +221,32 @@
 <li><a href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/" target="_blank" rel="noopener">走进JVM之字节码与类加载</a></li>
 <li><a href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/" target="_blank" rel="noopener">走进JVM之GC</a></li>
 </ul>
-<h1 id="元素的比较"><a class="markdownIt-Anchor" href="#元素的比较"></a> 元素的比较<a class="post-anchor" href="#元素的比较"></a></h1>
-<h2 id="comparable"><a class="markdownIt-Anchor" href="#comparable"></a> Comparable<a class="post-anchor" href="#comparable"></a></h2>
+<h1 id="元素的比较"><a class="markdownIt-Anchor" href="#元素的比较"></a> 元素的比较</h1>
+<h2 id="comparable"><a class="markdownIt-Anchor" href="#comparable"></a> Comparable</h2>
 <p>Java中两个对象相比较的方法通常用在元素排序中，常用的两个几口分别是Comparable和Comparator，前者是自己和自己比；后者是第三方比较器，类似于平台性质的比较器。</p>
 <p>我们熟知的Integer和String实现的就是Comparable的自然排序。</p>
 <p>假设在一个搜索列表中进行排序时，先根据相关度排序，然后再根据浏览数排序，那么可以利用Comparable这样写：</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResult</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span><<span class="hljs-title">EzCodingTest</span>></span>{<br><br>    <span class="hljs-comment">// 相关度</span><br>    <span class="hljs-keyword">int</span> relativeRatio;<br>    <span class="hljs-keyword">long</span> count;<br>    <span class="hljs-keyword">int</span> recentOrders;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SearchResult</span><span class="hljs-params">(<span class="hljs-keyword">int</span> relativeRatio, <span class="hljs-keyword">long</span> count)</span> </span>{<br>        <span class="hljs-keyword">this</span>.relativeRatio = relativeRatio;<br>        <span class="hljs-keyword">this</span>.count = count;<br>    }<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(EzCodingTest o)</span> </span>{<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.relativeRatio != o.relativeRatio) {<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.relativeRatio > o.relativeRatio ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.count != o.count) {<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.count > o.count ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br><br>        EzCodingTest result1 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">10</span>, <span class="hljs-number">100</span>);<br>        EzCodingTest result2 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">20</span>, <span class="hljs-number">1</span>);<br>        System.out.println(result1.compareTo(result2));<br>    }<br><br>}<br></code></pre></td></tr></tbody></table></figure>
-<p>在实现Comparable时，我们发现了需要加上泛型限定，<code>public class EzCodingTest implements Comparable<EzCodingTest></code>，这样的话，可以在编译阶段就判断是否符合该定义的对象。当排序方法不符合当前的业务要求，重写该比较方法<code>compareTo</code>，因为开闭原则的关系，已交付的类进行修改是有很大风险的。所以我们需要在外部定义比较器：Comparator。</p>
-<h2 id="comparator"><a class="markdownIt-Anchor" href="#comparator"></a> Comparator<a class="post-anchor" href="#comparator"></a></h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SearchResult</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">EzCodingTest</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相关度</span></span><br><span class="line">    <span class="keyword">int</span> relativeRatio;</span><br><span class="line">    <span class="keyword">long</span> count;</span><br><span class="line">    <span class="keyword">int</span> recentOrders;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SearchResult</span><span class="params">(<span class="keyword">int</span> relativeRatio, <span class="keyword">long</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.relativeRatio = relativeRatio;</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(EzCodingTest o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.relativeRatio != o.relativeRatio) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.relativeRatio &gt; o.relativeRatio ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.count != o.count) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.count &gt; o.count ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        EzCodingTest result1 = <span class="keyword">new</span> EzCodingTest(<span class="number">10</span>, <span class="number">100</span>);</span><br><span class="line">        EzCodingTest result2 = <span class="keyword">new</span> EzCodingTest(<span class="number">20</span>, <span class="number">1</span>);</span><br><span class="line">        System.out.println(result1.compareTo(result2));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在实现Comparable时，我们发现了需要加上泛型限定，<code>public class EzCodingTest implements Comparable&lt;EzCodingTest&gt;</code>，这样的话，可以在编译阶段就判断是否符合该定义的对象。当排序方法不符合当前的业务要求，重写该比较方法<code>compareTo</code>，因为开闭原则的关系，已交付的类进行修改是有很大风险的。所以我们需要在外部定义比较器：Comparator。</p>
+<h2 id="comparator"><a class="markdownIt-Anchor" href="#comparator"></a> Comparator</h2>
 <p>假如你写完上面的代码准备下班去食堂吃阿姨做的🦆鸭头时，产品狗过来和宁说：现在搜索的权重改辣！现在最近的订单数的权重最高，抓紧改吧，加班搞完半夜上线~！</p>
 <p>这时候你应该怎么做呢，继续修改刚才的代码？不，正确的做法是：</p>
 <blockquote>
 <p>对产品狗使用神の救♂济。</p>
 </blockquote>
 <p>vans之后我们害是得van成任务，所以俺们可以搞个外部比较器<code>SearchResultComparator</code>剥离出来。</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResultComparator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparator</span><<span class="hljs-title">EzCodingTest</span>></span>{<br><br>    <span class="hljs-comment">// 相关度</span><br>    <span class="hljs-keyword">int</span> relativeRatio;<br>    <span class="hljs-keyword">long</span> count;<br>    <span class="hljs-keyword">int</span> recentOrders;<br>  <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SearchResultComparator</span><span class="hljs-params">(<span class="hljs-keyword">int</span> relativeRatio, <span class="hljs-keyword">long</span> count)</span> </span>{<br>        <span class="hljs-keyword">this</span>.relativeRatio = relativeRatio;<br>        <span class="hljs-keyword">this</span>.count = count;<br>    }<br>  <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(EzCodingTest o1, EzCodingTest o2)</span> </span>{<br>      <br>        <span class="hljs-keyword">if</span> (o1.recentOrders != o2.recentOrders) {<br>            <span class="hljs-keyword">return</span> o1.recentOrders > o2.recentOrders ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br><br>        <span class="hljs-keyword">if</span> (o1.relativeRatio != o2.relativeRatio) {<br>            <span class="hljs-keyword">return</span> o1.relativeRatio > o2.relativeRatio ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br><br>        <span class="hljs-keyword">if</span> (o1.count != o2.count) {<br>            <span class="hljs-keyword">return</span> o1.count > o2.count ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>        }<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    }<br>  <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{<br><br>        EzCodingTest result1 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">70</span>, <span class="hljs-number">100</span>);<br>        EzCodingTest result2 = <span class="hljs-keyword">new</span> EzCodingTest(<span class="hljs-number">20</span>, <span class="hljs-number">1</span>);<br>        System.out.println(result1.compare(result1, result2));<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SearchResultComparator</span> <span class="keyword">implements</span> <span class="title">Comparator</span>&lt;<span class="title">EzCodingTest</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相关度</span></span><br><span class="line">    <span class="keyword">int</span> relativeRatio;</span><br><span class="line">    <span class="keyword">long</span> count;</span><br><span class="line">    <span class="keyword">int</span> recentOrders;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SearchResultComparator</span><span class="params">(<span class="keyword">int</span> relativeRatio, <span class="keyword">long</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.relativeRatio = relativeRatio;</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(EzCodingTest o1, EzCodingTest o2)</span> </span>&#123;</span><br><span class="line">      </span><br><span class="line">        <span class="keyword">if</span> (o1.recentOrders != o2.recentOrders) &#123;</span><br><span class="line">            <span class="keyword">return</span> o1.recentOrders &gt; o2.recentOrders ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (o1.relativeRatio != o2.relativeRatio) &#123;</span><br><span class="line">            <span class="keyword">return</span> o1.relativeRatio &gt; o2.relativeRatio ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (o1.count != o2.count) &#123;</span><br><span class="line">            <span class="keyword">return</span> o1.count &gt; o2.count ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        EzCodingTest result1 = <span class="keyword">new</span> EzCodingTest(<span class="number">70</span>, <span class="number">100</span>);</span><br><span class="line">        EzCodingTest result2 = <span class="keyword">new</span> EzCodingTest(<span class="number">20</span>, <span class="number">1</span>);</span><br><span class="line">        System.out.println(result1.compare(result1, result2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>约定俗成，不管是Comparable还是Comparator，小于的情况返回<code>-1</code>，等于的情况返回<code>0</code>，大于的情况返回<code>1</code>。</p>
-<h2 id="排序"><a class="markdownIt-Anchor" href="#排序"></a> 排序<a class="post-anchor" href="#排序"></a></h2>
+<h2 id="排序"><a class="markdownIt-Anchor" href="#排序"></a> 排序</h2>
 <p>既然是比较，那么比较完了之后肯定有个排序工作，例如二维数组、一维数组的倒序、String类型的数组在<code>Arrays.sort()</code>中常常使用。</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <T> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sort</span><span class="hljs-params">(T[] a, Comparator<? <span class="hljs-keyword">super</span> T> c)</span> </span>{<br>    <span class="hljs-keyword">if</span> (c == <span class="hljs-keyword">null</span>) {<br>        sort(a);<br>    } <span class="hljs-keyword">else</span> {<br>        <span class="hljs-keyword">if</span> (LegacyMergeSort.userRequested)<br>            legacyMergeSort(a, c);<br>        <span class="hljs-keyword">else</span><br>            TimSort.sort(a, <span class="hljs-number">0</span>, a.length, c, <span class="hljs-keyword">null</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    }<br>}<br></code></pre></td></tr></tbody></table></figure>
-<p>上面的代码是<code>sort</code>方法，比较器参数的<code><? super T></code>为下限通配。但是<strong>基本类型</strong>的数组不能用<strong>包装类型</strong>的比较器，例如以下想实现数组的倒序排序是不行的。</p>
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">int</span>[] tmp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>};<br>Arrays.sort(tmp, <span class="hljs-keyword">new</span> Comparator<Integer>() {<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(Integer o1, Integer o2)</span> </span>{<br>        <span class="hljs-keyword">return</span> Integer.compare(o2, o1);<br>    }<br>});<br></code></pre></td></tr></tbody></table></figure>
-<h3 id="timsort"><a class="markdownIt-Anchor" href="#timsort"></a> TimSort<a class="post-anchor" href="#timsort"></a></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">sort</span><span class="params">(T[] a, Comparator&lt;? <span class="keyword">super</span> T&gt; c)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">        sort(a);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (LegacyMergeSort.userRequested)</span><br><span class="line">            legacyMergeSort(a, c);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            TimSort.sort(a, <span class="number">0</span>, a.length, c, <span class="keyword">null</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码是<code>sort</code>方法，比较器参数的<code>&lt;? super T&gt;</code>为下限通配。但是<strong>基本类型</strong>的数组不能用<strong>包装类型</strong>的比较器，例如以下想实现数组的倒序排序是不行的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] tmp = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</span><br><span class="line">Arrays.sort(tmp, <span class="keyword">new</span> Comparator&lt;Integer&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer o1, Integer o2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Integer.compare(o2, o1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="timsort"><a class="markdownIt-Anchor" href="#timsort"></a> TimSort</h3>
 <p><code>sort()</code>方法中用的TimSort算法是一种混合算法，归并和插入优化过的缝合怪。JDK7之后就取代了原来的归并排序。</p>
 <p>部分排序的数组，时间复杂度最优：<code>O(n)</code></p>
 <p>随机排序的数组，时间复杂度为<code>O(nlogn)</code></p>
-<h2 id="hashcode和equals"><a class="markdownIt-Anchor" href="#hashcode和equals"></a> hashCode和equals<a class="post-anchor" href="#hashcode和equals"></a></h2>
+<h2 id="hashcode和equals"><a class="markdownIt-Anchor" href="#hashcode和equals"></a> hashCode和equals</h2>
 <p>hashCode和equals用来标识对象，两个方法协同工作可用来判断两个对象是否相等。</p>
 <ul>
 <li>利用<code>Object.hashCode()</code>生成哈希值，分散在各地；</li>
@@ -291,109 +259,329 @@
 </ol>
 <p>很经典的HashMap，内部数据结构是数组 + 链表（当链表长度大于8时，会变成红黑树）。当调用get方法时，会先判断hashCode的值，如果没有，直接<code>return null</code>，如果有的话，则执行equals方法，去比较值再返回。</p>
 <p>因为哈希冲突的缘故，可能存在值不相同但是hashCode相同的情况，这时候就需要红黑树出场了。</p>
-<p>假如有一个<code>Set<Object></code>集合，集合的类型是一个拥有N多属性的类，但是我们仅仅将这些对象添加到HashSet中，并不能实现「去重」的效果。我们必须要覆写这个类「相同」的代码逻辑（hashCode和equals方法）。</p>
-</body></html>
+<p>假如有一个<code>Set&lt;Object&gt;</code>集合，集合的类型是一个拥有N多属性的类，但是我们仅仅将这些对象添加到HashSet中，并不能实现「去重」的效果。我们必须要覆写这个类「相同」的代码逻辑（hashCode和equals方法）。</p>
 
-  
-    <div class="post-reward">
-    <div id="reward-button">龙鸣</div>
-      <div id="qr">
-        <div class="wrap">
-            
-            
-            <div class="bg-wrap">
-                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
-              "老罗"
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/" data-toggle="tooltip" data-placement="top" title="Shiro与分布式Session与Redis的那些坑">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（四）：数据结构与集合的数组和泛型">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
             </div>
-            
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#集合" title="集合">集合</a>
+                        
+                          <a class="tag" href="/tags/#元素" title="元素">元素</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="http://jerryc.me/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
         </div>
-      </div>
     </div>
-  
-  <div class="post-guide">
-    <div class="item left">
-        
-          <a href="/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/">Shiro与分布式Session与Redis的那些坑</a>
-        
-    </div>
-    <div class="item right">
-        
-          <a href="/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a>
-        
-    </div>
-  </div>
-
-  
-
-  <div class="post-copyright">
-    <div class="auth">
-      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
-    </div>
-    <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/31c8add0-69af-11ea-ad58-59a2dd622848/">https://Matthew-Han.github.io/post/31c8add0-69af-11ea-ad58-59a2dd622848/</a>
-    </div>
-    <div class="declare">
-      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
-    </div>
-  </div>
-
-  <div id="comment"></div>
-
-  
-  
 </article>
-        <footer>
-          <div class="copyright">
-            ©2020
-            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
-            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
-          </div>
-          
-        </footer>
-      </div>
-    </div>
-  </body>
-  
-</html>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
-                </script> <script type="text/javascript">window.addEventListener('load', function() {
-    
-    window.loadJs = function(d, m, a) {
-      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
-      var b = document.createElement('script')
-      b.defer = true
-      b.setAttribute('type', 'text/javascript')
-      b.setAttribute('charset', 'UTF-8')
-      b.setAttribute('async', 'true')
-      b.setAttribute('src', d)
-      m && b.setAttribute('data-main', '/scripts/app-built')
-      if (typeof a === 'function') {
-        if (window.attachEvent) {
-          b.onreadystatechange = function() {
-            var e = b.readyState
-            if (e === 'loaded' || e === 'complete') {
-              b.onreadystatechange = null
-              a()
-            }
-          }
-        } else {
-          b.onload = a
-        }
-      }
-      c.appendChild(b)
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/31c8add0-69af-11ea-ad58-59a2dd622848/";
+    var disqus_url = "https://matthew-han.github.io/post/31c8add0-69af-11ea-ad58-59a2dd622848/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
     }
-    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
-  })</script> <script type="text/javascript">
-                  ;(function() {
-                    var bp = document.createElement('script')
-                    var curProtocol = window.location.protocol.split(':')[0]
-                    if (curProtocol === 'https') {
-                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
-                    } else {
-                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
-                    }
-                    var s = document.getElementsByTagName('script')[0]
-                    s.parentNode.insertBefore(bp, s)
-                  })()
-                </script> 
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    Ported by Kaijun
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Build by 元末
+                    <!--iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

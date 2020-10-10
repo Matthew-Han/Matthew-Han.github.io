@@ -1,229 +1,206 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <script>
-  var _hmt = _hmt || []
-  ;(function() {
-    var hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
-    var s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-</script> 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="极度理性，爱憎分明" />
-    
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="极度理性，爱憎分明">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <title>
-      2019.09.30 - Espada
+        
+          2019.09.30 - Espada
+        
     </title>
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">
+
+    <!-- Bootstrap Core CSS -->
     
-<link rel="stylesheet" href="/style/style.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 
-  </head>
-  <body>
-    <canvas id='pagemap'></canvas>
+
+    <!-- Custom CSS -->
     
-    <div id="fixed-menu-wrap">
-      <span class="iconfont icon-sousuo search-box menu-reset"></span>
-      <span class="icon-toc menu-reset">Toc</span>
-      <span class="iconfont icon-arrowup menu-reset"></span>
-    </div>
-    <div id="fixed-menu">
-      <span class="iconfont icon-menu-"></span>
-    </div>
-    <div id="progress">
-      <div class="line"></div>
-    </div>
-    <div id="search-shade" class="animated hiddenSearch hide">
-      <div class="input-wrap">
-        <span class="iconfont icon-sousuo search-box"></span>
-        <input type="text" placeholder="Search" />
-        <span class="iconfont icon-close"></span>
-      </div>
-      <div class="search-result">
-        <div class="meta">
-          <span><b id="result-count">0</b> results found</span>
-          <img src="/images/logo.jpeg" />
-        </div>
-        <ul id="result-box"></ul>
-      </div>
-    </div>
-    <div id="menu-mask" class="animated hideMenuMask hide">
-      <span class="iconfont icon-close"></span>
-      <div class="nav">
-        
-        <a href="/" class="">
-          首页
-        </a>
-        
-        <a href="/archives" class="">
-          归档
-        </a>
-        
-        <a href="/categories" class="">
-          分类
-        </a>
-        
-        <a href="/tags" class="">
-          标签
-        </a>
-        
-        <a href="/friends" class="">
-          友链
-        </a>
-        
-        <a href="/about" class="">
-          关于
-        </a>
-        
-      </div>
-    </div>
-    <div id="header">
-      <div class="intro">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <div class="author">Espada</div>
-      </div>
-      <div class="nav">
-        <span class="iconfont icon-menu menu-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-    </div>
-    <div id="side" class="animated bounceInLeft">
-      <div class="shrink">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <span class="iconfont icon-menu toggle-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-      <div class="magnify">
-        <div class="about">
-          <div class="author">Espada</div>
-          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
         </div>
 
-        <div class="nav">
-          
-          <a href="/" class="">
-            首页
-          </a>
-          
-          <a href="/archives" class="">
-            归档
-          </a>
-          
-          <a href="/categories" class="">
-            分类
-          </a>
-          
-          <a href="/tags" class="">
-            标签
-          </a>
-          
-          <a href="/friends" class="">
-            友链
-          </a>
-          
-          <a href="/about" class="">
-            关于
-          </a>
-          
-          <a href="#" class="search-box">
-            <span class="iconfont icon-sousuo"></span>
-          </a>
-        </div>
-        <div class="bottom">
-          <div class="follow">
-            
-            <a href="https://github.com/Matthew-Han" target="_block">
-              <span class="iconfont icon-github"></span>
-            </a>
-            
-            <a href="https://twitter.com/_yuanmo_" target="_block">
-              <span class="iconfont icon-twitter"></span>
-            </a>
-            
-            <a href="https://www.instagram.com/yuanmo233" target="_block">
-              <span class="iconfont icon-instagram"></span>
-            </a>
-            
-            <a href="https://weibo.com/MatthewHan96" target="_block">
-              <span class="iconfont icon-weibo"></span>
-            </a>
-            
-            <a href="tencent://message/?uin=837204579" target="_block">
-              <span class="iconfont icon-QQ"></span>
-            </a>
-             
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="container">
-      <div class="main animated bounceInRight delay-0.7s">
-        <article class="post-entry">
-    <div class="header">
-      
-      <div class="title">2019.09.30</div>
-      <div class="meta">
-        <span class="item">
-          <span class="iconfont icon-time-circle"></span>
-          <span>2019/09/30</span>
-        </span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
 
-        
-          <span class="item leancloud-visitors" id="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/" data-flag-title="2019.09.30">
-            <span class="iconfont icon-eye1"></span>
-            <span class="leancloud-visitors-count"></span>
-          </span>
-        
+                    
 
-         
-        <span class="item">
-          <span class="iconfont icon-folder"></span>
-          <span>
-              
-                
-                  <a href="/categories/点滴">点滴</a>
-                
-              
-          </span>
-        </span>
-        
-        
-         
-          <span class="item">
-            <span class="iconfont icon-tag1"></span>
-            <span>
-                
-                  
-                    <a href="/tags/生活">生活</a>
-                  
-                
-                  
-                    <a href="/tags/轨迹">轨迹</a>
-                  
-                
-                  
-                    <a href="/tags/日记">日记</a>
-                  
-                
-            </span>
-          </span>
-         
-      </div>
-      <div>
-      </div>
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><div id="hbe-security">
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#生活" title="生活">生活</a>
+                        
+                          <a class="tag" href="/tags/#轨迹" title="轨迹">轨迹</a>
+                        
+                          <a class="tag" href="/tags/#日记" title="日记">日记</a>
+                        
+                    </div>
+                    <h1>2019.09.30</h1>
+                    <h2 class="subheading">2019.09.30</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-09-30
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><div id="hbe-security">
   <div class="hbe-input-container">
-  <input type="password" class="hbe-form-control" id="pass" placeholder="等待">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="等待" />
     <label for="pass">等待</label>
     <div class="bottom-line"></div>
   </div>
@@ -231,110 +208,326 @@
 <div id="decryptionError" style="display: none;">Incorrect Password!</div>
 <div id="noContentError" style="display: none;">No content to display!</div>
 <div id="encrypt-blog" style="display:none">
-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
+U2FsdGVkX1+iTyLosYneB6aPrWIgdPIOe7WXfEM2XQ7++SCZKN2uadL5NFLZtWV3PueadKUl/Lm7tcKp/4esyVctoDeNQKtUdebu43wZBlQpnszN1IJXBNUQ/n2DeSsim0uB8BdYq7u9JlS1W4k1MFeDYV8kCKGidZB9xSCz28Z0QvhVIxkGQG/lnrHbwOfk4YG0sNpmMaEAfdCJDu0rLwvGEdpsS/fEERpwuzR0j/Ek25178yEtcPzgOrUnlUa7hlSwasrZB3EDhFlI4xIMtRCZSNFZpEVdgN07+S2IECkcP4Uy4+L0J/XB3QDWjG4RAAl/v9OZAgqkCULnNsE0HpiX/80kB8AnsvST1MRhB/lOjlsRVDTSF6FJUW+DcWavX2IcNYBz55uc8jc3wEiQPKwxyCuHqvK9WobVjTx18BMzbj4DUhoXQBO/lGkxKy6/SfkmWHmyi+Gel3EPXNMyPbjDOzaMMDFAKGspHCaOj1YjaDQUa4pnjeo3w5wRVVCGi7wvUZaJBS7eTM9e8a+GNNhFllA74V7r/Ga5/gBs1j02upzGUDnLYdKe/3Lx0lZOMb1Hfl+ozh5jRsAkvhqYzRdSngL25uA7+bqPtRWZJeiPB5Jrzi5uY3IQ/WEAh8Mk8Ti3W1rZy4ZHjXuBHJkRjJvE61b6KO9zicwn/NB/d4guu4BzPL0Gvz9nKcU7gDjZsbVdPpsMQoTOI7UqvSi+CXvHdzjwxNsFo1T/OBx89l4jsOnGq/ZdRX9DuOL0/VkwbgBT4n//9/bQ15SVLimVpM+umMrbaGHxvotxPsj9MmM1HGlsOu1beAqmu0itRlh912+Hz7Sx8WFnmoUP8GsQf1+y3CxrvzAwPRb2D7Btdr0uf64t2UngCxbC5qkznGyHKm+nECAqorReMXHcQD73SYxpQSZqg8jERdPrSa9yEubl+gGknucaWOdvTtYYdJlovOoXRo0JIM44uAc2tghUIMzJcfnSaOuArMrdmS8IwNrp5uq9zRNUxBpG5ivNSD6Hljn0tIDo6sPLvoqGeIqdR6UEPik66NWWUf5poOAi0tFZrhgYhAeZ/W/8PEzt46ZVsvDq0k/MicxfDCdTZvBjSPSLHZYwvZ2fRCN8eGTDUatUDPtY4Qcz6CNA/TcObxBjztGLIyWDan8qVWX/sZWaK/5K1SakzIMZefnCbDG0cKjfRY12o0TntO406j85NsVNZj8YGva0EYK5n3MPa9I12p31agixzLNHYjjMjaSBEwYYirqCo+IKi4V1JVMpoDucWo74jNzRA2C5ZFE42jgz1Tv+3wvODvfw0Krn/CVA7xenStrhaHebDXB8oubc2X/aGQawMcoDkxAGbtGsh0A2diW2SMN3R2+OmaYkVBdMXntmdnbXnVLtY7EYNs7RqE3mlAmR0XT/mK1gAfRD2Ad7AGJdM8E+7SrXCkXJdjryIgcYqG9fxzf3rrG6P396Zr92Y+6lS75tPUriA52Mp58T9L+85a8pX8wZ2wHfsmdvx3DXJxTuqPgEcwZw/kgACZHeCa8zEG/2hwjQcyBU0tGxG3YBg7yxLN2BEjWDgOjYIMVO+6KgrZ7GPGlCEqn/eqjLXFQinzT/OLZACOO2v44nbS62zICT4vjQXISXcVc2sLK7Mwp1ttPZQeqbRtJ0qa+C2IhfUO4mGyxn33rS5+0g6czKnApEOc4LBqZQW+GotT5GQVkU7hnWsbCJrucuecKdJldHPWnZoYZvEQWdPHo68zptmhbYtFpC19LXdpftGaq5PMPQr0lJX2zdX1vU2P/tMYETe6mUFZx3FeMTF5ezvPXcSUbxM9Ny5vzVCrx5ygdLcjZamdTYu5GvsUwnxvm6Jib0n1Mvg4/KYxiKAujJPlYcYjyWfQ2yNHt1FgoJfY+alMTGX9FbBtJL+Ybkaw750n3aZpdrFoWr5niOwHpPJKEqiNqerDSdSmoKxks+6xzD29Jmk0+n8p2dyTl3x+H6U/enlvTqMn/2UekT6RtqXwmE3Sh8K99U50Y9x1MmtZpsnNwZ0m1zASaeY06/vXnMe0WxyJLnWlaY+I2CFVu5NamULqVWMNXkz0zR0GDvi5+79EVASiB04/ApTl38oFBpn7or5hMSpf10MB7TGAqHee4Y0ezPRWhM0E9TfQSB/SaBPrv+AwKwrEtASGMhq9LRDO9RTALr9xcAviAPwVVLxxFYeWMsg6d2Qd3HBVZK/c+cZulgyyb4c46RygxtCqBhkfHTHj77TyzYR7ge2ClM8VKBOeYnpPubTbDl3Wjn+AYoF9lT+QqWOmQoBdXe9tnfagBb07/PE0YjkfEccc+J47E1d9qgqhkWrqx4bjUsUp+UF+TaLnPVBZNt7AdyW6+SgH4XXh3Pz4NvGR2pR/UG8J7v4xU3rYkpbVL8lAls+NQFoYgZeWUC0wElMkLTMBXizvfQJ+VKMSlMxD/EmP2+xvWe7ew/kbOJraHSZaf94nS2rTZzoAuySU0pGQVWzRf0rlx9rQzhsKxC9rbZvSS7pG0AnSUEHI/5RF7HxltaXWOk4qIxGQme820W7AmwZ7qqpXTSnLk25sGGQBEJf+G/Y1yByPnSVkhyc7L/Ju6YJBp0z0rKwcLhtFoPrC/hM5UYBdRxMy75aMbQ6ShzkKzbkwNSbl7idiAOj6PHX139ixdNlWtQ+DfXGMHsG3HGj260Mwtb7lxCQIgQszh46a0HQpOE7DPpZWKak9skejLaKm3zH6+Ho3Vrndp+XJAHEGdBPZZKjN4eb/d2alzt486dDDYtSkl2pRVYUJkA5F003bnvIJAip4cm0mG398oej+AeMqPId/iN4EIqvd+b2ChRbbJcipzlELqoPjFxpLhHGqZjDfR6nZjY1mfPdcuPGDtk+ZeromOGxRrewsBbHbTAUrfSdpUy0Zxj5LAvFZ5G5PRxiQ8A1aP91dvaV81mFT/mqOQevmJm6vxRdv7JyFFJOC79IYLQvf1xOgSFRcYozhL0OCDduynqzDs9rdro9xXlAafdExqfdNZsQpXxqw7QC1XwndvJeRZjg0yzDnWq5GmsMYzs11LN/ObjaEj1MqossOy/ygmug+1staV+229FPWdef13Mrmc5epZ2jqLRglIPy9niU0KstfgMrQezF2DNttPYK9/EFZuoXxSioat44UOkt3r4XqYnQZGQKuGeXSkbO0/zIAtmy2HqR5AvXfhVAKFJxgSUZBcwepsgltv5H+P1cSLDynGiw9cEioj4o8mTilh+uLEyPNT1d5MU7ydvt5GN4muqbcU3RyiDeOEbq7eqm7wEB7gUjVKMqACjjGuvaGfiuuVHoXQDFu+lsgnnLHju+LwsRVm3RD1mAaVcAmHEj5k0luS9HbVU0POPPylIlm84brzqsHCyhge6WxCTxrVoPC4EKG4/4MCjXp0WhOISQ2+Gvjblg43wVkKW1O53fIsYHy+qX/byahWCt+FMR4jYAaJCygv2nXC3ZI+QUGQ3AoSjpQVXw7sdAzmGYFwfW4AWlvUEl47jOAj/s1+A/uEM4McsJ33xb+IM2zcJBbvcOsDil/IKXnuoaCrj3JVZbz5bQxWfw58RBdMH0iGXXBu3I1tYqCar0rIOrWl2laZgFeR1L9QNvMfVt81xjWv96PL9D++M5kiI4VOr303b9wCpQwtFCt604+f/+vC9zg==
 </div>
-<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css"></body></html>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
 
-  
-    <div class="post-reward">
-    <div id="reward-button">龙鸣</div>
-      <div id="qr">
-        <div class="wrap">
-            
-            
-            <div class="bg-wrap">
-                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
-              "老罗"
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/43892940-eb34-11e9-8e01-011debd96741/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（三）：异常与日志">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/3f573050-d915-11e9-9d5e-538baaf5d924/" data-toggle="tooltip" data-placement="top" title="D区">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
             </div>
-            
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#生活" title="生活">生活</a>
+                        
+                          <a class="tag" href="/tags/#轨迹" title="轨迹">轨迹</a>
+                        
+                          <a class="tag" href="/tags/#日记" title="日记">日记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="http://jerryc.me/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
         </div>
-      </div>
     </div>
-  
-  <div class="post-guide">
-    <div class="item left">
-        
-          <a href="/post/43892940-eb34-11e9-8e01-011debd96741/">《码出高效》系列笔记（三）：异常与日志</a>
-        
-    </div>
-    <div class="item right">
-        
-          <a href="/post/3f573050-d915-11e9-9d5e-538baaf5d924/">D区</a>
-        
-    </div>
-  </div>
-
-  
-
-  <div class="post-copyright">
-    <div class="auth">
-      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
-    </div>
-    <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/3eb24080-e357-11e9-bc83-959f5ffb326a/">https://Matthew-Han.github.io/post/3eb24080-e357-11e9-bc83-959f5ffb326a/</a>
-    </div>
-    <div class="declare">
-      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
-    </div>
-  </div>
-
-  <div id="comment"></div>
-
-  
-  
 </article>
-        <footer>
-          <div class="copyright">
-            ©2020
-            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
-            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
-          </div>
-          
-        </footer>
-      </div>
-    </div>
-  </body>
-  
-</html>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
-                </script> <script type="text/javascript">window.addEventListener('load', function() {
-    
-    window.loadJs = function(d, m, a) {
-      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
-      var b = document.createElement('script')
-      b.defer = true
-      b.setAttribute('type', 'text/javascript')
-      b.setAttribute('charset', 'UTF-8')
-      b.setAttribute('async', 'true')
-      b.setAttribute('src', d)
-      m && b.setAttribute('data-main', '/scripts/app-built')
-      if (typeof a === 'function') {
-        if (window.attachEvent) {
-          b.onreadystatechange = function() {
-            var e = b.readyState
-            if (e === 'loaded' || e === 'complete') {
-              b.onreadystatechange = null
-              a()
-            }
-          }
-        } else {
-          b.onload = a
-        }
-      }
-      c.appendChild(b)
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/3eb24080-e357-11e9-bc83-959f5ffb326a/";
+    var disqus_url = "https://matthew-han.github.io/post/3eb24080-e357-11e9-bc83-959f5ffb326a/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
     }
-    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
-  })</script> <script type="text/javascript">
-                  ;(function() {
-                    var bp = document.createElement('script')
-                    var curProtocol = window.location.protocol.split(':')[0]
-                    if (curProtocol === 'https') {
-                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
-                    } else {
-                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
-                    }
-                    var s = document.getElementsByTagName('script')[0]
-                    s.parentNode.insertBefore(bp, s)
-                  })()
-                </script> 
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    Ported by Kaijun
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Build by 元末
+                    <!--iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

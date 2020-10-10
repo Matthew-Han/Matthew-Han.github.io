@@ -1,229 +1,206 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <script>
-  var _hmt = _hmt || []
-  ;(function() {
-    var hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?e931d9fd561eb5e97f275886f3d82c3a'
-    var s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-</script> 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="keywords" content="" />
-    <meta name="description" content="极度理性，爱憎分明" />
-    
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="极度理性，爱憎分明">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
     <title>
-      2019.08.08 - Espada
+        
+          2019.08.08 - Espada
+        
     </title>
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/">
+
+    <!-- Bootstrap Core CSS -->
     
-<link rel="stylesheet" href="/style/style.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
 
-  </head>
-  <body>
-    <canvas id='pagemap'></canvas>
+
+    <!-- Custom CSS -->
     
-    <div id="fixed-menu-wrap">
-      <span class="iconfont icon-sousuo search-box menu-reset"></span>
-      <span class="icon-toc menu-reset">Toc</span>
-      <span class="iconfont icon-arrowup menu-reset"></span>
-    </div>
-    <div id="fixed-menu">
-      <span class="iconfont icon-menu-"></span>
-    </div>
-    <div id="progress">
-      <div class="line"></div>
-    </div>
-    <div id="search-shade" class="animated hiddenSearch hide">
-      <div class="input-wrap">
-        <span class="iconfont icon-sousuo search-box"></span>
-        <input type="text" placeholder="Search" />
-        <span class="iconfont icon-close"></span>
-      </div>
-      <div class="search-result">
-        <div class="meta">
-          <span><b id="result-count">0</b> results found</span>
-          <img src="/images/logo.jpeg" />
-        </div>
-        <ul id="result-box"></ul>
-      </div>
-    </div>
-    <div id="menu-mask" class="animated hideMenuMask hide">
-      <span class="iconfont icon-close"></span>
-      <div class="nav">
-        
-        <a href="/" class="">
-          首页
-        </a>
-        
-        <a href="/archives" class="">
-          归档
-        </a>
-        
-        <a href="/categories" class="">
-          分类
-        </a>
-        
-        <a href="/tags" class="">
-          标签
-        </a>
-        
-        <a href="/friends" class="">
-          友链
-        </a>
-        
-        <a href="/about" class="">
-          关于
-        </a>
-        
-      </div>
-    </div>
-    <div id="header">
-      <div class="intro">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <div class="author">Espada</div>
-      </div>
-      <div class="nav">
-        <span class="iconfont icon-menu menu-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-    </div>
-    <div id="side" class="animated bounceInLeft">
-      <div class="shrink">
-        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
-        <span class="iconfont icon-menu toggle-icon"></span>
-        <a href="#" class="search-box">
-          <span class="iconfont icon-sousuo"></span>
-        </a>
-      </div>
-      <div class="magnify">
-        <div class="about">
-          <div class="author">Espada</div>
-          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
         </div>
 
-        <div class="nav">
-          
-          <a href="/" class="">
-            首页
-          </a>
-          
-          <a href="/archives" class="">
-            归档
-          </a>
-          
-          <a href="/categories" class="">
-            分类
-          </a>
-          
-          <a href="/tags" class="">
-            标签
-          </a>
-          
-          <a href="/friends" class="">
-            友链
-          </a>
-          
-          <a href="/about" class="">
-            关于
-          </a>
-          
-          <a href="#" class="search-box">
-            <span class="iconfont icon-sousuo"></span>
-          </a>
-        </div>
-        <div class="bottom">
-          <div class="follow">
-            
-            <a href="https://github.com/Matthew-Han" target="_block">
-              <span class="iconfont icon-github"></span>
-            </a>
-            
-            <a href="https://twitter.com/_yuanmo_" target="_block">
-              <span class="iconfont icon-twitter"></span>
-            </a>
-            
-            <a href="https://www.instagram.com/yuanmo233" target="_block">
-              <span class="iconfont icon-instagram"></span>
-            </a>
-            
-            <a href="https://weibo.com/MatthewHan96" target="_block">
-              <span class="iconfont icon-weibo"></span>
-            </a>
-            
-            <a href="tencent://message/?uin=837204579" target="_block">
-              <span class="iconfont icon-QQ"></span>
-            </a>
-             
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="container">
-      <div class="main animated bounceInRight delay-0.7s">
-        <article class="post-entry">
-    <div class="header">
-      
-      <div class="title">2019.08.08</div>
-      <div class="meta">
-        <span class="item">
-          <span class="iconfont icon-time-circle"></span>
-          <span>2019/08/08</span>
-        </span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
 
-        
-          <span class="item leancloud-visitors" id="/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/" data-flag-title="2019.08.08">
-            <span class="iconfont icon-eye1"></span>
-            <span class="leancloud-visitors-count"></span>
-          </span>
-        
+                    
 
-         
-        <span class="item">
-          <span class="iconfont icon-folder"></span>
-          <span>
-              
-                
-                  <a href="/categories/点滴">点滴</a>
-                
-              
-          </span>
-        </span>
-        
-        
-         
-          <span class="item">
-            <span class="iconfont icon-tag1"></span>
-            <span>
-                
-                  
-                    <a href="/tags/生活">生活</a>
-                  
-                
-                  
-                    <a href="/tags/轨迹">轨迹</a>
-                  
-                
-                  
-                    <a href="/tags/日记">日记</a>
-                  
-                
-            </span>
-          </span>
-         
-      </div>
-      <div>
-      </div>
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <html><head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><meta name="generator" content="Hexo 4.2.0"></head><body><div id="hbe-security">
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#生活" title="生活">生活</a>
+                        
+                          <a class="tag" href="/tags/#轨迹" title="轨迹">轨迹</a>
+                        
+                          <a class="tag" href="/tags/#日记" title="日记">日记</a>
+                        
+                    </div>
+                    <h1>2019.08.08</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-08-08
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><div id="hbe-security">
   <div class="hbe-input-container">
-  <input type="password" class="hbe-form-control" id="pass" placeholder="浮生日记GKD">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="浮生日记GKD" />
     <label for="pass">浮生日记GKD</label>
     <div class="bottom-line"></div>
   </div>
@@ -231,110 +208,326 @@
 <div id="decryptionError" style="display: none;">Incorrect Password!</div>
 <div id="noContentError" style="display: none;">No content to display!</div>
 <div id="encrypt-blog" style="display:none">
-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
+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
 </div>
-<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css"></body></html>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
 
-  
-    <div class="post-reward">
-    <div id="reward-button">龙鸣</div>
-      <div id="qr">
-        <div class="wrap">
-            
-            
-            <div class="bg-wrap">
-                <a href="/images/weixin.gif" target="_block" class="bg" style="background-image:url('/images/weixin.gif')"></a>
-              "老罗"
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/fae94450-bd9c-11e9-bafd-2904b28e3726/" data-toggle="tooltip" data-placement="top" title="近期学习计划">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/" data-toggle="tooltip" data-placement="top" title="千千万万设计模式之工厂模式">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
             </div>
-            
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#生活" title="生活">生活</a>
+                        
+                          <a class="tag" href="/tags/#轨迹" title="轨迹">轨迹</a>
+                        
+                          <a class="tag" href="/tags/#日记" title="日记">日记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="http://jerryc.me/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
         </div>
-      </div>
     </div>
-  
-  <div class="post-guide">
-    <div class="item left">
-        
-          <a href="/post/fae94450-bd9c-11e9-bafd-2904b28e3726/">近期学习计划</a>
-        
-    </div>
-    <div class="item right">
-        
-          <a href="/post/faabc628-bd9c-11e9-b52a-878085b5c0f3/">千千万万设计模式之工厂模式</a>
-        
-    </div>
-  </div>
-
-  
-
-  <div class="post-copyright">
-    <div class="auth">
-      本文作者：<a href="https://Matthew-Han.github.io">Espada</a>
-    </div>
-    <div class="link">
-      永久链接：<a href="https://Matthew-Han.github.io/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/">https://Matthew-Han.github.io/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/</a>
-    </div>
-    <div class="declare">
-      版权声明：本文首发于<a href="https://Matthew-Han.github.io">Espada</a>的博客，转载请注明出处！
-    </div>
-  </div>
-
-  <div id="comment"></div>
-
-  
-  
 </article>
-        <footer>
-          <div class="copyright">
-            ©2020
-            <a href="https://Matthew-Han.github.io">Espada</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
-            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
-          </div>
-          
-        </footer>
-      </div>
-    </div>
-  </body>
-  
-</html>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\",\"facebook\",\"twitter\",\"google\"],\"valine\":{\"API_ID\":\"JBclBggDL21gHA24WBYMvWfw-gzGzoHsz\",\"API_KEY\":\"mOMmaI0eWTpogSBbHqfDgTos\"},\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/7/11\",\"site_id\":\"13697131\",\"access_token\":\"121.0bfea1667eea9f899d5c052a98a4d850.Y32SnW62iTZCB2hpK2ev7qjU7nyVWJFmoKi9HpD.X1JBKw\"}}")
-                </script> <script type="text/javascript">window.addEventListener('load', function() {
-    
-    window.loadJs = function(d, m, a) {
-      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
-      var b = document.createElement('script')
-      b.defer = true
-      b.setAttribute('type', 'text/javascript')
-      b.setAttribute('charset', 'UTF-8')
-      b.setAttribute('async', 'true')
-      b.setAttribute('src', d)
-      m && b.setAttribute('data-main', '/scripts/app-built')
-      if (typeof a === 'function') {
-        if (window.attachEvent) {
-          b.onreadystatechange = function() {
-            var e = b.readyState
-            if (e === 'loaded' || e === 'complete') {
-              b.onreadystatechange = null
-              a()
-            }
-          }
-        } else {
-          b.onload = a
-        }
-      }
-      c.appendChild(b)
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/";
+    var disqus_url = "https://matthew-han.github.io/post/faab9f10-bd9c-11e9-b52a-878085b5c0f3/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
     }
-    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","pagemap":"pagemap.min","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
-  })</script> <script type="text/javascript">
-                  ;(function() {
-                    var bp = document.createElement('script')
-                    var curProtocol = window.location.protocol.split(':')[0]
-                    if (curProtocol === 'https') {
-                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
-                    } else {
-                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
-                    }
-                    var s = document.getElementsByTagName('script')[0]
-                    s.parentNode.insertBefore(bp, s)
-                  })()
-                </script> 
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-link"></i>
+                    </span>
+                    Ported by Kaijun
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span>
+                    Build by 元末
+                    <!--iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
