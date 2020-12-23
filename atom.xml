@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://Matthew-Han.github.io/"/>
-  <updated>2020-11-23T06:58:02.883Z</updated>
+  <updated>2020-12-23T09:18:44.322Z</updated>
   <id>https://Matthew-Han.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>分布式事务与 Seata 初探</title>
+    <link href="https://Matthew-Han.github.io/post/2752cd30-3a98-11eb-b0c9-0b16b97a2613/"/>
+    <id>https://Matthew-Han.github.io/post/2752cd30-3a98-11eb-b0c9-0b16b97a2613/</id>
+    <published>2020-12-10T03:31:13.000Z</published>
+    <updated>2020-12-23T09:18:44.322Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>#分布式事务</p><p>布式事务的实现有很多种，最具有代表性的是由<strong>Oracle Tuxedo</strong>系统提出的<strong>XA</strong>分布式事务协议。</p><p>XA协议包含**两阶段提交（2PC）<strong>和</strong>三阶段提交（3PC）**两种实现。</p><p>当然该协议主要是一种理论方式，具体落地有相应的组件（Seata等）或者代码中自行实现。</p><p>##二段式提交</p><p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofVRL815UNR3mnXpYf81U5Lv5WtNiamohdu792UPtCuHhNLkg7FGMvicFw/640?wx_fmt=png" alt="" /></p><p>当队员收到就位确认提示后，如果已经就位，就选择“是”，如果还没就位，就选择“否”。</p><p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofqPopLXT6ALzBz6elibzNxT8XoQSaEgXdJjYuRbkKV65HtVDLFibeWvVw/640?wx_fmt=png" alt="" /></p><p>相应的，在队长发起就位确认的时候，有可能某些队员还并没有就位。</p><p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofYaNSnxNnZfsXwxhdicfIrx0bD8BY5GiaVBqxphFcdsuJgrdPX1iaetuOg/640?wx_fmt=png" alt="" /></p><p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofqxmWafL4tcIcMFcHhAcR1AX3QvS9Fw5JCC0dPTOYvtlUSJic4uibuZHg/640?wx_fmt=png" alt="" /></p><p>那么XA协议究竟是什么样子呢？在XA协议中包含着两个角色：<strong>事务协调者</strong>和<strong>事务参与者</strong>。</p><h3 id="成功的流程"><a class="markdownIt-Anchor" href="#成功的流程"></a> 成功的流程</h3><p>让我们来看一看他们之间的交互流程：</p><p>在XA分布式事务的第一阶段，作为事务协调者的节点会首先向所有的参与者节点发送Prepare请求。</p><p>在接到Prepare请求之后，每一个参与者节点会各自执行与事务有关的数据更新，写入Undo Log和Redo Log。如果参与者执行成功，暂时不提交事务，而是向事务协调节点返回“完成”消息。</p><p>当事务协调者接到了所有参与者的返回消息，整个分布式事务将会进入第二阶段。</p><p>在XA分布式事务的第二阶段，如果事务协调节点在之前所收到都是正向返回，那么它将会向所有事务参与者发出Commit请求。</p><p>接到Commit请求之后，事务参与者节点会各自进行本地的事务提交，并释放锁资源。当本地事务完成提交后，将会向事务协调者返回“完成”消息。</p><p>当事务协调者接收到所有事务参与者的“完成”反馈，整个分布式事务完成。</p><h3 id="失败的流程"><a class="markdownIt-Anchor" href="#失败的流程"></a> 失败的流程</h3><p>在XA的第一阶段，如果某个事务参与者反馈失败消息，说明该节点的本地事务执行不成功，必须回滚。</p><p>于是在第二阶段，事务协调节点向所有的事务参与者发送Abort请求。接收到Abort请求之后，各个事务参与者节点需要在本地进行事务的回滚操作，回滚操作依照Undo Log来进行。</p><p>以上就是XA两阶段提交协议的详细过程。</p><h3 id="细节"><a class="markdownIt-Anchor" href="#细节"></a> 细节</h3><p>首先 2PC 是一个<strong>同步阻塞协议</strong>，像第一阶段协调者会等待所有参与者响应才会进行下一步操作，当然第一阶段的<strong>协调者有超时机制</strong>，假设因为网络原因没有收到某参与者的响应或某参与者挂了，那么超时后就会判断事务失败，向所有参与者发送回滚命令。</p><h3 id="二段式提交的不足"><a class="markdownIt-Anchor" href="#二段式提交的不足"></a> 二段式提交的不足</h3><ol><li><strong>性能问题</strong></li></ol><p>XA协议遵循强一致性。在事务执行过程中，各个节点占用着数据库资源，只有当所有节点准备完毕，事务协调者才会通知提交，参与者提交后释放资源。这样的过程有着非常明显的性能问题。</p><ol start="2"><li><strong>协调者单点故障问题</strong></li></ol><p>事务协调者是整个XA模型的核心，一旦事务协调者节点挂掉，参与者收不到提交或是回滚通知，参与者会一直处于中间状态无法完成事务。（参与者不具备超时机制）</p><ol start="3"><li><strong>丢失消息导致的不一致问题。</strong></li></ol><p>在XA协议的第二个阶段，如果发生局部网络问题，一部分事务参与者收到了提交消息，另一部分事务参与者没收到提交消息，那么就导致了节点之间数据的不一致。</p><h2 id="三段式提交"><a class="markdownIt-Anchor" href="#三段式提交"></a> 三段式提交</h2><ol><li><strong>XA三阶段提交</strong></li></ol><p>XA三阶段提交在两阶段提交的基础上增加了CanCommit阶段，并且引入了超时机制。一旦事物参与者迟迟没有接到协调者的commit请求，会自动进行本地commit。这样有效解决了协调者单点故障的问题。但是性能问题和不一致的问题仍然没有根本解决。</p><p><img src="https://pic3.zhimg.com/80/v2-885daf4ba34102d6e1047b0b67910652_1440w.jpg" alt="" /></p><ol start="2"><li><strong>TCC事务</strong></li></ol><p>TCC事务是Try - Confirm - Cancel三种指令的缩写，其逻辑模式类似于XA两阶段提交，但是实现方式是在代码层面来人为实现。</p><p>其实从思想上看和 2PC 差不多，都是先试探性的执行，如果都可以那就真正的执行，如果不行就回滚。</p><p><strong>比如说一个事务要执行A、B、C三个操作，那么先对三个操作执行预留动作。如果都预留成功了那么就执行确认操作，如果有一个预留失败那就都执行撤销动作。</strong></p><p><img src="https://pic4.zhimg.com/80/v2-90179fa933c0a389ffa6ac04e244a58f_1440w.jpg" alt="" /></p><p>TCC 对业务代码的侵入较大，开发量也比较大但是提供了较好的性能。</p><h4 id="xa-和-tcc-的区别"><a class="markdownIt-Anchor" href="#xa-和-tcc-的区别"></a> XA 和 TCC 的区别</h4><p>XA 是一整个长事务，对数据库进行加锁，所以性能拉胯而且会有长事务风险。但是 TCC 是几个小事务（本地事务），最终一致性，不会出现长事务的锁风险，保证分布式性能。</p><p>在 Seata 中如需改造成 TCC 模式，需要加上核心注解<code>@LocalTCC</code>，并写三个接口，分别对应 Try - Confirm - Cancel，如<code>saveOrder()</code>、<code>commit()</code>、<code>rollbackTcc()</code>方法。代码量确实会大一些，并且后期维护加重。</p><ol start="3"><li><strong>MQ事务</strong></li></ol><p>利用消息中间件来异步完成事务的后一半更新，实现系统的最终一致性。这个方式避免了像XA协议那样的性能问题。</p><h2 id="seata"><a class="markdownIt-Anchor" href="#seata"></a> Seata</h2><p>TC：seata 服务端</p><p>TM：<code>@GlobalTransactional</code>注解的方法，事务的发起方</p><p>RM：一个数据库就是 RM，事务的参与方</p><p>TM 开启分布式事务，TM 向 TC 注册全局事务记录</p><p>业务场景，编排数据库，服务等事务内资源，RM 向 TC 报备资源准备状态</p><p>TM 结束分布式事务，事务一阶段结束（TM 通知 TC 提交或回滚分布式事务）</p><p>TC 汇总事务信息，决定分布式事务是提交还是回滚</p><p>TC 通知所有 RM 提交或回滚资源，事务二阶段结束</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text&amp;#x2F;css&quot; href=&quot;https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; 
+      
+    
+    </summary>
+    
+      <category term="Java技术" scheme="https://Matthew-Han.github.io/categories/Java%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="分布式事务" scheme="https://Matthew-Han.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"/>
+    
+      <category term="Seata" scheme="https://Matthew-Han.github.io/tags/Seata/"/>
+    
+      <category term="中间件" scheme="https://Matthew-Han.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>数据结构：字典树</title>
@@ -252,9 +281,9 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
-    
       <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
+    
+      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
     
       <category term="二叉搜索树" scheme="https://Matthew-Han.github.io/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/"/>
     
@@ -320,13 +349,13 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
+      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
     
       <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
     
-      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
     
-      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
+      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
     
   </entry>
   
@@ -481,11 +510,11 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
+      <category term="队列" scheme="https://Matthew-Han.github.io/tags/%E9%98%9F%E5%88%97/"/>
     
       <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
     
-      <category term="队列" scheme="https://Matthew-Han.github.io/tags/%E9%98%9F%E5%88%97/"/>
+      <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
     
   </entry>
   
@@ -545,9 +574,9 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
-    
       <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
+    
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
     
   </entry>
   
@@ -576,13 +605,13 @@
     
       <category term="算法" scheme="https://Matthew-Han.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
+      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
     
       <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
     
-      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
     
-      <category term="leetcode" scheme="https://Matthew-Han.github.io/tags/leetcode/"/>
+      <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
     
   </entry>
   
@@ -611,38 +640,11 @@
     
       <category term="数据结构" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
-      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
-    
       <category term="栈" scheme="https://Matthew-Han.github.io/tags/%E6%A0%88/"/>
     
+      <category term="数组" scheme="https://Matthew-Han.github.io/tags/%E6%95%B0%E7%BB%84/"/>
+    
       <category term="stack" scheme="https://Matthew-Han.github.io/tags/stack/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>虐猫事件思考「虐」的定义</title>
-    <link href="https://Matthew-Han.github.io/post/41de2f70-7d4f-11ea-b18b-ad951eb7124e/"/>
-    <id>https://Matthew-Han.github.io/post/41de2f70-7d4f-11ea-b18b-ad951eb7124e/</id>
-    <published>2020-04-13T06:23:14.000Z</published>
-    <updated>2020-10-10T05:24:55.569Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><blockquote><p>我们需要一个上帝吗？</p></blockquote><h1 id="自我解释"><a class="markdownIt-Anchor" href="#自我解释"></a> 自我解释</h1><p>小时候会觉得虐待动物是不道德错误的、或者说是心理问题、性格缺陷。长大后慢慢的看待问题不会在只关注事件本身，局限的从一两个点出发，开始学会多角度切入会去思考，怎么样算「虐待」呢？我们可以假定动物本身是抗拒这种被「虐待」的行为，那么绝育、关笼子、指令教学为什么就不能算「虐待」呢？人们会说我们还是给了他一定的自由、给了它充足的食物和安全的环境，至少比在野外流浪好吧！我们不懂动物的语言交流方式，暂时无法得到这些动物的真实想法。所谓的一切说辞都不过是人给的定义罢和自我解释罢了。</p><p>现代汉语词典里，「虐待」一词指的是：</p><blockquote><p>用残暴的手段对待。</p></blockquote><p>当然也是人定义的。</p><h1 id="每一个人都有对事物的行为都有自己的理解"><a class="markdownIt-Anchor" href="#每一个人都有对事物的行为都有自己的理解"></a> 每一个人都有对事物的行为都有自己的理解</h1><ul><li>他认为将动物绝育是比失去生命更罪大恶极的，即使绝育有他万千的好处和理由；</li><li>他认为猫狗不如人类，没有道德荣辱价值观，有个舒适安全的生存环境便是上天对它最好的馈赠；</li><li>他认为用残忍手段虐杀动物是非常具有道德问题的，对生命没有敬畏之心，缺少共情能力；</li><li>他认为养宠物和虐杀完全是两种态度，一种出发点是为了宠物好（当然也有自己的私欲），另一种是单纯的恶（完完全全是为了满足自己的私欲）；</li><li>他认为网络上也有不少利用各种手段（电击、火烤）折磨蟑螂水蛭蚂蚁的，它们也是生命，它们不过也是用一种方式活着而已。它们并不会得到人类的同情一是相貌问题二是因为部分害虫与人类利益冲突，对人类有害。</li></ul><p>各执一词，谁都说服不了谁。因为谁都可以给「虐待」再附加上定义。</p><p>范源庆此次的虐猫事件来说，首先在法律上，目前还未成立虐待动物罪，学生本身通过拍摄相关的视频牟利是否存在问题不予置评。</p><p>人与人之间出现虐待、伤害事件不会像人与动物一样难以定性，法治社会里法律是服务于人本身的，为人的行为而制定，以人为本，维持一个社会的基本稳定。在人类统治陆地上的这段时间里，永远是人凌驾于万物之上的，吃人杀人犯法吗？除了正当防卫肯定犯法。我们想好好活着都得遵守这个规则。</p><p>想到一个搞笑gif图形容不会做饭：一个人将活鱼直接丢入烧锅，鱼下锅后随即发疯似的乱跳，油飞溅了整个厨房。本身是一个搞笑的gif图，但是我看到的第一感觉是残忍。以前有个传闻（大概率编造，网络上鲜有相关资料），在德国爱吃鱼的家庭常被一种药丸，在杀鱼之前往往会先让鱼服下这种药丸，待鱼昏迷之后在进行宰杀。每个人都有着自己的三观，带着自己的思维和理解在做人做事。</p><p>人类需要有一个上帝吗…</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; type=&quot;text&amp;#x2F;css&quot; href=&quot;https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; 
-      
-    
-    </summary>
-    
-      <category term="点滴" scheme="https://Matthew-Han.github.io/categories/%E7%82%B9%E6%BB%B4/"/>
-    
-    
-      <category term="虐猫" scheme="https://Matthew-Han.github.io/tags/%E8%99%90%E7%8C%AB/"/>
-    
-      <category term="虐待" scheme="https://Matthew-Han.github.io/tags/%E8%99%90%E5%BE%85/"/>
     
   </entry>
   

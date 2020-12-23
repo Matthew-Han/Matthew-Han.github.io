@@ -13,11 +13,11 @@
 
     <title>
         
-          LeetCode 剑指 Offer #04 二维数组中的查找 - Espada
+          分布式事务与 Seata 初探 - Espada
         
     </title>
 
-    <link rel="canonical" href="https://Matthew-Han.github.io/post/fde16a80-de06-11ea-9d6c-0b86d1eb3e64/">
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/2752cd30-3a98-11eb-b0c9-0b16b97a2613/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -168,22 +168,18 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#算法" title="算法">算法</a>
+                          <a class="tag" href="/tags/#分布式事务" title="分布式事务">分布式事务</a>
                         
-                          <a class="tag" href="/tags/#leetcode" title="leetcode">leetcode</a>
+                          <a class="tag" href="/tags/#Seata" title="Seata">Seata</a>
                         
-                          <a class="tag" href="/tags/#stack" title="stack">stack</a>
-                        
-                          <a class="tag" href="/tags/#二叉搜索树" title="二叉搜索树">二叉搜索树</a>
-                        
-                          <a class="tag" href="/tags/#深度优先搜索" title="深度优先搜索">深度优先搜索</a>
+                          <a class="tag" href="/tags/#中间件" title="中间件">中间件</a>
                         
                     </div>
-                    <h1>LeetCode 剑指 Offer #04 二维数组中的查找</h1>
-                    <h2 class="subheading">LeetCode</h2>
+                    <h1>分布式事务与 Seata 初探</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by MatthewHan on
-                        2020-08-14
+                        2020-12-10
                     </span>
                 </div>
             </div>
@@ -202,35 +198,75 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description</h1>
-<p>在一个 <code>n * m</code> 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
-<h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.</h2>
-<p>现有矩阵 matrix 如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [1, 4, 7, 11, 15],</span><br><span class="line">  [2, 5, 8, 12, 19],</span><br><span class="line">  [3, 6, 9, 16, 22],</span><br><span class="line">  [10, 13, 14, 17, 24],</span><br><span class="line">  [18, 21, 23, 26, 30]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>
-<p>给定 <code>target</code> = 5，返回 <code>true</code>。</p>
-</li>
-<li>
-<p>给定 <code>target</code> = 20，返回 <code>false</code>。</p>
-</li>
-</ul>
-<h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note</h2>
-<ul>
-<li><code>0 &lt;= n &lt;= 1000</code></li>
-<li><code>0 &lt;= m &lt;= 1000</code></li>
-</ul>
-<h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution</h1>
-<p>方法有很多，单纯双for循环暴力肯定太low。主要还是双指针、二分法这些。不过有个思路很好，站在该矩阵的右上角来看，这货就是一个「二叉搜索树」。</p>
-<p><strong>二叉搜索树的性质：</strong></p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><p>#分布式事务</p>
+<p>布式事务的实现有很多种，最具有代表性的是由<strong>Oracle Tuxedo</strong>系统提出的<strong>XA</strong>分布式事务协议。</p>
+<p>XA协议包含**两阶段提交（2PC）<strong>和</strong>三阶段提交（3PC）**两种实现。</p>
+<p>当然该协议主要是一种理论方式，具体落地有相应的组件（Seata等）或者代码中自行实现。</p>
+<p>##二段式提交</p>
+<p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofVRL815UNR3mnXpYf81U5Lv5WtNiamohdu792UPtCuHhNLkg7FGMvicFw/640?wx_fmt=png" alt="" /></p>
+<p>当队员收到就位确认提示后，如果已经就位，就选择“是”，如果还没就位，就选择“否”。</p>
+<p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofqPopLXT6ALzBz6elibzNxT8XoQSaEgXdJjYuRbkKV65HtVDLFibeWvVw/640?wx_fmt=png" alt="" /></p>
+<p>相应的，在队长发起就位确认的时候，有可能某些队员还并没有就位。</p>
+<p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofYaNSnxNnZfsXwxhdicfIrx0bD8BY5GiaVBqxphFcdsuJgrdPX1iaetuOg/640?wx_fmt=png" alt="" /></p>
+<p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofqxmWafL4tcIcMFcHhAcR1AX3QvS9Fw5JCC0dPTOYvtlUSJic4uibuZHg/640?wx_fmt=png" alt="" /></p>
+<p>那么XA协议究竟是什么样子呢？在XA协议中包含着两个角色：<strong>事务协调者</strong>和<strong>事务参与者</strong>。</p>
+<h3 id="成功的流程"><a class="markdownIt-Anchor" href="#成功的流程"></a> 成功的流程</h3>
+<p>让我们来看一看他们之间的交互流程：</p>
+<p>在XA分布式事务的第一阶段，作为事务协调者的节点会首先向所有的参与者节点发送Prepare请求。</p>
+<p>在接到Prepare请求之后，每一个参与者节点会各自执行与事务有关的数据更新，写入Undo Log和Redo Log。如果参与者执行成功，暂时不提交事务，而是向事务协调节点返回“完成”消息。</p>
+<p>当事务协调者接到了所有参与者的返回消息，整个分布式事务将会进入第二阶段。</p>
+<p>在XA分布式事务的第二阶段，如果事务协调节点在之前所收到都是正向返回，那么它将会向所有事务参与者发出Commit请求。</p>
+<p>接到Commit请求之后，事务参与者节点会各自进行本地的事务提交，并释放锁资源。当本地事务完成提交后，将会向事务协调者返回“完成”消息。</p>
+<p>当事务协调者接收到所有事务参与者的“完成”反馈，整个分布式事务完成。</p>
+<h3 id="失败的流程"><a class="markdownIt-Anchor" href="#失败的流程"></a> 失败的流程</h3>
+<p>在XA的第一阶段，如果某个事务参与者反馈失败消息，说明该节点的本地事务执行不成功，必须回滚。</p>
+<p>于是在第二阶段，事务协调节点向所有的事务参与者发送Abort请求。接收到Abort请求之后，各个事务参与者节点需要在本地进行事务的回滚操作，回滚操作依照Undo Log来进行。</p>
+<p>以上就是XA两阶段提交协议的详细过程。</p>
+<h3 id="细节"><a class="markdownIt-Anchor" href="#细节"></a> 细节</h3>
+<p>首先 2PC 是一个<strong>同步阻塞协议</strong>，像第一阶段协调者会等待所有参与者响应才会进行下一步操作，当然第一阶段的<strong>协调者有超时机制</strong>，假设因为网络原因没有收到某参与者的响应或某参与者挂了，那么超时后就会判断事务失败，向所有参与者发送回滚命令。</p>
+<h3 id="二段式提交的不足"><a class="markdownIt-Anchor" href="#二段式提交的不足"></a> 二段式提交的不足</h3>
 <ol>
-<li>节点的左子树上的所有节点的值都小于等于节点的值；</li>
-<li>节点的右子树上的所有节点的值都大于等于节点的值；</li>
-<li>左子树和右子树也都是BST。</li>
+<li><strong>性能问题</strong></li>
 </ol>
-<p>那就模拟一颗二叉搜索树来做咯：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LcOf04</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当成二叉搜索树来做</span></span><br><span class="line"><span class="comment">     * 执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户</span></span><br><span class="line"><span class="comment">     * 内存消耗： 45.5 MB , 在所有 Java 提交中击败了 65.46% 的用户</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> matrix</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        dfs(matrix, matrix.length - <span class="number">1</span>, <span class="number">0</span>, target);</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; matrix.length &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; matrix[<span class="number">0</span>].length) &#123;</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j] == target) &#123;</span><br><span class="line">                flag = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (matrix[i][j] &lt; target) &#123;</span><br><span class="line">                dfs(matrix, i, j + <span class="number">1</span>, target);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                dfs(matrix, i - <span class="number">1</span>, j, target);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中注意下，如果用双指针、二分法最好从右上角为起点。</p>
+<p>XA协议遵循强一致性。在事务执行过程中，各个节点占用着数据库资源，只有当所有节点准备完毕，事务协调者才会通知提交，参与者提交后释放资源。这样的过程有着非常明显的性能问题。</p>
+<ol start="2">
+<li><strong>协调者单点故障问题</strong></li>
+</ol>
+<p>事务协调者是整个XA模型的核心，一旦事务协调者节点挂掉，参与者收不到提交或是回滚通知，参与者会一直处于中间状态无法完成事务。（参与者不具备超时机制）</p>
+<ol start="3">
+<li><strong>丢失消息导致的不一致问题。</strong></li>
+</ol>
+<p>在XA协议的第二个阶段，如果发生局部网络问题，一部分事务参与者收到了提交消息，另一部分事务参与者没收到提交消息，那么就导致了节点之间数据的不一致。</p>
+<h2 id="三段式提交"><a class="markdownIt-Anchor" href="#三段式提交"></a> 三段式提交</h2>
+<ol>
+<li><strong>XA三阶段提交</strong></li>
+</ol>
+<p>XA三阶段提交在两阶段提交的基础上增加了CanCommit阶段，并且引入了超时机制。一旦事物参与者迟迟没有接到协调者的commit请求，会自动进行本地commit。这样有效解决了协调者单点故障的问题。但是性能问题和不一致的问题仍然没有根本解决。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-885daf4ba34102d6e1047b0b67910652_1440w.jpg" alt="" /></p>
+<ol start="2">
+<li><strong>TCC事务</strong></li>
+</ol>
+<p>TCC事务是Try - Confirm - Cancel三种指令的缩写，其逻辑模式类似于XA两阶段提交，但是实现方式是在代码层面来人为实现。</p>
+<p>其实从思想上看和 2PC 差不多，都是先试探性的执行，如果都可以那就真正的执行，如果不行就回滚。</p>
+<p><strong>比如说一个事务要执行A、B、C三个操作，那么先对三个操作执行预留动作。如果都预留成功了那么就执行确认操作，如果有一个预留失败那就都执行撤销动作。</strong></p>
+<p><img src="https://pic4.zhimg.com/80/v2-90179fa933c0a389ffa6ac04e244a58f_1440w.jpg" alt="" /></p>
+<p>TCC 对业务代码的侵入较大，开发量也比较大但是提供了较好的性能。</p>
+<h4 id="xa-和-tcc-的区别"><a class="markdownIt-Anchor" href="#xa-和-tcc-的区别"></a> XA 和 TCC 的区别</h4>
+<p>XA 是一整个长事务，对数据库进行加锁，所以性能拉胯而且会有长事务风险。但是 TCC 是几个小事务（本地事务），最终一致性，不会出现长事务的锁风险，保证分布式性能。</p>
+<p>在 Seata 中如需改造成 TCC 模式，需要加上核心注解<code>@LocalTCC</code>，并写三个接口，分别对应 Try - Confirm - Cancel，如<code>saveOrder()</code>、<code>commit()</code>、<code>rollbackTcc()</code>方法。代码量确实会大一些，并且后期维护加重。</p>
+<ol start="3">
+<li><strong>MQ事务</strong></li>
+</ol>
+<p>利用消息中间件来异步完成事务的后一半更新，实现系统的最终一致性。这个方式避免了像XA协议那样的性能问题。</p>
+<h2 id="seata"><a class="markdownIt-Anchor" href="#seata"></a> Seata</h2>
+<p>TC：seata 服务端</p>
+<p>TM：<code>@GlobalTransactional</code>注解的方法，事务的发起方</p>
+<p>RM：一个数据库就是 RM，事务的参与方</p>
+<p>TM 开启分布式事务，TM 向 TC 注册全局事务记录</p>
+<p>业务场景，编排数据库，服务等事务内资源，RM 向 TC 报备资源准备状态</p>
+<p>TM 结束分布式事务，事务一阶段结束（TM 通知 TC 提交或回滚分布式事务）</p>
+<p>TC 汇总事务信息，决定分布式事务是提交还是回滚</p>
+<p>TC 通知所有 RM 提交或回滚资源，事务二阶段结束</p>
 
 
                 <hr>
@@ -239,13 +275,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/post/a0c666d0-df31-11ea-a0a7-39ac104f8724/" data-toggle="tooltip" data-placement="top" title="LeetCode #378 有序矩阵中第K小的元素">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/post/658c1730-ddcf-11ea-9e4c-d3e8698fdb4b/" data-toggle="tooltip" data-placement="top" title="LeetCode #934 最短的桥">Next Post &rarr;</a>
+                            <a href="/post/23cb19a0-2d3d-11eb-a175-c13ddf029711/" data-toggle="tooltip" data-placement="top" title="数据结构：字典树">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -292,15 +324,11 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#算法" title="算法">算法</a>
+                          <a class="tag" href="/tags/#分布式事务" title="分布式事务">分布式事务</a>
                         
-                          <a class="tag" href="/tags/#leetcode" title="leetcode">leetcode</a>
+                          <a class="tag" href="/tags/#Seata" title="Seata">Seata</a>
                         
-                          <a class="tag" href="/tags/#stack" title="stack">stack</a>
-                        
-                          <a class="tag" href="/tags/#二叉搜索树" title="二叉搜索树">二叉搜索树</a>
-                        
-                          <a class="tag" href="/tags/#深度优先搜索" title="深度优先搜索">深度优先搜索</a>
+                          <a class="tag" href="/tags/#中间件" title="中间件">中间件</a>
                         
                     </div>
                 </section>
@@ -336,8 +364,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "MatthewHan";
-    var disqus_identifier = "https://matthew-han.github.io/post/fde16a80-de06-11ea-9d6c-0b86d1eb3e64/";
-    var disqus_url = "https://matthew-han.github.io/post/fde16a80-de06-11ea-9d6c-0b86d1eb3e64/";
+    var disqus_identifier = "https://matthew-han.github.io/post/2752cd30-3a98-11eb-b0c9-0b16b97a2613/";
+    var disqus_url = "https://matthew-han.github.io/post/2752cd30-3a98-11eb-b0c9-0b16b97a2613/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
