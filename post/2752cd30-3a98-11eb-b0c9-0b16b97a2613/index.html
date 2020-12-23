@@ -93,14 +93,14 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -198,11 +198,11 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><p>#分布式事务</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="分布式事务"><a class="markdownIt-Anchor" href="#分布式事务"></a> 分布式事务</h1>
 <p>布式事务的实现有很多种，最具有代表性的是由<strong>Oracle Tuxedo</strong>系统提出的<strong>XA</strong>分布式事务协议。</p>
 <p>XA协议包含**两阶段提交（2PC）<strong>和</strong>三阶段提交（3PC）**两种实现。</p>
 <p>当然该协议主要是一种理论方式，具体落地有相应的组件（Seata等）或者代码中自行实现。</p>
-<p>##二段式提交</p>
+<h2 id="二段式提交"><a class="markdownIt-Anchor" href="#二段式提交"></a> 二段式提交</h2>
 <p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofVRL815UNR3mnXpYf81U5Lv5WtNiamohdu792UPtCuHhNLkg7FGMvicFw/640?wx_fmt=png" alt="" /></p>
 <p>当队员收到就位确认提示后，如果已经就位，就选择“是”，如果还没就位，就选择“否”。</p>
 <p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofqPopLXT6ALzBz6elibzNxT8XoQSaEgXdJjYuRbkKV65HtVDLFibeWvVw/640?wx_fmt=png" alt="" /></p>
