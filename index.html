@@ -100,14 +100,14 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -255,6 +255,56 @@ Api
 
 <div class="post-preview">
 
+    <a href="/post/ec90b090-774b-11eb-ac09-a1bcb7588087/">
+        <h2 class="post-title">
+            位运算算法题小技巧
+        </h2>
+        <h3 class="post-subtitle">
+            学了忘，忘了学
+        </h3>
+        <div class="post-content-preview">
+             位运算
+位运算的效率就不说了，每次学会一些小技巧就忘了，还是基础不够扎实吧。。
+
+计算某个 int 值的第 i 位（二进制位）是什么，可以用 num &gt;&gt; i; 有符号右移，不要在用 Integer 的 API 了
+0 与 1 的转换（仅存在 1 与 0），num = 1 - num;
+汉明码常用：for (int i = 0; i &lt; 32; i++) {} 懂得都懂
+......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-02-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/ecde1650-5185-11eb-84eb-99b80bd7ffbc/">
+        <h2 class="post-title">
+            千千万万设计模式之装饰器模式
+        </h2>
+        <h3 class="post-subtitle">
+            模式千万条，生命就一条，可以下班了。
+        </h3>
+        <div class="post-content-preview">
+             装饰器模式
+未完待续…
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-01-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/post/2752cd30-3a98-11eb-b0c9-0b16b97a2613/">
         <h2 class="post-title">
             分布式事务与 Seata 初探
@@ -265,13 +315,13 @@ Api
         <div class="post-content-preview">
              分布式事务
 布式事务的实现有很多种，最具有代表性的是由Oracle Tuxedo系统提出的XA分布式事务协议。
-XA协议包含**两阶段提交（2PC）和三阶段提交（3PC）**两种实现。
+XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
 当然该协议主要是一种理论方式，具体落地有相应的组件（Seata等）或者代码中自行实现。
  二段式提交
 
 当队员收到就位确认提示后，如果已经就位，就选择“是”，如果还没就位，就选择“否”。
 
-相应的，在队长发......
+相应的，在队长发起就位确......
         </div>
     </a>
     <p class="post-meta">
@@ -487,61 +537,6 @@ T9（九宫格输入），在......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/a0c666d0-df31-11ea-a0a7-39ac104f8724/">
-        <h2 class="post-title">
-            LeetCode #378 有序矩阵中第K小的元素
-        </h2>
-        <h3 class="post-subtitle">
-            #378 Kth Smallest Element in a Sorted Matrix
-        </h3>
-        <div class="post-content-preview">
-             Problem Description
-给定一个 n x n 矩阵，其中每行和每列元素均按升序排序，找到矩阵中第 k 小的元素。
-请注意，它是排序后的第 k 小元素，而不是第 k 个不同的元素。
- note
-你可以假设 k 的值永远是有效的，1 ≤ k ≤ n ^ 2
- e.g.
-
-
-示例：
-12345678matrix &#x3D; [   [1,  5,  9],   [10, 11,......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-08-16
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/post/fde16a80-de06-11ea-9d6c-0b86d1eb3e64/">
-        <h2 class="post-title">
-            LeetCode 剑指 Offer #04 二维数组中的查找
-        </h2>
-        <h3 class="post-subtitle">
-            LeetCode
-        </h3>
-        <div class="post-content-preview">
-             Problem Description
-在一个 n * m 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
- e.g.
-现有矩阵 matrix 如下：
-1234567[  [1, 4, 7, 11, 15],  [2, 5, 8, 12, 19],  [3, 6, 9, 16......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-08-14
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -651,9 +646,9 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#笔记" title="笔记" rel="9">笔记</a>
-                            
                         
+                            
+                            <a href="/tags/#笔记" title="笔记" rel="9">笔记</a>
                             
                         
                             
@@ -689,6 +684,8 @@ T9（九宫格输入），在......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#职业" title="职业" rel="2">职业</a>
                             
                         
@@ -700,6 +697,12 @@ T9（九宫格输入），在......
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#设计模式" title="设计模式" rel="4">设计模式</a>
                             
                         
                             
@@ -774,10 +777,6 @@ T9（九宫格输入），在......
                             <a href="/tags/#泛型" title="泛型" rel="2">泛型</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#设计模式" title="设计模式" rel="3">设计模式</a>
                             
                         
                             
@@ -965,7 +964,7 @@ T9（九宫格输入），在......
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Espada 2020 
+                    Copyright &copy; Espada 2021 
                     <br>
                     Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

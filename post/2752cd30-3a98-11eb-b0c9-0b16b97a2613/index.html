@@ -100,14 +100,14 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -200,7 +200,7 @@
 
                 <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="分布式事务"><a class="markdownIt-Anchor" href="#分布式事务"></a> 分布式事务</h1>
 <p>布式事务的实现有很多种，最具有代表性的是由<strong>Oracle Tuxedo</strong>系统提出的<strong>XA</strong>分布式事务协议。</p>
-<p>XA协议包含**两阶段提交（2PC）<strong>和</strong>三阶段提交（3PC）**两种实现。</p>
+<p>XA协议包含<strong>两阶段提交</strong>（2PC）和<strong>三阶段提交</strong>（3PC）两种实现。</p>
 <p>当然该协议主要是一种理论方式，具体落地有相应的组件（Seata等）或者代码中自行实现。</p>
 <h2 id="二段式提交"><a class="markdownIt-Anchor" href="#二段式提交"></a> 二段式提交</h2>
 <p><img src="https://ss.csdn.net/p?https://mmbiz.qpic.cn/mmbiz_png/NtO5sialJZGp2Ny2lbXKGqaNjy4cbhqofVRL815UNR3mnXpYf81U5Lv5WtNiamohdu792UPtCuHhNLkg7FGMvicFw/640?wx_fmt=png" alt="" /></p>
@@ -239,11 +239,15 @@
 <p>在XA协议的第二个阶段，如果发生局部网络问题，一部分事务参与者收到了提交消息，另一部分事务参与者没收到提交消息，那么就导致了节点之间数据的不一致。</p>
 <h2 id="三段式提交"><a class="markdownIt-Anchor" href="#三段式提交"></a> 三段式提交</h2>
 <ol>
+<li><strong>MQ事务</strong></li>
+</ol>
+<p>利用消息中间件来异步完成事务的后一半更新，实现系统的最终一致性。这个方式避免了像XA协议那样的性能问题。</p>
+<ol start="2">
 <li><strong>XA三阶段提交</strong></li>
 </ol>
 <p>XA三阶段提交在两阶段提交的基础上增加了CanCommit阶段，并且引入了超时机制。一旦事物参与者迟迟没有接到协调者的commit请求，会自动进行本地commit。这样有效解决了协调者单点故障的问题。但是性能问题和不一致的问题仍然没有根本解决。</p>
 <p><img src="https://pic3.zhimg.com/80/v2-885daf4ba34102d6e1047b0b67910652_1440w.jpg" alt="" /></p>
-<ol start="2">
+<ol start="3">
 <li><strong>TCC事务</strong></li>
 </ol>
 <p>TCC事务是Try - Confirm - Cancel三种指令的缩写，其逻辑模式类似于XA两阶段提交，但是实现方式是在代码层面来人为实现。</p>
@@ -254,10 +258,6 @@
 <h4 id="xa-和-tcc-的区别"><a class="markdownIt-Anchor" href="#xa-和-tcc-的区别"></a> XA 和 TCC 的区别</h4>
 <p>XA 是一整个长事务，对数据库进行加锁，所以性能拉胯而且会有长事务风险。但是 TCC 是几个小事务（本地事务），最终一致性，不会出现长事务的锁风险，保证分布式性能。</p>
 <p>在 Seata 中如需改造成 TCC 模式，需要加上核心注解<code>@LocalTCC</code>，并写三个接口，分别对应 Try - Confirm - Cancel，如<code>saveOrder()</code>、<code>commit()</code>、<code>rollbackTcc()</code>方法。代码量确实会大一些，并且后期维护加重。</p>
-<ol start="3">
-<li><strong>MQ事务</strong></li>
-</ol>
-<p>利用消息中间件来异步完成事务的后一半更新，实现系统的最终一致性。这个方式避免了像XA协议那样的性能问题。</p>
 <h2 id="seata"><a class="markdownIt-Anchor" href="#seata"></a> Seata</h2>
 <p>TC：seata 服务端</p>
 <p>TM：<code>@GlobalTransactional</code>注解的方法，事务的发起方</p>
@@ -274,6 +274,10 @@
                 
 
                 <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/ecde1650-5185-11eb-84eb-99b80bd7ffbc/" data-toggle="tooltip" data-placement="top" title="千千万万设计模式之装饰器模式">&larr; Previous Post</a>
+                        </li>
                     
                     
                         <li class="next">
@@ -471,7 +475,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Espada 2020 
+                    Copyright &copy; Espada 2021 
                     <br>
                     Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
