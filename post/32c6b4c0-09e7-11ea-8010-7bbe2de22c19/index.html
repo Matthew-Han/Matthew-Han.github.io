@@ -56,7 +56,8 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
 
 
 <!-- hack iOS CSS :active style -->
@@ -100,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -196,7 +197,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
 <p>在一台迷のWindows机器上搭建了一个单节点模拟的三主三从redis集群，过程中有一些坑记录下。</p>
 <h2 id="cluster模式"><a class="markdownIt-Anchor" href="#cluster模式"></a> cluster模式</h2>
 <p>Redis的Cluster模式工作至少需要三个主节点，所以一般采用三主三从实现负载。</p>
@@ -223,7 +224,7 @@
 <ul>
 <li>用redis-trib.rb搭建集群</li>
 </ul>
-<p><code>redis-trib.rb</code>是采用Ruby实现的Redis集群管理工具。内部通过Cluster相 关命令帮我们简化集群创建、检查、槽迁移和均衡等常见运维操作，使用之前需要安装Ruby依赖环境。但是网上的很多教程<code>redis-trib.rb</code>已经失效的，版本和Ruby环境不匹配。如果发现无法使用的话，请去GitHub的<a href="https://github.com/beebol/redis-trib.rb" target="_blank" rel="noopener">这个地址</a>。Linux环境在安装完rubygem redis依赖之后可以执行以下命令来安装<code>redis-trib.rb</code>。</p>
+<p><code>redis-trib.rb</code>是采用Ruby实现的Redis集群管理工具。内部通过Cluster相 关命令帮我们简化集群创建、检查、槽迁移和均衡等常见运维操作，使用之前需要安装Ruby依赖环境。但是网上的很多教程<code>redis-trib.rb</code>已经失效的，版本和Ruby环境不匹配。如果发现无法使用的话，请去GitHub的<a target="_blank" rel="noopener" href="https://github.com/beebol/redis-trib.rb">这个地址</a>。Linux环境在安装完rubygem redis依赖之后可以执行以下命令来安装<code>redis-trib.rb</code>。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /&#123;redis_home&#125;/src/redis-trib.rb /usr/local/bin</span><br></pre></td></tr></table></figure>
 <ul>
 <li>登陆到集群上之后执行<code>set key value</code>命令之后可能会提示“Redirected to solt [xxxx] located  at ip:port”并且跳转到其他节点</li>
@@ -446,7 +447,7 @@
                 <p class="copyright text-muted">
                     Copyright &copy; Espada 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-link"></i>
                     </span>

@@ -56,7 +56,8 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
 
 
 <!-- hack iOS CSS :active style -->
@@ -100,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -194,15 +195,16 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="位运算"><a class="markdownIt-Anchor" href="#位运算"></a> 位运算</h1>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="位运算"><a class="markdownIt-Anchor" href="#位运算"></a> 位运算</h1>
 <p>位运算的效率就不说了，每次学会一些小技巧就忘了，还是基础不够扎实吧。。</p>
 <ol>
 <li>计算某个 <code>int</code> 值的第 <code>i</code> 位（二进制位）是什么，可以用 <code>num &gt;&gt; i;</code> 有符号右移，不要在用 <code>Integer</code> 的 API 了</li>
 <li>0 与 1 的转换（仅存在 1 与 0），<code>num = 1 - num;</code></li>
-<li>汉明码常用：<code>for (int i = 0; i &lt; 32; i++) {}</code> 懂得都懂</li>
+<li>汉明码常用：<code>for (int i = 0; i &lt; 32; i++) &#123;&#125;</code> 懂得都懂</li>
 <li>汉明码常用：多个数计算汉明码距离，只要找到 1 的个数和 0 的个数相乘即可</li>
 <li><code>num1</code> 与 <code>num2</code> 不用缓存 tmp 的交换，<code>num1 ^= num2;</code> <code>num2 ^= num1;</code> <code>num1 ^= num2;</code> 但是要记住 <code>num1</code> 与 <code>num2</code> 不能相等，不然会直接等于 0</li>
 <li>判断奇偶这个老是记不住，<code>(num &amp; 1 == 0);</code> 因为任何二进制位和 1 做 <code>&amp;</code> 运算都是本身，偶数的末尾是 0</li>
+<li><code>x ^ y ^ x = y</code>，<code>x ^ 0 = x</code>这个经常多用用，前缀和、异或的题属于是考麻了！</li>
 <li>后续再更…</li>
 </ol>
 
@@ -212,6 +214,10 @@
                 
 
                 <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/7f7138a0-c736-11eb-a4ac-bd3aa37357c3/" data-toggle="tooltip" data-placement="top" title="LeetCode 第 243 场周赛">&larr; Previous Post</a>
+                        </li>
                     
                     
                         <li class="next">
@@ -407,7 +413,7 @@
                 <p class="copyright text-muted">
                     Copyright &copy; Espada 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-link"></i>
                     </span>

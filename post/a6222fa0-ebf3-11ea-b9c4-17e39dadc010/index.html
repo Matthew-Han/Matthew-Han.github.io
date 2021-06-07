@@ -56,7 +56,8 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
 
 
 <!-- hack iOS CSS :active style -->
@@ -100,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -196,7 +197,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><h1 id="一基础架构一条sql查询语句是如何执行的"><a class="markdownIt-Anchor" href="#一基础架构一条sql查询语句是如何执行的"></a> （一）基础架构：一条SQL查询语句是如何执行的？</h1>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="一基础架构一条sql查询语句是如何执行的"><a class="markdownIt-Anchor" href="#一基础架构一条sql查询语句是如何执行的"></a> （一）基础架构：一条SQL查询语句是如何执行的？</h1>
 <p><img src="https://static001.geekbang.org/resource/image/0d/d9/0d2070e8f84c4801adbfa03bda1f98d9.png" alt="基本架构图" /></p>
 <h2 id="连接器"><a class="markdownIt-Anchor" href="#连接器"></a> 连接器</h2>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h$ip -P$port -u$user -p</span><br></pre></td></tr></table></figure>
@@ -211,12 +212,12 @@
 <p>需要注意的是，MySQL 8.0 版本直接将查询缓存的整块功能删掉了，也就是说 8.0 开始彻底没有这个功能了。</p>
 <h2 id="分析器"><a class="markdownIt-Anchor" href="#分析器"></a> 分析器</h2>
 <p>分析器先会做“词法分析”。你输入的是由多个字符串和空格组成的一条 SQL 语句，MySQL 需要识别出里面的字符串分别是什么，代表什么。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; elect * from t where ID&#x3D;1;</span><br><span class="line"></span><br><span class="line">ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;elect * from t where ID&#x3D;1&#39; at line 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; elect * from t where ID=1;</span><br><span class="line"></span><br><span class="line">ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;elect * from t where ID=1&#x27; at line 1</span><br></pre></td></tr></table></figure>
 <h2 id="优化器"><a class="markdownIt-Anchor" href="#优化器"></a> 优化器</h2>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from t1 join t2 using(ID)  where t1.c&#x3D;10 and t2.d&#x3D;20;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from t1 join t2 using(ID)  where t1.c=10 and t2.d=20;</span><br></pre></td></tr></table></figure>
 <p>优化器是在表里面有多个索引的时候，决定使用哪个索引；或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。</p>
 <h2 id="执行器"><a class="markdownIt-Anchor" href="#执行器"></a> 执行器</h2>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID&#x3D;10;</span><br><span class="line"></span><br><span class="line">ERROR 1142 (42000): SELECT command denied to user &#39;b&#39;@&#39;localhost&#39; for table &#39;T&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10;</span><br><span class="line"></span><br><span class="line">ERROR 1142 (42000): SELECT command denied to user &#x27;b&#x27;@&#x27;localhost&#x27; for table &#x27;T&#x27;</span><br></pre></td></tr></table></figure>
 <p>先判断有没有权限，如果有权限，就打开表继续执行。</p>
 <p>打开表的时候，执行器就会根据表的引擎定义，去使用这个引擎提供的接口。比如我们这个例子中的表 T 中，ID 字段没有索引，那么执行器的执行流程是这样的：</p>
 <ol>
@@ -469,7 +470,7 @@
                 <p class="copyright text-muted">
                     Copyright &copy; Espada 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-link"></i>
                     </span>

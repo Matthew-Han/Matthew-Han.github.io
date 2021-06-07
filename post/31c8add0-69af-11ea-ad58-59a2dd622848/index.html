@@ -56,7 +56,8 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
 
 
 <!-- hack iOS CSS :active style -->
@@ -100,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -172,11 +173,11 @@
                         
                           <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
                         
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
                           <a class="tag" href="/tags/#集合" title="集合">集合</a>
                         
                           <a class="tag" href="/tags/#元素" title="元素">元素</a>
-                        
-                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
                         
                     </div>
                     <h1>《码出高效》系列笔记（四）：元素的比较</h1>
@@ -202,24 +203,24 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.2.1/css/hint.min.css"><blockquote>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><blockquote>
 <p>良好的编码风格和完善统一的规约是最高效的方式。</p>
 </blockquote>
 <h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
 <p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第四篇章第三节：数据结构与集合的元素的比较篇。</p>
 <p><strong>本系列目录</strong>：</p>
 <ul>
-<li><a href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/" target="_blank" rel="noopener">《码出高效》系列笔记（一）：面向对象中的类</a></li>
-<li><a href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/" target="_blank" rel="noopener">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
-<li><a href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/" target="_blank" rel="noopener">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
-<li><a href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/" target="_blank" rel="noopener">《码出高效》系列笔记（二）：代码风格</a></li>
-<li><a href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/" target="_blank" rel="noopener">《码出高效》系列笔记（三）：异常与日志</a></li>
-<li><a href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/" target="_blank" rel="noopener">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
-<li><a href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/" target="_blank" rel="noopener">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
-<li><a href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/" target="_blank" rel="noopener">《码出高效》系列笔记（四）：元素的比较</a></li>
-<li><a href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/" target="_blank" rel="noopener">走进JVM之内部布局</a></li>
-<li><a href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/" target="_blank" rel="noopener">走进JVM之字节码与类加载</a></li>
-<li><a href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/" target="_blank" rel="noopener">走进JVM之GC</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
 </ul>
 <h1 id="元素的比较"><a class="markdownIt-Anchor" href="#元素的比较"></a> 元素的比较</h1>
 <h2 id="comparable"><a class="markdownIt-Anchor" href="#comparable"></a> Comparable</h2>
@@ -325,11 +326,11 @@
                         
                           <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
                         
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
                           <a class="tag" href="/tags/#集合" title="集合">集合</a>
                         
                           <a class="tag" href="/tags/#元素" title="元素">元素</a>
-                        
-                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
                         
                     </div>
                 </section>
@@ -474,7 +475,7 @@
                 <p class="copyright text-muted">
                     Copyright &copy; Espada 2021 
                     <br>
-                    Theme by <a href="http://huangxuan.me" target="_blank" rel="noopener">Hux</a> 
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-link"></i>
                     </span>
