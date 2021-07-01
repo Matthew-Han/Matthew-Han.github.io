@@ -94,6 +94,13 @@
 
                         
                         <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/archives/">archives</a>
                         </li>
                         
@@ -102,13 +109,6 @@
                         
                         <li>
                             <a href="/tags/">tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -249,6 +249,29 @@ Api
     <p class="post-meta">
         Posted by MatthewHan on
         2019-08-13
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/5311af30-da0d-11eb-a7d5-3f834b7c5511/">
+        <h2 class="post-title">
+            大容量数组随机读写的效率问题
+        </h2>
+        <h3 class="post-subtitle">
+            CPU 高速缓存支棱不起来
+        </h3>
+        <div class="post-content-preview">
+             背景
+昨天在刷 AcWing 每日一题的第 3732 题「矩阵复原」时，发现在大容量数组作为缓存时提交无限 TLE，但是该用 HashMap 就 ac 了。
+在我浅薄的知识勺中，一直认为数组的下标作为 key 随机访问其下标的元素数据时是要快于一些集合的，HashMap 有着复杂的数据结构，底层也是数组、链表和红黑树，怎么样都不会比一维数组作为缓存来的快吧，但实际上在该背景下确实是 Has......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-01
     </p>
 
 </div>
@@ -500,32 +523,6 @@ T9（九宫格输入），在......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/a6222fa0-ebf3-11ea-b9c4-17e39dadc010/">
-        <h2 class="post-title">
-            MySQL实战45讲（基础篇）
-        </h2>
-        <h3 class="post-subtitle">
-            My see cute? My sir cute!
-        </h3>
-        <div class="post-content-preview">
-             （一）基础架构：一条SQL查询语句是如何执行的？
-
- 连接器
-1mysql -h$ip -P$port -u$user -p
-连接命令中的 mysql 是客户端工具，用来跟服务端建立连接。在完成经典的 TCP 握手后，连接器就要开始认证你的身份，这个时候用的就是你输入的用户名和密码。
-一个用户成功建立连接后，即使你用管理员账号对这个用户的权限做了修改，也不会影响已经存在连接的权限。修改完成......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-09-01
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -579,15 +576,15 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#数据结构" title="数据结构" rel="18">数据结构</a>
+                            <a href="/tags/#数据结构" title="数据结构" rel="19">数据结构</a>
                             
                         
                             
-                            <a href="/tags/#算法" title="算法" rel="14">算法</a>
+                            <a href="/tags/#算法" title="算法" rel="15">算法</a>
                             
                         
                             
-                            <a href="/tags/#数组" title="数组" rel="5">数组</a>
+                            <a href="/tags/#数组" title="数组" rel="6">数组</a>
                             
                         
                             
@@ -641,13 +638,13 @@ T9（九宫格输入），在......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#笔记" title="笔记" rel="9">笔记</a>
                             
                         
                             
                             <a href="/tags/#Shiro" title="Shiro" rel="3">Shiro</a>
-                            
-                        
                             
                         
                             
@@ -695,11 +692,11 @@ T9（九宫格输入），在......
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#泛型" title="泛型" rel="2">泛型</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -738,6 +735,8 @@ T9（九宫格输入），在......
                         
                             
                             <a href="/tags/#并发" title="并发" rel="2">并发</a>
+                            
+                        
                             
                         
                             
