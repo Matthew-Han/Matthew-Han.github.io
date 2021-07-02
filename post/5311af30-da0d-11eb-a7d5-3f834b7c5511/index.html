@@ -94,13 +94,6 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/about/">about</a>
                         </li>
                         
@@ -109,6 +102,13 @@
                         
                         <li>
                             <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -210,6 +210,14 @@
 <p>可惜大学学的东西早忘完了，寻址算法都记不清了。这次正好也让我学习了在算法题中对于大数组的使用要谨慎，并非使用数组利用下标读写就是效率最高的。</p>
 <h2 id="202172-更新"><a class="markdownIt-Anchor" href="#202172-更新"></a> 2021.7.2 更新</h2>
 <p>以上那段代码，我尝试在 HashMap 的初始化设定一个容量，就像这样：<code>Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;(250000 * 4 / 3 + 1);</code> 发现这样果然超时了，感觉 TLE 的原因就在于初始化分配的大小。在数据量较小的 case 上，「一直扩容」是会比初始化过大的容量（250000）快的， TLE 应该是在一些数据量较小的 case 上。</p>
+<p><code>Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;(n * m * 4 / 3 + 1)</code> 这样写性能是最强的，用时最少。所以效率排名是这样的：</p>
+<ol start="0">
+<li><code>Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;(n * m * 4 / 3 + 1)</code></li>
+<li><code>Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;(250000 * 4 / 3 + 1)</code></li>
+<li><code>int[] cache = new int[n * m + 1];</code></li>
+<li><code>int[] cache = new int[250001];</code></li>
+</ol>
+<p>HashMap 居然比数组随机读写的速度还要快，泪目，HashMap 永远滴神！</p>
 
 
                 <hr>
