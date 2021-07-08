@@ -256,6 +256,54 @@ Api
 
 <div class="post-preview">
 
+    <a href="/post/d9851020-dfd0-11eb-9b07-0d08f44604fc/">
+        <h2 class="post-title">
+            Redis 笔记二
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+             Q：什么是主从模式
+那我们总说的 Redis 具有高可靠性，又是什么意思呢？
+其实，这里有两层含义：一是数据尽量少丢失，二是服务尽量少中断。AOF 和 RDB 保证了前者，而对于后者，Redis 的做法就是增加副本冗余量，将一份数据同时保存在多个实例上。即使有一个实例出现了故障，需要过一段时间才能恢复，其他实例也可以对外提供服务，不会影响业务使用。
+实际上，Redis 提供了主从库模式，以......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/8b513a00-dfd0-11eb-b078-eb0d993c7e2d/">
+        <h2 class="post-title">
+            Redis 笔记一
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+             Q：Redis 变慢的原因一
+
+但是，这里依然存在一个问题，哈希冲突链上的元素只能通过指针逐一查找再操作。如果哈希表里写入的数据越来越多，哈希冲突可能也会越来越多，这就会导致某些哈希冲突链过长，进而导致这个链上的元素查找耗时长，效率降低。对于追求“快”的 Redis 来说，这是不太能接受的。
+所以，Redis 会对哈希表做 rehash 操作。rehash 也就是增加现有的哈希桶数量，让逐......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/post/5311af30-da0d-11eb-a7d5-3f834b7c5511/">
         <h2 class="post-title">
             大容量数组随机读写的效率问题
@@ -461,68 +509,6 @@ T9（九宫格输入），在......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">
-        <h2 class="post-title">
-            走进JVM之字节码与类加载
-        </h2>
-        <h3 class="post-subtitle">
-            向代码致敬，寻找你的第[83]行。
-        </h3>
-        <div class="post-content-preview">
-            
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：异常与日志
-《码出高效》系列笔记（四）：数据结构与集合的框架
-《码出高效》系列笔记（四）：数据结构与集合的数组和泛型
-《码出高效》系列笔记（四）：元素的比较
-走进JVM之内部布局
-走进......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-09-22
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">
-        <h2 class="post-title">
-            走进JVM之GC
-        </h2>
-        <h3 class="post-subtitle">
-            向代码致敬，寻找你的第[83]行。
-        </h3>
-        <div class="post-content-preview">
-            
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：异常与日志
-《码出高效》系列笔记（四）：数据结构与集合的框架
-《码出高效》系列笔记（四）：数据结构与集合的数组和泛型
-《码出高效》系列笔记（四）：元素的比较
-走进JVM之内部布局
-走进......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-09-22
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -606,13 +592,13 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#二分法" title="二分法" rel="2">二分法</a>
-                            
-                        
-                            
                             <a href="/tags/#二叉搜索树" title="二叉搜索树" rel="2">二叉搜索树</a>
                             
                         
+                            
+                        
+                            
+                            <a href="/tags/#二分法" title="二分法" rel="2">二分法</a>
                             
                         
                             
@@ -644,9 +630,11 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#Shiro" title="Shiro" rel="3">Shiro</a>
+                            <a href="/tags/#Redis" title="Redis" rel="3">Redis</a>
                             
                         
+                            
+                            <a href="/tags/#Shiro" title="Shiro" rel="3">Shiro</a>
                             
                         
                             
@@ -702,13 +690,13 @@ T9（九宫格输入），在......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#职业" title="职业" rel="2">职业</a>
                             
                         
                             
                             <a href="/tags/#职场" title="职场" rel="2">职场</a>
-                            
-                        
                             
                         
                             
