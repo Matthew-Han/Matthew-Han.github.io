@@ -221,7 +221,7 @@
 <p>第三阶段，主库会把第二阶段执行过程中新收到的写命令，再发送给从库。具体的操作是，当主库完成 RDB 文件发送后，就会把此时 replication buffer 中的修改操作发给从库，从库再重新执行这些操作。这样一来，主从库就实现同步了。</p>
 </li>
 </ol>
-<p>也就是说从库全量复制完了之后，之后都是加载 replication buffer 去实现数据同步。</p>
+<p>也就是说从库全量复制完了之后，之后都是增量同步。查考下文的<code>repl_backlog_buffer</code>。</p>
 <h2 id="q主从级联模式分担全量复制时的主库压力"><a class="markdownIt-Anchor" href="#q主从级联模式分担全量复制时的主库压力"></a> Q：主从级联模式分担全量复制时的主库压力</h2>
 <p>一主多从的模式下，所有的从库都要和主库进行全量复制的话，就会导致主库忙于 fork 子进程生成 RDB 文件，进行数据全量同步。fork 这个操作会阻塞主线程处理正常请求，从而导致主库响应应用程序的请求速度变慢。此外，传输 RDB 文件也会占用主库的网络带宽，同样会给主库的资源使用带来压力。</p>
 <p>那么，有没有好的解决方法可以分担主库压力呢？</p>
@@ -300,7 +300,9 @@
 <p>我提出的问题：假如哨兵集群主库挂了，所有哨兵实例在同一时刻判断主观下线，然后同时接收到其他哨兵的消息，都到了客观下线的这一步，然后同时给自己投上一票 leader 票，是不是就没法选出 leader 了。。这种小概率会发生吗？</p>
 </blockquote>
 <p>收到群友们的热心解答：</p>
-<p><img display:inline-block src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/image-20210708161819035.png" alt="image-20210708161819035" style="zoom:25%;" /><img display:inline-block src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/image-20210708162028283.png" alt="image-20210708162028283" style="zoom:25%;" /><img display:inline-block src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/image-20210708162146118.png" alt="image-20210708162146118" style="zoom:25%;" /></p>
+<div>
+<img float:left src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/image-20210708161819035.png" alt="image-20210708161819035" style="zoom:25%;" /><img float:left src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/image-20210708162028283.png" alt="image-20210708162028283" style="zoom:25%;" /><img float:left src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/image-20210708162146118.png" alt="image-20210708162146118" style="zoom:25%;" />
+</div>
 <ul>
 <li>
 <p>Q：假设有一个 Redis 集群，是“一主四从”，同时配置了包含 5 个哨兵实例的集群，quorum 值设为 2。在运行过程中，如果有 3 个哨兵实例都发生故障了，此时，Redis 主库如果有故障，还能正确地判断主库“客观下线”吗？如果可以的话，还能进行主从库自动切换吗？</p>
@@ -361,6 +363,10 @@
                 
 
                 <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/04c289c0-e2dd-11eb-9088-bdddfe01ee68/" data-toggle="tooltip" data-placement="top" title="Redis 笔记三">&larr; Previous Post</a>
+                        </li>
                     
                     
                         <li class="next">
