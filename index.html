@@ -264,7 +264,13 @@ Api
             
         </h3>
         <div class="post-content-preview">
-            ...
+             Q：异步机制
+ Redis 实例有哪些阻塞点？
+Redis 实例在运行时，要和许多对象进行交互，这些不同的交互就会涉及不同的操作，下面我们来看看和 Redis 实例交互的对象，以及交互时会发生的操作。
+
+客户端：网络 IO，键值对增删改查操作，数据库操作；
+磁盘：生成 RDB 快照，记录 AOF 日志，AOF 日志重写；
+主从节点：主库生成、传输 RDB 文件，从库接收 RDB 文件、清空......
         </div>
     </a>
     <p class="post-meta">
@@ -595,13 +601,17 @@ XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
                             
                         
                             
-                        
-                            
                             <a href="/tags/#Redis" title="Redis" rel="5">Redis</a>
                             
                         
                             
                             <a href="/tags/#Shiro" title="Shiro" rel="3">Shiro</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -637,11 +647,9 @@ XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#集合" title="集合" rel="3">集合</a>
+                            
+                        
                             
                         
                             
@@ -657,19 +665,17 @@ XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
                             
                         
                             
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
                             <a href="/tags/#职业" title="职业" rel="2">职业</a>
                             
                         
                             
                             <a href="/tags/#职场" title="职场" rel="2">职场</a>
+                            
+                        
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -683,13 +689,13 @@ XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
                             
                         
                             
+                        
+                            
                             <a href="/tags/#多线程" title="多线程" rel="3">多线程</a>
                             
                         
                             
                             <a href="/tags/#并发" title="并发" rel="2">并发</a>
-                            
-                        
                             
                         
                             
