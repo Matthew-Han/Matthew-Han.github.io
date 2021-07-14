@@ -101,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -282,6 +282,9 @@
 <p>Redis 4.0 中提出了一个混合使用 AOF 日志和内存快照的方法。简单来说，内存快照以一定的频率执行，在两次快照之间，使用 AOF 日志记录这期间的所有命令操作。混</p>
 <p>合使用 RDB 和 AOF，正好可以取两者之长，避两者之短，以较小的性能开销保证数据可靠性和性能。</p>
 <h3 id="关于混合使用个人感想"><a class="markdownIt-Anchor" href="#关于混合使用个人感想"></a> 关于混合使用个人感想</h3>
+<blockquote>
+<p>By Matthew Han</p>
+</blockquote>
 <p>关于 AOF 和 RDB，AOF 有点像一个软件的小版本升级，version 1.1 ==&gt; version 1.2，可能只有几条数据的更新，此时采用 AOF 进行数据更新比较好，但是到了一个大的版本，比如 version 3.8，此时最好重新下一个最新版本的客户端了，所以对于 Redis 来说利用 RDB 比较好。</p>
 <p>很多人要说了，诶？AOF 不是会重写操作记录实现 All In One 吗？那这样理解的话，无论数据怎么更新、增加、删除， AOF 的操作都应该比 RDB 这种全量的少啊？我看评论区 Kaito 的发言：</p>
 <blockquote>
@@ -364,7 +367,7 @@
                     
                         <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
                     
-                        <li><a href="http://jerryc.me/" target="_blank">JerryC</a></li>
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
                     
                         <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
                     
