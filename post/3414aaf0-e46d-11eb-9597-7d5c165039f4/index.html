@@ -291,6 +291,31 @@
 <p>Linux 内核从 2.6.38 开始支持内存大页机制，该机制支持 2MB 大小的内存页分配，而常规的内存页分配是按 4KB 的粒度来执行的。</p>
 <p>如果采用了内存大页，那么，即使客户端请求只修改 100B 的数据，Redis 也需要拷贝 2MB 的大页。相反，如果是常规内存页机制，只用拷贝 4KB。两者相比，你可以看到，当客户端请求修改或新写入数据较多时，内存大页机制将导致大量的拷贝，这就会影响 Redis 正常的访存操作，最终导致性能变慢。</p>
 <p>出现问题之后该机制可以关闭。</p>
+<h2 id="q缓存满了怎么办"><a class="markdownIt-Anchor" href="#q缓存满了怎么办"></a> Q：缓存满了怎么办</h2>
+<p>Redis 有一个重要机制，即缓存数据的淘汰机制。</p>
+<p>可以设置一个最大容量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG SET maxmemory 4gb</span><br></pre></td></tr></table></figure>
+<h3 id="redis-缓存有哪些淘汰策略"><a class="markdownIt-Anchor" href="#redis-缓存有哪些淘汰策略"></a> Redis 缓存有哪些淘汰策略？</h3>
+<ul>
+<li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
+<li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
+</ul>
+<img src="https://static001.geekbang.org/resource/image/04/f6/04bdd13b760016ec3b30f4b02e133df6.jpg" alt="img" style="zoom:30%;" />
+<p>3.0 之后的默认情况下，Redis 在使用的内存空间超过 maxmemory 值时，并不会淘汰数据，也就是设定的 <strong>noeviction</strong> 策略。对应到 Redis 缓存，也就是指，一旦缓存被写满了，再有写请求来时，Redis 不再提供服务，而是直接返回错误。</p>
+<p><em><em>volatile</em> 这种淘汰策略。它们筛选的候选数据范围，被限制在已经设置了过期时间的键值对上。</em>*</p>
+<ul>
+<li>volatile-ttl 在筛选时，会针对设置了过期时间的键值对，根据过期时间的先后进行删除，越早过期的越先被删除。</li>
+<li>volatile-random 就像它的名称一样，在设置了过期时间的键值对中，进行随机删除。</li>
+<li>volatile-lru 会使用 LRU 算法筛选设置了过期时间的键值对。</li>
+<li>volatile-lfu 会使用 LFU 算法选择设置了过期时间的键值对。</li>
+</ul>
+<p><em><em>allkeys</em> 这种淘汰策略的备选淘汰数据范围，就扩大到了所有键值对，无论这些键值对是否设置了过期时间。</em>*</p>
+<ul>
+<li>allkeys-random 策略，从所有键值对中随机选择并删除数据；</li>
+<li>allkeys-lru 策略，使用 LRU 算法在所有数据中进行筛选。</li>
+<li>allkeys-lfu 策略，使用 LFU 算法在所有数据中进行筛选。</li>
+</ul>
+<p>在 Redis 中，LRU 算法被做了简化，以减轻数据淘汰对缓存性能的影响。具体来说，Redis 默认会记录每个数据的最近一次访问的时间戳（由键值对数据结构 RedisObject 中的 lru 字段记录）。然后，Redis 在决定淘汰的数据时，第一次会随机选出 N 个数据，把它们作为一个候选集合。接下来，Redis 会比较这 N 个数据的 lru 字段，把 lru 字段值最小的数据从缓存中淘汰出去。</p>
 
 
                 <hr>
