@@ -101,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -185,6 +185,30 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/post/8b513a00-dfd0-11eb-b078-eb0d993c7e2d/">
+        <h2 class="post-title">
+            Redis 笔记一
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+             Q：Redis 变慢的原因一
+
+这里存在一个问题，哈希冲突链上的元素只能通过指针逐一查找再操作。如果哈希表里写入的数据越来越多，哈希冲突可能也会越来越多，这就会导致某些哈希冲突链过长，进而导致这个链上的元素查找耗时长，效率降低。对于追求“快”的 Redis 来说，这是不太能接受的。
+所以，Redis 会对哈希表做 rehash 操作。rehash 也就是增加现有的哈希桶数量，让逐渐增多的 ......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-08
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -455,32 +479,6 @@ T9（九宫格输入），在......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/a6222fa0-ebf3-11ea-b9c4-17e39dadc010/">
-        <h2 class="post-title">
-            MySQL实战45讲（基础篇）
-        </h2>
-        <h3 class="post-subtitle">
-            My see cute? My sir cute!
-        </h3>
-        <div class="post-content-preview">
-             （一）基础架构：一条SQL查询语句是如何执行的？
-
- 连接器
-1mysql -h$ip -P$port -u$user -p
-连接命令中的 mysql 是客户端工具，用来跟服务端建立连接。在完成经典的 TCP 握手后，连接器就要开始认证你的身份，这个时候用的就是你输入的用户名和密码。
-一个用户成功建立连接后，即使你用管理员账号对这个用户的权限做了修改，也不会影响已经存在连接的权限。修改完成......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-09-01
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -606,7 +604,7 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#Redis" title="Redis" rel="10">Redis</a>
+                            <a href="/tags/#Redis" title="Redis" rel="11">Redis</a>
                             
                         
                             
