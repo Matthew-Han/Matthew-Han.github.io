@@ -101,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -185,6 +185,30 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/post/d9851020-dfd0-11eb-9b07-0d08f44604fc/">
+        <h2 class="post-title">
+            Redis 笔记二
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+             Q：什么是主从模式
+那我们总说的 Redis 具有高可靠性，又是什么意思呢？
+其实，这里有两层含义：一是数据尽量少丢失，二是服务尽量少中断。AOF 和 RDB 保证了前者，而对于后者，Redis 的做法就是增加副本冗余量，将一份数据同时保存在多个实例上。即使有一个实例出现了故障，需要过一段时间才能恢复，其他实例也可以对外提供服务，不会影响业务使用。
+实际上，Redis 提供了主从库模式，以......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-08
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -448,37 +472,6 @@ T9（九宫格输入），在......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">
-        <h2 class="post-title">
-            走进JVM之GC
-        </h2>
-        <h3 class="post-subtitle">
-            向代码致敬，寻找你的第[83]行。
-        </h3>
-        <div class="post-content-preview">
-            
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：异常与日志
-《码出高效》系列笔记（四）：数据结构与集合的框架
-《码出高效》系列笔记（四）：数据结构与集合的数组和泛型
-《码出高效》系列笔记（四）：元素的比较
-走进JVM之内部布局
-走进......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-09-22
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -536,11 +529,11 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#数据结构" title="数据结构" rel="19">数据结构</a>
+                            <a href="/tags/#数据结构" title="数据结构" rel="20">数据结构</a>
                             
                         
                             
-                            <a href="/tags/#算法" title="算法" rel="15">算法</a>
+                            <a href="/tags/#算法" title="算法" rel="16">算法</a>
                             
                         
                             
@@ -556,11 +549,15 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#leetcode" title="leetcode" rel="14">leetcode</a>
+                            <a href="/tags/#leetcode" title="leetcode" rel="15">leetcode</a>
                             
                         
                             
                             <a href="/tags/#队列" title="队列" rel="3">队列</a>
+                            
+                        
+                            
+                        
                             
                         
                             

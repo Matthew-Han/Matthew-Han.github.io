@@ -101,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -185,6 +185,37 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/post/32c6b4c0-09e7-11ea-8010-7bbe2de22c19/">
+        <h2 class="post-title">
+            Windows平台Redis Cluster集群模式的坑
+        </h2>
+        <h3 class="post-subtitle">
+            更多的master♂来守护你
+        </h3>
+        <div class="post-content-preview">
+             前言
+在一台迷のWindows机器上搭建了一个单节点模拟的三主三从redis集群，过程中有一些坑记录下。
+ cluster模式
+Redis的Cluster模式工作至少需要三个主节点，所以一般采用三主三从实现负载。
+较理想的环境是一个实例单节点部署主从，多个实例实现集群。
+
+由于Redis Cluster采用哈希分区规则，哈希分区一般有以下几种方式：
+
+节点取余分区
+一致性哈希分区
+虚拟槽分......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2019-11-18
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -430,38 +461,6 @@
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">
-        <h2 class="post-title">
-            《码出高效》系列笔记（一）：面向对象中的方法
-        </h2>
-        <h3 class="post-subtitle">
-            向代码致敬，寻找你的第[83]行。
-        </h3>
-        <div class="post-content-preview">
-            
-良好的编码风格和完善统一的规约是最高效的方式。
-
- 前言
-本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第二节：面向对象之方法篇。
-本系列目录：
-
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：异......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2019-08-27
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -519,11 +518,11 @@
                             
                         
                             
-                            <a href="/tags/#数据结构" title="数据结构" rel="19">数据结构</a>
+                            <a href="/tags/#数据结构" title="数据结构" rel="20">数据结构</a>
                             
                         
                             
-                            <a href="/tags/#算法" title="算法" rel="15">算法</a>
+                            <a href="/tags/#算法" title="算法" rel="16">算法</a>
                             
                         
                             
@@ -539,11 +538,15 @@
                             
                         
                             
-                            <a href="/tags/#leetcode" title="leetcode" rel="14">leetcode</a>
+                            <a href="/tags/#leetcode" title="leetcode" rel="15">leetcode</a>
                             
                         
                             
                             <a href="/tags/#队列" title="队列" rel="3">队列</a>
+                            
+                        
+                            
+                        
                             
                         
                             
