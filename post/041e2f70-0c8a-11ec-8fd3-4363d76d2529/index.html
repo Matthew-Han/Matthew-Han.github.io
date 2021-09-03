@@ -94,13 +94,6 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/about/">about</a>
                         </li>
                         
@@ -109,6 +102,13 @@
                         
                         <li>
                             <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -204,21 +204,21 @@
                 post-container">
 
                 <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description</h1>
-<p>你被安排了 <code>n</code> 个任务。任务需要花费的时间用长度为 <code>n</code> 的整数数组 <code>tasks</code> 表示，第 <code>i</code> 个任务需要花费 <code>tasks[i]</code> 小时完成。一个 工作时间段 中，你可以 至多 连续工作 <code>sessionTime</code> 个小时，然后休息一会儿。</p>
+<p>你被安排了 <code>n</code> 个任务。任务需要花费的时间用长度为 <code>n</code> 的整数数组 <code>tasks</code> 表示，第 <code>i</code> 个任务需要花费 <code>tasks[i]</code> 小时完成。一个 <strong>工作时间段</strong> 中，你可以 <strong>至多</strong> 连续工作 <code>sessionTime</code> 个小时，然后休息一会儿。</p>
 <p>你需要按照如下条件完成给定任务：</p>
 <ul>
 <li>
-<p>如果你在某一个时间段开始一个任务，你需要在 同一个 时间段完成它。</p>
+<p>如果你在某一个时间段开始一个任务，你需要在 <strong>同一个</strong> 时间段完成它。</p>
 </li>
 <li>
-<p>完成一个任务后，你可以 立马 开始一个新的任务。</p>
+<p>完成一个任务后，你可以 <strong>立马</strong> 开始一个新的任务。</p>
 </li>
 <li>
-<p>你可以按 任意顺序 完成任务。</p>
+<p>你可以按 <strong>任意顺序</strong> 完成任务。</p>
 </li>
 </ul>
-<p>给你 <code>tasks</code> 和 <code>sessionTime</code> ，请你按照上述要求，返回完成所有任务所需要的 最少 数目的 工作时间段 。</p>
-<p>测试数据保证 <code>sessionTime</code> 大于等于 <code>tasks[i]</code> 中的 最大值 。</p>
+<p>给你 <code>tasks</code> 和 <code>sessionTime</code> ，请你按照上述要求，返回完成所有任务所需要的 <strong>最少</strong> 数目的 工作时间段 。</p>
+<p>测试数据保证 <code>sessionTime</code> 大于等于 <code>tasks[i]</code> 中的 <strong>最大值</strong> 。</p>
 <h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note</h2>
 <ul>
 <li><code>n == tasks.length</code></li>
@@ -227,20 +227,12 @@
 <li><code>max(tasks[i]) &lt;= sessionTime &lt;= 15</code></li>
 </ul>
 <h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.</h2>
-<ul>
-<li>
-<p><strong>示例 1：</strong></p>
+<h3 id="示例-1"><a class="markdownIt-Anchor" href="#示例-1"></a> <strong>示例 1：</strong></h3>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：tasks = [1,2,3], sessionTime = 3</span><br><span class="line">输出：2</span><br><span class="line">解释：你可以在两个工作时间段内完成所有任务。</span><br><span class="line">- 第一个工作时间段：完成第一和第二个任务，花费 1 + 2 = 3 小时。</span><br><span class="line">- 第二个工作时间段：完成第三个任务，花费 3 小时。</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p><strong>示例 2：</strong></p>
-</li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：tasks = [3,1,3,1,1], sessionTime = 8</span><br><span class="line">输出：2</span><br><span class="line">解释：你可以在两个工作时间段内完成所有任务。</span><br><span class="line">- 第一个工作时间段：完成除了最后一个任务以外的所有任务，花费 3 + 1 + 3 + 1 = 8 小  时。</span><br><span class="line">- 第二个工作时间段，完成最后一个任务，花费 1 小时。</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>示例 3：</strong></li>
-</ul>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：tasks = [1,2,3,4,5], sessionTime = 15</span><br><span class="line">输出：1</span><br><span class="line">解释：你可以在一个工作时间段以内完成所有任务。</span><br></pre></td></tr></table></figure>
+<h3 id="示例-2"><a class="markdownIt-Anchor" href="#示例-2"></a> <strong>示例 2：</strong></h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：tasks = [3,1,3,1,1], sessionTime = 8</span><br><span class="line">输出：2</span><br><span class="line">解释：你可以在两个工作时间段内完成所有任务。</span><br><span class="line">- 第一个工作时间段：完成除了最后一个任务以外的所有任务，花费 3 + 1 + 3 + 1 = 8 小  时。</span><br><span class="line">- 第二个工作时间段，完成最后一个任务，花费 1 小时。</span><br></pre></td></tr></table></figure>
+<h3 id="示例-3"><a class="markdownIt-Anchor" href="#示例-3"></a> <strong>示例 3：</strong></h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：tasks = [1,2,3,4,5], sessionTime = 15</span><br><span class="line">输出：1</span><br><span class="line">解释：你可以在一个工作时间段以内完成所有任务。</span><br></pre></td></tr></table></figure>
 <h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution</h1>
 <p>第 256 场周赛周赛第三题，那天早上没爬起来，今天尝试做下，感觉应该是状态压缩的动态规划。不过动态规划始终不会写，就尝试先画递归树，发现重复元素的路径可以压缩（一直没学过状态压缩，难道这就是状态压缩？）就先写个桶记录元素和元素个数，这样就不会走重复路径了。</p>
 <p>然后写了个有点别扭的回溯，居然一次过了，看来以后 dp 的题，全用记忆化递归做了是要。。</p>
