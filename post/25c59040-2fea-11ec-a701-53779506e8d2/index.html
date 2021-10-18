@@ -13,11 +13,11 @@
 
     <title>
         
-          走进JVM之内存布局 - Espada
+          力扣杯秋季编程大赛 2021 战队赛 - Espada
         
     </title>
 
-    <link rel="canonical" href="https://Matthew-Han.github.io/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/25c59040-2fea-11ec-a701-53779506e8d2/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -169,18 +169,18 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
+                          <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
                         
-                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                          <a class="tag" href="/tags/#算法" title="算法">算法</a>
                         
-                          <a class="tag" href="/tags/#内存布局" title="内存布局">内存布局</a>
+                          <a class="tag" href="/tags/#leetcode" title="leetcode">leetcode</a>
                         
                     </div>
-                    <h1>走进JVM之内存布局</h1>
-                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <h1>力扣杯秋季编程大赛 2021 战队赛</h1>
+                    <h2 class="subheading">lose together, win together, slay together.</h2>
                     <span class="meta">
                         Posted by MatthewHan on
-                        2020-09-23
+                        2021-10-18
                     </span>
                 </div>
             </div>
@@ -199,62 +199,20 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><ul>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
-</ul>
-<h1 id="内存布局"><a class="markdownIt-Anchor" href="#内存布局"></a> 内存布局</h1>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/jvm-memory.png" alt="JVM内存布局" /></p>
-<h2 id="1堆heap"><a class="markdownIt-Anchor" href="#1堆heap"></a> 1.堆（Heap）</h2>
-<p>存储着所有实例对象，GC的相关详见<a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">上一篇</a></p>
-<h2 id="2元空间metaspace"><a class="markdownIt-Anchor" href="#2元空间metaspace"></a> 2.元空间（Metaspace）</h2>
-<p>永久代和元空间都是对方法区的一个实现，方法区是一块所有线程共享的内存区域。Java7及之前为永久代（Perm），之后均为元空间，所以类元信息、字段、静态属性、方法、常量等都移动至元空间。</p>
-<p>区别于永久代，元空间在本地内存中分配。</p>
-<h2 id="3虚拟机栈jvm-stack"><a class="markdownIt-Anchor" href="#3虚拟机栈jvm-stack"></a> 3.虚拟机栈（JVM Stack）</h2>
-<p>JVM中的虚拟机栈是描述Java方法执行的内存区域，他是线程私有的。栈中的元素用于支持虚拟机方法调用，每个方法从开始调用到执行完成的过程，就是栈帧从入栈到出栈的过程。</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="0x00"><a class="markdownIt-Anchor" href="#0x00"></a> 0x00</h1>
+<p>第一次和小伙伴一起参加战队赛，根据以往经验以为只能做出来一题，结果还真就一题。但是第一题实在是太白给了，都不能算题，所以说相当于一题都没做出来。</p>
+<p>坐牢 3 小时，不过我对第二题的印象很深刻，之前对于图中判环、跳环的问题一直处理不好，经此一役，不再害怕。</p>
+<h1 id="0x01"><a class="markdownIt-Anchor" href="#0x01"></a> 0x01</h1>
+<h3 id="第-0-题开幕式焰火"><a class="markdownIt-Anchor" href="#第-0-题开幕式焰火"></a> 第 0 题：开幕式焰火</h3>
+<p>沾点白给了，一开始觉得应该没这么简单，还反复检查确认，多少沾点懦弱哥了，递归一套就完事了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Lcp44</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Set&lt;Integer&gt; set;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 开幕式火焰</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> root</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numColor</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        dfs(root);</span><br><span class="line">        <span class="keyword">return</span> set.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        set.add(root.val);</span><br><span class="line">        dfs(root.left);</span><br><span class="line">        dfs(root.right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第-1-题自行车炫技赛场"><a class="markdownIt-Anchor" href="#第-1-题自行车炫技赛场"></a> 第 1 题：自行车炫技赛场</h3>
+<p>这题 byd 是真难读题啊，和小伙伴解题过程中碰到了一个小问题，解决了又来一个。不是 <code>Wrong Answer</code> 、<code>Time Limit Exceeded</code> 就是 <code>Runtime Error</code> 到比赛结束了都一致认为只要存在高度差速度就肯定会一直下降。其实，速度不一定会一直降的。可能会出现速度 <code>+1</code>、<code>-1</code> 一直重复走的情况。所以难点就是如何不走重复路，如果每次递归都开一个 <code>vis</code> 对象去判重的话，内存直接爆了，所以需要一个三维数组，三个向量分别是 <code>x</code>、 <code>y</code>、 <code>v</code> ，其中 <code>x</code>、<code>y</code> 是场地坐标，<code>v</code> 是速度。三个向量确定一个唯一值，重复跳出。我这里用的是 <code>HashSet</code>，比三维数组快一点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span>[] dx = &#123;-<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span>[] dy = &#123;<span class="number">0</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    List&lt;<span class="keyword">int</span>[]&gt; ans;</span><br><span class="line">    Set&lt;String&gt; mem;</span><br><span class="line">    <span class="keyword">boolean</span>[][] global;</span><br><span class="line">    <span class="keyword">int</span>[] p;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[][] bicycleYard(<span class="keyword">int</span>[] position, <span class="keyword">int</span>[][] terrain, <span class="keyword">int</span>[][] obstacle) &#123;</span><br><span class="line">        ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        mem = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        global = <span class="keyword">new</span> <span class="keyword">boolean</span>[terrain.length][terrain[<span class="number">0</span>].length];</span><br><span class="line">        p = position;</span><br><span class="line">        bfs(<span class="number">1</span>, position[<span class="number">0</span>], position[<span class="number">1</span>], terrain, obstacle);</span><br><span class="line">        <span class="keyword">int</span>[][] res = <span class="keyword">new</span> <span class="keyword">int</span>[ans.size()][<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ans.size(); i++) &#123;</span><br><span class="line">            res[i] = ans.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        Arrays.sort(res, (o1, o2) -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (o1[<span class="number">0</span>] == o2[<span class="number">0</span>]) &#123;</span><br><span class="line">                <span class="keyword">return</span> Integer.compare(o1[<span class="number">1</span>], o2[<span class="number">1</span>]);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> Integer.compare(o1[<span class="number">0</span>], o2[<span class="number">0</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">(<span class="keyword">int</span> curr, <span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span>[][] terrain, <span class="keyword">int</span>[][] obstacle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x &gt;= <span class="number">0</span> &amp;&amp; y &gt;= <span class="number">0</span> &amp;&amp; x &lt; terrain.length &amp;&amp; y &lt; terrain[<span class="number">0</span>].length) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">int</span> newX = x + dx[i];</span><br><span class="line">                <span class="keyword">int</span> newY = y + dy[i];</span><br><span class="line">                <span class="keyword">if</span> (newX &gt;= <span class="number">0</span> &amp;&amp; newY &gt;= <span class="number">0</span> &amp;&amp; newX &lt; terrain.length &amp;&amp; newY &lt; terrain[<span class="number">0</span>].length) &#123;</span><br><span class="line">                    <span class="keyword">int</span> next = curr + terrain[x][y] - terrain[newX][newY] - obstacle[newX][newY];</span><br><span class="line">                    <span class="comment">// i, j, v 作为唯一 key</span></span><br><span class="line">                    String k = newX + <span class="string">&quot;-&quot;</span> + newY + <span class="string">&quot;-&quot;</span> + next;</span><br><span class="line">                    <span class="keyword">if</span> (mem.contains(k)) &#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    mem.add(k);</span><br><span class="line">                    <span class="keyword">if</span> (next &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (next == <span class="number">1</span> &amp;&amp; (newX != p[<span class="number">0</span>] || newY != p[<span class="number">1</span>]) &amp;&amp; !global[newX][newY]) &#123;</span><br><span class="line">                            global[newX][newY] = <span class="keyword">true</span>;</span><br><span class="line">                            ans.add(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;newX, newY&#125;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        bfs(next, newX, newY, terrain, obstacle);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一次组队参加战队赛，虽然结果不太理想，但是和小伙伴一起思考，一起交流的过程还是非常美妙的。想起了 OG 战队的 ceb 在 Ti8 Grand Finals 最后一场开始前的一句话：</p>
 <blockquote>
-<p>通过递归调用可以更好地理解方法的调用，尤其是二叉树的中序遍历，逐级返回有点类似JVM类加载机制的双亲委派模型</p>
+<p>Lose together, win together, slay together, slay together, slay together.</p>
 </blockquote>
-<h3 id="局部变量表"><a class="markdownIt-Anchor" href="#局部变量表"></a> 局部变量表</h3>
-<p>存放方法参数和局部变量的区域</p>
-<ul>
-<li>操作数栈</li>
-<li>局部变量表</li>
-<li>常量池引用</li>
-</ul>
-<h3 id="操作栈"><a class="markdownIt-Anchor" href="#操作栈"></a> 操作栈</h3>
-<p>操作站是一个初始状态为空的桶式结构栈。在方法执行的过程中，会有各种指令往栈中写入和提取信息。</p>
-<h3 id="动态连接"><a class="markdownIt-Anchor" href="#动态连接"></a> 动态连接</h3>
-<p>每个栈帧包含一个常量池中对当前方法的引用，目的是支持方法调用过程的动态链接。</p>
-<h3 id="方法返回地址"><a class="markdownIt-Anchor" href="#方法返回地址"></a> 方法返回地址</h3>
-<ol>
-<li>正常退出，一些关键字<code>return</code>等</li>
-<li>异常退出</li>
-</ol>
-<p>只要是退出都会返回到方法被调用的位置。方法退出的过程相当于弹出当前栈帧。</p>
-<ol>
-<li>返回值压入上层调用栈帧</li>
-<li>异常信息抛给能够处理的栈帧</li>
-<li>PC计数器指向方法调用后的下一条指令</li>
-</ol>
-<h2 id="4本地方法栈native-method-stacks"><a class="markdownIt-Anchor" href="#4本地方法栈native-method-stacks"></a> 4.本地方法栈（Native Method Stacks）</h2>
-<p>线程对象私有，虚拟机栈主内，本地方法栈主外。</p>
-<p>线程调用本地方法的时候，会进入一个不再受JVM约束的世界，优点：极高的执行效率、偏底层的跨进程操作；缺点：威胁程序运行的稳定性。</p>
-<p>JNI最著名的本地方法：<code>System.currentTImeMillis()</code>。</p>
-<h2 id="5程序计数寄存器program-counter-register"><a class="markdownIt-Anchor" href="#5程序计数寄存器program-counter-register"></a> 5.程序计数寄存器（Program Counter Register）</h2>
-<p>略</p>
-<h2 id="6小结"><a class="markdownIt-Anchor" href="#6小结"></a> 6.小结</h2>
-<p>从线程共享的角度来看，堆（Heap）和元空间（Metaspace）是线程共享的，其他都是线程内部私有的。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/jvm-mem2.png" alt="JVM内存布局" /></p>
 
 
                 <hr>
@@ -263,13 +221,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/post/23cb19a0-2d3d-11eb-a175-c13ddf029711/" data-toggle="tooltip" data-placement="top" title="数据结构：字典树">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/" data-toggle="tooltip" data-placement="top" title="走进JVM之字节码与类加载">Next Post &rarr;</a>
+                            <a href="/post/041e2f70-0c8a-11ec-8fd3-4363d76d2529/" data-toggle="tooltip" data-placement="top" title="LeetCode #1986 完成任务的最少工作时间段">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -316,11 +270,11 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
+                          <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
                         
-                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                          <a class="tag" href="/tags/#算法" title="算法">算法</a>
                         
-                          <a class="tag" href="/tags/#内存布局" title="内存布局">内存布局</a>
+                          <a class="tag" href="/tags/#leetcode" title="leetcode">leetcode</a>
                         
                     </div>
                 </section>
@@ -356,8 +310,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "MatthewHan";
-    var disqus_identifier = "https://matthew-han.github.io/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/";
-    var disqus_url = "https://matthew-han.github.io/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/";
+    var disqus_identifier = "https://matthew-han.github.io/post/25c59040-2fea-11ec-a701-53779506e8d2/";
+    var disqus_url = "https://matthew-han.github.io/post/25c59040-2fea-11ec-a701-53779506e8d2/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

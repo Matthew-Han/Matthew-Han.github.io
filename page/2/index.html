@@ -101,14 +101,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -185,6 +185,33 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/post/20dc2440-e2dd-11eb-b58c-3b03d3077551/">
+        <h2 class="post-title">
+            Redis 笔记四
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+             Q：异步机制
+ Redis 实例有哪些阻塞点？
+Redis 实例在运行时，要和许多对象进行交互，这些不同的交互就会涉及不同的操作，下面我们来看看和 Redis 实例交互的对象，以及交互时会发生的操作。
+
+客户端：网络 IO，键值对增删改查操作，数据库操作；
+磁盘：生成 RDB 快照，记录 AOF 日志，AOF 日志重写；
+主从节点：主库生成、传输 RDB 文件，从库接收 RDB 文件、清空......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-12
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -435,37 +462,6 @@ T9（九宫格输入），在......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">
-        <h2 class="post-title">
-            走进JVM之内存布局
-        </h2>
-        <h3 class="post-subtitle">
-            向代码致敬，寻找你的第[83]行。
-        </h3>
-        <div class="post-content-preview">
-            
-《码出高效》系列笔记（一）：面向对象中的类
-《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：异常与日志
-《码出高效》系列笔记（四）：数据结构与集合的框架
-《码出高效》系列笔记（四）：数据结构与集合的数组和泛型
-《码出高效》系列笔记（四）：元素的比较
-走进JVM之内部布局
-走进......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-09-23
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -523,11 +519,11 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#数据结构" title="数据结构" rel="21">数据结构</a>
+                            <a href="/tags/#数据结构" title="数据结构" rel="22">数据结构</a>
                             
                         
                             
-                            <a href="/tags/#算法" title="算法" rel="17">算法</a>
+                            <a href="/tags/#算法" title="算法" rel="18">算法</a>
                             
                         
                             
@@ -543,13 +539,7 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#leetcode" title="leetcode" rel="16">leetcode</a>
-                            
-                        
-                            
-                            <a href="/tags/#队列" title="队列" rel="3">队列</a>
-                            
-                        
+                            <a href="/tags/#leetcode" title="leetcode" rel="17">leetcode</a>
                             
                         
                             
@@ -558,6 +548,12 @@ T9（九宫格输入），在......
                         
                             
                             <a href="/tags/#记忆化递归" title="记忆化递归" rel="2">记忆化递归</a>
+                            
+                        
+                            
+                            <a href="/tags/#队列" title="队列" rel="3">队列</a>
+                            
+                        
                             
                         
                             
@@ -685,13 +681,13 @@ T9（九宫格输入），在......
                             
                         
                             
-                        
-                            
                             <a href="/tags/#多线程" title="多线程" rel="3">多线程</a>
                             
                         
                             
                             <a href="/tags/#并发" title="并发" rel="2">并发</a>
+                            
+                        
                             
                         
                             
