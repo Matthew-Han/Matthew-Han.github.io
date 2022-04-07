@@ -188,6 +188,44 @@
 
 <div class="post-preview">
 
+    <a href="/post/3414aaf0-e46d-11eb-9597-7d5c165039f4/">
+        <h2 class="post-title">
+            Redis 笔记五
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+             Q：如何应对变慢的Redis（总结）
+
+个人总结版本
+
+
+AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次又来了
+发生了 swap 内存交换
+查看基线性能
+查看延迟的绝对值
+是否有慢查询
+是否会出现同一时刻大批量 kv 的过期
+是否存在 bigkey
+是否存在透明大页
+是否出现频繁切换 socket，需要绑核
+主从集群下是否主库过大，导致 RDB 载入阻塞
+
+
+老师......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/post/20dc2440-e2dd-11eb-b58c-3b03d3077551/">
         <h2 class="post-title">
             Redis 笔记四
@@ -414,54 +452,6 @@ XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/23cb19a0-2d3d-11eb-a175-c13ddf029711/">
-        <h2 class="post-title">
-            数据结构：字典树
-        </h2>
-        <h3 class="post-subtitle">
-            前缀树
-        </h3>
-        <div class="post-content-preview">
-             介绍
-Trie (发音为 “try”) 或前缀树是一种树数据结构，用于检索字符串数据集中的键。这一高效的数据结构有多种应用：
-
-
-自动补全
-
-谷歌搜索建议
-
-
-
-
-拼写检查
-
-文字处理软件中的拼写检查
-
-
-
-
-IP 路由 (最长前缀匹配)
-
-使用Trie树的最长前缀匹配算法，Internet 协议（IP）路由中利用转发表选择路径
-
-
-
-
-T9 (九宫格) 打字预测
-
-T9（九宫格输入），在......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-11-23
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -519,7 +509,7 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#数据结构" title="数据结构" rel="22">数据结构</a>
+                            <a href="/tags/#数据结构" title="数据结构" rel="23">数据结构</a>
                             
                         
                             
@@ -527,7 +517,7 @@ T9（九宫格输入），在......
                             
                         
                             
-                            <a href="/tags/#数组" title="数组" rel="6">数组</a>
+                            <a href="/tags/#数组" title="数组" rel="7">数组</a>
                             
                         
                             
@@ -543,17 +533,17 @@ T9（九宫格输入），在......
                             
                         
                             
+                            <a href="/tags/#队列" title="队列" rel="3">队列</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#动态规划" title="动态规划" rel="2">动态规划</a>
                             
                         
                             
                             <a href="/tags/#记忆化递归" title="记忆化递归" rel="2">记忆化递归</a>
-                            
-                        
-                            
-                            <a href="/tags/#队列" title="队列" rel="3">队列</a>
-                            
-                        
                             
                         
                             
@@ -681,6 +671,8 @@ T9（九宫格输入），在......
                             
                         
                             
+                        
+                            
                             <a href="/tags/#多线程" title="多线程" rel="3">多线程</a>
                             
                         
@@ -705,7 +697,7 @@ T9（九宫格输入），在......
                             
                         
                             
-                        
+                            <a href="/tags/#树" title="树" rel="2">树</a>
                             
                         
                             
@@ -907,7 +899,7 @@ T9（九宫格输入），在......
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Espada 2021 
+                    Copyright &copy; Espada 2022 
                     <br>
                     Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">

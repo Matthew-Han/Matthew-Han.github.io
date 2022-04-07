@@ -256,6 +256,35 @@ Api
 
 <div class="post-preview">
 
+    <a href="/post/1c40fd80-b621-11ec-9548-87744b45139b/">
+        <h2 class="post-title">
+            数据结构：树状数组
+        </h2>
+        <h3 class="post-subtitle">
+            树状数组？批状数组！
+        </h3>
+        <div class="post-content-preview">
+             Intro
+首先，树状数组的应用场景在哪里呢？这里摘抄三叶姐题解中的一段：
+
+针对不同的题目，我们有不同的方案可以选择（假设我们有一个数组）：
+数组不变，求区间和：「前缀和」、「树状数组」、「线段树」
+多次修改某个数（单点），求区间和：「树状数组」、「线段树」
+多次修改某个区间，输出最终结果：「差分」
+多次修改某个区间，求区间和：「线段树」、「树状数组」（看修改区间范围大小）
+多次将某个区......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2022-04-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/post/25c59040-2fea-11ec-a701-53779506e8d2/">
         <h2 class="post-title">
             力扣杯秋季编程大赛 2021 战队赛
@@ -475,44 +504,6 @@ n == mat[i].leng......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/3414aaf0-e46d-11eb-9597-7d5c165039f4/">
-        <h2 class="post-title">
-            Redis 笔记五
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-             Q：如何应对变慢的Redis（总结）
-
-个人总结版本
-
-
-AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次又来了
-发生了 swap 内存交换
-查看基线性能
-查看延迟的绝对值
-是否有慢查询
-是否会出现同一时刻大批量 kv 的过期
-是否存在 bigkey
-是否存在透明大页
-是否出现频繁切换 socket，需要绑核
-主从集群下是否主库过大，导致 RDB 载入阻塞
-
-
-老师......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2021-07-14
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -566,7 +557,7 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
-                            <a href="/tags/#数据结构" title="数据结构" rel="22">数据结构</a>
+                            <a href="/tags/#数据结构" title="数据结构" rel="23">数据结构</a>
                             
                         
                             
@@ -574,7 +565,7 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
-                            <a href="/tags/#数组" title="数组" rel="6">数组</a>
+                            <a href="/tags/#数组" title="数组" rel="7">数组</a>
                             
                         
                             
@@ -590,17 +581,17 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
+                            <a href="/tags/#队列" title="队列" rel="3">队列</a>
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#动态规划" title="动态规划" rel="2">动态规划</a>
                             
                         
                             
                             <a href="/tags/#记忆化递归" title="记忆化递归" rel="2">记忆化递归</a>
-                            
-                        
-                            
-                            <a href="/tags/#队列" title="队列" rel="3">队列</a>
-                            
-                        
                             
                         
                             
@@ -728,6 +719,8 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
+                        
+                            
                             <a href="/tags/#多线程" title="多线程" rel="3">多线程</a>
                             
                         
@@ -752,7 +745,7 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
-                        
+                            <a href="/tags/#树" title="树" rel="2">树</a>
                             
                         
                             
@@ -954,7 +947,7 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Espada 2021 
+                    Copyright &copy; Espada 2022 
                     <br>
                     Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
                     <span style="display: inline-block; margin: 0 5px;">
