@@ -56,7 +56,9 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
 </head>
 
 
@@ -152,6 +154,30 @@
 
     <!-- Main Content -->
     
+<!-- add mathjs  -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.8/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
 <!-- Image to hack wechat -->
 <!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
 <!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
@@ -203,26 +229,20 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="problem-description"><a class="markdownIt-Anchor" href="#problem-description"></a> Problem Description</h1>
-<p>在一个 <code>n * m</code> 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
-<h2 id="eg"><a class="markdownIt-Anchor" href="#eg"></a> e.g.</h2>
-<p>现有矩阵 matrix 如下：</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h1><p>在一个 <code>n * m</code> 的二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<h2 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h2><p>现有矩阵 matrix 如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [1, 4, 7, 11, 15],</span><br><span class="line">  [2, 5, 8, 12, 19],</span><br><span class="line">  [3, 6, 9, 16, 22],</span><br><span class="line">  [10, 13, 14, 17, 24],</span><br><span class="line">  [18, 21, 23, 26, 30]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <ul>
-<li>
-<p>给定 <code>target</code> = 5，返回 <code>true</code>。</p>
+<li><p>给定 <code>target</code> = 5，返回 <code>true</code>。</p>
 </li>
-<li>
-<p>给定 <code>target</code> = 20，返回 <code>false</code>。</p>
+<li><p>给定 <code>target</code> = 20，返回 <code>false</code>。</p>
 </li>
 </ul>
-<h2 id="note"><a class="markdownIt-Anchor" href="#note"></a> note</h2>
-<ul>
+<h2 id="note"><a href="#note" class="headerlink" title="note"></a>note</h2><ul>
 <li><code>0 &lt;= n &lt;= 1000</code></li>
 <li><code>0 &lt;= m &lt;= 1000</code></li>
 </ul>
-<h1 id="solution"><a class="markdownIt-Anchor" href="#solution"></a> Solution</h1>
-<p>方法有很多，单纯双for循环暴力肯定太low。主要还是双指针、二分法这些。不过有个思路很好，站在该矩阵的右上角来看，这货就是一个「二叉搜索树」。</p>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>方法有很多，单纯双for循环暴力肯定太low。主要还是双指针、二分法这些。不过有个思路很好，站在该矩阵的右上角来看，这货就是一个「二叉搜索树」。</p>
 <p><strong>二叉搜索树的性质：</strong></p>
 <ol>
 <li>节点的左子树上的所有节点的值都小于等于节点的值；</li>
@@ -230,7 +250,7 @@
 <li>左子树和右子树也都是BST。</li>
 </ol>
 <p>那就模拟一颗二叉搜索树来做咯：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LcOf04</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当成二叉搜索树来做</span></span><br><span class="line"><span class="comment">     * 执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户</span></span><br><span class="line"><span class="comment">     * 内存消耗： 45.5 MB , 在所有 Java 提交中击败了 65.46% 的用户</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> matrix</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findNumberIn2DArray</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        dfs(matrix, matrix.length - <span class="number">1</span>, <span class="number">0</span>, target);</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span>[][] matrix, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; matrix.length &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; matrix[<span class="number">0</span>].length) &#123;</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j] == target) &#123;</span><br><span class="line">                flag = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (matrix[i][j] &lt; target) &#123;</span><br><span class="line">                dfs(matrix, i, j + <span class="number">1</span>, target);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                dfs(matrix, i - <span class="number">1</span>, j, target);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LcOf04</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当成二叉搜索树来做</span></span><br><span class="line"><span class="comment">     * 执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户</span></span><br><span class="line"><span class="comment">     * 内存消耗： 45.5 MB , 在所有 Java 提交中击败了 65.46% 的用户</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> matrix</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> target</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">findNumberIn2DArray</span><span class="params">(<span class="type">int</span>[][] matrix, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        dfs(matrix, matrix.length - <span class="number">1</span>, <span class="number">0</span>, target);</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span>[][] matrix, <span class="type">int</span> i, <span class="type">int</span> j, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; matrix.length &amp;&amp; j &gt;= <span class="number">0</span> &amp;&amp; j &lt; matrix[<span class="number">0</span>].length) &#123;</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j] == target) &#123;</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (matrix[i][j] &lt; target) &#123;</span><br><span class="line">                dfs(matrix, i, j + <span class="number">1</span>, target);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                dfs(matrix, i - <span class="number">1</span>, j, target);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中注意下，如果用双指针、二分法最好从右上角为起点。</p>
 
 

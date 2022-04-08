@@ -56,7 +56,9 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
 </head>
 
 
@@ -152,6 +154,30 @@
 
     <!-- Main Content -->
     
+<!-- add mathjs  -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.8/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
 <!-- Image to hack wechat -->
 <!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
 <!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
@@ -201,10 +227,10 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h1>
-<p><code>last-in-first-out</code>，后进先出是它最大的特点。<code>class Stack&lt;E&gt; extends Vector&lt;E&gt;</code>作为Vector的子类。</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p><code>last-in-first-out</code>，后进先出是它最大的特点。<code>class Stack&lt;E&gt; extends Vector&lt;E&gt;</code>作为Vector的子类。</p>
 <p>Vector底层使用数组存储数据，所以Stack也是如此。</p>
 <p>Stack类<strong>自身</strong>的一些方法：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -235,12 +261,12 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>其中search方法比较特殊，返回的是该元素的位置，但是从1开始的，这个不是数组下标。源码里是这样写的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i = lastIndexOf(o);</span><br><span class="line">	<span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> size() - i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(Object o)</span> &#123;</span><br><span class="line">  <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> lastIndexOf(o);</span><br><span class="line">	<span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> size() - i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果该栈不存在任何元素，使用pop和peek方法会报NPE。</p>
 <p>以上方法都是用了<code>synchronized</code>进行修饰，确保线程同步。</p>
-<h1 id="父类方法未完待续"><a class="markdownIt-Anchor" href="#父类方法未完待续"></a> 父类方法（未完待续…）</h1>
-
+<h1 id="父类方法（未完待续…）"><a href="#父类方法（未完待续…）" class="headerlink" title="父类方法（未完待续…）"></a>父类方法（未完待续…）</h1>
 
                 <hr>
 

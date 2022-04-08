@@ -56,7 +56,9 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
 </head>
 
 
@@ -152,6 +154,30 @@
 
     <!-- Main Content -->
     
+<!-- add mathjs  -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.8/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
 <!-- Image to hack wechat -->
 <!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
 <!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
@@ -208,8 +234,7 @@
                 <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><blockquote>
 <p>良好的编码风格和完善统一的规约是最高效的方式。</p>
 </blockquote>
-<h1 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h1>
-<p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第四篇章第一节：数据结构与集合的框架篇。</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第四篇章第一节：数据结构与集合的框架篇。</p>
 <p><strong>本系列目录</strong>：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
@@ -224,8 +249,7 @@
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
 </ul>
-<h1 id="数据结构"><a class="markdownIt-Anchor" href="#数据结构"></a> 数据结构</h1>
-<p>Java中的集合不同于数学概念，可以是有序的，也可以是重复的。而集合作为数据结构的载体，同时也作为程序的主要构成，是所有编程语言的基础。</p>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>Java中的集合不同于数学概念，可以是有序的，也可以是重复的。而集合作为数据结构的载体，同时也作为程序的主要构成，是所有编程语言的基础。</p>
 <p><strong>数据结构的分类：</strong></p>
 <ol>
 <li>线性结构：0至1个直接前继和直接后继。当线性非空时，有唯一的首元素和尾元素，除两者外，所有的元素都有唯一的直接前继和直接后继。该类结构一般有：<strong>顺序表、链表、栈、队列</strong>等，其中<strong>栈、队列</strong>是访问受限的结构。</li>
@@ -237,17 +261,13 @@
 <p>数据结构的复杂度分为时间复杂度和空间复杂度两种，因为目前存储设备的技术进步，时间复杂度成为了重点考量的因素。</p>
 <p><strong>时间复杂度是一种衡量计算性能的指标。通常用大写的<em>O</em>和一个函数描述，比如<em>O</em>(<em>n</em><sup>3</sup>)表示程序执行时间随输入规模呈现三次方倍的增长，这是比较差的算法实现。</strong></p>
 <p>从好到坏的常用算法复杂度排序如下：常数级 <em>O</em>(1)、对数级 <em>O</em>(log<em>n</em>)、线性级 <em>O</em>(<em>n</em>)、线性对数级 <em>O</em>(<em>n</em>log<em>n</em>)、平方级 <em>O</em>(<em>n</em><sup>2</sup>)、立方级 <em>O</em>(<em>n</em><sup>3</sup>)、指数级 <em>O</em>(2<sup><em>n</em></sup>)。</p>
-<h1 id="集合框架"><a class="markdownIt-Anchor" href="#集合框架"></a> 集合框架</h1>
-<p>Java中的集合是用于存储对象的工具类容器，实现了我们上述所说的这些的数据结构，提供了一系列的公开方法用于增删改查以及遍历数据，让宁⑧用自己写轮子辣！</p>
+<h1 id="集合框架"><a href="#集合框架" class="headerlink" title="集合框架"></a>集合框架</h1><p>Java中的集合是用于存储对象的工具类容器，实现了我们上述所说的这些的数据结构，提供了一系列的公开方法用于增删改查以及遍历数据，让宁⑧用自己写轮子辣！</p>
 <p>这里本来应该有一张Java结合框架图的，不过都应该烂熟于心了⑧。除了<code>Map</code>没有直接继承<code>collection</code>接口，<code>Queue</code>、<code>List</code>、<code>Set</code>均是直接继承<code>collection</code>接口。</p>
-<h2 id="list集合"><a class="markdownIt-Anchor" href="#list集合"></a> List集合</h2>
-<p>List集合是线性数据结构的主要实现，所以集合的元素通常明确上一个和下一个元素，也存在第一个和最后一个元素。</p>
+<h2 id="List集合"><a href="#List集合" class="headerlink" title="List集合"></a>List集合</h2><p>List集合是线性数据结构的主要实现，所以集合的元素通常明确上一个和下一个元素，也存在第一个和最后一个元素。</p>
 <p><code>ArrayList</code>是容量可变的<strong>非线程安全集合</strong>。内部使用数组进行存储，扩容时会创建更大的数组空间，然后再把原来的数据复制到新的数组中。该集合支持对元素的随机访问，<strong>插入与删除速度通常很慢</strong>，因为涉及到移动元素（数组）。</p>
 <p><code>LinkedList</code>的本质是双向链表。与<code>ArrayList</code>相比，插入和删除的速度更快，但是随机访问的速度很慢。<code>LinkedList</code>包含了3个重要的成员：size、first、last。size是双向链表中节点的个数。first和last分别指向第一个和最后一个节点的应用。</p>
-<h2 id="queue集合"><a class="markdownIt-Anchor" href="#queue集合"></a> Queue集合</h2>
-<p>先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从<code>BlockingQueue</code>（阻塞队列）问世以来，队列的地位得到极大地提升，在各种高并发编程的场景，经常被作为Buffer（数据缓冲区）使用。</p>
-<h2 id="map集合"><a class="markdownIt-Anchor" href="#map集合"></a> Map集合</h2>
-<p>Map集合是以Key-Value键值对作为存储元素实现的哈希结构，Key安某种哈希函数计算后是唯一的，Value是可以重复的。</p>
+<h2 id="Queue集合"><a href="#Queue集合" class="headerlink" title="Queue集合"></a>Queue集合</h2><p>先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从<code>BlockingQueue</code>（阻塞队列）问世以来，队列的地位得到极大地提升，在各种高并发编程的场景，经常被作为Buffer（数据缓冲区）使用。</p>
+<h2 id="Map集合"><a href="#Map集合" class="headerlink" title="Map集合"></a>Map集合</h2><p>Map集合是以Key-Value键值对作为存储元素实现的哈希结构，Key安某种哈希函数计算后是唯一的，Value是可以重复的。</p>
 <ul>
 <li>可以使用<code>keySet()</code>方法查看所有的Key；</li>
 <li>使用<code>values()</code>方法查看所有的Value；</li>
@@ -257,19 +277,16 @@
 <p>在多线程并发的场景中，优先推荐使用<code>ConcurrentHashMap</code>，而不是<code>HashMap</code>。</p>
 <p><code>TreeMap</code>是Key有序的Map类集合，树结构保证有序，Key⑧能为<code>null</code>。</p>
 <p><code>LinkedHashMap</code>底层是链表结构，较与<code>HashMap</code>可以保元素的有序。</p>
-<h2 id="set集合"><a class="markdownIt-Anchor" href="#set集合"></a> Set集合</h2>
-<p>Set是不允许出现重复元素的集合类型。Set体系最常用的是<code>HashSet</code>、<code>TreeSet</code>和<code>LinkedHashSet</code>三个集合类。</p>
+<h2 id="Set集合"><a href="#Set集合" class="headerlink" title="Set集合"></a>Set集合</h2><p>Set是不允许出现重复元素的集合类型。Set体系最常用的是<code>HashSet</code>、<code>TreeSet</code>和<code>LinkedHashSet</code>三个集合类。</p>
 <p><code>HashSet</code>与<code>HashMap</code>较为类似，只是Value固定为一个静态对象，使用Key保证集合元素的唯一性，但它不保证集合元素的顺序。</p>
 <p><code>TreeSet</code>也是如此，与<code>TreeMap</code>类似，同样底层是树结构，保证有序，元素不能为<code>null</code>。</p>
 <p><code>LinkedHashSet</code>继承自<code>HashSet</code>，具有<code>HashSet</code>的优点，使用链表维护了元素插入顺序。</p>
-<h1 id="集合初始化"><a class="markdownIt-Anchor" href="#集合初始化"></a> 集合初始化</h1>
-<p>集合初始化通常进行分配容量、设置特定参数等相关工作。</p>
+<h1 id="集合初始化"><a href="#集合初始化" class="headerlink" title="集合初始化"></a>集合初始化</h1><p>集合初始化通常进行分配容量、设置特定参数等相关工作。</p>
 <p>该书中特别强调例如<code>ArrayList</code>在初始化的过程中，需要显式地设定集合容量大小。</p>
-<h2 id="arraylist部分源码解析"><a class="markdownIt-Anchor" href="#arraylist部分源码解析"></a> ArrayList部分源码解析</h2>
-<blockquote>
+<h2 id="ArrayList部分源码解析"><a href="#ArrayList部分源码解析" class="headerlink" title="ArrayList部分源码解析"></a>ArrayList部分源码解析</h2><blockquote>
 <p>本书分析的底层源码基本来源于较新的JDK11，而在我本地的源码是JDK8，下面分析的是本地的JDK8源码。</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Increases the capacity to ensure that it can hold at least the</span></span><br><span class="line"><span class="comment"> * number of elements specified by the minimum capacity argument.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> minCapacity the desired minimum capacity</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">  	<span class="comment">// ①</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">  	<span class="comment">// ②</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">  <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">    Integer.MAX_VALUE :</span><br><span class="line">  	MAX_ARRAY_SIZE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Increases the capacity to ensure that it can hold at least the</span></span><br><span class="line"><span class="comment"> * number of elements specified by the minimum capacity argument.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> minCapacity the desired minimum capacity</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">grow</span><span class="params">(<span class="type">int</span> minCapacity)</span> &#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldCapacity</span> <span class="operator">=</span> elementData.length;</span><br><span class="line">    <span class="type">int</span> <span class="variable">newCapacity</span> <span class="operator">=</span> oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">  	<span class="comment">// ①</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">  	<span class="comment">// ②</span></span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">hugeCapacity</span><span class="params">(<span class="type">int</span> minCapacity)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">OutOfMemoryError</span>();</span><br><span class="line">  <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">    Integer.MAX_VALUE :</span><br><span class="line">  	MAX_ARRAY_SIZE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上述代码是JDK8中的源码，扩容在<code>grow()</code>方法里完成。而在JDK11中，扩容的具体实现则是由<code>newCapacity()</code>方法实现。</p>
 <p>首先我们明确几个概念：</p>
 <ol>
@@ -278,25 +295,23 @@
 <li><code>minCapacity</code>：扩容的必须满足最小的要求！源码是<code>size + 1</code>，也就是当前的容量 + 1。</li>
 </ol>
 <ul>
-<li>
-<p><strong>什么时候扩容？</strong></p>
+<li><p><strong>什么时候扩容？</strong></p>
 <p>JDK8的源码部分没贴上来，调用的方法太多了占内容空间。如果原始容量为10，当第11个元素即将调用<code>add()</code>方法时会启动<code>grow()</code>方法启动扩容机制，JDK11同理。</p>
 </li>
-<li>
-<p><strong>默认的容量大小是什么？</strong></p>
+<li><p><strong>默认的容量大小是什么？</strong></p>
 <p><strong>如果没有显式的初始化容量大小</strong>，<strong>那么在最开始</strong>，<strong>容量大小其实是0而不是默认的10哦</strong>。当显式的设定了容量大小，那么容量大小会赋设定的值。只有当调用<code>add()</code>方法时才会启动扩容，变成默认<code>DEFAULT_CAPACITY = 10</code>，大小为10。所以不显式的初始化容量大小，调用<code>add()</code>方法的话时必定会扩容一次的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Class&lt;?&gt; listClazz = list.getClass();</span><br><span class="line">Field elementData = listClazz.getDeclaredField(<span class="string">&quot;elementData&quot;</span>);</span><br><span class="line">elementData.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">Object[] objects1 = (Object[])elementData.get(list);</span><br><span class="line">System.out.println(<span class="string">&quot;不显式的初始化，容量大小为：&quot;</span> + objects1.length);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">Class&lt;?&gt; listClazz = list.getClass();</span><br><span class="line"><span class="type">Field</span> <span class="variable">elementData</span> <span class="operator">=</span> listClazz.getDeclaredField(<span class="string">&quot;elementData&quot;</span>);</span><br><span class="line">elementData.setAccessible(<span class="literal">true</span>);</span><br><span class="line">Object[] objects1 = (Object[])elementData.get(list);</span><br><span class="line">System.out.println(<span class="string">&quot;不显式的初始化，容量大小为：&quot;</span> + objects1.length);</span><br></pre></td></tr></table></figure>
 <p>上述代码输出<code>不显式的初始化，容量大小为：0</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add一个元素</span></span><br><span class="line">list.add(<span class="string">&quot;回家做80个俯卧撑！&quot;</span>);</span><br><span class="line">Object[] objects2 = (Object[])elementData.get(list);</span><br><span class="line">System.out.println(<span class="string">&quot;添加一个元素，现在容量大小为：&quot;</span> + objects2.length);</span><br></pre></td></tr></table></figure>
 <p>接着添加一个元素，运行输出<code>添加一个元素，现在容量大小为：10</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list2 = <span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">666</span>);</span><br><span class="line">Class&lt;?&gt; newListClazz = list2.getClass();</span><br><span class="line">Field elementData2 = newListClazz.getDeclaredField(<span class="string">&quot;elementData&quot;</span>);</span><br><span class="line">elementData2.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">Object[] objects3 = (Object[])elementData.get(list2);</span><br><span class="line">System.out.println(<span class="string">&quot;显式初始化容量大小为666，容量大小为：&quot;</span> + objects3.length);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(<span class="number">666</span>);</span><br><span class="line">Class&lt;?&gt; newListClazz = list2.getClass();</span><br><span class="line"><span class="type">Field</span> <span class="variable">elementData2</span> <span class="operator">=</span> newListClazz.getDeclaredField(<span class="string">&quot;elementData&quot;</span>);</span><br><span class="line">elementData2.setAccessible(<span class="literal">true</span>);</span><br><span class="line">Object[] objects3 = (Object[])elementData.get(list2);</span><br><span class="line">System.out.println(<span class="string">&quot;显式初始化容量大小为666，容量大小为：&quot;</span> + objects3.length);</span><br></pre></td></tr></table></figure>
 <p>显式初始化容量大小为666，运行输出<code>显式初始化容量大小为666，容量大小为：666</code></p>
 </li>
-<li>
-<p><strong>如何扩容？</strong></p>
+</ul>
 <ul>
-<li>JDK8之前的扩容算法与JDK8有所不同，源码中上述方法里，<code>int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</code>扩容后的容量大小算法是通过右移一位再加上老容量大小得到。
+<li><p><strong>如何扩容？</strong></p>
 <ul>
+<li>JDK8之前的扩容算法与JDK8有所不同，源码中上述方法里，<code>int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</code>扩容后的容量大小算法是通过右移一位再加上老容量大小得到。<ul>
 <li>位移运算：JDK8中采用了（有符号）位运算符计算，位移的过程中采用补码的形式。假设原始容量为13，二进制数是1101，其中反码也是1101，<strong>整数的反码、补码都是本身</strong>。补码右移一位这是110，得到十进制为6，所以新的容量大小为6 + 13 = 19。JDK7之前的公式则是<code>oldCapacity * 1.5 + 1</code>；</li>
 </ul>
 </li>
@@ -309,11 +324,10 @@
 <blockquote>
 <p>嗯？！感觉关于ArrayList的可以单独出一篇啊。</p>
 </blockquote>
-<h2 id="hashmap部分源码解析"><a class="markdownIt-Anchor" href="#hashmap部分源码解析"></a> HashMap部分源码解析</h2>
-<blockquote>
+<h2 id="HashMap部分源码解析"><a href="#HashMap部分源码解析" class="headerlink" title="HashMap部分源码解析"></a>HashMap部分源码解析</h2><blockquote>
 <p>本书分析的底层源码基本来源于较新的JDK11，而在我本地的源码是JDK8，下面分析的是本地的JDK8源码。</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The default initial capacity - MUST be a power of two.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The maximum capacity, used if a higher value is implicitly specified</span></span><br><span class="line"><span class="comment"> * by either of the constructors with arguments.</span></span><br><span class="line"><span class="comment"> * MUST be a power of two &lt;= 1&lt;&lt;30.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXIMUM_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The load factor used when none specified in constructor.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ---------------- Fields -------------- */</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * The table, initialized on first use, and resized as</span></span><br><span class="line"><span class="comment">  * necessary. When allocated, length is always a power of two.</span></span><br><span class="line"><span class="comment">  * (We also tolerate length zero in some operations to allow</span></span><br><span class="line"><span class="comment">  * bootstrapping mechanics that are currently not needed.)</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The default initial capacity - MUST be a power of two.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DEFAULT_INITIAL_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The maximum capacity, used if a higher value is implicitly specified</span></span><br><span class="line"><span class="comment"> * by either of the constructors with arguments.</span></span><br><span class="line"><span class="comment"> * MUST be a power of two &lt;= 1&lt;&lt;30.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MAXIMUM_CAPACITY</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The load factor used when none specified in constructor.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">float</span> <span class="variable">DEFAULT_LOAD_FACTOR</span> <span class="operator">=</span> <span class="number">0.75f</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ---------------- Fields -------------- */</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * The table, initialized on first use, and resized as</span></span><br><span class="line"><span class="comment">  * necessary. When allocated, length is always a power of two.</span></span><br><span class="line"><span class="comment">  * (We also tolerate length zero in some operations to allow</span></span><br><span class="line"><span class="comment">  * bootstrapping mechanics that are currently not needed.)</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>DEFAULT_INITIAL_CAPACITY</code>：默认初始容量<code>1 &lt;&lt; 4</code>，aka 16，必须是2<sup>n</sup>幂，注解里很直白的写着，所以你即使在初始化的过程这样写<code>new HashMap&lt;&gt;(3);</code>，实际上也会被改成2<sup>2</sup>，比3大且最近的一个2的幂次方；</li>
 <li><code>MAXIMUM_CAPACITY</code>：最大容量大小，默认<code>1 &lt;&lt; 30</code>，相当于2<sup>30</sup>；</li>
@@ -323,33 +337,21 @@
 <p>HashMap和ArrayList一样，容量不是在new的时候分配，而是在第一次<code>put</code>的时候。</p>
 <p><code>put</code>、<code>putVal()</code>、<code>reszie()</code>方法有些晦涩复杂就不贴上来了。很多细节，👴属实有点看不明白。这里有个概念<code>threshold</code>作为临界值就是<code>loadfactory</code>（负载因子）和<code>capacity</code>（容量）的乘积。也就是说默认情况下，当HashMap中元素个数达到了容量的3/4的时候就会进行自动扩容。</p>
 <ul>
-<li>
-<p><strong>为什么负载因子是0.75？</strong></p>
+<li><p><strong>为什么负载因子是0.75？</strong></p>
 <p>JDK源码里这样写，一定有它的道理，这里不太想去探究。查阅网上的资料，和哈希冲突有很大关系，以及一些数学计算、log2、对数之类的有一定关系，反正一般不要去自己去设定就vans了。</p>
 </li>
-<li>
-<p><strong>什么时候扩容？</strong></p>
+<li><p><strong>什么时候扩容？</strong></p>
 <ul>
-<li>
-<p>和ArrayList一样，到了某个临界值才会被动扩容，而且扩容的过程中会重新计算所有元素的哈希值。扩容的条件是达到了<code>threshold</code>这个参数，而它是<code>capacity</code>和<code>loadfactory</code>的乘积，所以我们可以通过代码来验证一下：</p>
+<li><p>和ArrayList一样，到了某个临界值才会被动扩容，而且扩容的过程中会重新计算所有元素的哈希值。扩容的条件是达到了<code>threshold</code>这个参数，而它是<code>capacity</code>和<code>loadfactory</code>的乘积，所以我们可以通过代码来验证一下：</p>
 </li>
-<li>
-<pre class="highlight"><code class="java">Map&lt;String, String&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;(<span class="hljs-number">0</span>);
-Class&lt;?&gt; mapClazz = map.getClass();
-Method capacity = mapClazz.getDeclaredMethod(<span class="hljs-string">"capacity"</span>);
-capacity.setAccessible(<span class="hljs-keyword">true</span>);
-System.out.println(<span class="hljs-string">"容量大小为："</span> + capacity.invoke(map));
-&lt;!--code￼<span class="hljs-number">5</span>--&gt;
-
-</code></pre>
+<li><p>```java<br>Map<String, String> map = new HashMap&lt;&gt;(0);<br>Class&lt;?&gt; mapClazz = map.getClass();<br>Method capacity = mapClazz.getDeclaredMethod(“capacity”);<br>capacity.setAccessible(true);<br>System.out.println(“容量大小为：” + capacity.invoke(map));</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 输出`容量大小为：1`，因为是2&lt;sup&gt;0&lt;/sup&gt;</span><br><span class="line"></span><br><span class="line">- ```java</span><br><span class="line">  map.put(&quot;MatthewHan&quot;, &quot;developer&quot;);</span><br><span class="line">  System.out.println(&quot;添加一个元素后，容量大小为：&quot; + capacity.invoke(map));</span><br></pre></td></tr></table></figure>
 </li>
-<li>
-<p>put一个元素之后，查看<code>capacity</code>大的大小，输出<code>添加一个元素后，容量大小为：2</code>。为什么不是1呢，因为<code>capacity</code>和<code>loadfactory</code>的乘积是<code>0.75 * 1 &lt; 1</code>，满足扩容的条件。所以从2<sup>0</sup>扩容成了2<sup>1</sup>。当然你这样写<code>new HashMap&lt;&gt;(0, 1f);</code>输出的就是1了。</p>
+<li><p>put一个元素之后，查看<code>capacity</code>大的大小，输出<code>添加一个元素后，容量大小为：2</code>。为什么不是1呢，因为<code>capacity</code>和<code>loadfactory</code>的乘积是<code>0.75 * 1 &lt; 1</code>，满足扩容的条件。所以从2<sup>0</sup>扩容成了2<sup>1</sup>。当然你这样写<code>new HashMap&lt;&gt;(0, 1f);</code>输出的就是1了。</p>
 </li>
 </ul>
 </li>
-<li>
-<p><strong>以前看到过的一道美团笔试题：如果一个HashMap要装载100个元素，那么初始化容量大小是设定最佳？</strong></p>
+<li><p><strong>以前看到过的一道美团笔试题：如果一个HashMap要装载100个元素，那么初始化容量大小是设定最佳？</strong></p>
 <ul>
 <li>最佳的大小，一定是满足不会多次扩容调用<code>resize()</code>方法的。所以就是一定要大于<code>100 ÷ 0.75 = 133.333...</code>，比该数大且最接近的2<sup>n</sup>的是2<sup>8</sup> = 256。而2<sup>7</sup> = 128看起来比100大，但是需要多扩容一次，全部重新计算哈希算法，属实⑧行。上面写了目前对时间性能的要求远远大于空间，用空间换时间。</li>
 <li>或者可以这样<code>new HashMap&lt;&gt;(128, 0.79f);</code>但是一般不会改变负载因子的值，该方法实际表现未知。</li>

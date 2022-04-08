@@ -56,7 +56,9 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
 </head>
 
 
@@ -152,6 +154,30 @@
 
     <!-- Main Content -->
     
+<!-- add mathjs  -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.8/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
 <!-- Image to hack wechat -->
 <!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
 <!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
@@ -199,9 +225,9 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h1>
-<p>先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从 <code>BlockingQueue</code>（阻塞队列）问世以来，队列的地位得到极大地提升，在各种高并发编程的场景，经常被作为 Buffer（数据缓冲区）使用。</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从 <code>BlockingQueue</code>（阻塞队列）问世以来，队列的地位得到极大地提升，在各种高并发编程的场景，经常被作为 Buffer（数据缓冲区）使用。</p>
 <p>通常我们把<strong>LinkedList</strong>当成Queue来用，Queue类<strong>自身</strong>的一些方法：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -236,23 +262,21 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>以下摘自<a target="_blank" rel="noopener" href="https://www.runoob.com/java/data-queue.html">菜鸟教程</a>：</p>
 <ul>
-<li>
-<p><strong>offer，add 区别：</strong></p>
+<li><p><strong>offer，add 区别：</strong></p>
 <ul>
 <li>一些队列有大小限制，因此如果想在一个满的队列中加入一个新项，多出的项就会被拒绝。</li>
 <li>这时新的<code>offer()</code>方法就可以起作用了。它不是对调用<code>add()</code>方法抛出一个unchecked异常，而只是得到由<code>offer()</code>返回的false。</li>
 </ul>
 </li>
-<li>
-<p><strong>poll，remove 区别：</strong></p>
+<li><p><strong>poll，remove 区别：</strong></p>
 <ul>
 <li><code>remove()</code>和<code>poll()</code>方法都是从队列中删除第一个元素。<code>remove()</code>的行为与Collection接口的版本相似， 但是新的<code>poll()</code>方法在用空集合调用时不是抛出异常，只是返回null。因此新的方法更适合容易出现异常条件的情况。</li>
 </ul>
 </li>
-<li>
-<p><strong>peek，element区别：</strong></p>
+<li><p><strong>peek，element区别：</strong></p>
 <ul>
 <li><code>element()</code>和<code>peek()</code>用于在队列的头部查询元素。与 remove() 方法类似，在队列为空时，<code>element()</code>抛出一个异常，而<code>peek()</code>返回null。</li>
 </ul>

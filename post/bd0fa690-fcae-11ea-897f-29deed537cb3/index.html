@@ -56,7 +56,9 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
 </head>
 
 
@@ -152,6 +154,30 @@
 
     <!-- Main Content -->
     
+<!-- add mathjs  -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.8/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
 <!-- Image to hack wechat -->
 <!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
 <!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
@@ -212,22 +238,18 @@
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
 </ul>
-<h1 id="gc知识点"><a class="markdownIt-Anchor" href="#gc知识点"></a> GC知识点</h1>
-<p>主要分三个部分：</p>
+<h1 id="GC知识点"><a href="#GC知识点" class="headerlink" title="GC知识点"></a>GC知识点</h1><p>主要分三个部分：</p>
 <ol>
 <li>如何判断该对象要回收（是垃圾）</li>
 <li>回收的算法有哪些？</li>
 <li>垃圾收集器</li>
 </ol>
-<h2 id="判断一个对象是否可以回收"><a class="markdownIt-Anchor" href="#判断一个对象是否可以回收"></a> 判断一个对象是否可以回收</h2>
-<h3 id="1-引用计数法"><a class="markdownIt-Anchor" href="#1-引用计数法"></a> 1. 引用计数法</h3>
-<blockquote>
+<h2 id="判断一个对象是否可以回收"><a href="#判断一个对象是否可以回收" class="headerlink" title="判断一个对象是否可以回收"></a>判断一个对象是否可以回收</h2><h3 id="1-引用计数法"><a href="#1-引用计数法" class="headerlink" title="1. 引用计数法"></a>1. 引用计数法</h3><blockquote>
 <p>Python采用该种算法，但是解决了相互引用的问题</p>
 </blockquote>
 <p>为对象添加一个引用计数器，当对象增加一个引用时计数器加 1，引用失效时计数器减 1。引用计数为 0 的对象可被回收。</p>
 <p>在两个对象出现循环引用的情况下，此时引用计数器永远不为 0，导致无法对它们进行回收。正是因为循环引用的存在，因此 Java 虚拟机不使用引用计数算法。</p>
-<h3 id="2-gc-root可达性算法"><a class="markdownIt-Anchor" href="#2-gc-root可达性算法"></a> 2. GC root（可达性算法）</h3>
-<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/83d909d2-3858-4fe1-8ff4-16471db0b180.png" alt="gc root" /></p>
+<h3 id="2-GC-root（可达性算法）"><a href="#2-GC-root（可达性算法）" class="headerlink" title="2. GC root（可达性算法）"></a>2. GC root（可达性算法）</h3><p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/83d909d2-3858-4fe1-8ff4-16471db0b180.png" alt="gc root"></p>
 <p>从GCroot出发遍历，标记每个可访达的对象为活动对象，遍历不到的对象（Obj4）就会被接下来要讲的几种算法回收了。</p>
 <p><strong>GC root可以是以下几种：</strong></p>
 <ul>
@@ -242,73 +264,60 @@
 <p>误报和漏报的理解：误报大不了不回收嘛，漏报比较严重。垃圾回收是先标记活的对象，后回收死的对象，那么如果标记好后，其它线程产生了垃圾，即将活的变死了，这种内存是不会释放的。另外，如果这时产生了新对象，由于没被标记为活的，所以被释放了，这就危险了。</p>
 <p><strong>Q：如何解决？（实际JVM虚拟机并不会出现这种情况）</strong></p>
 <p><strong>A：Stop-the-world 以及安全点（安全词），垃圾回收线程工作时，其他非垃圾回收线程一律等待！</strong></p>
-<h2 id="垃圾回收算法"><a class="markdownIt-Anchor" href="#垃圾回收算法"></a> 垃圾回收算法</h2>
-<h3 id="1标记-清除算法"><a class="markdownIt-Anchor" href="#1标记-清除算法"></a> 1.标记 - 清除算法</h3>
-<p>利用GC root遍历到的标记（非垃圾），那么其余的就是垃圾了，<strong>直接把剩下的对象标记为空闲内存</strong>。</p>
-<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/005b481b-502b-4e3f-985d-d043c2b330aa.png" alt="清除" /></p>
+<h2 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h2><h3 id="1-标记-清除算法"><a href="#1-标记-清除算法" class="headerlink" title="1.标记 - 清除算法"></a>1.标记 - 清除算法</h3><p>利用GC root遍历到的标记（非垃圾），那么其余的就是垃圾了，<strong>直接把剩下的对象标记为空闲内存</strong>。</p>
+<p>   <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/005b481b-502b-4e3f-985d-d043c2b330aa.png" alt="清除"></p>
 <ul>
 <li>优点：标记和清除的过程效率不高</li>
 <li>缺点：产生大量不连续碎片，就无法给大内存的对象分配空间了</li>
 </ul>
-<h3 id="2标记-整理算法压缩算法"><a class="markdownIt-Anchor" href="#2标记-整理算法压缩算法"></a> 2.标记 - 整理算法（压缩算法）</h3>
-<p>即把存活的对象聚集到内存区域的起始位置，从而留下一段连续的内存空间。</p>
+<h3 id="2-标记-整理算法（压缩算法）"><a href="#2-标记-整理算法（压缩算法）" class="headerlink" title="2.标记 - 整理算法（压缩算法）"></a>2.标记 - 整理算法（压缩算法）</h3><p>即把存活的对象聚集到内存区域的起始位置，从而留下一段连续的内存空间。</p>
 <ul>
 <li>优点：结果是很美好的，拥有了连续的内存空间，所以一般老年代使用该种算法，因为老年代的频率明显比新生代低很多。</li>
 <li>缺点：性能拉胯，毕竟要移动。（让我想到了为么MySQL用b+树，而不用有序数组，因为数据量大的时候插入、删除、移动的效率太低下了）</li>
 </ul>
-<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ccd773a5-ad38-4022-895c-7ac318f31437.png" alt="压缩" /></p>
-<h3 id="3复制算法"><a class="markdownIt-Anchor" href="#3复制算法"></a> 3.复制算法</h3>
-<p>将内存划分为大小相等的两块（Java8的中S0、S1），每次只使用其中一块，当这一块内存用完了就将还存活的对象复制到另一块上面，然后再把使用过的内存空间进行一次清理。（有点像数组的System.arraycopy，利用from和to两个指针）。</p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ccd773a5-ad38-4022-895c-7ac318f31437.png" alt="压缩"></p>
+<h3 id="3-复制算法"><a href="#3-复制算法" class="headerlink" title="3.复制算法"></a>3.复制算法</h3><p>将内存划分为大小相等的两块（Java8的中S0、S1），每次只使用其中一块，当这一块内存用完了就将还存活的对象复制到另一块上面，然后再把使用过的内存空间进行一次清理。（有点像数组的System.arraycopy，利用from和to两个指针）。</p>
 <p>所以所谓的S0和S1是相互复制然后全标记的，都会成为「空」的空间和复制来的对象的空间。</p>
 <p>主要的不足是每次S0和S1肯定有一块是空的，为了接下来的复制，所以也算是小浪费。</p>
 <blockquote>
 <p>HotSpot 虚拟机的 Eden 和 Survivor 大小比例默认为 8:1，保证了内存的利用率达到 90%。如果每次回收有多于 10% 的对象存活，那么一块 Survivor 就不够用了，此时需要依赖于老年代进行空间分配担保，也就是借用老年代的空间存储放不下的对象。</p>
 </blockquote>
-<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b2b77b9e-958c-4016-8ae5-9c6edd83871e.png" alt="复制算法" /></p>
-<h3 id="4分代收集算法"><a class="markdownIt-Anchor" href="#4分代收集算法"></a> 4.分代收集算法</h3>
-<p>现在的商业虚拟机采用分代收集算法，它根据对象存活周期将内存划分为几块，不同块采用适当的收集算法。</p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/b2b77b9e-958c-4016-8ae5-9c6edd83871e.png" alt="复制算法"></p>
+<h3 id="4-分代收集算法"><a href="#4-分代收集算法" class="headerlink" title="4.分代收集算法"></a>4.分代收集算法</h3><p>现在的商业虚拟机采用分代收集算法，它根据对象存活周期将内存划分为几块，不同块采用适当的收集算法。</p>
 <p>一般将堆分为新生代和老年代。</p>
 <ul>
 <li>新生代使用：复制算法</li>
 <li>老年代使用：标记 - 清除 或者 标记 - 整理 算法</li>
 </ul>
-<h3 id="5总结-内存"><a class="markdownIt-Anchor" href="#5总结-内存"></a> 5.总结   <img src="https://static001.geekbang.org/resource/image/2c/e5/2cc29b8de676d3747416416a3523e4e5.png" alt="内存" /></h3>
-<p>先Minor GC（Young GC），再Major GC（Full GC）。S0/S1交换14次后晋升至老年代（Java8之后是元空间，位于本地内存），jvm默认值是15。</p>
+<h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结   "></a>5.总结   <img src="https://static001.geekbang.org/resource/image/2c/e5/2cc29b8de676d3747416416a3523e4e5.png" alt="内存"></h3><p>先Minor GC（Young GC），再Major GC（Full GC）。S0/S1交换14次后晋升至老年代（Java8之后是元空间，位于本地内存），jvm默认值是15。</p>
 <p>一般来说OOM是内存耗尽，也有超大内存（不多）的情况。</p>
-<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/gc/gc%20flow.png" alt="gc-flow" /></p>
+<p>   <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/gc/gc%20flow.png" alt="gc-flow"></p>
 <p>以上是我画的图，其中少了一步，当新生代晋升至老年代的时候失败怎么办？其实这里是执行Major GC，也就是走下面的那条流程。</p>
-<h2 id="垃圾收集器"><a class="markdownIt-Anchor" href="#垃圾收集器"></a> 垃圾收集器</h2>
-<p>可以简单理解成新生代搞一个收集器，老年代搞一个收集器，Java8默认的就是Parallel + Parallel Old收集器</p>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>可以简单理解成新生代搞一个收集器，老年代搞一个收集器，Java8默认的就是Parallel + Parallel Old收集器</p>
 <ol>
-<li>
-<p>串行回收：Serial GC</p>
+<li><p>串行回收：Serial GC</p>
 </li>
-<li>
-<p>并行回收：Parallel GC：吞吐量高（因为并行，花费GC的时间少，所以可以让出时间给其他非GC线程），适用于科学计算</p>
+<li><p>并行回收：Parallel GC：吞吐量高（因为并行，花费GC的时间少，所以可以让出时间给其他非GC线程），适用于科学计算</p>
 </li>
-<li>
-<p>并发回收：CMS（ConcMarkSweep，并发标记清除）：其实有STW，也有并行。后备方案是Serial Old。而且是标记清除，会有碎片，会导致提前Major GC；吞吐量低，但是适用是高并发、快速响应的场景。</p>
-<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/62e77997-6957-4b68-8d12-bfd609bb2c68.jpg" alt="CMS" /></p>
+<li><p>并发回收：CMS（ConcMarkSweep，并发标记清除）：其实有STW，也有并行。后备方案是Serial Old。而且是标记清除，会有碎片，会导致提前Major GC；吞吐量低，但是适用是高并发、快速响应的场景。</p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/62e77997-6957-4b68-8d12-bfd609bb2c68.jpg" alt="CMS"></p>
 </li>
-<li>
-<p>Java9之后的：G1，Java11之后的：ZGC（在G1基础上），使命就是为了替换CMS。</p>
+<li><p>Java9之后的：G1，Java11之后的：ZGC（在G1基础上），使命就是为了替换CMS。</p>
 </li>
 </ol>
-<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c625baa0-dde6-449e-93df-c3a67f2f430f.jpg" alt="垃圾回收器" /></p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/c625baa0-dde6-449e-93df-c3a67f2f430f.jpg" alt="垃圾回收器"></p>
 <p><strong>JVM调优配了新生代，老年代会跟着配对应的垃圾收集器。</strong></p>
 <p>除了以上4种，主要还有以下3种：</p>
 <ol>
-<li>
-<p>Serial Old（已废弃）</p>
+<li><p>Serial Old（已废弃）</p>
 </li>
-<li>
-<p>ParNew</p>
+<li><p>ParNew</p>
 </li>
-<li>
-<p>ParOld</p>
-<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/278fe431-af88-4a95-a895-9c3b80117de3.jpg" alt="ParOld" /></p>
+<li><p>ParOld</p>
+<p><img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/278fe431-af88-4a95-a895-9c3b80117de3.jpg" alt="ParOld"></p>
 </li>
 </ol>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -353,17 +362,15 @@
 <td style="text-align:left">G1</td>
 <td>不区别新老年代，整体是标记整理</td>
 <td>局部是赋值算法</td>
-<td></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>G1和CMS的区别：</p>
 <ol>
-<li>
-<p>G1分块设计，会移动不同的内存对象。G1虽然是标记清除算法，但是不会产生碎片</p>
+<li><p>G1分块设计，会移动不同的内存对象。G1虽然是标记清除算法，但是不会产生碎片</p>
 </li>
-<li>
-<p>G1可以设置STW的时间，假如设置太小，就会频繁GC，降低吞吐量</p>
+<li><p>G1可以设置STW的时间，假如设置太小，就会频繁GC，降低吞吐量</p>
 </li>
 </ol>
 

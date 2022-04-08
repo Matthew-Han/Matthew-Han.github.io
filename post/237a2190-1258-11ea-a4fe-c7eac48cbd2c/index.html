@@ -56,7 +56,9 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
 </head>
 
 
@@ -152,6 +154,30 @@
 
     <!-- Main Content -->
     
+<!-- add mathjs  -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  });
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.8/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
 <!-- Image to hack wechat -->
 <!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
 <!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
@@ -199,28 +225,21 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
-<p>Redis作为一款优秀的缓存中间件，人们总是寄予他新的厚望。其列表类型的阻塞操作可以实现消息队列。</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Redis作为一款优秀的缓存中间件，人们总是寄予他新的厚望。其列表类型的阻塞操作可以实现消息队列。</p>
 <p>在场景中使用可以牢记以下口诀：</p>
 <ul>
-<li>
-<p><strong>lpush + lpop = Stack(栈)</strong></p>
+<li><p><strong>lpush + lpop = Stack(栈)</strong></p>
 </li>
-<li>
-<p><strong>lpush + rpop = Queue(队列)</strong></p>
+<li><p><strong>lpush + rpop = Queue(队列)</strong></p>
 </li>
-<li>
-<p><strong>lpsh + ltrim = Capped Collection(有限集合)</strong></p>
+<li><p><strong>lpsh + ltrim = Capped Collection(有限集合)</strong></p>
 </li>
-<li>
-<p><strong>lpush + brpop = Message Queue(消息队列)</strong></p>
+<li><p><strong>lpush + brpop = Message Queue(消息队列)</strong></p>
 </li>
 </ul>
-<h2 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h2>
-<p>假如有这样的一个需求，现有一套「较老」的公共服务可供你的系统使用，但是目前还有其他业务单位正在使用。每次请求调用下发一个任务，接着服务会响应一个回调接口，通过这个回调接口，你可以查询这个任务的执行状态，到了什么阶段，是否完成之类的。任务从下发到结束需要一定的时间，并且任务结束总是以两种状态出现：<strong>Completed</strong>或者<strong>Error</strong>。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>假如有这样的一个需求，现有一套「较老」的公共服务可供你的系统使用，但是目前还有其他业务单位正在使用。每次请求调用下发一个任务，接着服务会响应一个回调接口，通过这个回调接口，你可以查询这个任务的执行状态，到了什么阶段，是否完成之类的。任务从下发到结束需要一定的时间，并且任务结束总是以两种状态出现：<strong>Completed</strong>或者<strong>Error</strong>。</p>
 <p>假设这套公共服务分配给你了N个容量可以同时进行任务的调度，也就是说你系统调用下发的任务只能是N，当超过N时，就需要自定义一个队列来进行排队。当有任务完成时，任务执行池就可以释放一个空位，队列就可以pop出一个消息用于处理调用公共服务。</p>
-<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
-<p><strong><font color = red>为了充分深入Redis的列表的使用，</font></strong><font color = red>我打算把所有的需求点和场景都交给Redis去完成。</font></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p><strong><font color = red>为了充分深入Redis的列表的使用，</font></strong><font color = red>我打算把所有的需求点和场景都交给Redis去完成。</font></p>
 <p>所以这个需求看起来比较简单，就变成了也有麻烦的地方，主要是四个：</p>
 <ol>
 <li>由于其他业务单位的存在，本系统需要有一个缓冲池和任务执行池<code>Running Pool</code>，容量为可分配的N。</li>
@@ -228,24 +247,18 @@
 <li>「实际处理」的任务并不是执行在本系统而是在公共服务上，也就是说任何状态只能<strong>被动</strong>地通过公共服务的回调接口去查。</li>
 <li>当存在N个正在执行的任务时，单线程肯定是效率不够的。需要开启多线程去回调公共服务的接口判断任务状态是否完成/失败，用于下一步操作出入队列。</li>
 </ol>
-<h2 id="设计"><a class="markdownIt-Anchor" href="#设计"></a> 设计</h2>
-<ol>
-<li>
-<p>我们可以在Redis中规划一块任务执行池<code>Running Pool</code>，可以是Set类型也可以是List类型，容量为N。设计这样的一个队列有个好处是如果单纯的<code>PUSH/POP</code>的话，当出队之后处理这个消息的过程中发生不可抗力、宕机，消息出队之后就会永远的丢失掉，而这样做则是消息始终持久化在Redis中，是任务结束之后出队；</p>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><ol>
+<li>我们可以在Redis中规划一块任务执行池<code>Running Pool</code>，可以是Set类型也可以是List类型，容量为N。设计这样的一个队列有个好处是如果单纯的<code>PUSH/POP</code>的话，当出队之后处理这个消息的过程中发生不可抗力、宕机，消息出队之后就会永远的丢失掉，而这样做则是消息始终持久化在Redis中，是任务结束之后出队；</li>
+<li><p>有一个等待队列<code>Pending Queue</code>用于缓冲，消费者需要处理上面和这一块的业务逻辑；</p>
 </li>
-<li>
-<p>有一个等待队列<code>Pending Queue</code>用于缓冲，消费者需要处理上面和这一块的业务逻辑；</p>
+<li><p>一个<code>Completed Queue</code>用于完成消息的推送；</p>
 </li>
-<li>
-<p>一个<code>Completed Queue</code>用于完成消息的推送；</p>
-</li>
-<li>
-<p>一个<code>Error Queue</code>用于任务失败消息的推送（<strong>这两者其实可以合并，作为任务结束的消息便可，具体内容可以放在value中，也通过读写DataBase。</strong>）</p>
+<li><p>一个<code>Error Queue</code>用于任务失败消息的推送（<strong>这两者其实可以合并，作为任务结束的消息便可，具体内容可以放在value中，也通过读写DataBase。</strong>）</p>
 </li>
 </ol>
 <p>为了不出现当任务队列中没有任务时，消费者每秒都会调用一次POP命令查看是否有新任务这种情况，需要在消费者中同时处理业务逻辑，当任务执行缓冲池出队时，把<code>Pending Queue</code>的消息出队，入队到<code>Running Pool</code>。</p>
 <p>所以我们需要一个生产者RedisProducer（部分代码）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ProduceDTO <span class="title">produceTask</span><span class="params">(String orderId)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* </span></span><br><span class="line"><span class="comment">     * 数据处理代码段...</span></span><br><span class="line"><span class="comment">     * 部分业务逻辑...</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">// 判断running queue是否还有空位</span></span><br><span class="line">    <span class="keyword">boolean</span> condition = !redisBase.hasKey(RUNNING_QUEUE) || redisBase.lGetListSize(RUNNING_QUEUE) &lt; RUNNING_QUEUE_SIZE;</span><br><span class="line">    <span class="comment">// 如果有空位</span></span><br><span class="line">    <span class="keyword">if</span> (condition) &#123;</span><br><span class="line">        redisBase.lSet(RUNNING_QUEUE, orderId, -<span class="number">1</span>, TimeUnit.DAYS);</span><br><span class="line">        <span class="comment">// 开启服务</span></span><br><span class="line">        logger.info(<span class="string">&quot;================================开启转码服务================================&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* </span></span><br><span class="line"><span class="comment">         * 任务订单持久化代码段...</span></span><br><span class="line"><span class="comment">         * 部分业务逻辑... </span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">         <span class="keyword">boolean</span> isUpdate = iTaskInfoService.modifyTaskByOrderId(produceDTO);</span><br><span class="line">         <span class="keyword">if</span> (isUpdate) &#123;</span><br><span class="line">             <span class="comment">// 调用消费者</span></span><br><span class="line">             redisConsumer.consumerMessageThread(produceDTO);</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">throw</span> <span class="keyword">new</span> MatthewHanException(ServiceEnum.FIRST_UPDATE_TRANS_TASK_ERROR.getCode(), ServiceEnum.FIRST_UPDATE_TRANS_TASK_ERROR.getMessage());</span><br><span class="line">         &#125;</span><br><span class="line">            <span class="keyword">return</span> produceDTO;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 没空位，则消息先进入pending queue</span></span><br><span class="line">        redisBase.lSet(PENDING_QUEUE, orderId, -<span class="number">1</span>, TimeUnit.DAYS);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> produceDTO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line"><span class="keyword">public</span> ProduceDTO <span class="title function_">produceTask</span><span class="params">(String orderId)</span> &#123;</span><br><span class="line">    <span class="comment">/* </span></span><br><span class="line"><span class="comment">     * 数据处理代码段...</span></span><br><span class="line"><span class="comment">     * 部分业务逻辑...</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">// 判断running queue是否还有空位</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">condition</span> <span class="operator">=</span> !redisBase.hasKey(RUNNING_QUEUE) || redisBase.lGetListSize(RUNNING_QUEUE) &lt; RUNNING_QUEUE_SIZE;</span><br><span class="line">    <span class="comment">// 如果有空位</span></span><br><span class="line">    <span class="keyword">if</span> (condition) &#123;</span><br><span class="line">        redisBase.lSet(RUNNING_QUEUE, orderId, -<span class="number">1</span>, TimeUnit.DAYS);</span><br><span class="line">        <span class="comment">// 开启服务</span></span><br><span class="line">        logger.info(<span class="string">&quot;================================开启转码服务================================&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* </span></span><br><span class="line"><span class="comment">         * 任务订单持久化代码段...</span></span><br><span class="line"><span class="comment">         * 部分业务逻辑... </span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">         <span class="type">boolean</span> <span class="variable">isUpdate</span> <span class="operator">=</span> iTaskInfoService.modifyTaskByOrderId(produceDTO);</span><br><span class="line">         <span class="keyword">if</span> (isUpdate) &#123;</span><br><span class="line">             <span class="comment">// 调用消费者</span></span><br><span class="line">             redisConsumer.consumerMessageThread(produceDTO);</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">MatthewHanException</span>(ServiceEnum.FIRST_UPDATE_TRANS_TASK_ERROR.getCode(), ServiceEnum.FIRST_UPDATE_TRANS_TASK_ERROR.getMessage());</span><br><span class="line">         &#125;</span><br><span class="line">            <span class="keyword">return</span> produceDTO;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 没空位，则消息先进入pending queue</span></span><br><span class="line">        redisBase.lSet(PENDING_QUEUE, orderId, -<span class="number">1</span>, TimeUnit.DAYS);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> produceDTO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此部分主要是先判断Redis的<code>Running Pool</code>是否还有空余，无空余则进入<code>Pending Queue</code>等待。进入了<code>Running Pool</code>的消息做DataBase的持久化业务逻辑。这一句<code>redisConsumer.consumerMessageThread(produceDTO);</code>则是主动调用消费者。</p>
 
 

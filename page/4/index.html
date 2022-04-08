@@ -56,7 +56,9 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
-<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
 </head>
 
 
@@ -196,22 +198,17 @@
             #540 Single Element in a Sorted Array
         </h3>
         <div class="post-content-preview">
-             Problem Description
-给定一个只包含整数的有序数组，每个元素都会出现两次，唯有一个数只会出现一次，找出这个数。
- note
-您的方案应该在 O(log n)时间复杂度和 O(1)空间复杂度中运行。
- e.g.
-
-
+            Problem Description给定一个只包含整数的有序数组，每个元素都会出现两次，唯有一个数只会出现一次，找出这个数。
+note您的方案应该在 $O(log n)$ 时间复杂度和 $O(1)$ 空间复杂度中运行。
+e.g.
 示例 1:
 12输入: [1,1,2,3,3,4,4,8,8]输出: 2
-
 
 示例 2:
 12输入: [3,3,7,7,10,11,11]输出: 10
 
 
- S......
+Solu......
         </div>
     </a>
     <p class="post-meta">
@@ -232,21 +229,19 @@
             #892 Surface Area of 3D Shapes
         </h3>
         <div class="post-content-preview">
-             Problem Description
-在 N * N 的网格上，我们放置一些 1 * 1 * 1  的立方体。
+            Problem Description在 N * N 的网格上，我们放置一些 1 * 1 * 1  的立方体。
 每个值 v = grid[i][j]表示 v 个正方体叠放在对应单元格 (i, j) 上。
 请你返回最终形体的表面积。
- note
-
+note
 1 &lt;= N &lt;= 50
 0 &lt;= grid[i][j] &lt;= 50
 
- e.g.
-
-
+e.g.
 示例 1：
 
 输入：[[2]]
+输出：10
+
 ......
         </div>
     </a>
@@ -268,12 +263,10 @@
             #703 Kth Largest Element in a Stream
         </h3>
         <div class="post-content-preview">
-             Problem Description
-设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
+            Problem Description设计一个找到数据流中第K大元素的类（class）。注意是排序后的第K大元素，不是第K个不同的元素。
 你的 KthLargest 类需要一个同时接收整数 k 和整数数组nums 的构造器，它包含数据流中的初始元素。每次调用 KthLargest.add，返回当前数据流中第K大的元素。
- note
-你可以假设 nums 的长度≥ k-1 且k ≥ 1。
-......
+note你可以假设 nums 的长度≥ k-1 且k ≥ 1。
+e.g.......
         </div>
     </a>
     <p class="post-meta">
@@ -294,28 +287,21 @@
             #367 Valid Perfect Square
         </h3>
         <div class="post-content-preview">
-             Problem Description
-给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
- note
-不要使用任何内置的库函数，如：sqrt。
- e.g.
-
+            Problem Description给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
+note不要使用任何内置的库函数，如：sqrt。
+e.g.
 示例1：
-
 输入：16
 输出：True
 
 
 示例2：
-
 输入：14
 输出：False
 
 
 
- Solution
- 1. 暴力法
-可以无限优化的方法，其优化的核心就在于循环的......
+Solution1. 暴力法可以无限优化的方法，其优化的核心就在于循环的起始和终止，效率很低不考......
         </div>
     </a>
     <p class="post-meta">
@@ -336,21 +322,18 @@
             #225 Implement Stack using Queues
         </h3>
         <div class="post-content-preview">
-             Problem Description
-
+            Problem Description
 使用队列实现栈的下列操作：
-
-push(x) – 元素 x 入栈
-pop() – 移除栈顶元素
-top() – 获取栈顶元素
-empty() – 返回栈是否为空
-
+push(x) — 元素 x 入栈
+pop() — 移除栈顶元素
+top() — 获取栈顶元素
+empty() — 返回栈是否为空
 
 
- note
 
-你只能使用队列的基本操作-- 也就是 push to back, peek/pop from front, size, 和 is empty 这些操作是合法的。
-你所使......
+note
+你只能使用队列的基本操作— 也就是 push to back, peek/pop from front, size, 和 is empty 这些操作是合法的。
+你所使用的语言也许......
         </div>
     </a>
     <p class="post-meta">
@@ -371,9 +354,9 @@ empty() – 返回栈是否为空
             虎头蛇尾
         </h3>
         <div class="post-content-preview">
-             介绍
-先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从 BlockingQueue（阻塞队列）问世以来，队列的地位得到极大地提升，在各种高并发编程的场景，经常被作为 Buffer（数据缓冲区）使用。
+            介绍先进先出，一种特殊的线性表，只允许表在一端进行获取操作，在另一端进行插入操作。当不存在元素时，则为空队列。自从 BlockingQueue（阻塞队列）问世以来，队列的地位得到极大地提升，在各种高并发编程的场景，经常被作为 Buffer（数据缓冲区）使用。
 通常我们把LinkedList当成Queue来用，Queue类自身的一些方法：
+
 
 
 
@@ -383,7 +366,7 @@ empty() – 返回栈是否为空
 
 
 
-boolean ad......
+boolean add......
         </div>
     </a>
     <p class="post-meta">
@@ -404,17 +387,13 @@ boolean ad......
             #169 Majority Element
         </h3>
         <div class="post-content-preview">
-             Problem Description
-给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
+            Problem Description给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
- e.g.
-
-
+e.g.
 示例 1:
 
 输入: [3,2,3]
 输出: 3
-
 
 
 示例 2:
@@ -424,9 +403,7 @@ boolean ad......
 
 
 
- Solution
- 1. Hash表
-首......
+Solution1. Hash表首先最容易想到的，利用......
         </div>
     </a>
     <p class="post-meta">
@@ -447,16 +424,14 @@ boolean ad......
             #155 Min Stack
         </h3>
         <div class="post-content-preview">
-             Problem Description
-设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+            Problem Description设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
 
 push(x) —— 将元素 x 推入栈中。
 pop() —— 删除栈顶的元素。
 top() —— 获取栈顶元素。
 getMin() —— 检索栈中的最小元素。
 
- e.g.
-123456781. MinStack minStack = new MinStack......
+e.g.123456781. MinStack minStack = new MinStack();2......
         </div>
     </a>
     <p class="post-meta">
@@ -477,10 +452,10 @@ getMin() —— 检索栈中的最小元素。
             先进后出
         </h3>
         <div class="post-content-preview">
-             介绍
-last-in-first-out，后进先出是它最大的特点。class Stack&lt;E&gt; extends Vector&lt;E&gt;作为Vector的子类。
+            介绍last-in-first-out，后进先出是它最大的特点。class Stack&lt;E&gt; extends Vector&lt;E&gt;作为Vector的子类。
 Vector底层使用数组存储数据，所以Stack也是如此。
 Stack类自身的一些方法：
+
 
 
 
@@ -495,7 +470,7 @@ boolean empty()
 
 
 Object peek()
-查看堆栈......
+查看堆栈顶......
         </div>
     </a>
     <p class="post-meta">
@@ -519,8 +494,7 @@ Object peek()
             
 我们需要一个上帝吗？
 
- 自我解释
-小时候会觉得虐待动物是不道德错误的、或者说是心理问题、性格缺陷。长大后慢慢的看待问题不会在只关注事件本身，局限的从一两个点出发，开始学会多角度切入会去思考，怎么样算「虐待」呢？我们可以假定动物本身是抗拒这种被「虐待」的行为，那么绝育、关笼子、指令教学为什么就不能算「虐待」呢？人们会说我们还是给了他一定的自由、给了它充足的食物和安全的环境，至少比在野外流浪......
+自我解释小时候会觉得虐待动物是不道德错误的、或者说是心理问题、性格缺陷。长大后慢慢的看待问题不会在只关注事件本身，局限的从一两个点出发，开始学会多角度切入会去思考，怎么样算「虐待」呢？我们可以假定动物本身是抗拒这种被「虐待」的行为，那么绝育、关笼子、指令教学为什么就不能算「虐待」呢？人们会说我们还是给了他一定的自由、给了它充足的食物和安全的环境，至少比在野外流浪好吧......
         </div>
     </a>
     <p class="post-meta">
@@ -579,6 +553,10 @@ Object peek()
                         
                             
                             <a href="/tags/#日记" title="日记" rel="5">日记</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -726,6 +704,12 @@ Object peek()
                             
                         
                             
+                        
+                            
+                        
+                            
+                        
+                            
                             <a href="/tags/#职业" title="职业" rel="2">职业</a>
                             
                         
@@ -803,16 +787,6 @@ Object peek()
                         
                             
                             <a href="/tags/#Java" title="Java" rel="3">Java</a>
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
                             
                         
                             
