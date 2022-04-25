@@ -103,14 +103,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -187,6 +187,33 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/post/2752cd30-3a98-11eb-b0c9-0b16b97a2613/">
+        <h2 class="post-title">
+            分布式事务与 Seata 初探
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            分布式事务布式事务的实现有很多种，最具有代表性的是由Oracle Tuxedo系统提出的XA分布式事务协议。
+XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
+当然该协议主要是一种理论方式，具体落地有相应的组件（Seata等）或者代码中自行实现。
+二段式提交
+当队员收到就位确认提示后，如果已经就位，就选择“是”，如果还没就位，就选择“否”。
+
+相应的，在队长发起就位确认的时候......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2020-12-10
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -456,43 +483,6 @@ A[i][j] == 0 或 A[i][j] ......
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/68f56ac0-cd85-11ea-a144-f7a4331a0642/">
-        <h2 class="post-title">
-            LeetCode 面试题 03.01. 三合一
-        </h2>
-        <h3 class="post-subtitle">
-            Three in One LCCI
-        </h3>
-        <div class="post-content-preview">
-            Problem Description三合一。描述如何只用一个数组来实现三个栈。
-你应该实现：
-
-push(stackNum, value)
-
-pop(stackNum)
-
-isEmpty(stackNum)
-
-peek(stackNum)
-
-
-stackNum表示栈下标，value表示压入的值。
-构造函数会传入一个stackSize参数，代表每个栈的大小。
-e.g.
-示例 1:
-输入：12......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-07-24
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -554,11 +544,11 @@ e.g.
                             
                         
                             
-                            <a href="/tags/#数据结构" title="数据结构" rel="23">数据结构</a>
+                            <a href="/tags/#数据结构" title="数据结构" rel="24">数据结构</a>
                             
                         
                             
-                            <a href="/tags/#算法" title="算法" rel="18">算法</a>
+                            <a href="/tags/#算法" title="算法" rel="19">算法</a>
                             
                         
                             

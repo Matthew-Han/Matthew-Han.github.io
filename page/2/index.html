@@ -103,14 +103,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                     
@@ -187,6 +187,29 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/post/1cae1360-e47c-11eb-8456-9d0bf7563314/">
+        <h2 class="post-title">
+            Redis 笔记六
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Q：什么是内存碎片
+我们可以把这些分散的空座位叫作“车厢座位碎片”，知道了这一点，操作系统的内存碎片就很容易理解了。虽然操作系统的剩余内存空间总量足够，但是应用申请的是一块连续地址空间的 N 字节，但在剩余的内存空间中，没有大小为 N 字节的连续空间了，那么，这些剩余空间就是内存碎片（比如上图中的“空闲 2 字节”和“空闲 1 字节”，就是这样的碎片）。
+Q：内存碎片是如何形成的其实，内存碎......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-14
+    </p>
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -413,33 +436,6 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/post/2752cd30-3a98-11eb-b0c9-0b16b97a2613/">
-        <h2 class="post-title">
-            分布式事务与 Seata 初探
-        </h2>
-        <h3 class="post-subtitle">
-            
-        </h3>
-        <div class="post-content-preview">
-            分布式事务布式事务的实现有很多种，最具有代表性的是由Oracle Tuxedo系统提出的XA分布式事务协议。
-XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
-当然该协议主要是一种理论方式，具体落地有相应的组件（Seata等）或者代码中自行实现。
-二段式提交
-当队员收到就位确认提示后，如果已经就位，就选择“是”，如果还没就位，就选择“否”。
-
-相应的，在队长发起就位确认的时候......
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by MatthewHan on
-        2020-12-10
-    </p>
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -501,11 +497,11 @@ XA协议包含两阶段提交（2PC）和三阶段提交（3PC）两种实现。
                             
                         
                             
-                            <a href="/tags/#数据结构" title="数据结构" rel="23">数据结构</a>
+                            <a href="/tags/#数据结构" title="数据结构" rel="24">数据结构</a>
                             
                         
                             
-                            <a href="/tags/#算法" title="算法" rel="18">算法</a>
+                            <a href="/tags/#算法" title="算法" rel="19">算法</a>
                             
                         
                             
