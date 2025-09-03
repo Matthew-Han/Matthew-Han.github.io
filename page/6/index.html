@@ -97,13 +97,6 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
                             <a href="/archives/">archives</a>
                         </li>
                         
@@ -112,6 +105,13 @@
                         
                         <li>
                             <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -199,9 +199,9 @@
             凛冬将至，专心养膘。
         </h3>
         <div class="post-content-preview">
+            
             心态这一年心态上的起伏，2019年算是完全正式工作的一年，这一年感觉大家好像都不怎么满意，资本寒冬，每况愈下，但是自己状态不能拉胯。
-身体从3月份起计划在家简单健身维持运动量和塑形（主要是为了能增肌身材匀称些长胖点，现在实在是太瘦了），购置了哑铃、哑铃凳、瑜伽垫等器具。训练的动作也不多，按照keep上来实行哑铃复合动作、哑铃卧推、俯卧撑和深蹲。但是坚持不到2、3个月便吃灰了。
-究其原因，一是......
+身体从3月份起计划在家简单健身维持运动量和塑形（主要是为了能增肌身材匀称些长胖点，现在实在是太瘦了），购置了哑铃、哑铃凳、瑜伽垫等器具。训练的动作也不多，按照k...
         </div>
     </a>
     <p class="post-meta">
@@ -223,7 +223,7 @@
         </h3>
         <div class="post-content-preview">
             
-  3bc97cd04c5ac874daf420cc647c86936afb2c613becee1541baf45818e4bd0d26ab6775c0f3c99b62d5eb61c4b877df4d19ca2e7ddfd3e208994a252b21938b7ddfb1b7af948aa6980135ab4b60b67c05c846612952b5ec3a22bd2719365e3191......
+            该文章加密了，需要输入密码。
         </div>
     </a>
     <p class="post-meta">
@@ -244,16 +244,15 @@
             Redis：👴说了👴只是缓存！
         </h3>
         <div class="post-content-preview">
+            
             前言Redis作为一款优秀的缓存中间件，人们总是寄予他新的厚望。其列表类型的阻塞操作可以实现消息队列。
 在场景中使用可以牢记以下口诀：
 
-lpush + lpop &#x3D; Stack(栈)
+lpush + lpop &amp;#x3D; Stack(栈)
 
-lpush + rpop &#x3D; Queue(队列)
+lpush + rpop &amp;#x3D; Queue(队列)
 
-lpsh + ltrim &#x3D; Capped Collection(有限集合)
-
-lpush + brpop &#x3D; M......
+lpsh + ltrim &amp;#x3...
         </div>
     </a>
     <p class="post-meta">
@@ -274,11 +273,12 @@ lpush + brpop &#x3D; M......
             可能会让你变得卡，反而降低了生产力。
         </h3>
         <div class="post-content-preview">
+            
             说明以下推荐的工具都是个人挖掘和网友介绍得来，相对于程序开发者来说较为友好。
 Chrome插件相关
 过多的插件会影响使用体验。
 
-Octotree过去我们在GayHub上预览代码时，常常需要不停地前进下一页和回退上一页操作来更全面的获取想要的信息。虽然GayHub有着不错的搜索功能，但是对于一个陌生的项目来说，它的结构没有很清晰直观地展示出来，我们无法快速定位到任何一处来浏览我们想要的信息。......
+Octotree过去我们在GayHub上预览代码时，常常需要不停地前进下一页和回退上一页操作来更全面的获取想要的信息。虽然GayHub有着不错的搜索功能，但是对于一...
         </div>
     </a>
     <p class="post-meta">
@@ -299,17 +299,12 @@ Octotree过去我们在GayHub上预览代码时，常常需要不停地前进下
             更多的master♂来守护你
         </h3>
         <div class="post-content-preview">
+            
             前言在一台迷のWindows机器上搭建了一个单节点模拟的三主三从redis集群，过程中有一些坑记录下。
 cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一般采用三主三从实现负载。
 较理想的环境是一个实例单节点部署主从，多个实例实现集群。
 
-由于Redis Cluster采用哈希分区规则，哈希分区一般有以下几种方式：
-
-节点取余分区
-一致性哈希分区
-虚拟槽分区
-
-其......
+由于Redis Clust...
         </div>
     </a>
     <p class="post-meta">
@@ -330,7 +325,8 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
             太严格了呀，CORS老师。
         </h3>
         <div class="post-content-preview">
-            背景这边要开发一套带有权限认证的平台，懒得自己写拦截器，于是还是打算利用Shiro安全框架，由于采用的还是Cookie-Session那老一套，并没有封装成token暂时也不用考虑集群多实例共享session的问题，所以其实前端的每次请求报文都是需要携带cookie的，cookie里面的jsessionid就是验证对应服务端中的session-data能否匹配。但是这次联调处理并不顺利，还是......
+            
+            背景这边要开发一套带有权限认证的平台，懒得自己写拦截器，于是还是打算利用Shiro安全框架，由于采用的还是Cookie-Session那老一套，并没有封装成token暂时也不用考虑集群多实例共享session的问题，所以其实前端的每次请求报文都是需要携带cookie的，cookie里面的jse...
         </div>
     </a>
     <p class="post-meta">
@@ -351,8 +347,9 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
             今天办公室有点冷
         </h3>
         <div class="post-content-preview">
+            
             背景自定义@CurrentUser注解想实现当前已登录的用户对象在各层之间进行数据交互，在简书上有一篇比较出名的解决方法：通过自定义@CurrentUser获取当前登录用户
-但是在安全框架Shiro中，通过webRequest.getAttribute(&quot;currentUser&quot;, RequestAttributes.SCOPE_REQUEST)却并不可行，👴也不⑧知道......
+但是在安全框架Shiro中，通过webRequest.getAttribute(&amp;quot;currentUser&amp;qu...
         </div>
     </a>
     <p class="post-meta">
@@ -374,9 +371,10 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
         </h3>
         <div class="post-content-preview">
             
+            
 本文转自知乎，作者：美团技术团队
 
-前言至少30年以前，一些软件设计人员就已经意识到领域建模和设计的重要性，并形成一种思潮，Eric Evans将其定义为领域驱动设计（Domain-Driven Design，简称DDD）。在互联网开发“小步快跑，迭代试错”的大环境下，DDD似乎是一种比较“古老而缓慢”的思想。然而，由于互联网公司也逐渐深入实体经济，业务日益复杂，我们在开发中也越来越多地遇......
+前言至少30年以前，一些软件设计人员就已经意识到领域建模和设计的重要性，并形成一种思潮，Eric Evans将其定义为领域驱动设计（Domain-Driven Design，简称DDD）。在互联网开发“小步快跑，迭代试错”的大环境下，DDD似乎是一种比较“...
         </div>
     </a>
     <p class="post-meta">
@@ -398,6 +396,7 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
         </h3>
         <div class="post-content-preview">
             
+            
 良好的编码风格和完善统一的规约是最高效的方式。
 
 前言本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第三篇章：异常与日志篇。
@@ -405,10 +404,7 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
 
 《码出高效》系列笔记（一）：面向对象中的类
 《码出高效》系列笔记（一）：面向对象中的方法
-《码出高效》系列笔记（一）：面向对象中的其他知识点
-《码出高效》系列笔记（二）：代码风格
-《码出高效》系列笔记（三）：异常与日志
-《码......
+《码出高效》系列笔记（一）：面向对...
         </div>
     </a>
     <p class="post-meta">
@@ -430,7 +426,7 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
         </h3>
         <div class="post-content-preview">
             
-  5267eb1bf84230ba2c07e25944ffa4557888eacb084f9777c558192c871a069f21f2a599f1a43d2b98d8868f6f23f8af9108153dcdb2ef89d648d070c882ce0d0503feebfd0725f3b08424af8b7f5f639653c6a674cf574a15866dcc73e3670f43......
+            该文章加密了，需要输入密码。
         </div>
     </a>
     <p class="post-meta">
@@ -556,11 +552,11 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
                             
                         
                             
-                            <a href="/tags/#深度优先搜索" title="深度优先搜索" rel="2">深度优先搜索</a>
+                            <a href="/tags/#广度优先搜索" title="广度优先搜索" rel="2">广度优先搜索</a>
                             
                         
                             
-                            <a href="/tags/#广度优先搜索" title="广度优先搜索" rel="2">广度优先搜索</a>
+                            <a href="/tags/#深度优先搜索" title="深度优先搜索" rel="2">深度优先搜索</a>
                             
                         
                             
@@ -628,7 +624,13 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
                             
                         
                             
+                        
+                            
+                        
+                            
                             <a href="/tags/#泛型" title="泛型" rel="2">泛型</a>
+                            
+                        
                             
                         
                             
@@ -656,13 +658,7 @@ cluster模式Redis的Cluster模式工作至少需要三个主节点，所以一�
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#设计模式" title="设计模式" rel="4">设计模式</a>
-                            
-                        
                             
                         
                             
