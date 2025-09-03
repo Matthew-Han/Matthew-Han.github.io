@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Shiro与分布式Session与Redis的那些坑 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Redis" title="Redis">Redis</a>
+                        
+                          <a class="tag" href="/tags/#Shiro" title="Shiro">Shiro</a>
+                        
+                          <a class="tag" href="/tags/#Session" title="Session">Session</a>
+                        
+                          <a class="tag" href="/tags/#分布式" title="分布式">分布式</a>
+                        
+                          <a class="tag" href="/tags/#序列化" title="序列化">序列化</a>
+                        
+                    </div>
+                    <h1>Shiro与分布式Session与Redis的那些坑</h1>
+                    <h2 class="subheading">解决关于Shiro的session在Redis的序列化与反序列化的问题，踩坑实录。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2020-03-27
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="需要知道的点"><a href="#需要知道的点" class="headerlink" title="需要知道的点"></a>需要知道的点</h1><p>Shiro的Session支持企业级的特性，例如分布式缓存。我们在Spring Data Redis + Shiro的方案中需要注意下以下几点：</p>
+<ol>
+<li>无论Redis服务是单机还是集群模式，都需要注意Session对象的序列化与反序列化的问题；</li>
+<li>Shiro的<strong>Session</strong>：定义好的一个接口；<strong>Simple Session</strong>：一个它的简单实现，我们想要实现持久化就需要对它进行维护；</li>
+<li><strong>EnterpriseCacheSessionDAO</strong>：Session对象的增删改查，可以对<strong>Session对象</strong>进行下一步的定制化操作（个人理解），所以我们可以通过覆写它的方法来达到我们想要的持久化效果。以下4个方法是对Session的持久化处理：<ul>
+<li>doCreate</li>
+<li>doUpdate</li>
+<li>doReadSession</li>
+<li>doDelete</li>
+</ul>
+</li>
+<li><strong>SessionManager</strong>：对<strong>EnterpriseCacheSessionDAO</strong>创建好的Session对象交给<strong>SessionManager</strong>。它管理着Session的创建、操作以及清除等；<strong>DefaultSessionManager</strong>：具体实现，默认的web应用Session管理器，主要是涉及到Session和Cookies，涉及到的行为：添加、删除SessionId到Cookie、读取Cookie获得SessionId；</li>
+<li><strong>SessionId</strong>：得到Session的关键</li>
+<li><strong>securityManager</strong>：这是Shiro框架的核心组件，可以把他看做是一个Shiro框架的全局管理组件，用于调度各种Shiro框架的服务。我们需要将自定义的<strong>sessionManager</strong>交给它</li>
+</ol>
+<h1 id="Session持久化"><a href="#Session持久化" class="headerlink" title="Session持久化"></a>Session持久化</h1><p>上面写到如果想定制化我们的持久化效果，就必须覆写它的方法，所以我们需要新创建一个类<code>SessionRedisDao</code>来继承<code>EnterpriseCacheSessionDAO</code>类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SessionRedisDao</span> <span class="keyword">extends</span> <span class="title class_">EnterpriseCacheSessionDAO</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注入的是byteRedisTemplate，只用于byte[]类型的序列化存储在redis中</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RedisTemplate&lt;String, <span class="type">byte</span>[]&gt; redisTemplate;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SessionRedisDao</span><span class="params">(<span class="meta">@Qualifier(&quot;byteRedisTemplate&quot;)</span> RedisTemplate&lt;String, <span class="type">byte</span>[]&gt; redisTemplate)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.redisTemplate = redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建session，保存到数据库</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> session</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Serializable <span class="title function_">doCreate</span><span class="params">(Session session)</span> &#123;</span><br><span class="line">        <span class="type">Serializable</span> <span class="variable">sessionId</span> <span class="operator">=</span> <span class="built_in">super</span>.doCreate(session);</span><br><span class="line">        System.out.println(<span class="string">&quot;===============【 &quot;</span> + sessionId + <span class="string">&quot; 】 创建了session！================&quot;</span>);</span><br><span class="line"></span><br><span class="line">        BoundValueOperations&lt;String, <span class="type">byte</span>[]&gt; boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());</span><br><span class="line">        boundValueOperations.set(sessionToByte(session), <span class="number">240</span>, TimeUnit.MINUTES);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sessionId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取session</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sessionId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Session <span class="title function_">doReadSession</span><span class="params">(Serializable sessionId)</span> &#123;</span><br><span class="line">        <span class="comment">// 先从缓存中获取session，如果没有再去数据库中获取</span></span><br><span class="line">        <span class="type">Session</span> <span class="variable">session</span> <span class="operator">=</span> <span class="built_in">super</span>.doReadSession(sessionId);</span><br><span class="line">        <span class="comment">//System.out.println(&quot;===============【 &quot; + sessionId + &quot; 】 获取了session！================&quot;);</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(session == <span class="literal">null</span>)&#123;</span><br><span class="line">            BoundValueOperations&lt;String, <span class="type">byte</span>[]&gt; boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + sessionId.toString());</span><br><span class="line">            <span class="type">byte</span>[] bytes = (boundValueOperations.get());</span><br><span class="line">            <span class="keyword">if</span>(bytes != <span class="literal">null</span> &amp;&amp; bytes.length &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                session = byteToSession(bytes);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> session;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 更新session的最后一次访问时间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> session</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doUpdate</span><span class="params">(Session session)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.doUpdate(session);</span><br><span class="line">        System.out.println(<span class="string">&quot;===============【 &quot;</span> + session.getId() + <span class="string">&quot; 】 更新了session！================&quot;</span>);</span><br><span class="line"></span><br><span class="line">        BoundValueOperations&lt;String, <span class="type">byte</span>[]&gt; boundValueOperations = redisTemplate.boundValueOps(SHIRO_SESSION + session.getId().toString());</span><br><span class="line">        boundValueOperations.set(sessionToByte(session), <span class="number">240</span>, TimeUnit.MINUTES);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除session</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> session</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doDelete</span><span class="params">(Session session)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;===============【 &quot;</span> + session.getId() + <span class="string">&quot; 】 删除了session！================&quot;</span>);</span><br><span class="line">        <span class="built_in">super</span>.doDelete(session);</span><br><span class="line">        redisTemplate.delete(SHIRO_SESSION + session.getId().toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 把session对象转化为byte保存到redis中</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> session</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">byte</span>[] sessionToByte(Session session)&#123;</span><br><span class="line">        <span class="type">ByteArrayOutputStream</span> <span class="variable">bo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();</span><br><span class="line">        <span class="type">byte</span>[] bytes = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">ObjectOutputStream</span> <span class="variable">oo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(bo);</span><br><span class="line">            oo.writeObject(session);</span><br><span class="line">            bytes = bo.toByteArray();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bytes;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 把byte还原为session</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bytes</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Session <span class="title function_">byteToSession</span><span class="params">(<span class="type">byte</span>[] bytes)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">ByteArrayInputStream</span> <span class="variable">bi</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayInputStream</span>(bytes);</span><br><span class="line">        ObjectInputStream in;</span><br><span class="line">        <span class="type">SimpleSession</span> <span class="variable">session</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            in = <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(bi);</span><br><span class="line">            session = (SimpleSession) in.readObject();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException | IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> session;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好像看起来和网上的其他技术文章的实现差不多，但是还有差啦（迷之台湾腔？）</p>
+<p>首先是关于<code>RedisTemplate</code>客户端的注入使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> RedisTemplate&lt;String, <span class="type">byte</span>[]&gt; redisTemplate;</span><br><span class="line"><span class="keyword">public</span> <span class="title function_">SessionRedisDao</span><span class="params">(<span class="meta">@Qualifier(&quot;byteRedisTemplate&quot;)</span> RedisTemplate&lt;String, <span class="type">byte</span>[]&gt; redisTemplate)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.redisTemplate = redisTemplate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里看到key和value的类型<code>&lt;String, byte[]&gt;</code>，不是常规的<code>&lt;String, Object&gt;</code>，因为我在以下序列化工具中以json字符串的形式存储在Redis：</p>
+<ol>
+<li><code>FastJsonRedisSerializer</code></li>
+<li><code>GenericJackson2JsonRedisSerializer</code></li>
+<li><code>Jackson2JsonRedisSerializer</code></li>
+</ol>
+<p>发现在执行<code>doUpdate</code>方法后，Redis当中会增加一些Simple Session没有字段，比如<code>&quot;valid&quot;:true</code>等等，所以在反序列化获取Session对象的过程中会抛出如下异常：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Could not read JSON: Cannot construct instance of`org.apache.shiro.web.util.SavedRequest` (no Creators, like default construct, exist): cannot deserialize from Object value (no delegate- or property-based Creator)↵ at [Source: (byte[])&quot;[&quot;org.apache.shiro.session.mgt.SimpleSession&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我突然就想到了《码出高效》里面，有说过POJO类不要使用isXxx作为变量的形式</p>
+</blockquote>
+<p>当然这里也没发现存在 <code>isXxx</code>的成员变量，只看到了 <code>isValid()</code>方法，以及 <code>isStoped()</code>方法也没有对应的 <code>stoped</code> 成员属性。可能是在反序列化的过程中，通过Redis里的键值对发现，<strong>SimpleSession</strong>并没有这个 <code>boolean </code>类型的 <code>valid</code>变量而导致错误。不知道是不是算Shiro的Simple Session一个Bug。</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/shiro%E5%88%86%E5%B8%83%E5%BC%8Fsession/isValid.png" alt="反序列化造成的问题"></p>
+<h1 id="解决手段"><a href="#解决手段" class="headerlink" title="解决手段"></a>解决手段</h1><p><strong>目前个人找到的解决的方法是使用<code>byte[]</code>字节流存储，且用默认的JDK序列化工具<code>JdkSerializationRedisSerializer</code>。</strong></p>
+<h1 id="Redis配置序列化工具"><a href="#Redis配置序列化工具" class="headerlink" title="Redis配置序列化工具"></a>Redis配置序列化工具</h1><p>因为可能在代码其他处已经使用了其他序列化工具操作Redis了，所以这里建议重新写一个Bean的方法专门用于Shiro安全框架的Session操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean(name = &quot;byteRedisTemplate&quot;)</span></span><br><span class="line"><span class="keyword">public</span> RedisTemplate&lt;String, <span class="type">byte</span>[]&gt; byteRedisTemplate(RedisConnectionFactory redisConnectionFactory) &#123;</span><br><span class="line">    RedisTemplate&lt;String, <span class="type">byte</span>[]&gt; redisTemplate = <span class="keyword">new</span> <span class="title class_">RedisTemplate</span>&lt;&gt;();</span><br><span class="line">    redisTemplate.setConnectionFactory(redisConnectionFactory);</span><br><span class="line"></span><br><span class="line">    <span class="type">JdkSerializationRedisSerializer</span> <span class="variable">jdkSerializationRedisSerializer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JdkSerializationRedisSerializer</span>();</span><br><span class="line">    <span class="comment">// 全局开启AutoType，不建议使用</span></span><br><span class="line">    <span class="comment">// ParserConfig.getGlobalInstance().setAutoTypeSupport(true);</span></span><br><span class="line">    <span class="comment">// 建议使用这种方式，小范围指定白名单</span></span><br><span class="line">    ParserConfig.getGlobalInstance().addAccept(<span class="string">&quot;com.zrtg.&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置值（value）的序列化采用jdkSerializationRedisSerializer。</span></span><br><span class="line">    redisTemplate.setValueSerializer(jdkSerializationRedisSerializer);</span><br><span class="line">    redisTemplate.setHashValueSerializer(jdkSerializationRedisSerializer);</span><br><span class="line">    <span class="comment">// 设置键（key）的序列化采用StringRedisSerializer。</span></span><br><span class="line">    redisTemplate.setKeySerializer(<span class="keyword">new</span> <span class="title class_">StringRedisSerializer</span>());</span><br><span class="line">    redisTemplate.setHashKeySerializer(<span class="keyword">new</span> <span class="title class_">StringRedisSerializer</span>());</span><br><span class="line"></span><br><span class="line">    redisTemplate.afterPropertiesSet();</span><br><span class="line">    log.info(<span class="string">&quot;MatthewHan: [ byteRedisTemplate启动，鸡你实在是太美! ] &quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> redisTemplate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在需要注入的地方，加入<code>@Qualifier</code>注解即可，像这样：<code>@Qualifier(&quot;byteRedisTemplate&quot;) RedisTemplate&lt;String, byte[]&gt; redisTemplate</code>。</p>
+<h1 id="并入管理"><a href="#并入管理" class="headerlink" title="并入管理"></a>并入管理</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> DefaultWebSessionManager <span class="title function_">sessionManager</span><span class="params">(SessionRedisDao sessionRedisDao)</span> &#123;</span><br><span class="line">    <span class="type">DefaultWebSessionManager</span> <span class="variable">sessionManager</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultWebSessionManager</span>();</span><br><span class="line"></span><br><span class="line">    sessionManager.setSessionIdCookie(remeberMeCookie());</span><br><span class="line">    sessionManager.setGlobalSessionTimeout(<span class="number">14400000L</span>);</span><br><span class="line">    sessionManager.setDeleteInvalidSessions(<span class="literal">true</span>);</span><br><span class="line">    <span class="comment">// 将写好的缓存sessionDao注入</span></span><br><span class="line">    sessionManager.setSessionDAO(sessionRedisDao);</span><br><span class="line">    sessionManager.setSessionValidationSchedulerEnabled(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sessionManager;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 注入 securityManager</span></span><br><span class="line"><span class="comment"> * 将写好的缓存sessionDao注入</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> sessionRedisDao</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> customRealmConfig</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> SecurityManager <span class="title function_">securityManager</span><span class="params">(SessionRedisDao sessionRedisDao, CustomRealmConfig customRealmConfig)</span> &#123;</span><br><span class="line">    <span class="type">DefaultWebSecurityManager</span> <span class="variable">securityManager</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultWebSecurityManager</span>();</span><br><span class="line">    <span class="comment">// 设置realm</span></span><br><span class="line">    securityManager.setRealm(customRealmConfig);</span><br><span class="line">    <span class="comment">// 注入Cookie记住我管理器</span></span><br><span class="line">    securityManager.setRememberMeManager(<span class="literal">null</span>);</span><br><span class="line">    securityManager.setSessionManager(sessionManager(sessionRedisDao));</span><br><span class="line">    <span class="keyword">return</span> securityManager;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里注意rememberMe的Cookies管理，以及<code>sessionManager.setGlobalSessionTimeout(14400000L);</code>和Redis设置的过期时间保持一致即可。</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/41de2f70-7d4f-11ea-b18b-ad951eb7124e/" data-toggle="tooltip" data-placement="top" title="虐猫事件思考「虐」的定义">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/31c8add0-69af-11ea-ad58-59a2dd622848/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（四）：元素的比较">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Redis" title="Redis">Redis</a>
+                        
+                          <a class="tag" href="/tags/#Shiro" title="Shiro">Shiro</a>
+                        
+                          <a class="tag" href="/tags/#Session" title="Session">Session</a>
+                        
+                          <a class="tag" href="/tags/#分布式" title="分布式">分布式</a>
+                        
+                          <a class="tag" href="/tags/#序列化" title="序列化">序列化</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/";
+    var disqus_url = "https://matthew-han.github.io/post/cc8d9450-6ff6-11ea-a44c-898e22d16291/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

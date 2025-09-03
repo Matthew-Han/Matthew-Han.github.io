@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Shiro学习一 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/faabc626-bd9c-11e9-b52a-878085b5c0f3/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Spring-ldap/bye.jpg/zip')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Shiro" title="Shiro">Shiro</a>
+                        
+                    </div>
+                    <h1>Shiro学习一</h1>
+                    <h2 class="subheading">2018年还没毕业时写的blog</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-07-12
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>新的公司让我去熟悉下Shiro框架,公司的项目的权限管理都是基于Shiro写的,照着前辈们的blog学习了一番，这里做点个人学习记录。</p>
+<h1 id="Shiro的整体架构图"><a href="#Shiro的整体架构图" class="headerlink" title="Shiro的整体架构图"></a>Shiro的整体架构图</h1><div style=center>
+
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/Shiro%E5%AD%A6%E4%B9%A0%E4%B8%80/shiro.png" alt="Shiro架构图"></p>
+</div>
+<br>
+
+
+
+<h1 id="首先是Shiro的几个组件"><a href="#首先是Shiro的几个组件" class="headerlink" title="首先是Shiro的几个组件"></a>首先是Shiro的几个组件</h1><ul>
+<li><strong>SecurityManager</strong><br> 即所有Subject的管理者，这是Shiro框架的核心组件，可以把他看做是一个Shiro框架的全局管理组件，用于调度各种Shiro框架的服务。</li>
+<li><strong>Authenticator</strong><br> 认证器，登入登出，对“Who are you？”进行核实。通常涉及用户名和密码。</li>
+<li><strong>Authorizer</strong><br>授权器，赋予主体有哪些权限，身份验证通过后，由这个组件对登录人员进行访问控制的筛查，比如“who can do what”， 或者“who can do which actions”。Shiro 采用“基于 Realm”的方法，即用户（又称 Subject）、用户组、角色和 permission 的聚合体。</li>
+<li><strong>Session Manager</strong><br>这个组件保证了异构客户端的访问，配置简单。它是基于POJO&#x2F;J2SE的，不跟任何的客户端或者协议绑定。</li>
+<li><strong>Subject</strong><br>即当前用户，在权限管理的应用程序里往往需要知道谁能够操作什么，谁拥有操作该程序的权利，shiro中则需要通过Subject来提供基础的当前用户信息，Subject 不仅仅代表某个用户，也可以是第三方进程、后台帐户（Daemon Account）或其他类似事物。</li>
+<li><strong>Realms</strong><br>Realms也就是域，是用户的信息认证器和用户的权限人证器，我们需要自己来实现Realms来自定义的管理我们自己系统内部的权限规则。</li>
+</ul>
+<h1 id="通过ini文件来自定义Realm"><a href="#通过ini文件来自定义Realm" class="headerlink" title="通过ini文件来自定义Realm"></a>通过ini文件来自定义Realm</h1><p><strong>Maven依赖</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p> <strong>shiro.ini</strong></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -----------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Users and their (optional) assigned roles</span></span><br><span class="line"><span class="comment"># username = password, role1, role2, ..., roleN</span></span><br><span class="line"><span class="comment"># -----------------------------------------------------------------------------</span></span><br><span class="line"><span class="section">[users]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#用户名(登陆账号)是root,密码是123,角色是admin管理员</span></span><br><span class="line"></span><br><span class="line"><span class="attr">root</span> = <span class="number">123</span>,admin</span><br><span class="line"><span class="attr">user001</span> = <span class="number">123</span>,productManager</span><br><span class="line"><span class="attr">user002</span> = <span class="number">123</span>,orderManager</span><br><span class="line"></span><br><span class="line"><span class="comment"># -----------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Roles with assigned permissions</span></span><br><span class="line"><span class="comment"># roleName = perm1, perm2, ..., permN</span></span><br><span class="line"><span class="comment"># -----------------------------------------------------------------------------</span></span><br><span class="line"><span class="section">[roles]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#admin管理员权限拉满,什么都能做</span></span><br><span class="line"><span class="attr">admin</span> = *</span><br><span class="line"></span><br><span class="line"><span class="comment">#产品经理只能做产品的管理</span></span><br><span class="line"><span class="attr">productManager</span> = addProduct,deleteProduct,editProduct,listProduct</span><br><span class="line"></span><br><span class="line"><span class="comment">#订单管理员只能做订单的管理</span></span><br><span class="line"><span class="attr">orderManager</span> = addOrder,deleteOrder,editOrder,listOrder</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="这里分配了三种角色各自拥有不同的权限"><a href="#这里分配了三种角色各自拥有不同的权限" class="headerlink" title="这里分配了三种角色各自拥有不同的权限"></a>这里分配了三种角色各自拥有不同的权限</h3><ul>
+<li><p><strong>admin</strong>   </p>
+<ul>
+<li>拥有所有权限</li>
+</ul>
+</li>
+<li><p><strong>productManager</strong>   </p>
+<ul>
+<li>addProduct</li>
+<li>   deleteProduct</li>
+<li>editProduct</li>
+<li>   listProduct</li>
+</ul>
+</li>
+<li><p><strong>orderManager</strong></p>
+<ul>
+<li>addOrder</li>
+<li>deleteOrder</li>
+<li>editOrder</li>
+<li>listOrder</li>
+</ul>
+</li>
+</ul>
+<p><strong>Tutorial .java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> shiro;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.config.IniSecurityManagerFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.mgt.SecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.session.Session;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.Factory;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by MatthewHan on 2018.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Tutorial</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">transient</span> <span class="type">Logger</span> <span class="variable">log</span> <span class="operator">=</span> LoggerFactory.getLogger(Tutorial.class);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//step1.使用了IniSecurityManagerFactory类读取ini文件</span></span><br><span class="line">        Factory&lt;SecurityManager&gt; factory = <span class="keyword">new</span> <span class="title class_">IniSecurityManagerFactory</span>(<span class="string">&quot;classpath:shiro.ini&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//step2.解析ini文件，返回一个Securitymanager对象，对象含有配置信息</span></span><br><span class="line">        <span class="type">SecurityManager</span> <span class="variable">securityManager</span> <span class="operator">=</span> factory.getInstance();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//step3.</span></span><br><span class="line">        SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取当前使用的用户</span></span><br><span class="line">        <span class="type">Subject</span> <span class="variable">currentUser</span>  <span class="operator">=</span> SecurityUtils.getSubject();</span><br><span class="line">        <span class="comment">//获取Session信息</span></span><br><span class="line">        <span class="type">Session</span> <span class="variable">session</span> <span class="operator">=</span> currentUser.getSession();</span><br><span class="line">        session.setAttribute(<span class="string">&quot;oneKey&quot;</span>,<span class="string">&quot;aValue&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> (String)session.getAttribute(<span class="string">&quot;oneKey&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(value.equals(<span class="string">&quot;trueValue&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            log.info(<span class="string">&quot;值正确！[&quot;</span>+ value +<span class="string">&quot;]&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            log.info(<span class="string">&quot;value有错误哦！您的value：[&quot;</span>+ value+<span class="string">&quot;]&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        log.info(<span class="string">&quot;\n**********************是否登陆成功*********************\n&quot;</span>);</span><br><span class="line">    </span><br><span class="line">        <span class="comment">//登陆后的当前用户，这样我们就可以检查角色和权限：</span></span><br><span class="line">        <span class="keyword">if</span>(!currentUser.isAuthenticated()) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">username</span> <span class="operator">=</span> <span class="string">&quot;user001&quot;</span>, password = <span class="string">&quot;1123&quot;</span>;</span><br><span class="line">            <span class="type">UsernamePasswordToken</span> <span class="variable">token</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UsernamePasswordToken</span>(username, password);</span><br><span class="line">            token.setRememberMe(<span class="literal">true</span>);</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                currentUser.login(token);<span class="comment">//登陆</span></span><br><span class="line">                log.info(<span class="string">&quot;你居然登陆上了,牛逼&quot;</span>);</span><br><span class="line">                log.info(<span class="string">&quot;\n**********************打印这些登陆用户的信息*********************\n&quot;</span>);</span><br><span class="line">    </span><br><span class="line">                <span class="comment">//打印这些登陆用户的信息</span></span><br><span class="line">                log.info(<span class="string">&quot;用户[&quot;</span> + currentUser.getPrincipal() + <span class="string">&quot;] 登陆成功！&quot;</span>);</span><br><span class="line">    </span><br><span class="line">                <span class="comment">//测试一个role</span></span><br><span class="line">                <span class="type">String</span> <span class="variable">roleName</span> <span class="operator">=</span> <span class="string">&quot;productManager&quot;</span>;</span><br><span class="line">                <span class="keyword">if</span> (currentUser.hasRole(roleName)) &#123;</span><br><span class="line">                    log.info(<span class="string">&quot;这个角色：[&quot;</span> + roleName + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    </span><br><span class="line">                    log.info(<span class="string">&quot;emmmm,mere mortal!&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                log.info(<span class="string">&quot;\n**********************测试不同类型的权限*********************\n&quot;</span>);</span><br><span class="line">    </span><br><span class="line">                <span class="comment">//测试不同类型的权限</span></span><br><span class="line">                <span class="keyword">if</span> (currentUser.isPermitted(<span class="string">&quot;addProduct&quot;</span>)) &#123;</span><br><span class="line">                    log.info(<span class="string">&quot;您可以对产品进行管理&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    log.info(<span class="string">&quot;你不配使用&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">    </span><br><span class="line">                <span class="comment">//part2</span></span><br><span class="line">                <span class="keyword">if</span> (currentUser.isPermitted(<span class="string">&quot;addOrder&quot;</span>)) &#123;</span><br><span class="line">                    log.info(<span class="string">&quot;您可以对订单系统进行管理&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    log.info(<span class="string">&quot;抱歉，你不配管理订单系统&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">catch</span> (UnknownAccountException uae) &#123;</span><br><span class="line">                log.info(<span class="string">&quot;没有这个用户名：&quot;</span> + token.getPrincipal());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IncorrectCredentialsException ice) &#123;</span><br><span class="line">                log.info(<span class="string">&quot;这个账号&quot;</span> + token.getPrincipal() + <span class="string">&quot;的密码是错的啦,try again?&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (LockedAccountException lae) &#123;</span><br><span class="line">                log.info(<span class="string">&quot;这个用户&quot;</span> + token.getPrincipal() + <span class="string">&quot;已被封锁&quot;</span> + <span class="string">&quot;请联系管理员解锁&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (AuthenticationException ae) &#123;</span><br><span class="line">                log.info(<span class="string">&quot;发生了一些未知的情况，请联系管理员！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//用户登出</span></span><br><span class="line">        currentUser.logout();</span><br><span class="line">        System.exit(<span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>测试类Tutorial,通过<code>UsernamePasswordToken</code>创建的<code>token</code>对象来让<code>Subject</code>(当前对象)进行登陆验证,认证通过后,可以用<code>getPrincipal()</code>这个方法来获取当前对象的用户名.</p>
+<div align=center>
+
+<p><strong>角色相关验证方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>Subject方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hasRole(String roleName)</td>
+<td>当用户拥有指定角色时，返回true</td>
+</tr>
+<tr>
+<td>hasRoles(List<String> roleNames)</td>
+<td>按照列表顺序返回相应的一个boolean值数组</td>
+</tr>
+<tr>
+<td>hasAllRoles(Collection<String> roleNames)</td>
+<td>如果用户拥有所有指定角色时，返回true</td>
+</tr>
+</tbody></table>
+</br>
+
+<table>
+<thead>
+<tr>
+<th>Subject方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>checkRole(String roleName)</td>
+<td>断言用户是否拥有指定角色</td>
+</tr>
+<tr>
+<td>checkRoles(Collection<String> roleNames)</td>
+<td>断言用户是否拥有所有指定角色</td>
+</tr>
+<tr>
+<td>checkRoles(String… roleNames)</td>
+<td>对上一方法的方法重载</td>
+</tr>
+</tbody></table>
+<p><strong>权限相关验证方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>Subject方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>checkPermission(Permission p)</td>
+<td>断言用户是否拥有制定权限</td>
+</tr>
+<tr>
+<td>checkPermission(String perm)</td>
+<td>断言用户是否拥有制定权限</td>
+</tr>
+<tr>
+<td>checkPermissions(Collection<Permission> perms)</td>
+<td>断言用户是否拥有所有指定权限</td>
+</tr>
+<tr>
+<td>checkPermissions(String… perms)</td>
+<td>断言用户是否拥有所有指定权限</td>
+</tr>
+</tbody></table>
+</br>
+
+<table>
+<thead>
+<tr>
+<th>Subject方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>isPermitted(Permission p)</td>
+<td>Subject拥有制定权限时，返回true</td>
+</tr>
+<tr>
+<td>isPermitted(List<Permission> perms)</td>
+<td>返回对应权限的boolean数组</td>
+</tr>
+<tr>
+<td>isPermittedAll(Collection<Permission> perms)</td>
+<td>Subject拥有所有制定权限时，返回true</td>
+</tr>
+</tbody></table>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/faabc623-bd9c-11e9-b52a-878085b5c0f3/" data-toggle="tooltip" data-placement="top" title="入职浙江广电一年的感悟（真）">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/faabc621-bd9c-11e9-b52a-878085b5c0f3/" data-toggle="tooltip" data-placement="top" title="Spring-ldap">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Shiro" title="Shiro">Shiro</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/faabc626-bd9c-11e9-b52a-878085b5c0f3/";
+    var disqus_url = "https://matthew-han.github.io/post/faabc626-bd9c-11e9-b52a-878085b5c0f3/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

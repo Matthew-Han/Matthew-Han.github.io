@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          《码出高效》系列笔记（四）：数据结构与集合的数组和泛型 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+                        
+                          <a class="tag" href="/tags/#数组" title="数组">数组</a>
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#集合" title="集合">集合</a>
+                        
+                          <a class="tag" href="/tags/#泛型" title="泛型">泛型</a>
+                        
+                    </div>
+                    <h1>《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2020-03-13
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><blockquote>
+<p>良好的编码风格和完善统一的规约是最高效的方式。</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第四篇章第二节：数据结构与集合的数组和泛型篇。</p>
+<p><strong>本系列目录</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
+</ul>
+<h1 id="数组与集合"><a href="#数组与集合" class="headerlink" title="数组与集合"></a>数组与集合</h1><p>数组是一种顺序表，可以使用索引下标进行快速定位并获取指定位置的元素。</p>
+<p>为什么下标从0开始？</p>
+<p>因为这样需要计算偏移量需要从当前下标减1的操作，加减法运算对CPU是一种双数运算，在数组下标使用频率很高的场景下，该运算方式十分耗时。在Java的体系中，数组一旦分配内存后无法扩容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String[] args1 = &#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>&#125;;</span><br><span class="line">String[] args2 = <span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">2</span>];</span><br><span class="line">args2[<span class="number">0</span>] = <span class="string">&quot;a&quot;</span>;</span><br><span class="line">args2[<span class="number">1</span>] = <span class="string">&quot;b&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>以上代码一般是数组的两种初始化方式，第一种是静态初始化，第二种是动态初始化。数组的容量大小随着数组对象的创建就固定了。</p>
+<p>数组的遍历优先推荐JDK5引进的foreach方式，即<code>for(e : obj);</code>JDK8以上可以使用stream操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Arrays.stream(args1).forEach(str -&gt; System.out.println(str));</span><br><span class="line">Arrays.stream(args1).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<h2 id="数组转集合"><a href="#数组转集合" class="headerlink" title="数组转集合"></a>数组转集合</h2><p>将数组转集合后，不能使用集合的某些方法，以<code>Arrays.asList()</code>为例，不能使用其修改集合<strong>add</strong>、<strong>remove</strong>、<strong>clear</strong>方法，但是可以使用<strong>set</strong>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">String[] args1 = &#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>&#125;;</span><br><span class="line">List&lt;String&gt; asList = Arrays.asList(args1);</span><br><span class="line">asList.set(<span class="number">1</span>, <span class="string">&quot;c&quot;</span>);</span><br><span class="line">System.out.println(asList);</span><br><span class="line">asList.add(<span class="string">&quot;c&quot;</span>);</span><br><span class="line">asList.remove(<span class="number">0</span>);</span><br><span class="line">asList.clear();</span><br><span class="line">System.out.println(asList);</span><br></pre></td></tr></table></figure>
+
+<p>后面会输出<code>UnsupportedOperationException</code>异常。</p>
+<p><code>Arrays.asList()</code>体现的是适配器模式，其实是Arrays的一个名为ArrayList的内部类（阉割版），继承自<code>AbstractList</code>类，实现了<strong>set</strong>和<strong>get</strong>方法。但是其他部分方法未实现所以会抛出该父类<code>AbstractList</code>的异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">String[] args1 = &#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>&#125;;</span><br><span class="line">List&lt;String&gt; e1 = Arrays.asList(args1);</span><br><span class="line">List&lt;String&gt; e2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(<span class="number">2</span>);</span><br><span class="line">e2.add(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">e2.add(<span class="string">&quot;b&quot;</span>);</span><br><span class="line"><span class="comment">// 第一处</span></span><br><span class="line">System.out.println(e1.getClass().getName());</span><br><span class="line"><span class="comment">// 第二处</span></span><br><span class="line">System.out.println(e2.getClass().getName());</span><br></pre></td></tr></table></figure>
+
+<p>实际控制台打印情况：</p>
+<ol>
+<li><p><code>java.util.Arrays$ArrayList</code></p>
+</li>
+<li><p><code>java.util.ArrayList</code></p>
+</li>
+</ol>
+<p>数组转集合在需要添加元素的情况下，利用<code>java.util.ArrayList</code>创建一个新集合。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String[] args = &#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>&#125;;</span><br><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(Arrays.asList(args));</span><br></pre></td></tr></table></figure>
+
+<h2 id="集合转数组"><a href="#集合转数组" class="headerlink" title="集合转数组"></a>集合转数组</h2><p>集合转数组更加的可控。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; e1 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(<span class="number">2</span>);</span><br><span class="line">e1.add(<span class="string">&quot;c&quot;</span>);</span><br><span class="line">e1.add(<span class="string">&quot;d&quot;</span>);</span><br><span class="line">String[] args = <span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">1</span>];</span><br><span class="line">String[] args2 = <span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">2</span>];</span><br><span class="line">e1.toArray(args);</span><br><span class="line"><span class="comment">// 第一处</span></span><br><span class="line">System.out.println(Arrays.asList(args));</span><br><span class="line">e1.toArray(args2);</span><br><span class="line"><span class="comment">// 第二处</span></span><br><span class="line">System.out.println(Arrays.asList(args2));</span><br></pre></td></tr></table></figure>
+
+<p>实际控制台打印情况：</p>
+<ol>
+<li><p><code>[null]</code></p>
+</li>
+<li><p><code>[c, d]</code></p>
+</li>
+</ol>
+<p>不同的区别在于即将复制进去的数组容量是否足够，如果容量不等，则弃用该数组，另起炉灶。</p>
+<h1 id="集合与泛型"><a href="#集合与泛型" class="headerlink" title="集合与泛型"></a>集合与泛型</h1><p>泛型与集合的联合使用，可以把泛型的功能发挥到极致。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span> <span class="variable">list1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArrayList</span>(<span class="number">3</span>);</span><br><span class="line">list1.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">666</span>));</span><br><span class="line">list1.add(<span class="keyword">new</span> <span class="title class_">Object</span>());</span><br><span class="line">list1.add(<span class="string">&quot;666&quot;</span>);</span><br><span class="line"></span><br><span class="line">List&lt;Object&gt; list2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(<span class="number">3</span>);</span><br><span class="line">list2.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">666</span>));</span><br><span class="line">list2.add(<span class="keyword">new</span> <span class="title class_">Object</span>());</span><br><span class="line">list2.add(<span class="string">&quot;666&quot;</span>);</span><br><span class="line"></span><br><span class="line">List&lt;Integer&gt; list3 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(<span class="number">3</span>);</span><br><span class="line">list3.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">666</span>));</span><br><span class="line"><span class="comment">// 以下都是编译出错</span></span><br><span class="line">list3.add(<span class="keyword">new</span> <span class="title class_">Object</span>());</span><br><span class="line">list3.add(<span class="string">&quot;666&quot;</span>);</span><br><span class="line"></span><br><span class="line">List&lt;?&gt; list4 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(<span class="number">3</span>);</span><br><span class="line">list4.remove(<span class="number">0</span>);</span><br><span class="line">list4.clear();</span><br><span class="line"><span class="comment">// 以下都是编译出错</span></span><br><span class="line">list4.add(<span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">666</span>));</span><br><span class="line">list4.add(<span class="keyword">new</span> <span class="title class_">Object</span>());</span><br><span class="line">list4.add(<span class="string">&quot;666&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>List&lt;?&gt;</code>是一个泛型，在没有赋值之前，表示它可以接收任何类型的集合赋值，赋值之后就不能随便往里面添加元素了，但可以remove和clear。</p>
+<p>而<code>List&lt;T&gt;</code>最大的问题就是只能放置一种类型，如果要实现多种受泛型约束的类型，可以使用<code>&lt;? extends T&gt;</code>与<code>&lt;? super T&gt;</code>两种语法，但是两者的区别非常微妙。</p>
+<ul>
+<li><code>&lt;? extends T&gt;</code>是Get First，适用于生产集合元素为主的场景；</li>
+<li><code>&lt;? super T&gt;</code>是Put First，适用于消费集合元素为主的场景。</li>
+</ul>
+<p><code>&lt;? extends T&gt;</code>可以赋值给任何<font color= red><strong>T以及T子类</strong></font>的集合，上界为T。取出来的类型带有泛型限制，向上转型为T。null可以表示任何类型，所以除了null外，任何元素都不得添加进<code>&lt;? extends T&gt;</code>集合内。</p>
+<p><code>&lt;? super T&gt;</code>可以赋值给任何<font color= red><strong>T以及T的父类</strong></font>集合，下界为T。在生活中，投票选举类似<code>&lt;? super T&gt;</code>的操作。选举代表时，你只能往里投票，取数据时，根本不知道是谁的票，相遇泛型丢失。</p>
+<p><code>extends</code>的场景是put功能受限，而super的场景是get功能受限。</p>
+<h2 id="extends与super的差异"><a href="#extends与super的差异" class="headerlink" title="extends与super的差异"></a>extends与super的差异</h2><p>假设有一个斗鱼TV平台，拥有一个DOTA2板块，其下有一个恶心人的D能儿主播：谢彬DD。</p>
+<p>那我们从代码里可以这样写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    List&lt;DouYu&gt; douYu = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    List&lt;DotA2&gt; dotA2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    List&lt;DD&gt; dd = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    douYu.add(<span class="keyword">new</span> <span class="title class_">DouYu</span>());</span><br><span class="line">    dotA2.add(<span class="keyword">new</span> <span class="title class_">DotA2</span>());</span><br><span class="line">    dd.add(<span class="keyword">new</span> <span class="title class_">DD</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 第一处，编译出错</span></span><br><span class="line">    List&lt;? <span class="keyword">extends</span> <span class="title class_">DotA2</span>&gt; extendsDotA2FromDouYu = douYu;</span><br><span class="line">    List&lt;? <span class="built_in">super</span> DotA2&gt; superDotA2FromDouYu = douYu;</span><br><span class="line"></span><br><span class="line">    List&lt;? <span class="keyword">extends</span> <span class="title class_">DotA2</span>&gt; extendsDotA2FromDotA2 = dotA2;</span><br><span class="line">    List&lt;? <span class="built_in">super</span> DotA2&gt; superDotA2FromDotA2 = dotA2;</span><br><span class="line"></span><br><span class="line">    List&lt;? <span class="keyword">extends</span> <span class="title class_">DotA2</span>&gt; extendsDotA2FromDD = dd;</span><br><span class="line">    <span class="comment">// 第二处，编译出错</span></span><br><span class="line">    List&lt;? <span class="built_in">super</span> DotA2&gt; superDotA2FromDD = dd;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>三个类的继承关系说明<code>DD &lt; DotA2 &lt; DouYu &lt; Object</code>。</p>
+<p>第一处编译出错，因为只能赋值给T以及T的子类，上界是DotA2类。DouYu类明显不符合<code>extends</code>DotA2类的情况。不能把<strong>douYu对象</strong>赋值给<code>&lt;? extends DotA2&gt;</code>，因为<code>List&lt;DouYu&gt;</code>不只只有DotA2板块，还有吃♂鸡、颜♂值区、舞♂蹈区这些板块。</p>
+<p>第二处编译出错，因为只能赋值给T以及T的父类，DD类属于DotA2的子类，下界只能DotA2类的对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下&lt;? extends DotA2&gt;类型的对象无法进行add操作，编译出错</span></span><br><span class="line">extendsDotA2FromDotA2.add(<span class="keyword">new</span> <span class="title class_">DD</span>());</span><br><span class="line">extendsDotA2FromDotA2.add(<span class="keyword">new</span> <span class="title class_">DotA2</span>());</span><br><span class="line">extendsDotA2FromDotA2.add(<span class="keyword">new</span> <span class="title class_">DouYu</span>());</span><br><span class="line"></span><br><span class="line">superDotA2FromDotA2.add(<span class="keyword">new</span> <span class="title class_">DD</span>());</span><br><span class="line">superDotA2FromDotA2.add(<span class="keyword">new</span> <span class="title class_">DotA2</span>());</span><br><span class="line"><span class="comment">// 该处编译出错，无法添加</span></span><br><span class="line">superDotA2FromDotA2.add(<span class="keyword">new</span> <span class="title class_">DouYu</span>());</span><br></pre></td></tr></table></figure>
+
+<p>除了<strong>null</strong>以外，任何元素都不能添加进<code>&lt;? extends T&gt;</code>集合内。<code>&lt;? super T&gt;</code>可以放，但是只能放进去<strong>自身以及子类</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Object</span> <span class="variable">obj1</span> <span class="operator">=</span> extendsDotA2FromDotA2.get(<span class="number">0</span>);</span><br><span class="line"><span class="type">DotA2</span> <span class="variable">obj2</span> <span class="operator">=</span> extendsDotA2FromDotA2.get(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">Object</span> <span class="variable">obj3</span> <span class="operator">=</span> extendsDotA2FromDD.get(<span class="number">0</span>);</span><br><span class="line"><span class="comment">// 该处编译出错，无法添加</span></span><br><span class="line"><span class="type">DD</span> <span class="variable">obj4</span> <span class="operator">=</span> extendsDotA2FromDD.get(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>首先<code>&lt;? super T&gt;</code>可以进行<strong>Get</strong>操作返回元素，但是类型会丢失。<code>&lt;? extends T&gt;</code>可以返回带类型的元素，仅限自身及父类，子类会被擦除。</p>
+<h2 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h2><p>对于一个笼子，只取不放，属于Get First，应采用<code>&lt;? extends T&gt;</code>；只放不取，属于Put First，应采用<code>&lt;? super T&gt;</code>。</p>
+<blockquote>
+<p>2021.03.31 新阶段的新总结</p>
+</blockquote>
+<p>以前对泛型的上下限老是会忘记，现在总结了一个例子：</p>
+<p>在 Java 中<code>Integer --继承--&gt; Number --实现--&gt; Serializable</code></p>
+<p>例如这样一个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">func</span><span class="params">(List&lt;? extends Number&gt; producer, List&lt;? <span class="built_in">super</span> Number&gt; consumer)</span> &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>想成功调用这个方法的参数的类型可以是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">ex</span><span class="params">(List&lt;Number&gt; numbers)</span> &#123;</span><br><span class="line">    <span class="comment">// Integer extends Number</span></span><br><span class="line">    List&lt;Integer&gt; producer = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">// Serializable super Number</span></span><br><span class="line">    List&lt;Serializable&gt; consumer = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">  </span><br><span class="line">    func(producer, consumer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是对集合的操作是<font color = red><strong>相反的</strong></font>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">lowerBoundedWildcardsDemo</span><span class="params">(List&lt;? extends Number&gt; producer, List&lt;? <span class="built_in">super</span> Number&gt; consumer)</span> &#123;</span><br><span class="line">    <span class="comment">// PECS stands for producer-extends, consumer-super.</span></span><br><span class="line">    <span class="comment">// 读取数据（生产者）使用 extends</span></span><br><span class="line">    <span class="comment">// 操作输出（消费者）使用 super</span></span><br><span class="line"></span><br><span class="line">    <span class="type">Serializable</span> <span class="variable">p1</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line">    <span class="type">Integer</span> <span class="variable">p2</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">  </span><br><span class="line">  	<span class="comment">// 这里不行，编译不通过</span></span><br><span class="line">    producer.add(p1);</span><br><span class="line">    <span class="comment">// 这里编译可以通过</span></span><br><span class="line">    consumer.add(p2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/31c8add0-69af-11ea-ad58-59a2dd622848/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（四）：元素的比较">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/025b9630-626f-11ea-8f75-554d885c423a/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（四）：数据结构与集合的框架篇">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+                        
+                          <a class="tag" href="/tags/#数组" title="数组">数组</a>
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#集合" title="集合">集合</a>
+                        
+                          <a class="tag" href="/tags/#泛型" title="泛型">泛型</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/";
+    var disqus_url = "https://matthew-han.github.io/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

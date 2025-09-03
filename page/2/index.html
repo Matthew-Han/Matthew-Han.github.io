@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/page/2/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Espada</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">酸萝卜 ♂ 别吃</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/post/1cae1360-e47c-11eb-8456-9d0bf7563314/">
+        <h2 class="post-title">
+            Redis 笔记六
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Q：什么是内存碎片
+
+我们可以把这些分散的空座位叫作“车厢座位碎片”，知道了这一点，操作系统的内存碎片就很容易理解了。虽然操作系统的剩余内存空间总量足够，但是应用申请的是一块连续地址空间的 N 字节，但在剩余的内存空间中，没有大小为 N 字节的连续空间了，那么，这些剩余空间就是内存碎片（比如上图中的“空闲 2 字节”和“空闲 1 字节”，就是这样的碎片）。
+Q：内存碎片是如何形成的其实，内存......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/3414aaf0-e46d-11eb-9597-7d5c165039f4/">
+        <h2 class="post-title">
+            Redis 笔记五
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Q：如何应对变慢的Redis（总结）
+个人总结版本
+
+
+AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次又来了
+发生了 swap 内存交换
+查看基线性能
+查看延迟的绝对值
+是否有慢查询
+是否会出现同一时刻大批量 kv 的过期
+是否存在 bigkey
+是否存在透明大页
+是否出现频繁切换 socket，需要绑核
+主从集群下是否主库过大，导致 RDB 载入阻塞
+
+
+老师总结......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-14
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/20dc2440-e2dd-11eb-b58c-3b03d3077551/">
+        <h2 class="post-title">
+            Redis 笔记四
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Q：异步机制Redis 实例有哪些阻塞点？Redis 实例在运行时，要和许多对象进行交互，这些不同的交互就会涉及不同的操作，下面我们来看看和 Redis 实例交互的对象，以及交互时会发生的操作。
+
+客户端：网络 IO，键值对增删改查操作，数据库操作；
+磁盘：生成 RDB 快照，记录 AOF 日志，AOF 日志重写；
+主从节点：主库生成、传输 RDB 文件，从库接收 RDB 文件、清空数据库、......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/04c289c0-e2dd-11eb-9088-bdddfe01ee68/">
+        <h2 class="post-title">
+            Redis 笔记三
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Q：万金油的 String 不一定好用场景：
+开发一个图片存储系统，要求这个系统能快速地记录图片 ID 和图片在存储系统中保存时的 ID（可以直接叫作图片存储对象 ID）。同时，还要能够根据图片 ID 快速查找到图片存储对象 ID。
+用 10 位数来表示图片 ID 和图片存储对象 ID，例如，图片 ID 为 1101000051，它在存储系统中对应的 ID 号是 3301000051。
+初始......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-12
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/d9851020-dfd0-11eb-9b07-0d08f44604fc/">
+        <h2 class="post-title">
+            Redis 笔记二
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Q：什么是主从模式那我们总说的 Redis 具有高可靠性，又是什么意思呢？
+其实，这里有两层含义：一是数据尽量少丢失，二是服务尽量少中断。AOF 和 RDB 保证了前者，而对于后者，Redis 的做法就是增加副本冗余量，将一份数据同时保存在多个实例上。即使有一个实例出现了故障，需要过一段时间才能恢复，其他实例也可以对外提供服务，不会影响业务使用。
+实际上，Redis 提供了主从库模式，以保证......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/8b513a00-dfd0-11eb-b078-eb0d993c7e2d/">
+        <h2 class="post-title">
+            Redis 笔记一
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            Q：Redis 变慢的原因一
+
+这里存在一个问题，哈希冲突链上的元素只能通过指针逐一查找再操作。如果哈希表里写入的数据越来越多，哈希冲突可能也会越来越多，这就会导致某些哈希冲突链过长，进而导致这个链上的元素查找耗时长，效率降低。对于追求“快”的 Redis 来说，这是不太能接受的。
+所以，Redis 会对哈希表做 rehash 操作。rehash 也就是增加现有的哈希桶数量，让逐渐增多的 e......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-08
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/5311af30-da0d-11eb-a7d5-3f834b7c5511/">
+        <h2 class="post-title">
+            大容量数组随机读写的效率问题
+        </h2>
+        <h3 class="post-subtitle">
+            CPU 高速缓存支棱不起来
+        </h3>
+        <div class="post-content-preview">
+            背景昨天在刷 AcWing 每日一题的第 3732 题「矩阵复原」时，发现在大容量数组作为缓存时提交无限 TLE，但是该用 HashMap 就 ac 了。
+在我浅薄的知识勺中，一直认为数组的下标作为 key 随机访问其下标的元素数据时是要快于一些集合的，HashMap 有着复杂的数据结构，底层也是数组、链表和红黑树，怎么样都不会比一维数组作为缓存来的快吧，但实际上在该背景下确实是 HashM......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-07-01
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/7f7138a0-c736-11eb-a4ac-bd3aa37357c3/">
+        <h2 class="post-title">
+            LeetCode 第 243 场周赛
+        </h2>
+        <h3 class="post-subtitle">
+            #1882 Process Tasks Using Servers
+        </h3>
+        <div class="post-content-preview">
+            Problem Description
+给你两个下标从 0 开始的整数数组 servers 和 tasks ，长度分别为 n 和 m 。servers[i] 是第 i 台服务器的权重 ，而 tasks[j] 是处理第 j 项任务所需要的时间（单位：秒）。
+
+你正在运行一个仿真系统，在处理完所有任务后，该系统将会关闭。每台服务器只能同时处理一项任务。第 0 项任务在第 0 秒可以开始处理，相应......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-06-07
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/ec90b090-774b-11eb-ac09-a1bcb7588087/">
+        <h2 class="post-title">
+            位运算算法题小技巧
+        </h2>
+        <h3 class="post-subtitle">
+            学了忘，忘了学
+        </h3>
+        <div class="post-content-preview">
+            位运算位运算的效率就不说了，每次学会一些小技巧就忘了，还是基础不够扎实吧。。
+
+计算某个 int 值的第 i 位（二进制位）是什么，可以用 num &gt;&gt; i; 有符号右移，不要在用 Integer 的 API 了
+0 与 1 的转换（仅存在 1 与 0），num = 1 - num;
+汉明码常用：for (int i = 0; i &lt; 32; i++) &#123;&#12......
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-02-25
+    </p>
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/post/ecde1650-5185-11eb-84eb-99b80bd7ffbc/">
+        <h2 class="post-title">
+            千千万万设计模式之装饰器模式
+        </h2>
+        <h3 class="post-subtitle">
+            模式千万条，生命就一条，可以下班了。
+        </h3>
+        <div class="post-content-preview">
+            装饰器模式未完待续…
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by MatthewHan on
+        2021-01-08
+    </p>
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/">&larr; Newer Posts</a>
+        </li>
+    
+    
+        <li class="next">
+            <a href="/page/3/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+
+            </div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                            <a href="/tags/#生活" title="生活" rel="5">生活</a>
+                            
+                        
+                            
+                            <a href="/tags/#轨迹" title="轨迹" rel="7">轨迹</a>
+                            
+                        
+                            
+                            <a href="/tags/#日记" title="日记" rel="5">日记</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#数据结构" title="数据结构" rel="24">数据结构</a>
+                            
+                        
+                            
+                            <a href="/tags/#算法" title="算法" rel="19">算法</a>
+                            
+                        
+                            
+                            <a href="/tags/#数组" title="数组" rel="7">数组</a>
+                            
+                        
+                            
+                            <a href="/tags/#栈" title="栈" rel="4">栈</a>
+                            
+                        
+                            
+                            <a href="/tags/#stack" title="stack" rel="4">stack</a>
+                            
+                        
+                            
+                            <a href="/tags/#leetcode" title="leetcode" rel="17">leetcode</a>
+                            
+                        
+                            
+                            <a href="/tags/#队列" title="队列" rel="3">队列</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#动态规划" title="动态规划" rel="2">动态规划</a>
+                            
+                        
+                            
+                            <a href="/tags/#记忆化递归" title="记忆化递归" rel="2">记忆化递归</a>
+                            
+                        
+                            
+                            <a href="/tags/#二分法" title="二分法" rel="2">二分法</a>
+                            
+                        
+                            
+                            <a href="/tags/#二叉搜索树" title="二叉搜索树" rel="2">二叉搜索树</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#深度优先搜索" title="深度优先搜索" rel="2">深度优先搜索</a>
+                            
+                        
+                            
+                            <a href="/tags/#广度优先搜索" title="广度优先搜索" rel="2">广度优先搜索</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#笔记" title="笔记" rel="9">笔记</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#Redis" title="Redis" rel="11">Redis</a>
+                            
+                        
+                            
+                            <a href="/tags/#Shiro" title="Shiro" rel="3">Shiro</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#Easy Coding" title="Easy Coding" rel="8">Easy Coding</a>
+                            
+                        
+                            
+                            <a href="/tags/#面向对象" title="面向对象" rel="3">面向对象</a>
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#集合" title="集合" rel="3">集合</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#泛型" title="泛型" rel="2">泛型</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#职业" title="职业" rel="2">职业</a>
+                            
+                        
+                            
+                            <a href="/tags/#职场" title="职场" rel="2">职场</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#设计模式" title="设计模式" rel="4">设计模式</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#多线程" title="多线程" rel="3">多线程</a>
+                            
+                        
+                            
+                            <a href="/tags/#并发" title="并发" rel="2">并发</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#树" title="树" rel="2">树</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                            <a href="/tags/#JVM" title="JVM" rel="3">JVM</a>
+                            
+                        
+                            
+                            <a href="/tags/#Java" title="Java" rel="3">Java</a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+
+                        
+                            <img src="/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_avatar.jpg" />
+                        
+
+                        
+                            <p>你现在做的每一步，都是为了去接近你期望的未来。</p>
+                        
+
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://twitter.com/_yuanmo_">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+                                <li>
+                                    <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <a target="_blank" href="http://weibo.com/matthewhan96">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+
+                            
+
+                            
+                                <li>
+                                    <a target="_blank"  href="https://github.com/Matthew-Han">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-circle fa-stack-2x"></i>
+                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                                    </a>
+                                </li>
+                            
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

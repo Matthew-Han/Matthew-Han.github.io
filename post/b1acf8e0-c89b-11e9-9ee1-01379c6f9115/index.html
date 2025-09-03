@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          《码出高效》系列笔记（一）：面向对象中的方法 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#面向对象" title="面向对象">面向对象</a>
+                        
+                          <a class="tag" href="/tags/#方法" title="方法">方法</a>
+                        
+                    </div>
+                    <h1>《码出高效》系列笔记（一）：面向对象中的方法</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-08-27
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><blockquote>
+<p>良好的编码风格和完善统一的规约是最高效的方式。</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第二节：面向对象之方法篇。</p>
+<p><strong>本系列目录</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
+</ul>
+<h1 id="方法签名"><a href="#方法签名" class="headerlink" title="方法签名"></a>方法签名</h1><p>方法签名包括方法名称和参数列表，将JVM标识方法的唯一索引，不包括返回值，更加不包括访问权限控制符、异常类型等。</p>
+<h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><p>参数一般又分为实参和形参，在代码注释中用<code>@param</code>表示参数类型，属于方法签名的一部分，包含参数类型和参数个数，在代码风格中，约定每个逗号猴年必须要有一个空格，不管是形参和实参。<br>想到有一次面试时，就问到了成员变量和局部变量的传递过程，虽然很简单，说明还是有一些面试官会注意到这些方面。</p>
+<h2 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h2><p>一种特殊的参数————可变参数。在JDK5版本中引进，在实际应用中不算多见，适用于不确定参数个数的场景。<br>有时候我们需要打印多个变量或参数的时候，用字符串拼接并不是很省力的方式，我们可以利用<code>format</code>或者<code>printf</code>来进行格式化输出。其中<code>PrintStream</code>类中<code>printf()</code>方法就是使用了可变参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> PrintStream <span class="title function_">printf</span><span class="params">(String format, Object... args)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> format(format, args);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 第一处</span></span><br><span class="line">System.out.printf(<span class="string">&quot;%d&quot;</span>, n);</span><br><span class="line"><span class="comment">// 第二处</span></span><br><span class="line">System.out.printf(<span class="string">&quot;%d %s&quot;</span>, n, <span class="string">&quot;str&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>在第一处调用传入了两个参数，在第二处调用传入了三个参数，他们调用的都是<code>printf(String format, Object... args)</code>方法。<br>这种方式即是<code>语法糖</code>，也可能是<code>小恶魔</code>，在实际开发中处理不当，容易影响代码可读性和可维护性，书中也建议不要使用<code>Object</code>作为可变参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">late</span><span class="params">(Object... args)</span> &#123;</span><br><span class="line">    System.out.println(args.length);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="comment">// 第一处，此处打印结果为2</span></span><br><span class="line">    late(<span class="number">4</span>, <span class="keyword">new</span> <span class="title class_">Integer</span>[] &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;);</span><br><span class="line">    <span class="comment">// 第二处，此处打印结果为3</span></span><br><span class="line">    late(<span class="keyword">new</span> <span class="title class_">Integer</span>[] &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于Object参数过于灵活，在第一处<code>new Integer[] &#123;1, 2, 3&#125;</code>和<code>4</code>都转型成了<code>Object[]</code>，作为2个对象，在第二处则是作为3个<code>int[]</code>对象，所以不同类型的参数尽量避免使用该种方式传参。</p>
+<h2 id="入参保护"><a href="#入参保护" class="headerlink" title="入参保护"></a>入参保护</h2><p>入参保护是对服务提供商的保护，常见于批量接口。因为批量接口虽然能够处理一批数据，但其处理能力是有限的，因此要对入参的数据进行判断和控制，超出处理能力的，直接返回错误给客户端。</p>
+<h2 id="入参校验"><a href="#入参校验" class="headerlink" title="入参校验"></a>入参校验</h2><p>需要进行参数校验的场景：</p>
+<ol>
+<li>调用频度低的方法。</li>
+<li>执行时间开销很大的方法。此情形中，参数校验的时间相对于就是小开销了，但是如果遇到因为参数错误导致中间执行回退或者错误，则得不偿失。</li>
+<li>需要极高稳定性和可用性的方法。</li>
+<li>对外提供的开放接口。</li>
+<li>敏感权限入口。</li>
+</ol>
+<p>不需要参数校验的场景：</p>
+<ol>
+<li>极有可能被循环调用的方法。但是在方法说明里必须注明外部参数检查。</li>
+<li>底层调用平度较高的方法。由于是频度较高，反而不容易是参数问题而引发，一般DAO和SERVICE都在同一个应用中，部署在同一台服务器中，所以可以省略DAO的参数校验。</li>
+<li>声明private只会被自己的代码调用的方法。如果能够确定调用方法的代码传入参数已经做过检查，一般就不太会出现这种问题，此时便可不需要参数校验。</li>
+</ol>
+<h1 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h1><p>构造方法是方法名与类名相同的特殊方法，在新建对象时调用，可以通过不同的构造方法实现不同方式的对象初始化，他有如下特征：</p>
+<ol>
+<li>构造方法名称必须与类名相同。</li>
+<li>构造方法是没有返回类型的，即使是void也不能有。<font color=#FF8C00>他返回对象的地址，并赋值给引用变量。</font></li>
+<li>构造方法不能被继承，不能被覆写，不能被直接调用。<font color=#FF8C00>调用途径有三种：一是通过<code>new</code>关键字，二是在子类的构造方法中通过<code>super</code>关键字调用父类的构造方法（前面super关键字那里可以看下），三是通过反射方式获取。</font></li>
+<li>类定义时提供了默认的无参构造方法。<font color=#FF8C00>但是如果显式的定义了有参构造方法，此无参构造方法就会被覆盖。</font></li>
+<li>构造方法可以私有。<font color=#FF8C00>外部无法使用私有构造方法创建对象。</font></li>
+<li>一个类可以有多个参数不同的构造方法，称为构造方法的重载。</li>
+</ol>
+<h1 id="类内方法"><a href="#类内方法" class="headerlink" title="类内方法"></a>类内方法</h1><p>在面向过程的语言中，所有的方法都是全局静态方法。在引入面向对象理念后，某些方法才归属于具体对象，即类内方法。除了构造方法外，还有三类方法：实例方法、静态方法、静态代码块。</p>
+<h2 id="实例方法"><a href="#实例方法" class="headerlink" title="实例方法"></a>实例方法</h2><p>又称为非静态方法，依附于某个对象，可以通过引用变量调用其方法。类内部各个实例方法互相调用，但是不包含<code>this</code>。实例方法可以调用静态变量和静态方法，当从外部创建对象后，应该尽量使用「类名.静态方法」来调用，而不是对象名，依赖为编译器减负，二来提升代码可读性。</p>
+<h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><p>又称为类方法。其中注意以下两点：</p>
+<ul>
+<li>静态方法中不能使用实例成员变量和实例方法。</li>
+<li>静态方法不能使用<code>super</code>和<code>this</code>关键字，这两个关键字指代的都是需要被创建出来的对象。</li>
+</ul>
+<p>通常静态方法用于定义工具类的方法等，静态方法使用了可修改的对象，那么在并发时会存在线程安全问题。所以工具类常见静态方法和单例相伴而生。</p>
+<h2 id="静态代码块"><a href="#静态代码块" class="headerlink" title="静态代码块"></a>静态代码块</h2><p>在书中是极不推荐的一种处理方式，这里就不提啦~</p>
+<h1 id="getter与setter"><a href="#getter与setter" class="headerlink" title="getter与setter"></a>getter与setter</h1><p>这是一类比较特殊的方法，一般自身不包含任何业务逻辑，仅仅为了类成员属性提供读取和修改的方法，这样设计的好处就是：</p>
+<ul>
+<li>满足面向对象语言封装的特性。将类成员属性设置成private，访问与修改统统交由getter与setter方法处理。</li>
+<li>有利于统一控制。</li>
+</ul>
+<p><strong>以下情况不推荐使用</strong></p>
+<ol>
+<li>getter与setter中添加了业务逻辑。</li>
+<li>同时定义<code>isXxx()</code>和<code>getXxx()</code>。</li>
+<li>相同的属性名容易带来歧义。主要体现在子类与父类之间。</li>
+</ol>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（一）：面向对象中的其他知识点">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（一）：面向对象中的类">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#面向对象" title="面向对象">面向对象</a>
+                        
+                          <a class="tag" href="/tags/#方法" title="方法">方法</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/";
+    var disqus_url = "https://matthew-han.github.io/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

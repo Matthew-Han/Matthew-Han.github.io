@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          走进JVM之字节码与类加载 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
+                        
+                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                          <a class="tag" href="/tags/#字节码" title="字节码">字节码</a>
+                        
+                          <a class="tag" href="/tags/#类加载过程" title="类加载过程">类加载过程</a>
+                        
+                    </div>
+                    <h1>走进JVM之字节码与类加载</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2020-09-22
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><ul>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
+</ul>
+<h1 id="字节码"><a href="#字节码" class="headerlink" title="字节码"></a>字节码</h1><p>JVM主流还是HotSpot，是OpenJDK最主流的一种。</p>
+<p>跨平台需要一个中间层，那就是字节码（ByteCode），JVM会将字节码编译执行，热点代码还会通过JIT动态编译成机器码提高效率。</p>
+<p>一个Java类文件，用十六进制表示二进制流。其中，起始的4个直接非常特殊：cafe babe。是Gosling定义的一个魔法数，标志该文件是一个Java类文件。</p>
+<p>JVM在字节码上设计一套操作码助记符，用特殊的单词来标记。</p>
+<p>一个<code>.java</code>文件转换成字节码甚至是机器码文件需要以下几步：</p>
+<p><code>Java</code> &#x3D;&#x3D;&gt; <code>词法解析</code> &#x3D; token流 &#x3D;&gt; <code>语法解析</code> &#x3D;&#x3D;&gt; <code>语义分析</code> &#x3D;&#x3D;&gt; <code>生成字节码</code> &#x3D;&#x3D;&gt; <code>字节码</code></p>
+<p>其中，语法解析的目的是组装成一颗语法树，再通过<code>语义分析</code>阶段检查类型、关键字、作用域是否合规。</p>
+<p>字节码必须通过<strong>类加载过程</strong>加载到JVM环境后才可以执行。执行有3种模式</p>
+<ul>
+<li>解释执行</li>
+<li>JIT编译执行</li>
+<li>JIT编译执行与解释混合执行</li>
+</ul>
+<p>主流的JVM就是混合执行，在控制台输入<code>java -version</code>也可以看到<code>mixed mode</code>的字样，表示是混合执行。</p>
+<h1 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h1><p>类是在运行期间第一次使用时动态加载的，而不是一次性加载所有类。因为如果一次性加载，那么会占用很多的内存。</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>主要分成<strong>三大步</strong>：</p>
+<ol>
+<li><p>加载</p>
+<p>只是类加载的第一个阶段，不要和类加载混淆。主要干三件事情：</p>
+<ul>
+<li>通过类的完全限定名称获取定义该类的二进制字节流。</li>
+<li>将该字节流表示的静态存储结构转换为方法区的运行时存储结构。</li>
+<li>在内存中生成一个代表该类的 Class 对象，作为方法区中该类各种数据的访问入口。</li>
+</ul>
+</li>
+<li><p>链接（验证、准备、解析）</p>
+</li>
+<li><p>初始化</p>
+<p>分为主动引用和被动应用。</p>
+<ul>
+<li><p>主动引用：</p>
+<p><code>new</code>关键字、<code>main</code>类等</p>
+</li>
+<li><p>被动引用：</p>
+<p>静态字段、常量、<code>SuperClass[] sca = new SuperClass[10];</code>这样一个数组的初始化。</p>
+<p>通过数组定义来引用类，不会触发此类的初始化。该过程会对数组类进行初始化，数组类是一个由虚拟机自动生成的、直接继承自 Object 的子类，其中包含了数组的属性和方法。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>初始化的过程：读取字节码的二进制数据到内存中，在JVM的方法区内，然后利用字节码文件创建一个Class对象作用在堆区。</p>
+<p>所以说类加载是一个将.class字节码文件实例化成Class对象并进行相关初始化的过程。</p>
+<h2 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h2><p>双亲委派模型，或者叫「溯源委派加载模型」更合适。因为类加载器类似原始部落，存在权利等级制度，最高的一层是BootStrap。</p>
+<p>低层次的当前类加载器，不能覆盖更高层的加载器加载的类。<strong>所以低层的加载器想要加载某个类时，需要向上逐级询问</strong>：该类加载了吗？高一级的父加载器往往都是懒狗，收到下级的请求会转发该请求给自身的上级。</p>
+<p><strong>所以一次询问一定会传递到BootStrap ClassLoader</strong>。加载不到时，才会逐级向下尝试加载。如果父类都加载不了，就会允许当前类加载器加载，不然肯定是优先父类加载器加载。</p>
+<p>所以是按需加载。</p>
+<p>父子关系是通过组合关系实现，非继承关系。</p>
+<p><strong>这个模型的好处：</strong></p>
+<ol>
+<li>避免重复加载</li>
+<li>安全性问题，防止核心的加载器已加载的类被「覆盖、篡改」</li>
+</ol>
+<p><strong>例子：</strong></p>
+<p>​	比如在自己开发的环境中，不要定义和核心API同名的包名。</p>
+<h3 id="1-根加载器（Bootstrap）"><a href="#1-根加载器（Bootstrap）" class="headerlink" title="1.根加载器（Bootstrap）"></a>1.根加载器（Bootstrap）</h3><p>最底层的加载器，由C++实现，没有父加载器所以没有继承<code>java.lang.ClassLoader</code>，负责将存放在<code>&lt;JRE_HOME&gt;\lib</code>目录中的，或者被 <code>-Xbootclasspath</code>参数所指定的路径中的。</p>
+<p>负责装载最核心的类：Object、System、String等。</p>
+<p>根类加载器加载的类，打印他的<code>Classloader</code>只会是null，因为不是在JVM体系内。</p>
+<p>例如：<code>System.out.println(Object.class.getClassLoader());</code></p>
+<h3 id="2-扩展类加载器（Platform）"><a href="#2-扩展类加载器（Platform）" class="headerlink" title="2.扩展类加载器（Platform）"></a>2.扩展类加载器（Platform）</h3><p>纯Java语言编写。用于加载一些扩展的系统类（也就是安全性和重要性比上者稍差一点），比如：XML、加密、压缩。</p>
+<p>这个类加载器是由 ExtClassLoader（sun.misc.Launcher$ExtClassLoader）实现。它负责将<code>&lt;JAVA_HOME&gt;/lib/ext</code>或者被<code>java.ext.dir</code>系统变量所指定路径中的所有类库加载到内存中，开发者可以直接使用扩展类加载器。</p>
+<p>Java9之前是ExtClass，之后是PlatformClass。</p>
+<h3 id="3-应用类加载器（Application）"><a href="#3-应用类加载器（Application）" class="headerlink" title="3.应用类加载器（Application）"></a>3.应用类加载器（Application）</h3><p>这个类加载器是由 AppClassLoader（sun.misc.Launcher$AppClassLoader）实现的。</p>
+<p>负责加载用户类路径（ClassPath）上所指定的类库，开发者可以直接使用这个类加载器。比如自己写的<code>TestFuck</code>类，该类就是被该加载器所加载。</p>
+<h3 id="4-自定义加载器"><a href="#4-自定义加载器" class="headerlink" title="4.自定义加载器"></a>4.自定义加载器</h3><h4 id="ClassLoader"><a href="#ClassLoader" class="headerlink" title="ClassLoader"></a>ClassLoader</h4><p>该类和Class都位于<code>java.lang</code>这个包下，主要是对双亲委派模型的实现。</p>
+<h5 id="loadClass方法"><a href="#loadClass方法" class="headerlink" title="loadClass方法"></a>loadClass方法</h5><blockquote>
+<p>经典递归实现</p>
+</blockquote>
+<ol>
+<li>先检查当前类是否已经在当前加载器加载了，如果没有，向上请求（上级也是这个模式）</li>
+<li>直到父类加载器抛出ClassNotFoundException，此时尝试自己去加载。</li>
+</ol>
+<p>一般不覆写该方法，因为还是要遵循双亲委派模型的机制。</p>
+<h5 id="findClass方法"><a href="#findClass方法" class="headerlink" title="findClass方法"></a>findClass方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ClassNotFoundException</span>(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>源码很简单，该方法需要覆写，因为上面说了，<strong>loadClass是递归父类加载器直到抛出该异常</strong>。那么需要覆写该方法实现自己的自定义的类。</p>
+<h5 id="defineClass方法"><a href="#defineClass方法" class="headerlink" title="defineClass方法"></a>defineClass方法</h5><p>通常与<code>findClass</code>方法一起使用，在<code>findClass</code>里面调用该方法返回。</p>
+<p>继承<code>ClassLoader</code>类，覆写<code>findClass</code>方法。</p>
+<h5 id="什么时候需要自定义类加载器？"><a href="#什么时候需要自定义类加载器？" class="headerlink" title="什么时候需要自定义类加载器？"></a>什么时候需要自定义类加载器？</h5><ol>
+<li>隔离加载类：中间件不同的jar包相互影响</li>
+<li>修改类的加载方式</li>
+<li>扩展加载源：网络层面、数据库、电视机顶盒也能加载</li>
+<li>防止源码泄露</li>
+</ol>
+<h3 id="5-热部署"><a href="#5-热部署" class="headerlink" title="5.热部署"></a>5.热部署</h3><p>当我们的一个类已经被加载后，通过双亲委派模型，他并不会重新加载。但是我们在编译器中开发的时候可以选择热部署的方式。他又是怎么实现的呢？</p>
+<p>双亲委派模型的核心在于<code>loadClass</code>方法，<strong>如果直接略过或者覆写该方法</strong>，就不会出现无限向上级请求加载的情况了（递归倒了，哭😢）。</p>
+<p><strong>破坏双亲委派模型的2种方式：</strong></p>
+<ol>
+<li>不走<code>loadClass</code>方法</li>
+<li>将上级类加载器下本应该（交给父加载器加载）加载的jar包删了，这样上级就会抛出异常，直到逐级返回下级加载「虚假的类」</li>
+</ol>
+<p>第二种方式有点嗯了。。</p>
+<h4 id="6-线程上下文加载器"><a href="#6-线程上下文加载器" class="headerlink" title="6.线程上下文加载器"></a>6.线程上下文加载器</h4><p>我们根加载器属实位高权重，但是保不准它也有求于小弟的时候。比如<code>mysql-connect-java.jar</code>，每个计科学生都知道的经典数据库驱动。</p>
+<p>在BootStrap加载器下有个<code>rt.jar</code>中有个类叫做<code>java.sql.DriverManager</code>，会去加载<code>Driver.class</code>，而该class是一个接口，并没有实现类，它的实现类在第三方的jar包中，也就是驱动中的类，相当于反向加载了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Void <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">    ServiceLoader&lt;Driver&gt; loadedDrivers = ServiceLoader.load(Driver.class);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里的Void是定义的一个类，不是void关键字。</p>
+</blockquote>
+<p>双亲委派模型可不允许反向加载，所以这里采用的是线程上下文加载器，该方式虽然也破坏了双亲委派模型，但是更为灵活。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ClassLoader</span> <span class="variable">cl</span> <span class="operator">=</span> Thread.currentThread().getContextClassLoader();</span><br><span class="line"><span class="keyword">return</span> ServiceLoader.load(service, cl);</span><br></pre></td></tr></table></figure>
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/" data-toggle="tooltip" data-placement="top" title="走进JVM之内存布局">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/bd0fa690-fcae-11ea-897f-29deed537cb3/" data-toggle="tooltip" data-placement="top" title="走进JVM之GC">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
+                        
+                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                          <a class="tag" href="/tags/#字节码" title="字节码">字节码</a>
+                        
+                          <a class="tag" href="/tags/#类加载过程" title="类加载过程">类加载过程</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/";
+    var disqus_url = "https://matthew-han.github.io/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

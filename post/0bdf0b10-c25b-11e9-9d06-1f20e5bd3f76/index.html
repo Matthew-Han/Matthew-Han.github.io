@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          《码出高效》系列笔记（一）：面向对象中的类 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#面向对象" title="面向对象">面向对象</a>
+                        
+                          <a class="tag" href="/tags/#类" title="类">类</a>
+                        
+                    </div>
+                    <h1>《码出高效》系列笔记（一）：面向对象中的类</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-08-19
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><blockquote>
+<p>良好的编码风格和完善统一的规约是最高效的方式。</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>虽然在<a target="_blank" rel="noopener" href="https://github.com/alibaba/p3c">GitHub</a>有着17000+的star和大量的学习者，这本书即使涵盖的知识点对于很多入行较久developer来说并没有太大深入研究的价值，但是当时刚刚出炉的开发手册PDF精简版却一点一点的影响了我。也许是知乎上关注的技术话题下孤尽先生发布的回答吸引到了我，我开始注意到了平时编码中的那些事。</p>
+<p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第一节：面向对象之类篇。</p>
+<p><strong>本系列目录</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
+</ul>
+<h1 id="集成IDE"><a href="#集成IDE" class="headerlink" title="集成IDE"></a>集成IDE</h1><p>《码出高效》不但有实体书，同时在IDE中有对应的插件，可以帮助你在实际开发中扫描代码编写存在的问题和可能会引发的隐患。</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/plugins.png/wm" alt="在Intellij IDEA中集成"></p>
+<p>Intellij IDEA在Plugins中直接搜索alibaba，如图所示的第一个点击install即可，第二个名为cloud Toolkit是阿里中间件团队出品的Apache dubbo快速开发部署的插件，可以快速创建Apache Dubbo工程，<a target="_blank" rel="noopener" href="http://jm.taobao.org/tags/">阿里中间件团队博客。</a></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/plugins2.png/wm" alt="代码扫描"></p>
+<p>在需要扫描的地方邮件，最后有个编码规约扫描，当然也可以将整个工程扫描。</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/plugins3.png/wm" alt="扫描结果"></p>
+<p>扫描的结果，可以根据tips进行代码的整改，当然这个插件也没有那么智能，有些特定场景不需要这些提示，可以将自行定义。</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/plugins4.png/wm" alt="edit"></p>
+<h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><blockquote>
+<p>一切万物皆对象</p>
+</blockquote>
+<p>面向过程让计算机有步骤地按照顺次做一件事情，是一种过程化的叙事思维。但是在大型软件开发中，流程互相穿插，模块互相耦合，往往牵一发动全身。面向对象就是计算机世界里解决复杂软件工程的方法论，拆解问题复杂度。</p>
+<h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1><blockquote>
+<p>无类鬼</p>
+</blockquote>
+<p>面向过程的结构相对松散，强调如何流程化地解决问题；面向对象的思维往往更加内聚，强调低耦合，高内聚，先抽象模型，定义共性行为，再解决实际问题。<br>传统意义上，面向对象有三大特性：<code>封装</code>、<code>继承</code>、<code>多态</code>。在《码出高效》这本书中将<code>抽象</code>也作为面向对象的特性之一，进而成为四大特性。<br>OOP（Object Oriented Programming）</p>
+<ul>
+<li>第一特性<code>封装</code>：使模块之间的耦合度变低，增强复用性，更具有维护性。例如多个业务类中<code>socket</code>对象需要对请求消息体的对象转化成字节数组并且计算消息体长度，在多个业务类中分别去实现是不合适的，不但低效而且一旦需求变更将会更改大量的代码，抽象出共性的行为特征封装成专门维护请求消息对象的类才是正确的选择。</li>
+<li>第二特性<code>继承</code>：在代码中广泛存在，子类继承父类，获得父类的部分属性和行为，也是增强复用性的体现。例如我们最常见的集合中的<code>List</code>，<code>Set</code>接口就是继承于<code>Collection</code>接口，而<code>Collection</code>则继承于<code>Iterable</code>接口。假如自定义的一个<code>exception</code>类，我们可以将它继承<code>RuntimeException</code>，通过<code>super</code>方法去<code>个性化</code>构建一个我们想要catch到的异常格式。</li>
+<li>第三特性<code>多态</code>：多态使得模块在复用性的基础上更加具有扩展性，让运行期更具有想象空间。可以进行覆写<code>Override</code>和重载<code>Overload</code>就是很好地体现了多态的意义。前面篇章中的工厂模式也是很好体验了多态的作用。</li>
+<li>第四特性<code>抽象</code>：抽象其实是完全囊括了以上三种特性，应该是所有程序员的核心素养之一。体现出程序员对业务的建模能力，以及对架构的宏观掌控力，从抽象到具体，逐步形象化的过程。比如Object类，是任何类的默认父类，是对万事万物的抽象，高度概括事物的自然行为和社会行为。<br>我们在写代码中会常见到这些：<code>getClass()</code>是用来说明本质上是谁；<code>toString()</code>是当前名片；<code>finalize()</code>是再度向销毁时触发的方法；<code>clone()</code>是繁殖对象的一种方式；<code>hashCode</code>和<code>equals()</code>是判断你其他元素是否相等的身份证。</li>
+</ul>
+<h2 id="抽象类与接口"><a href="#抽象类与接口" class="headerlink" title="抽象类与接口"></a>抽象类与接口</h2><table>
+<thead>
+<tr>
+<th align="left">语法维度</th>
+<th align="left">抽象类</th>
+<th align="left">接口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">定义关键字</td>
+<td align="left">abstract</td>
+<td align="left">interface</td>
+</tr>
+<tr>
+<td align="left">子类继承或实现的关键字</td>
+<td align="left">extends</td>
+<td align="left">extends</td>
+</tr>
+<tr>
+<td align="left">方法访问控制符</td>
+<td align="left">无限制</td>
+<td align="left">有限制，默认是public abstract类型</td>
+</tr>
+<tr>
+<td align="left">属性访问控制符</td>
+<td align="left">无限制</td>
+<td align="left">有限制，默认是public abstract类型</td>
+</tr>
+<tr>
+<td align="left">静态方法</td>
+<td align="left">可以有</td>
+<td align="left">不能有</td>
+</tr>
+<tr>
+<td align="left">static{静态代码块}</td>
+<td align="left">可以有</td>
+<td align="left">不能有</td>
+</tr>
+<tr>
+<td align="left">本类型之间扩展</td>
+<td align="left">单继承</td>
+<td align="left">多继承</td>
+</tr>
+<tr>
+<td align="left">本类型之间扩展的关键字</td>
+<td align="left">extends</td>
+<td align="left">extends</td>
+</tr>
+</tbody></table>
+<p>总结：抽象类在被<code>继承</code>时体现的是<code>is-a</code>关系，而接口被实现时是<code>can-do</code>关系。抽象类可以包含抽象方法、属性变量、实体方法。抽象方法与接口一样，继承他的类必须要覆写实现。抽象类往往是用作同类食物的抽象，比如各类排行榜（常见的土豪排行榜、天台排行榜、天梯排行榜）他们中有着相似的特征。飞机会飞，鸟类也会飞，而<code>fly()</code>不应该被定义在抽象类中，因为飞机和鸟类除了都会飞以外很难再找到其他的共同特征。<br>抽象类是模板式设计，类似一个模具，而接口是契约式设计，更像一个合同。</p>
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>在一个.java源文件中，只能定义一个类名与文件名完全一致的公开类，使用<code>public class</code>关键字来修饰，我们可以在这个类的内部和外部分别去定义另外的类，前者就叫内部类，后者叫外部类，内部类就成了这个类本身的一个属性，与其他属性的定义方式一致，可以使用<code>public</code>，<code>private</code>，<code>protected</code>访问权限关键字。可以定义成<code>static</code>静态内部类，当然类型也可以定义成<code>class</code>，<code>interface</code>和<code>enum</code>。</p>
+<h2 id="访问权限控制"><a href="#访问权限控制" class="headerlink" title="访问权限控制"></a>访问权限控制</h2><p>我们在讲到封装的时候往往不能忽略掉使用关键字来限制类外部对类内属性和方法的随意访问，那么在Java中访问权限主要分为以下四个等级</p>
+<table>
+<thead>
+<tr>
+<th align="center">访问权限控制符</th>
+<th align="center">任何地方</th>
+<th align="center">包外子类</th>
+<th align="center">包内</th>
+<th align="center">类内</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">public</td>
+<td align="center">OK</td>
+<td align="center">OK</td>
+<td align="center">OK</td>
+<td align="center">OK</td>
+</tr>
+<tr>
+<td align="center">protected</td>
+<td align="center">NO</td>
+<td align="center">OK</td>
+<td align="center">OK</td>
+<td align="center">OK</td>
+</tr>
+<tr>
+<td align="center">无</td>
+<td align="center">NO</td>
+<td align="center">NO</td>
+<td align="center">OK</td>
+<td align="center">OK</td>
+</tr>
+<tr>
+<td align="center">private</td>
+<td align="center">NO</td>
+<td align="center">NO</td>
+<td align="center">NO</td>
+<td align="center">OK</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>public</strong>：可以修饰<code>外部类</code>、<code>属性</code>、<code>方法</code>，其他不详写了。</li>
+<li><strong>protected</strong>：只能修饰<code>属性</code>和<code>方法</code>，只能够被包内的类访问，当然还有一种情况就是只要是他的子类都可以访问。</li>
+<li><strong>无</strong>：这个比较陌生，Intellij IDEA有时会提示是否把一些只在包内访问的方法修改成无控制符。他并非是default，书中也明确说到定义外部类也极少用到无控制符的方式，一般要么定义public class，包外实例化；要么定义内部类，功能内聚。</li>
+<li><strong>private</strong>：修饰<code>属性</code>，<code>方法</code>，<code>内部类</code>，被其修饰过的属性或方法只能在该类访问，子类no way，包内外部类no way，包外without thinking。</li>
+</ul>
+<p>在代码重构时，private方法过旧，可以直接删除，且无后顾之忧。但是删除一个public的方法就要谨慎小心地检查是否被调用。变量就像自己的小孩（我还没小孩），要尽量控制在自己的视线范围内，作用域太大，往往容易出现问题。因此，在定义类时，推荐访问控制级别从严处理：</p>
+<ol>
+<li>如果不允许通过外部通过new创建对象，构造方法必须是private。</li>
+<li>工具类不允许有public或者default构造方法。</li>
+<li>类非static成员变量并且与子类共享，必须是protected。</li>
+<li>类非static成员变量并且仅在本类使用，必须是private。</li>
+<li>类static成员变量如果仅在本类使用，必须是private。</li>
+<li>类static成员变量，必须考虑是否为final。</li>
+<li>类成员方法只供类内部调用，必须是private。</li>
+<li>类成员方法只对继承类公开，那么限制为protected。</li>
+</ol>
+<h2 id="this与super"><a href="#this与super" class="headerlink" title="this与super"></a>this与super</h2><p>对象实例化时，至少有一条从本类到Object的通路，打通这一条路的工兵就是<code>this</code>和<code>super</code>，但是<code>this</code>和<code>super</code>往往是默默无闻的，在很多情况不需要显式的调用，比如：</p>
+<ul>
+<li>本类方法调用本类属性</li>
+<li>本类方法调用另一个本类方法</li>
+<li>子类构造器隐含调用<code>super()</code></li>
+</ul>
+<p>子类基层的父类，而父类坚持不提供默认的无参构造方法，必须在本类的无参构造方法中使用<code>super</code>方法调用父类的有参构造方法，比如以下情形：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Father</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Father</span><span class="params">(<span class="type">int</span> arg)</span> &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Son</span> <span class="keyword">extends</span> <span class="title class_">Father</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Son</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(<span class="number">123</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">关键字</th>
+<th align="left">基本概念</th>
+<th align="left">查找范围</th>
+<th align="left">特异功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>this</strong></td>
+<td align="left">访问本类属性和方法</td>
+<td align="left">先找本类，没有则找父类</td>
+<td align="left">单独使用时，表示当前对象</td>
+</tr>
+<tr>
+<td align="left"><strong>super</strong></td>
+<td align="left">由子类访问父类中的实例属性和方法</td>
+<td align="left">直接查找父类</td>
+<td align="left">在子类覆写父类方法时，访问父类同名方法</td>
+</tr>
+<tr>
+<td align="left"><strong>共同点1</strong></td>
+<td align="left">都是关键字，起指代作用</td>
+<td align="left"><strong>共同点2</strong></td>
+<td align="left">在构造方法中必须出现在第一行</td>
+</tr>
+</tbody></table>
+<h2 id="类关系"><a href="#类关系" class="headerlink" title="类关系"></a>类关系</h2><p>5种类型：</p>
+<ul>
+<li><strong>继承</strong>：extends（is-a关系）</li>
+<li><strong>实现</strong>：implements（can-do关系）</li>
+<li><strong>组合</strong>：类是成员变量（contains-a关系）</li>
+<li><strong>聚合</strong>：类似成员变量（has-a关系）</li>
+<li><strong>依赖</strong>：import类（use-a关系）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">类关系</th>
+<th align="left">英文名</th>
+<th align="left">description</th>
+<th align="left">权力强侧</th>
+<th align="left">示例说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">继承</td>
+<td align="left">Generalization</td>
+<td align="left">父类与子类之间的关系：is-a</td>
+<td align="left">父类方</td>
+<td align="left">舔狗继承于动物，完全符合里式代换</td>
+</tr>
+<tr>
+<td align="left">实现</td>
+<td align="left">Realization</td>
+<td align="left">接口与实现类之间的关系：can-do</td>
+<td align="left">接口方</td>
+<td align="left">舔狗实现了舔的接口行为</td>
+</tr>
+<tr>
+<td align="left">组合</td>
+<td align="left">Composition</td>
+<td align="left">比聚合更强的关系：contains-a</td>
+<td align="left">整体方</td>
+<td align="left">头只能是身体强组合的一部分，两者完全不可分，具有相同的生命周期</td>
+</tr>
+<tr>
+<td align="left">聚合</td>
+<td align="left">Aggregation</td>
+<td align="left">暂时组装的关系：has-a</td>
+<td align="left">组装方</td>
+<td align="left">小狗与项圈之间只是暂时的聚合的关系，项圈完全可以复用在另一条舔狗身上</td>
+</tr>
+<tr>
+<td align="left">依赖</td>
+<td align="left">Dependency</td>
+<td align="left">一个类用到另一个类：use-a</td>
+<td align="left">被依赖方</td>
+<td align="left">女神玩弄舔狗，舔狗作为参数传入，是一种依赖关系（这里是女神依赖舔狗哦，舔狗大翻身！）</td>
+</tr>
+</tbody></table>
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>内存中的数据对象只有转换为二进制流才可以进行数据持久化和网络传输。将数据对象转换为二进制流的过程称为对象的序列化。反之，将二进制流恢复为数据对象的过程称为反序列化。序列化常见的场景是RPC框架的数据传输。<br>常见的序列化方式有三种：</p>
+<ul>
+<li>Java原生序列化</li>
+<li>Hessian序列化</li>
+<li>JSON序列化</li>
+</ul>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（一）：面向对象中的方法">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/fae94450-bd9c-11e9-bafd-2904b28e3726/" data-toggle="tooltip" data-placement="top" title="近期学习计划">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#面向对象" title="面向对象">面向对象</a>
+                        
+                          <a class="tag" href="/tags/#类" title="类">类</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/";
+    var disqus_url = "https://matthew-han.github.io/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

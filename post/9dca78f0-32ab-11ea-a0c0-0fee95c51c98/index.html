@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          张小龙的微信公开课 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/wechat/wechat.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#张小龙" title="张小龙">张小龙</a>
+                        
+                          <a class="tag" href="/tags/#公开课" title="公开课">公开课</a>
+                        
+                          <a class="tag" href="/tags/#微信" title="微信">微信</a>
+                        
+                    </div>
+                    <h1>张小龙的微信公开课</h1>
+                    <h2 class="subheading">当初我只是想点亮QQ个人资料卡上的微信图标</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2020-01-09
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="公开课的内容"><a href="#公开课的内容" class="headerlink" title="公开课的内容"></a>公开课的内容</h1><blockquote>
+<p>张小龙的演讲内容个人概括（怎么感觉像和领导开会记笔记一样。。）</p>
+</blockquote>
+<ol>
+<li>微信是人们花时间最多的信息传递工具&#x2F;平台，看到的听到的都是远方的信息，宽广度早已远远超过以往任何的一个时代，也是微信一直要解决的一个问题。也引发了一些隐私问题，比如广告服务推送，倡导同行一起重视。</li>
+<li>信息获取的被动。互联网让信息唾手可得。目前大多数人都是被动获取信息，人们也倾向于这种模式，不愿意主动地获取信息。微信完全是基于推送的模式。</li>
+<li>社会关系的扩大的和复杂，各种同学、同事群、朋友圈的关联 ，微信之前限定好友上限5000，目前已经有100万人已经接近5000个好友，促使要扩大好友数目。附近的人刚上线时，感到不安。不确定是好是坏、带来的影响难以控制。</li>
+<li>信息传播的快速。事件传播的速度爆炸，并且事件的影响力和传播速度和事件本身的夸张型、趣味性、新鲜性有强关联性。 技术手段无法衡量内容的质量标准，需要更多的参与者帮助平台作出仲裁。</li>
+<li>信息选择的困难。看到的内容总是局部。在「看一看」中实践了社交推荐，效果还不错。</li>
+<li>信息的多样性。人人皆可创作的年代，希望更多的「小号」也有自己的生存空间。</li>
+<li>搜索的困难。与Web互联网相比，移动互联网的各个app之间更加割裂，信息难以打通。做「小程序」的便是因为一个梦想：希望通过搜索能进入到每一个「小程序」内部，海量的小程序可以支撑起长尾的搜索需求。「小程序」目前是团队一直需要不断改进的领域。</li>
+<li>微信的起步阶段基于移动端来做，而非PC，PC只是辅助。因为这样做的好处是，产品可以更好地普及到每一个人都能用。但是有2个小小的失误：<ol>
+<li>公众平台很长时间都只有PC Web版，限制了内容创作者的范围。</li>
+<li>公众平台的原始想法是取代短信，成为一种基于连接品牌和订户的群发工具，内容应该是多元且丰富的，但是不小心做成了文章为主的载体，是的其他的短内容的形式没有呈现出来，而形成短内容的缺失。</li>
+</ol>
+</li>
+<li>朋友圈之所以默认是发照片视频的，是因为当时的认识是，让十几亿人发文字是不容易的，但是发照片是每个人都可以做到的。</li>
+<li>新版本的小预告：微信的发力方向是指是短内容为主，近期可能会与大家见面；由于春节到来，红包上也有了新的创造，希望你能够发挥创造力。</li>
+</ol>
+<h1 id="个人的看法"><a href="#个人的看法" class="headerlink" title="个人的看法"></a>个人的看法</h1><p>很多人不懂为什么有了QQ，为什么还会诞生出微信，感觉两者完全是重合冗余的。很多曾经将QQ作为主力信息交流工具的人来说，可能微信放在今天在他们眼里依然不算是一个「好用」的产品：</p>
+<ul>
+<li>朋友圈只能看共同好友的评论</li>
+<li>群聊不保存到通讯录可能会再也找不到了</li>
+<li>文件传输、协作能力很弱，没有QQ强大</li>
+<li>QQ空间的保留的那份感动…</li>
+</ul>
+<p>看起来好像就是微信的内容丰富度不如QQ及其衍生品，但事实上果真如此吗？仅是一个「公众号」便开辟出了一种新的模式，它的诞生是在4G普及、移动互联网爆发的前两年，虽然之初具有一定门槛和复杂度，但是给了很多有想法、想表达的人一个渠道，所拓展出来的业务繁荣程度是令人难以想象的。包括后面的「小程序」，在公开课中张小龙也叙述到移动互联网的背景下，微信作为载体的「小程序」之间的信息数据交流的会更加无碍且高效，海量数据更好地用于服务用户。</p>
+<h2 id="公开课中思考"><a href="#公开课中思考" class="headerlink" title="公开课中思考"></a>公开课中思考</h2><ul>
+<li><p><strong>第一点：</strong> 服务商利用隐私虽然会带来更高效、更精准的服务，但就像一把双刃剑同时也会带来隐私泄露、垃圾营销等问题。而如今天网系统、各种人脸智能化识别、数据流通的当代社会，个人的隐私空间已经压缩到了最小。解决这一类问题，其实和一个「度」有关。需要保证海量数据哪一部分数据只能被谁利用，哪一部分只能生产在什么领域，是一个需要多领域一起长期摸索的过程。</p>
+</li>
+<li><p><strong>第二点：</strong> 尤其是在移动互联网的今天，虽然互联网上的信息唾手可得，但是有相当一部分流量是被动获取的，供应商根据你的浏览记录、兴趣点、标签、行为操作等等属性来编织一张属于你的用户画像，为了尽可能的保证你在他们的服务上多「逗留」一会儿，为你推送的内容往往是算法+人气、热度精心筛选的。有些人说这是一种不好的模式，因为它不但局限你的思维，让你无法从其他的切入点切入，而且还会恶性循环，需要我们自身打破这种被动获取的方式，尽可能地主动地搜寻探索我们感兴趣的领域。我无法完全赞同这种观点，首先未免小看或者说不了解该推送算法。这类算法应用不仅仅是简单的只会推送给用户感兴趣的东西，它背后的处理逻辑是极其复杂且繁琐的，这种类似人工智能的应用会不断试探你，不停的修正、重构一个真正的你，即使你在YouTube、Bilibili这些视频网站上只看<font color = red>游戏</font>视频，<strong>suggest to you</strong>也绝不会蠢到单纯的以为你只是一个狂热到生命中只有<font color = red>游戏</font>的玩家。人们都应该有自己独立思考的能力和主观能动性，不要轻易的被煽动和相信，理性中夹杂着辩证的思维去分析事物，会让这个世界更美好:)</p>
+</li>
+<li><p><strong>第三点：</strong> 「附近的人」刚上线时，张小龙有着隐隐的不安，觉得打破了和附近的人的界限，可能会引发一系列的问题。当然可能有些人已经尝试或成功把这一功能当做约*来用。扩大5000个好友数目限定同样也会让张小龙感到担忧，说实话我比较好奇这个的上限<strong>5000</strong>数字到底是如何定下来的，好友数目的增长会带来哪些不可控的影响？好友位的增多提高了不法分子的效率，一个账号的能力得到了提升，节省了多账号的成本；「对不起，好友满了，加不了了。」变得难以说出口了（笑</p>
+</li>
+<li><p><strong>第四点：</strong> 人们往往只会对“魔幻“、“耸人听闻”、“搞笑”的新闻产生更大的兴趣，所以捏造虚假、标题党等内容屡见不鲜。技术手段本身不具备像人对艺术的感知、评判能力，它的评判是模式化、标准化的。按照一定的算法加上抽象模板去打分。所以微信本身对内容的质量的把控是离不开众多参与者的，这也正是目前人工智能的一个很大的窘境——没那么智能，却想要干“人”都需要学习一段时间才能做的活。</p>
+</li>
+<li><p><strong>第五点：</strong> 微信尝试了利用好友之间的互相推荐来扩大你的选择范围，自从打开了「看一看」功能后，看到小红点我也习惯性的会点开看看最近大家都看了什么。其实和把文章分享到朋友圈是相类似的，但是这个过程显得更简便更随意，少了那么一点「刻意感」，会让人更容易去分享。</p>
+</li>
+<li><p><strong>第七点：</strong> 张小龙说移动互联网各个App更加割裂。其实我觉得和第一点隐私问题相似，虽然App之间是相互割裂，但是每当你在微信上交流过数码产品，浏览器浏览、搜索过什么内容，电商网站便会向你推荐相关产品。但微信这边不满足于与其他应用交流数据，而是想自己做成一个全能的平台，利用小程序掌握所有的数据，来支撑长尾的搜索需求，野心蓬勃。</p>
+</li>
+<li><p><strong>第八点：</strong> 微信最初便是以移动端作为出发点，PC端仅仅只是作为替补，这点确实很妙，微信项目的诞生到推出，也是智能手机的发展史，马化腾也说过当时处境其实不算太明朗。微信利用手机通讯录的社交属性，实用的懒人专属语音功能，加上手机的随身携带不离身的特质，让微信很好地发展普及起来。</p>
+<blockquote>
+<p>马化腾：确实是有3个团队报名。当时解决了一个很大的问题，从PC到移动怎么打？当年诺基亚从前一年市场份额70%、80%规模一下子掉下来，安卓、苹果这类智能手机迅速替代了传统功能机，互联网企业反应过来的才能活下来，没反应过来就死掉了。我们是最早拿到这张船票的，没上船的再也过不来了，这是最大的一个危机。</p>
+</blockquote>
+<p>另外，从这次视频中明显可以看出「短内容」是个高频词汇，应该是微信接下来要布局和发力的重点。如今好像很多内容都从大而全转变成了精而短，是人们都变懒了吗？还是当今工作负担较大，大家时间都不多？个人觉得有以下几点：</p>
+<ul>
+<li>创作者的门槛：长内容的创作是需要花费大量时间、精力的，并且很有可能远远低于预期收益。例如哔哩哔哩的纪录片、科普视频，甚至是鬼畜视频，一旦收益不好便会大大打击创作者的积极性。降低门槛很早就成为了趋势，不但可以扩大创作者的人群，还可以使得内容生产的可持续性。</li>
+<li>获取者的精力：会议、吃饭、通勤、等待的过程中有太多碎片化的时间。一旦你无所事事时，低头抬头把玩手机早已经是一种常见的生活习惯。这个时间点，精简的短内容一定是更好的表达方式，较于长内容不会有那种“割裂感”。<strong>用户往往会把长内容的优先级放到最后或者是有时间之后，总是会把简单的会先消化掉。</strong>这就造成了长内容的劣势。</li>
+<li>传播速率不同，阅读这部分内容效率显然高很多。Facebook就是Facebook，Twitter就是Twitter。新浪微博之初也考虑过成为一种Facebook，最后还是以140个<strong>字数</strong>作为特色的内容产品，避免了和博客&#x2F;论坛&#x2F;资讯门户正面竞争。短内容也会让feed流一气呵成，让微博、抖音用户产生一种一直刷不累的错觉。</li>
+</ul>
+</li>
+</ul>
+<h1 id="公开课视频"><a href="#公开课视频" class="headerlink" title="公开课视频"></a>公开课视频</h1><iframe width="100%" height="600" src="//player.bilibili.com/player.html?aid=82658881&cid=141426489&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/24ffa600-367c-11ea-ba8c-fb7580846ffa/" data-toggle="tooltip" data-placement="top" title="多线程之竞争与锁">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/bce6bdb0-278a-11ea-9afb-77b212895fb9/" data-toggle="tooltip" data-placement="top" title="Mybatis 多对多映射的小问题">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#张小龙" title="张小龙">张小龙</a>
+                        
+                          <a class="tag" href="/tags/#公开课" title="公开课">公开课</a>
+                        
+                          <a class="tag" href="/tags/#微信" title="微信">微信</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/";
+    var disqus_url = "https://matthew-han.github.io/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

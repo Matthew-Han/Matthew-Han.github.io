@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          《码出高效》系列笔记（一）：面向对象中的其他知识点 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#面向对象" title="面向对象">面向对象</a>
+                        
+                          <a class="tag" href="/tags/#泛型" title="泛型">泛型</a>
+                        
+                    </div>
+                    <h1>《码出高效》系列笔记（一）：面向对象中的其他知识点</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-08-27
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><blockquote>
+<p>良好的编码风格和完善统一的规约是最高效的方式。</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第一篇章第三节：面向对象的其他知识点篇。</p>
+<p><strong>本系列目录</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
+</ul>
+<h1 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h1><p>同步调用是刚性调用，是阻塞式操作，必须等待调用方法体执行结束。而异步调用是柔性调用，是非阻塞式操作。<br>举个与我们息息相关的例子，git代码提交托管时，提交代码的操作是同步调用，需要实时返回给用户结果，但是当前库代码相关活动就不是时间敏感的，在提交代码时，发送一个消息到后台的缓存队列中，后台服务器定时消费这些消息即可。</p>
+<h1 id="覆写"><a href="#覆写" class="headerlink" title="覆写"></a>覆写</h1><p>覆写是多态的一中表现，大部分人可能把它称为重写，我也遵循了本书的命名，重写可能暗示了推倒重来的过程，而覆写则更多的表达出重写一部分而覆盖。出现覆写的情况非常的多，POJO类<code>toString()</code>方法的覆写，工厂模式的抽象工厂类调用具体工厂子类的方法。通常这也被称作向上转型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Father</span> <span class="variable">father</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Son</span>();</span><br><span class="line"><span class="comment">// son 覆写了此方法</span></span><br><span class="line">father.doSomething();</span><br></pre></td></tr></table></figure>
+
+<p>向上转型时，通过父类应用执行子类方法时需要注意以下两点：</p>
+<ul>
+<li>无法调用到子类中存在而父类本身不存在的方法。</li>
+<li>可以调用到子类中覆写了父类的方法，这是一种多态实现。</li>
+</ul>
+<p>成功覆写父类方法，满足以下4个条件：</p>
+<ul>
+<li>访问权限不能变小。具体表现为父类中public的方法，在子类继承覆写该方法时变成了private，则破坏了封装，编译也不会通过，所以不允许将访问权限缩小：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Father</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">say</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我要逃离这里。&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">virus</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;2020，更加爱宁！&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Son</span> <span class="keyword">extends</span> <span class="title class_">Father</span> &#123;</span><br><span class="line">    <span class="comment">// 编译报错</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">say</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;用笔尖微颤歪歪扭扭的线条&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 编译通过</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">virus</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;2020，病毒横行！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>返回类型能够向上转型称为父类的返回类型。</li>
+<li>异常也要能向上转型成为父类的异常。unchecked异常（空指针异常这些）不需要显式的向上抛出，但是checked异常只能抛出异常或者此异常的子类。</li>
+<li>方法名和参数类型以及个数必须严格一致。所以建议添加一个<code>@Override</code>注解，编译器会自动检查覆写方法签名是否一致。防止出现明明是要覆写该方法变成新的方法。<code>@Override</code>还可以避免控制权限修饰符可见范围引发的问题，比如Father类中的A方法，是无权限修饰符，Son类继承Father类但是不在一个包下，Son类直接覆写A方法，若是没有加上<code>@Override</code>注解，可能会被编译器认为是一个新的方法。</li>
+</ul>
+<p>总结成口诀：「一大两小两同」。</p>
+<ul>
+<li>一大：之类的方法访问权限控制符只能相同或者变大。</li>
+<li>两小：抛出的异常和返回值只能变小，可以转型成父类对象。子类的返回值、抛出异常类型必须与父类的返回值、抛出异常类型存在继承关系。</li>
+<li>两同：方法名和参数必须相同。</li>
+</ul>
+<p><strong>另外注意</strong>：子类和父类不要相互调用彼此的方法，不然会变成循环调用，最后直至JVM崩溃，产生StackOverflowError异常。</p>
+<h1 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h1><p>在同一个类中，如果多个方法有相同的方法名、不同的参数，即称为重载，比如一个POJO类中多个构造方法。以及String类中的<code>valueOf</code>，它有9个方法，可以将输入的基本数据类型、数组、Object等转化成为字符串。<br>我们再回顾下方法签名的概念：方法名称+参数类型+参数个数，组成一个<font color=red><strong>唯一键</strong></font>，成为方法签名，这个唯一键是⑧能重复的。JVM就是通过这个唯一键决定调用那种重载的方法。<br>以下代码就是错误的重载方式，他们都有共同的特征，就是方法签名重复冲突了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EasyCoding</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译出错，返回值并不是方法签名的一部分。</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">methodForOverload</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译出错，访问权限控制符也不是方法签名的一部分。</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译出错，静态标识符而不是方法签名的一部分。</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译出错，final标识符一样也⑧是方法签名的一部分。</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么下面这几种情况，编译器是如何判断正确调用的呢，比如下面几种重载方法，第一处和第二处的结果是什么呢：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EasyCoding</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">(<span class="type">int</span> arg)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;int&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">(Integer arg)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Integer&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">(Integer... args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Integer...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">(Object arg)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Object&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">EasyCoding</span> <span class="variable">ec</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EasyCoding</span>();</span><br><span class="line">        <span class="comment">// 第一处</span></span><br><span class="line">        ec.methodForOverload(<span class="number">996</span>);</span><br><span class="line">        <span class="comment">// 第二处</span></span><br><span class="line">        ec.methodForOverload();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一处答案是「<font color=red>int</font>」，第二处的答案是「<font color=red>Integer…</font>」。那么为什么<code>ec.methodForOverload(996)</code>方法编译器会匹配到<code>methodForOverload(int arg)</code>呢，而<code>ec.methodForOverload()</code>无参方法缺席的情况下却匹配到了可变参数<code>methodForOverload(Integer... args)</code>?<br>可变参数的个数其实是从0个到多个，所以首先它也会和其他方法抢夺匹配<code>ec.methodForOverload(996)</code>，然而他的优先级是最低的，弟中弟嗷。但是在无参方法缺席的情况，只有他符合这一条件，所以<code>ec.methodForOverload()</code>无参方法自然匹配上。而<code>int</code>和<code>Integer</code>还有<code>Object</code>的较量中胜出的原因是不需要自动装箱，假如把<code>int</code>类型改成<code>long</code>类型，编译器一定也是Match<code>long</code>类型，而优于装箱的<code>Interger</code>。<br>但是如果是<code>methodForOverload(null)</code>这种情况则会调用参数为<code>Integer</code>的方法，Null可以匹配任何类对象，从最底层一次向上查找，会找到<code>Integer</code>和<code>Integer...</code>这两个参数方法，但是会报错，因为他们同时Match上了。<br>JVM在重载方法的顺序如下：</p>
+<ol>
+<li>精确匹配。</li>
+<li>如果是基本数据类型，自动转换成更大表示范围的基本类型。</li>
+<li>通过自动拆箱和装箱。</li>
+<li>通过子类向上转型继承路线依次匹配。</li>
+<li>通过可变参数匹配。</li>
+</ol>
+<p>我们程序猿心情不好的时候也会把气撒在编译器上，有时候，我们会不断挑战编译器的下限，比如这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EasyCoding</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">(<span class="type">int</span> arg, Integer arg2)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;int arg, Integer arg2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">(Integer arg, <span class="type">int</span> arg2)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Integer arg, int arg2&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">(<span class="type">int</span>... args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;int...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodForOverload</span><span class="params">(Integer... args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Integer...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">EasyCoding</span> <span class="variable">ec</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EasyCoding</span>();</span><br><span class="line">        <span class="comment">// 第一处</span></span><br><span class="line">        ec.methodForOverload(<span class="number">965</span>,<span class="number">996</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此种方式就是完全在挑战编译器的底线了，虽然编译会通过，但是调用的时候一定会报错。</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/Overload.png" alt="编译器此刻的内心是绝望的"></p>
+<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>泛型也许是很多人相对陌生的领域，但是它⑧是多么神秘，本质是类型参数化，解决不确定具体对象类型的问题。Java在引入泛型之前，表示可变类型往往存在类型安全的风险，举个例子，微波炉最主要的功能是加热食物，而食物也有几十几百种可能，所以一般会像下面这样写业务设计：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EasyCoding</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">heat</span><span class="params">(Object food)</span> &#123;</span><br><span class="line">        System.out.println(food + <span class="string">&quot;isOK&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> food;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Meat</span> <span class="variable">m</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Meat</span>();</span><br><span class="line">        m = (Meat) EasyCoding.heat(m);</span><br><span class="line">        <span class="type">Soup</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Soup</span>();</span><br><span class="line">        s = (Soup) EasyCoding.heat(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的<code>heat</code>方法就是为了避免给每个类型的食物定义一个加热方法，但是只能采用“向上转型”的方式才能具备加热任意类型食物的能力。但是会让客户端困惑，因为对加热的内容不能正确区分，在取出时进行强制类型转换就会存在类型转换风险。而泛型就是为了解决这个而生。</p>
+<h2 id="泛型使用"><a href="#泛型使用" class="headerlink" title="泛型使用"></a>泛型使用</h2><p>泛型可以定义在类、接口、方法中，编译器通过识别尖括号和尖括号内的字母来解析泛型。现在一般约定俗成的符号有：</p>
+<ul>
+<li>E：代表Element，用于集合中的元素。</li>
+<li>T：代表the type of object，表示某个类。</li>
+<li>K：代表Key。</li>
+<li>V：代表Value，K和V用于键值对元素。</li>
+</ul>
+<p>下面这段代码可以很好地说明泛型定义的概念：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EasyCoding</span>&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &lt;String, T, Object&gt; String <span class="title function_">get</span><span class="params">(String arg1, Object arg2)</span> &#123;</span><br><span class="line">        System.out.println(arg1.getClass());</span><br><span class="line">        System.out.println(arg2.getClass());</span><br><span class="line">        <span class="keyword">return</span> arg1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">arg1</span> <span class="operator">=</span> <span class="number">996</span>;</span><br><span class="line">        <span class="type">Long</span> <span class="variable">arg2</span> <span class="operator">=</span> <span class="number">965L</span>;</span><br><span class="line">        <span class="type">Integer</span> <span class="variable">result1</span> <span class="operator">=</span> get(arg1,arg2);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] b1 = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">666</span>];</span><br><span class="line">        <span class="type">byte</span>[] b2 = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">666</span>];</span><br><span class="line">        <span class="type">byte</span>[] result2 = get(b1,b2);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先这段代码是完全可以通过编译的，可能没用过泛型的小伙伴会疑问为什么<code>get()</code>方法可以传入<code>Integer</code>和<code>Long</code>甚至是<code>byte[]</code>类型？而且返回的结果不应该是<code>String</code>类型吗？其实关键就在于<code>&lt;String, T, Object&gt;</code>这个泛型标识，<code>String</code>是我们常见的所熟知的包装类了，<code>Object</code>是所有类的父类，但是在泛型标识里，它就不是<code>String</code>和<code>Object</code>了，而是可以成为任意类型，属于完全未知的类型，入参的第一个参数如果是<code>Integer</code>类型，那么在方法体内的所有<code>arg1</code>就不是我们认知里的<code>java.lang.String</code>了，这个<code>String</code>就是相当于之前说明的<code>T</code>，<code>Object</code>也是一种<code>T</code>，仅仅只是一个代号。<br>当然我们平时编码不会也不要这样去定义泛型，确实会容易引发歧义和造成其他问题。所以我应该注意以下几点：</p>
+<ol>
+<li>尖括号里的每个元素都指代一种位置类型。<code>&lt;String&gt;</code>这里的<code>String</code>就不是我们认知上的<code>java.lang.String</code>了，仅仅只是个代号。包括类名后的<code>&lt;T&gt;</code>和get方法前的<code>&lt;T&gt;</code>是两个指代，互不影响。</li>
+<li>尖括号的位置非常讲究，必须在类名之后或方法返回值之前。</li>
+<li>泛型在定义处只具备执行Object方法的能力。所以<code>arg1</code>和<code>arg2</code>只能调用Object类中的方法，比如<code>toString()</code>。</li>
+<li>对于编码之后的字节码指令，其实没有这些花头花脑的方法签名，充分说明了泛型只是一种编码时的语法检查。</li>
+</ol>
+<p>所以之前微波炉加热食物的例子可以用泛型这样改写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EasyCoding</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title function_">heat</span><span class="params">(T food)</span> &#123;</span><br><span class="line">        System.out.println(food.getClass());</span><br><span class="line">        System.out.println(food + <span class="string">&quot;isOK&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> food;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        heat(<span class="keyword">new</span> <span class="title class_">Meat</span>());</span><br><span class="line">        heat(<span class="keyword">new</span> <span class="title class_">Soup</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>避免使用Object作为输入和输出可以控制强制转换带来的风险。因为依据墨菲定律，只要这种风险存在，就一定会发生<code>ClassCastException</code>异常。</p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>基本数据类型9种：int、short、long、float、double、char、boolean、byte、refvar，其中refvar是句柄，是面向对象中的引用变量，默认值为Null。详细如下表格：</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型名称</th>
+<th align="left">默认值</th>
+<th align="left">大小</th>
+<th align="left">最小值</th>
+<th align="left">最大值</th>
+<th align="left">包装类</th>
+<th align="left">缓存区域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">boolean</td>
+<td align="left">false</td>
+<td align="left">1B</td>
+<td align="left">0(flase)</td>
+<td align="left">1(true)</td>
+<td align="left">Boolean</td>
+<td align="left">无</td>
+</tr>
+<tr>
+<td align="left">byte</td>
+<td align="left">(byte)0</td>
+<td align="left">1B</td>
+<td align="left">-128</td>
+<td align="left">127</td>
+<td align="left">Byte</td>
+<td align="left">-128~127</td>
+</tr>
+<tr>
+<td align="left">char</td>
+<td align="left">‘\u0000’</td>
+<td align="left">2B</td>
+<td align="left">‘\u0000’</td>
+<td align="left">‘\uFFFF’</td>
+<td align="left">Character</td>
+<td align="left">(char)0~(char)127</td>
+</tr>
+<tr>
+<td align="left">short</td>
+<td align="left">(short)0</td>
+<td align="left">2B</td>
+<td align="left">-2^15</td>
+<td align="left">2^15-1(32767)</td>
+<td align="left">Short</td>
+<td align="left">-128~127</td>
+</tr>
+<tr>
+<td align="left">int</td>
+<td align="left">0</td>
+<td align="left">4B</td>
+<td align="left">-2^31</td>
+<td align="left">2^31-1</td>
+<td align="left">Integer</td>
+<td align="left">-128~127</td>
+</tr>
+<tr>
+<td align="left">long</td>
+<td align="left">0L</td>
+<td align="left">8B</td>
+<td align="left">-2^63</td>
+<td align="left">2^63-1</td>
+<td align="left">Long</td>
+<td align="left">-128~127</td>
+</tr>
+<tr>
+<td align="left">float</td>
+<td align="left">0.0f</td>
+<td align="left">4B</td>
+<td align="left">1.4e-45</td>
+<td align="left">3.4e+38</td>
+<td align="left">Float</td>
+<td align="left">无</td>
+</tr>
+<tr>
+<td align="left">double</td>
+<td align="left">0.0d</td>
+<td align="left">8B</td>
+<td align="left">4.9e-324</td>
+<td align="left">1.798e+308</td>
+<td align="left">Double</td>
+<td align="left">无</td>
+</tr>
+</tbody></table>
+<p><strong><font color=red>注意：其中缓存区间是个有意思的东西，估计很多人没有深究过，大厂面试很有可能就来这么一道题，所以接下来的包装类的内容要仔细看看哦~</font></strong></p>
+<p>对象分为三块存储区域：</p>
+<ul>
+<li>对象头。对象头占用12B，其中包括：哈希码、GC标记、GC次数、同步锁标记、偏向锁持有者（反正👴⑧是很懂）。</li>
+<li>实例数据。存储本类对象的实例成员变量和所有可见的父类成员变量。</li>
+<li>对齐填充。</li>
+</ul>
+<h2 id="包装类型"><a href="#包装类型" class="headerlink" title="包装类型"></a>包装类型</h2><p>包装类的存在是为了解决了基本数据类型无法做到的事情：泛型类型参数、序列化、类型转换、<code>高频区间数据缓存</code>。尤其是最后一个，因为除了Float和Double之外，其他包装类型都会缓存。拿Integer举例，缓存区间在-127~128，所以在这个区间的赋值，Integer对象会由IntegerCache.cache产生，就不会复用已有对象。<strong>因此，推荐所有包装类对象之间的比较，全都使用equals()方法。</strong><br>源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title function_">valueOf</span><span class="params">(<span class="type">int</span> i)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">        <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>各个包装类的缓存区间：</p>
+<ul>
+<li>Boolean：使用静态final变量定义，valueOf()就是返回这两个静态值。</li>
+<li>Byte：表示范围是-128~127，全部缓存。</li>
+<li>Short：表示范围是-32768<del>32767，缓存范围是-128</del>127。</li>
+<li>Charater：表示范围是0<del>65535，缓存范围是0</del>127。</li>
+<li>Long：表示范围是[-2^63,2^63-1]，缓存范围是-128~127。</li>
+<li>Integer：表示范围hi[-2^31,2^31-1]。</li>
+</ul>
+<p>接下来我们看看如果不使用equals()方法去进行包装类的比较会出现什么情况</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">Integer</span> <span class="variable">i1</span> <span class="operator">=</span> <span class="number">127</span>;</span><br><span class="line">    <span class="type">Integer</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">127</span>;</span><br><span class="line">    <span class="type">Integer</span> <span class="variable">i3</span> <span class="operator">=</span> <span class="number">128</span>;</span><br><span class="line">    <span class="type">Integer</span> <span class="variable">i4</span> <span class="operator">=</span> <span class="number">128</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">Long</span> <span class="variable">l1</span> <span class="operator">=</span> <span class="number">127L</span>;</span><br><span class="line">    <span class="type">Long</span> <span class="variable">l2</span> <span class="operator">=</span> <span class="number">127L</span>;</span><br><span class="line">    <span class="type">Long</span> <span class="variable">l3</span> <span class="operator">=</span> <span class="number">128L</span>;</span><br><span class="line">    <span class="type">Long</span> <span class="variable">l4</span> <span class="operator">=</span> <span class="number">128L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第一处</span></span><br><span class="line">    System.out.println(i1 == i2);</span><br><span class="line">    System.out.println(i3 == i4);</span><br><span class="line">    <span class="comment">// 第二处</span></span><br><span class="line">    System.out.println(i1.equals(i2));</span><br><span class="line">    System.out.println(i3.equals(i4));</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;------------------&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 第三处</span></span><br><span class="line">    System.out.println(l1 == l2);</span><br><span class="line">    System.out.println(l3 == l4);</span><br><span class="line">    <span class="comment">// 第四处</span></span><br><span class="line">    System.out.println(l1.equals(l2));</span><br><span class="line">    System.out.println(l3.equals(l4));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码四处打印的结果是不是让人觉得都是<code>true</code>？<br>但是答案是第一处打印的结果是<code>true</code>和<code>flase</code>，第二处全是<code>true</code>，第三处也是<code>true</code>和<code>flase</code>，第四处全是<code>true</code>。<br>那么为什么<code>System.out.println(i1 == i2);</code>的结果是<code>true</code>，而<code>System.out.println(i3 == i4);</code>是<code>flase</code>呢？<br>该例很好地说明了Integer和Long只是缓存了-128~127之间的值，而大于或者小于区间的值没有被缓存，<code>i3</code>和<code>i4</code>是128，刚好超出了这个区间，下面的<code>l3</code>和<code>l4</code>同理。<br>当然我们也可以修改包装类的缓存范围，在VM options加入参数<code>-XX:AutoBoxCacheMax=7777</code>，即可设置最大缓存值为7777，那么以上代码的打印结果全为<code>true</code>。</p>
+<p>在选择使用包装类和基本类型的时候，也不能完全按照心情，我们可以从以下几点来看：</p>
+<ol>
+<li>所有的POJO类属性必须使用包装数据类型。</li>
+<li>RPC方法的返回值和参数必须使用包装数据类型。</li>
+<li>所有的局部变量推荐使用基本数据类型。</li>
+</ol>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>字符串是从堆上分配而来，算是基本数据类型的小弟。主要是三种：String、StringBuilder、StringBuffer。</p>
+<ol>
+<li>String是只读字符串，典型的immutable对象，对它的任何改动，其实都是创建一个新对象，再把引用指向该对象。String对象赋值操作后，会在常量池中进行缓存，下次申请创建对象时，缓存中已经存在，则直接返回相应引用给调用者。</li>
+<li>StringBuffer可以在原对象上进行修改，是线程安全的。</li>
+<li>StringBuilder是非线程安全的，把多线程的锁的处理交给工程师（也就是宁👴）来处理，所以操作效率比较高。<br>线程安全的对象的产生一般是因为计算机的发展总是从单线程到多线程，从单机到分布式。</li>
+</ol>
+<p>字符串的连接方式在循环体内非常不推荐使用String类型相加，而是应该使用StringBuilder的append方法。</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/d6b414b0-cd29-11e9-8b45-c56f88a832c9/" data-toggle="tooltip" data-placement="top" title="心态的起伏">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/" data-toggle="tooltip" data-placement="top" title="《码出高效》系列笔记（一）：面向对象中的方法">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#面向对象" title="面向对象">面向对象</a>
+                        
+                          <a class="tag" href="/tags/#泛型" title="泛型">泛型</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/";
+    var disqus_url = "https://matthew-han.github.io/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          《码出高效》系列笔记（二）：代码风格 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#代码风格" title="代码风格">代码风格</a>
+                        
+                          <a class="tag" href="/tags/#系统规范" title="系统规范">系统规范</a>
+                        
+                    </div>
+                    <h1>《码出高效》系列笔记（二）：代码风格</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-09-09
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><blockquote>
+<p>良好的编码风格和完善统一的规约是最高效的方式。</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第二篇章：代码风格篇。</p>
+<p><strong>本系列目录</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
+</ul>
+<h1 id="命名规约"><a href="#命名规约" class="headerlink" title="命名规约"></a>命名规约</h1><p>代码风格一般不会影响程序运行，通常与数据结构、逻辑表达无关。往往指代不可见字符的展示方式、代码元素的命名方式和代码注释风格等，但是却会隐藏潜在风险。虽然编码习惯不存在明显优劣之分，但是在团队开发效率上也许会是一个巨大的内耗，牺牲小我，成就大我，提升效能也许来的更关键。<br>但是我们都是独一无二有灵魂有思想的个体，不是clone出来的机器人，难免在理解和习惯有所偏差，如何去统一部分习惯呢？这本《码出高效》最早就是以规约而出名，本人也遵循了本书的中的大部分规则用于日常的开发中，书中有很多点因为阿里大量业务经验的存在而比我们考虑规范周全得多，所以直接采用本书的一些“规定”往往会便捷的多。</p>
+<h2 id="命名符合本语言特性"><a href="#命名符合本语言特性" class="headerlink" title="命名符合本语言特性"></a>命名符合本语言特性</h2><p>每种语言都有自己独特的命名风格，有些语言在定义时提倡以前缀来区分局部变量、全局变量、控件类型。比如li_count表示local int局部整型变量，dw_report表示data window用于暂时报表数据的控件，有些语言规定以下划线为前缀来进行命名。<strong>在Java中，所有代码元素的命名均不能以下划线或美元符号开始或结束</strong>。</p>
+<h2 id="命名体现代码元素特征"><a href="#命名体现代码元素特征" class="headerlink" title="命名体现代码元素特征"></a>命名体现代码元素特征</h2><ol>
+<li>类名采用大驼峰形式（UpperCamelCase），一般为名词，例如：Object、StringBuffer、FileInputStream等。</li>
+<li>方法名采用小驼峰形式（lowerCamelCase），一般为动词，与参数组成动宾结构，例如Object的wait()、StringBuffer的append(String)、FileInputStream的read()等。</li>
+<li>变量包括参数、成员变量、局部变量等，也采用小驼峰形式。</li>
+<li>常量的命名方式比较特殊，除了局部常量外字母全部大写，单词之间用下划线连接。</li>
+</ol>
+<p>在Java命名时，以下列方式体现元素特征：</p>
+<ul>
+<li>包名统一使用小写，点分隔符之间有且仅有一个自然语义的英文单词。包名统一使用单数形式，但是类名如果有复数含义，则可以使用复数形式。</li>
+<li>抽象类命名是用Abstract或Base开头；异常类明明采用Exception结尾；测试类命名以它要测试的类名开始，以Test结尾。</li>
+<li>类型与中括号紧挨着相连来定义数组，例如：<code>String[] args</code>。</li>
+<li>枚举类名带上Enum后缀，枚举成员名称参考常量的命名方式。</li>
+</ul>
+<h2 id="命名最好望文知义"><a href="#命名最好望文知义" class="headerlink" title="命名最好望文知义"></a>命名最好望文知义</h2><p>从名称上就能理解某个词句的确切含义是坠吼滴，带到自解释的目的。</p>
+<ul>
+<li>所以要避免不规范的缩写，比如condition缩写成condi、consumer缩写成cons，类似随意的缩写会严重降低代码的可理解性。</li>
+<li>避免中文拼音、中英混合的方式，比如DaZePromotion（打折促销类）、PfmxBuilder（评分模型抽闲工厂类）。alibaba、baidu、taobao这类国际通用的名称，视为英文。</li>
+</ul>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>作为在作用域内保持不变的值，一般用final关键字进行修饰，根据作用域划分成：全局常量、类内常量、局部常量。</p>
+<ol>
+<li>全局常量：指类的公开静态属性，使用<code>public static final</code>修饰。</li>
+<li>类内常量：私有静态属性，使用<code>private static final</code>修饰，</li>
+<li>局部常量分为方法常量和参数常量，前者是在方法或代码内定义的常量，后者是定义形式参数是，增加final标识，表示此参数值不能被修改。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EasyCoding</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">GLOBAL_CONSTANT</span> <span class="operator">=</span> <span class="string">&quot;shared in global&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">CLASS_CONSTANT</span> <span class="operator">=</span> <span class="string">&quot;shared in class&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">f</span><span class="params">(String a)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">String</span> <span class="variable">methodConstant</span> <span class="operator">=</span> <span class="string">&quot;shared in method&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">g</span><span class="params">(<span class="keyword">final</span> <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        <span class="comment">// 编译出错，不允许对常量参数进行重新赋值</span></span><br><span class="line">        b = <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>常量在代码中具有穿透性，使用甚广，所以必须是一个恰当的命名并且保证长期使用。常量是为了干掉一些可能会在迭代中改变的魔法值，比如某业务中，12345五种代表着课程的审核状态，在团队规模小时口口相传加上注释可以保证不出错，但是在业务扩展的过程中会变得更加复杂（课程的等级状态也有12345五种，很容易混淆），则需要一套枚举类和全局常量类提高可读性来管理这些状态。</p>
+<p>书中认为，系统成长到某个阶段后，重构是一种必然选择。优秀的架构设计不是去阻止未来一切重构的可能性，毕竟技术栈、业务方向和规模都在不断变化，二是尽量让重构来得晚一些，幅度小一些。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>广义来说，在程序中变量是一切通过分配内存并赋值的量，分为不可变量（常量）和可变变量。<br>变量命名需要满足小驼峰形式，体现业务含义即可。重点强调：在POJO类中，针对布尔类型的变量，命名不可以加is前缀。例如ORM映射关系中，数据库<code>is_deleted</code>字段，在类中不可以这样声明<code>Boolean isDeleted;</code>，因为getter方法也是<code>isDeleted()</code>，因为框架反向解析时会误以为对应的属性是<code>deleted</code>，导致获取不到属性，进而抛出异常。我们可以通过<resultMap>中添加下映射就vans辣！</p>
+<h1 id="代码展示风格"><a href="#代码展示风格" class="headerlink" title="代码展示风格"></a>代码展示风格</h1><h2 id="缩进、空格和空行"><a href="#缩进、空格和空行" class="headerlink" title="缩进、空格和空行"></a>缩进、空格和空行</h2><p>像Python这种没有大括号的语言，对缩进的使用非常严格，Java虽然没有这么严格，但是井然有序的风格让review变得更加高效。</p>
+<ul>
+<li><p>缩进：缩进表示层次对应关系，由于不同编辑器对Tab的解析不一致，而空格在编辑器中往往是兼容的，所以一般规定采用<strong>4个空格</strong>作为默认的缩进方式，当然现在IDE这么智能，早就不需要手打4个空格了，可以再Tab键和空格之间实现快速转换。其中IDEA设置Tab键为4个空格时，请勿勾选Use tab character；而在eclipse中，必须勾选Inset spaces for tabs。高版本的IDEA好像已经是默认4个空格代替tab缩进。<br><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/easy%20coding/tab.png" alt="IDEA中的配置"></p>
+</li>
+<li><p>空格：空格用于分隔不同的的编程元素，空格使得各元素之间错落有致，方便定位。一般有如下规定：</p>
+<ol>
+<li>任何二目、三目运算符的左右两边都必须加一个空格。</li>
+<li>注释的双斜线与注释内容之间有且仅有一个空格。</li>
+<li>方法参数在定义和传入时，多个参数逗号后面必须加空格。</li>
+<li>没有必要增加若干空格使变量的赋值等号遇上一行对应位置的等号对齐。</li>
+<li>如果是大括号内为空，那么简洁的写成{}即可，大括号中间无需换行和空格。</li>
+<li>左右小括号与括号内部的相邻字符之间不要出现空格。</li>
+<li>左大括号前需要加空格。</li>
+</ol>
+</li>
+</ul>
+<p>实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EasyCoding</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 不需要等号的位置一致</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">one</span> <span class="operator">=</span> <span class="string">&quot;1&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">two</span> <span class="operator">=</span> <span class="string">&quot;2&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Long</span> <span class="variable">three</span> <span class="operator">=</span> <span class="number">2L</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">weChat</span> <span class="operator">=</span> <span class="string">&quot;weChat&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// 缩进4个空格，并且在try关键字与左大括号之间保留一个空格</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 二目运算符的左右必须有一个空格</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 三目运算符的左右两边必须有一个空格，小括号相邻字符无需空格。</span></span><br><span class="line">            <span class="type">boolean</span> <span class="variable">condition</span> <span class="operator">=</span> (count == <span class="number">1</span>) ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">            <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> (count == <span class="number">0</span>) ? <span class="number">99</span> : -<span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * if关键字与小括号之间保留一个空格</span></span><br><span class="line"><span class="comment">             * 小括号与大括号之间保留一个空格</span></span><br><span class="line"><span class="comment">             * 建议使用IDE的自动补全</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">if</span> (condition) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;996&quot;</span>);</span><br><span class="line">                </span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * if-else后无论逻辑复杂与否，都需要加上大括号，并且之间保留一个空格</span></span><br><span class="line"><span class="comment">             * else不用换行</span></span><br><span class="line"><span class="comment">             */</span>    </span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;965&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 多个实参逗号后面必须有一个空格</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">fuckTheWorld</span> <span class="operator">=</span> getStr(one, two);</span><br><span class="line">            System.out.println(fuckTheWorld);</span><br><span class="line">            </span><br><span class="line">        <span class="comment">// catch体是不应该出现空内容的，但是这里为了讲解需要。&#123;&#125;中无需换行和空格。    </span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 多个形参，逗号后面保留一个空格</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> one</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> two</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String <span class="title function_">getStr</span><span class="params">(String one, String two)</span> &#123;</span><br><span class="line">        <span class="comment">// 任何二目运算符的左右必须有一个空格，包括赋值运算符，加号运算符。</span></span><br><span class="line">        <span class="keyword">return</span> one + two;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>空行：空行用来分隔功能相似、逻辑内聚、意思相近的代码片段，是的代码布局更加清晰。一般在如下地方可以添加空行：<ol>
+<li><font color = #FF8C00>方法定义</font></li>
+<li><font color = #FF8C00>属性定义结束</font></li>
+<li><font color = #FF8C00>不同逻辑</font></li>
+<li><font color = #FF8C00>不同于一</font></li>
+<li><font color = #FF8C00>不同业务</font></li>
+</ol>
+</li>
+</ul>
+<h2 id="换行与高度"><a href="#换行与高度" class="headerlink" title="换行与高度"></a>换行与高度</h2><ul>
+<li>换行：单行字符不超过120个，超过必须要换行，换行遵循以下原则：<ol>
+<li><font color = #FF8C00>第二行相对第一行缩进4个空格，从第三行开始，不再继续缩进，参考示例</font></li>
+<li><font color = #FF8C00>运算符与下文一起换行</font></li>
+<li><font color = #FF8C00>方法调用的点符号与下文一起换行</font></li>
+<li><font color = #FF8C00>方法调用中的多个参数需要换行时，在逗号后面换行</font></li>
+<li><font color = #FF8C00>在括号前不要换行</font></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">StringBuffer</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line">sb.append(<span class="string">&quot;我&quot;</span>).append(<span class="string">&quot;要&quot;</span>)...</span><br><span class="line">    .append(<span class="string">&quot;正&quot;</span>)...</span><br><span class="line">    .append(<span class="string">&quot;能&quot;</span>)...</span><br><span class="line">    .append(<span class="string">&quot;量&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>方法行数限制：<br>方法是执行单位，也是阅读代码逻辑的最高粒度模块。代码逻辑要分为主次、个性与共性，抽取次要逻辑作为独立方法，共性逻辑抽取陈共性方法（日期、参数校验、权限判断）。<br>约定单个方法的总行数不超过80行。</li>
+</ul>
+<h2 id="控制语句"><a href="#控制语句" class="headerlink" title="控制语句"></a>控制语句</h2><p>控制语句遵循如下约定：</p>
+<ul>
+<li>在if、else、for、while、do-while等语句中必须使用大括号。即使只有一行代码，也要加上大括号。</li>
+<li>在条件表达式中不允许有赋值操作，也不允许在判断表达式中出现复杂的逻辑组合。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 反例：如下。</span></span><br><span class="line"><span class="keyword">if</span> ((file.open(fileName, <span class="string">&quot;w&quot;</span>) != <span class="literal">null</span>) &amp;&amp; (...) || (...)) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正例：而是应该赋值给一个布尔变量。</span></span><br><span class="line"><span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">existed</span> <span class="operator">=</span> (file.open(fileName, <span class="string">&quot;w&quot;</span>) != <span class="literal">null</span>) &amp;&amp; (...) || (...);</span><br><span class="line"><span class="keyword">if</span> (existed) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>多层嵌套不要超过3层。还记得太吾绘卷的一个if-else走天下吗？如果确实比较复杂的判断逻辑，可以采用卫语句、策略模式、状态模式来实现。其中卫语句即代码逻辑先考虑失败、异常、中断、退出等直接返回的情况，以方法多个出口的方式，解决代码中判断 分支嵌套的问题，这是逆向思维的体现。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> func &#123;</span><br><span class="line">    <span class="keyword">if</span> (condition1) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (condition2) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (condition3) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>避免采用取反逻辑运算符。判断x是否小于1，应该采用<code>if (x &lt; 1)</code>而不是<code>if (!(x &gt;= 1))</code>。</li>
+</ul>
+<h2 id="代码注释"><a href="#代码注释" class="headerlink" title="代码注释"></a>代码注释</h2><h3 id="Javadoc规范"><a href="#Javadoc规范" class="headerlink" title="Javadoc规范"></a>Javadoc规范</h3><p>类、类属性和类方法的注释必须遵循Javadoc规范，使用文档注释（&#x2F;** *&#x2F;）的格式。规范编写的注释，可以生成规范的JavaAPI文档，为外部用户提供有效支持。IDE也会自动提示所用到的类、方法的注释。</p>
+<ol>
+<li><font color = #FF8C00>枚举类十分特殊，他的代码极为稳定。</font>（我以前就有这个疑问，枚举类的一般的description属性加上name已经可以描述该枚举，为什么还要再加上注释。但是枚举类和全局常量一样，穿透性极强，而且在定义前就要深思熟虑，因为影响较大，所以注释是必须。）</li>
+<li><font color = #FF8C00>注释的内容不仅限于解释属性值的含义，还可以包括注意事项、业务逻辑。</font>（修改代码，可以加上修改和创建时间。）</li>
+<li><font color = #FF8C00>枚举类的删除或者修改都存在很大的风险。</font>（一般需要标注为过时属性，不可直接删除。）</li>
+</ol>
+<h3 id="简单注释"><a href="#简单注释" class="headerlink" title="简单注释"></a>简单注释</h3><p>包括单行和多行注释，<strong>特别强调此类注释不可写在代码后方，必须写在代码上方</strong>。双划线的注释与注释内容保留一个空格。</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/3f573050-d915-11e9-9d5e-538baaf5d924/" data-toggle="tooltip" data-placement="top" title="D区">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/d6b414b0-cd29-11e9-8b45-c56f88a832c9/" data-toggle="tooltip" data-placement="top" title="心态的起伏">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                          <a class="tag" href="/tags/#代码风格" title="代码风格">代码风格</a>
+                        
+                          <a class="tag" href="/tags/#系统规范" title="系统规范">系统规范</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/";
+    var disqus_url = "https://matthew-han.github.io/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

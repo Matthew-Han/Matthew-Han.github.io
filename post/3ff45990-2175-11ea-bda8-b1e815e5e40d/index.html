@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          多线程之线程池小纪 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/3ff45990-2175-11ea-bda8-b1e815e5e40d/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#多线程" title="多线程">多线程</a>
+                        
+                          <a class="tag" href="/tags/#并发" title="并发">并发</a>
+                        
+                          <a class="tag" href="/tags/#线程池" title="线程池">线程池</a>
+                        
+                    </div>
+                    <h1>多线程之线程池小纪</h1>
+                    <h2 class="subheading">使用线程池更好哦~</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-12-18
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="关于线程池"><a href="#关于线程池" class="headerlink" title="关于线程池"></a>关于线程池</h1><p>并发总是离不开多线程，多线程的应用能够更好地帮助我们协调利用CPU、Memory、Net、I&#x2F;O等系统资源。频繁的创建、销毁线程会浪费大量的系统资源，增加并发编程的风险。利用线程池可以实现类似<strong>主次线程隔离</strong>、<strong>定时执行</strong>、<strong>定时执行</strong>、<strong>周期执行</strong>等任务。作用包括：</p>
+<ol>
+<li>利用线程池管理并复用线程、控制最大并发数等。</li>
+<li>实现某些与时间相关的功能，如定时执行、周期执行等。</li>
+<li>隔离线程环境。比如<strong>交易服务</strong>和<strong>搜索服务</strong>在同一台服务器上，分别开启两个线程池，交易线程的资源消耗明显要更大；因此，通过配置读的线程池，将两者隔开，避免个服务线程相互影响。</li>
+</ol>
+<p>关于线程池的基础概念和一些简单场景，可以看看这篇文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/RLrgrQYWqm2EvBx6HfsAaQ">线程池开门营业招聘开发人员的一天</a></p>
+<h1 id="迷思"><a href="#迷思" class="headerlink" title="迷思"></a>迷思</h1><p>如下是我定义的一个线程工具类，我定义了核心线程数量大小为4；最大核心线程数量大小为8，<code>LinkedBlockingQueue</code>容量大小未初始化，也未定义一个handle，当我在利用这个线程池生产线程的过程中发现，<strong>当创建速度大于它的处理速度时，核心线程数量依旧是4个</strong>。</p>
+<blockquote>
+<p>嗯？说好的，最大核心线程数不是BUG，8个吗？难道当前不应该是8个？</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ThreadPoolUtils</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(ThreadPoolUtils.class);</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程池维护线程的最少数量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SIZE_CORE_POOL</span> <span class="operator">=</span> <span class="number">4</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 线程池维护线程的最大数量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">SIZE_MAX_POOL</span> <span class="operator">=</span> <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 禁止手动初始化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">ThreadPoolUtils</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">printPoolInfo</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        logger.info(<span class="string">&quot;当前线程Pool的数量 = [&#123;&#125;]&quot;</span>,Singleton.SINGLETON.getThreadPool().getPoolSize());</span><br><span class="line">        logger.info(<span class="string">&quot;当前task的数量 = [&#123;&#125;]&quot;</span>,Singleton.SINGLETON.getThreadPool().getTaskCount());</span><br><span class="line">        logger.info(<span class="string">&quot;当前执行task的数量 = [&#123;&#125;]&quot;</span>,Singleton.SINGLETON.getThreadPool().getActiveCount());</span><br><span class="line">        logger.info(<span class="string">&quot;当前完成task的数量 = [&#123;&#125;]&quot;</span>,Singleton.SINGLETON.getThreadPool().getCompletedTaskCount());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过枚举创建单例对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 线程池单例</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        SINGLETON;</span><br><span class="line">        <span class="keyword">private</span> ThreadPoolExecutor threadPool;</span><br><span class="line">        <span class="keyword">private</span> ScheduledExecutorService service;</span><br><span class="line">        Singleton() &#123;</span><br><span class="line">            <span class="comment">// 为线程命名</span></span><br><span class="line">            <span class="type">ThreadFactory</span> <span class="variable">namedThreadFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadFactoryBuilder</span>()</span><br><span class="line">                    .setNameFormat(<span class="string">&quot;线程池工具类-pool-%d&quot;</span>).build();</span><br><span class="line">            <span class="comment">// 创建线程池1</span></span><br><span class="line">            threadPool = <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(</span><br><span class="line">                    SIZE_CORE_POOL,</span><br><span class="line">                    SIZE_MAX_POOL,</span><br><span class="line">                    <span class="number">10L</span>,</span><br><span class="line">                    TimeUnit.MILLISECONDS,</span><br><span class="line">                    <span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;Runnable&gt;(),</span><br><span class="line">                    namedThreadFactory);</span><br><span class="line">            <span class="comment">// 创建线程池2</span></span><br><span class="line">            service  = Executors.newScheduledThreadPool(<span class="number">4</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 返回单例对象</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">public</span> ThreadPoolExecutor <span class="title function_">getThreadPool</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> threadPool;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ScheduledExecutorService <span class="title function_">getScheduledThreadPool</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> service;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 向池中添加任务</span></span><br><span class="line"><span class="comment">     * 单次执行</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> task</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">addExecuteTask</span><span class="params">(Runnable task)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (task != <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="type">ThreadPoolExecutor</span> <span class="variable">threadPoolExecutor</span> <span class="operator">=</span> Singleton.SINGLETON.getThreadPool();</span><br><span class="line">            threadPoolExecutor.execute(task);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">addScheduleTask</span><span class="params">(Runnable task)</span> &#123;</span><br><span class="line">        Singleton.SINGLETON.getScheduledThreadPool().scheduleWithFixedDelay(task, <span class="number">5</span>, <span class="number">3</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="探究"><a href="#探究" class="headerlink" title="探究"></a>探究</h1><p>看来还是basic不够扎实啊，学的是个JB！我们看一下<code>ThreadPoolExecutor</code>的源码，查看下的他的4个构造方法如下图，我们来看看比较难懂的几个参数：</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/ThreadPoolExecutor.png/zip" alt="ThreadPoolExecutor"></p>
+<ul>
+<li><strong>第5个参数：</strong><code>workQueue</code>表示缓存队列。当请求的线程大于<code>maximumPoolSize</code>时，线程进入<code>BlockingQueue</code>阻塞队列。是一个生产消费模型队列。</li>
+<li><strong>第7个参数：</strong><code>handle</code>表示执行拒绝策略的对象。当超过第5个参数<code>workQueue</code>的任务缓存区上限的时候，就可以通过该策略处理请求，是一种简单的限流保护。</li>
+</ul>
+<p>那么，我们上面的实例化是怎么写的？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建线程池1</span></span><br><span class="line">threadPool = <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(</span><br><span class="line">	SIZE_CORE_POOL,</span><br><span class="line">	SIZE_MAX_POOL,</span><br><span class="line">	<span class="number">10L</span>,</span><br><span class="line">	TimeUnit.MILLISECONDS,</span><br><span class="line">	<span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;Runnable&gt;(),</span><br><span class="line">	namedThreadFactory);</span><br></pre></td></tr></table></figure>
+
+<p>我们把<code>LinkedBlockingQueue&lt;Runnable&gt;()</code>作为缓存队列，我们不关心的它内部实现，通过源码可以知道它是一种无限队列，构造器容量默认值大小是<code>Integer.MAX_VALUE</code>，往往在生产场景中很难达到这个值，所以像我上面这样写是极其不科学的，应该根据实际场景设置一个可承载容量大小，并配合<code>handle</code>做出拒绝策略，才是一个完整的流程。</p>
+<p>我们稍微熟悉了它的构造方法之后，怎么知道它是如何工作的呢？另外我之前的迷思，为什么核心线程数始终等于4呢？</p>
+<h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>首先我们可以通过源码查看<code>execute</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(Runnable command)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (command == <span class="literal">null</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NullPointerException</span>();</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Proceed in 3 steps:</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 1. If fewer than corePoolSize threads are running, try to</span></span><br><span class="line"><span class="comment">     * start a new thread with the given command as its first</span></span><br><span class="line"><span class="comment">     * task.  The call to addWorker atomically checks runState and</span></span><br><span class="line"><span class="comment">     * workerCount, and so prevents false alarms that would add</span></span><br><span class="line"><span class="comment">     * threads when it shouldn&#x27;t, by returning false.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 2. If a task can be successfully queued, then we still need</span></span><br><span class="line"><span class="comment">     * to double-check whether we should have added a thread</span></span><br><span class="line"><span class="comment">     * (because existing ones died since last checking) or that</span></span><br><span class="line"><span class="comment">     * the pool shut down since entry into this method. So we</span></span><br><span class="line"><span class="comment">     * recheck state and if necessary roll back the enqueuing if</span></span><br><span class="line"><span class="comment">     * stopped, or start a new thread if there are none.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 3. If we cannot queue task, then we try to add a new</span></span><br><span class="line"><span class="comment">     * thread.  If it fails, we know we are shut down or saturated</span></span><br><span class="line"><span class="comment">     * and so reject the task.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> ctl.get();</span><br><span class="line">    <span class="comment">// 1. 如果当前线程数 小于 corePoolSize，则尝试添加新线程</span></span><br><span class="line">    <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;</span><br><span class="line">        <span class="keyword">if</span> (addWorker(command, <span class="literal">true</span>))</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        c = ctl.get();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 2. 尝试向workQueue添加队列（offer方法在workQueue没有容量时，添加失败），线程已经存在不会创建新的线程，如果不存在则创建新的线程。</span></span><br><span class="line">    <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">recheck</span> <span class="operator">=</span> ctl.get();</span><br><span class="line">        <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))</span><br><span class="line">            reject(command);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</span><br><span class="line">            addWorker(<span class="literal">null</span>, <span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3. 添加新线程，此处会比较maximumPoolSize，如果大于maximumPoolSize，则会使用饱和策略</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="literal">false</span>))</span><br><span class="line">        reject(command);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而<code>addWorker</code>方法主要是动态的调整线程池的线程数量。从execute方法和addWorker方法可以看出，当前线程数优先与corePoolSize 比较，大于corePoolSize ，则与workQueue容量比较；如果当前线程数大于workQueue容量，则与maximumPoolSize比较；如果当前线程数大于maximumPoolSize，则执行饱和策略；最后，根据饱和策略做出相应的处理。</p>
+<p>所以我粗略的总结下<strong>当corePoolSize（核心线程数）满了，接下来的线程先进入workQueue（任务队列），当队列也满了之后，创建新线程，直到达到maximumPoolSize（最大线程数），之后再尝试创建线程时，会进入拒绝rejectedExecution。</strong></p>
+<p>所以为什么线程池的核心线程数一直是4个，因为多余的都处在任务队列阻塞中，由于未设置一个容量大小，所以这个容量非常的大，其实是超出我们的处理能力的，我们程序始终就也没能够达到最大线程数。或者可以这么理解，这个maximumPoolSize算是一种比较坏（极限）的情况，很少情况并不会真的按照这个数量处理任务，只有当任务队列都不够时，才会继续创建线程，直到达到最大线程数，超过了之后就必须要handle来处理拒绝策略了。</p>
+<h1 id="饱和拒绝策略"><a href="#饱和拒绝策略" class="headerlink" title="饱和拒绝策略"></a>饱和拒绝策略</h1><blockquote>
+<p>好吧，面试被问到了有哪些策略，2020.11.4 更新一下。</p>
+</blockquote>
+<ul>
+<li><p>默认的<strong>AbortPolicy</strong>：</p>
+<p><strong>ThreadPoolExecutor.AbortPolicy：</strong>丢弃任务并抛出RejectedExecutionException异常。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A handler for rejected tasks that throws a &#123;@code RejectedExecutionException&#125;.</span><br></pre></td></tr></table></figure>
+
+<p>这是线程池默认的拒绝策略，在任务不能再提交的时候，抛出异常，及时反馈程序运行状态。如果是比较关键的业务，推荐使用此拒绝策略，这样子在系统不能承载更大的并发量的时候，能够及时的通过异常发现。</p>
+</li>
+<li><p><strong>DiscardPolicy</strong></p>
+<p><strong>ThreadPoolExecutor.DiscardPolicy：</strong>丢弃任务，但是不抛出异常。如果线程队列已满，则后续提交的任务都会被丢弃，且是静默丢弃。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A handler for rejected tasks that silently discards therejected task.</span><br></pre></td></tr></table></figure>
+
+<p>使用此策略，可能会使我们无法发现系统的异常状态。建议是一些无关紧要的业务采用此策略。例如，本人的博客网站统计阅读量就是采用的这种拒绝策略。</p>
+</li>
+<li><p><strong>DiscardOldestPolicy</strong></p>
+<p><strong>ThreadPoolExecutor.DiscardOldestPolicy：</strong>丢弃队列最前面的任务，然后重新提交被拒绝的任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A handler for rejected tasks that discards the oldest unhandled request and then retries &#123;@code execute&#125;, unless the executor is shut down, in which case the task is discarded.</span><br></pre></td></tr></table></figure>
+
+<p>此拒绝策略，是一种喜新厌旧的拒绝策略。是否要采用此种拒绝策略，还得根据实际业务是否允许丢弃老任务来认真衡量。</p>
+</li>
+<li><p><strong>CallerRunsPolicy</strong></p>
+<p><strong>ThreadPoolExecutor.CallerRunsPolicy：</strong>由调用线程处理该任务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A handler for rejected tasks that runs the rejected task directly in the calling thread of the &#123;@code execute&#125; method, unless the executor has been shut down, in which case the task is discarded. </span><br></pre></td></tr></table></figure>
+
+<p>如果任务被拒绝了，则由调用线程（提交任务的线程）直接执行此任务。</p>
+</li>
+<li><p>自定义一个<strong>Policy</strong></p>
+<p>实际开发中，我们还是会自定义一个Policy策略，比如写入日志、数据库等等。</p>
+</li>
+</ul>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>好了，既然大致了解了线程池的工作原理之后，可以进行一个测试来验证以下是否符合：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestThreadPool</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">ThreadFactory</span> <span class="variable">tf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadFactoryBuilder</span>()</span><br><span class="line">            .setNameFormat(<span class="string">&quot;factory-pool-%d&quot;</span>).build();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">ThreadPoolExecutor</span> <span class="variable">threadPoolExecutor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(<span class="number">4</span>, <span class="number">8</span>, <span class="number">10L</span>,</span><br><span class="line">            TimeUnit.MINUTES, <span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;&gt;(<span class="number">50</span>), tf);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">				System.out.println(<span class="string">&quot;================start================&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i&lt;<span class="number">100</span>; i++) &#123;</span><br><span class="line">            threadPoolExecutor.execute(<span class="keyword">new</span> <span class="title class_">Task</span>(String.valueOf(i)));</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;================end================&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Task</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(TestThreadPool.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Task</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&quot;[ &quot;</span> + name + <span class="string">&quot; ]&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        logger.info(name + <span class="string">&quot;只要干不死，就往死里干，奥利干！！&quot;</span>);</span><br><span class="line">        <span class="comment">// System.out.println(name + &quot;奥利给！！&quot;);</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一个线程类<code>Task</code>，在<code>run</code>方法中打印一句「正能量」，然后<code>sleep</code>2秒来模拟处理这个任务。我们创建一个核心线程数为<strong>4</strong>，最大线程数<strong>8</strong>，容量大小为<strong>50</strong>的<code>LinkedBlockingQueue</code>队列，然后在循环中持续创建线程。当成功创建完这100个线程之后，应该会有<code>====================end====================</code>打印出来。</p>
+<p>我们可以期待一下结果是什么？</p>
+<p>按照上面的工作流程来说，有几种情况：</p>
+<ol>
+<li>线程处理的速度远远大于线程创建的速度，可能4个核心数都完全够用，甚至用不到<code>workQueue</code>，最后打印了end。emmm，当然从我们写的测试代码来说几乎是不可能的，for循环表示：烙呢？中国🇨🇳速度嗷！</li>
+<li>线程创建的速度大于回收速度，但是<code>workQueue</code>和<code>maximumPoolSize</code>完全可以支撑，100个线程创建成功并完成任务。</li>
+<li>当<code>corePoolSize</code>和<code>workQueue</code>以及<code>maximumPoolSize</code>都过载，丢弃任务并抛出<code>RejectedExecutionException</code>异常了。</li>
+</ol>
+<p>其实可以很明显知道，<code>sleep</code>2秒加上<code>logger.info()</code>方法，线程的创建的速度一定是大大于执行的。按照4、8、50的配置，当地<strong>58</strong>个创建被创建成功之后，要是目前没有任何一个线程被释放的话，第<strong>59</strong>个线程会因为上限问题而被拒绝，这时候就会抛出异常了。当然这是个<code>for</code>循环，产生的速度足够快，基本上100次循环完成，第一个线程都没完成，所以可以大胆猜测，<code>logger</code>一共会打印58行日志，并伴随着<code>RejectedExecutionException</code>的出现。</p>
+<p>我们看一下运行的结果：</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/RejectedExecutionException.png" alt="异常它lei了"></p>
+<p>果然第<strong>58</strong>个线程被创建之后，后续第<strong>59</strong>个线程想被创建就抛出了异常，如图刚好是58行（0 ~ 57），也没有<code>====================end====================</code>的出现。</p>
+<h1 id="奥利给"><a href="#奥利给" class="headerlink" title="奥利给"></a>奥利给</h1><p>当我们把这个线程类的<code>run</code>方法分别改成如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="comment">// logger.info(name + &quot;只要干不死，就往死里干，奥利干！！&quot;);</span></span><br><span class="line">	System.out.println(name + <span class="string">&quot;奥利给！！&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="comment">// logger.info(name + &quot;只要干不死，就往死里干，奥利干！！&quot;);</span></span><br><span class="line">	<span class="comment">// System.out.println(name + &quot;奥利给！！&quot;);</span></span><br><span class="line">	logger.info(name + <span class="string">&quot;奥利给！！&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分别看下结果：</p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/sout.png" alt="奥利给"></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/thread-pool/logger.png" alt="奥利给大失败"></p>
+<p>看来<code>org.slf4j.Logger.info()</code>的耗时不是一般的长，比<code>System.out.println() </code>还长。</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/bce6bdb0-278a-11ea-9afb-77b212895fb9/" data-toggle="tooltip" data-placement="top" title="Mybatis 多对多映射的小问题">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/b11fe710-1fae-11ea-9d8a-c3eaf7e57853/" data-toggle="tooltip" data-placement="top" title="我的2019">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#多线程" title="多线程">多线程</a>
+                        
+                          <a class="tag" href="/tags/#并发" title="并发">并发</a>
+                        
+                          <a class="tag" href="/tags/#线程池" title="线程池">线程池</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/3ff45990-2175-11ea-bda8-b1e815e5e40d/";
+    var disqus_url = "https://matthew-han.github.io/post/3ff45990-2175-11ea-bda8-b1e815e5e40d/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="wdnmd">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          《码出高效》系列笔记（三）：异常与日志 - Espada
+        
+    </title>
+
+    <link rel="canonical" href="https://Matthew-Han.github.io/post/43892940-eb34-11e9-8e01-011debd96741/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Espada" type="application/atom+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Espada</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                        <li>
+                            <a href="/about/">about</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/default/default_bg.png')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#异常" title="异常">异常</a>
+                        
+                          <a class="tag" href="/tags/#日志" title="日志">日志</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                    </div>
+                    <h1>《码出高效》系列笔记（三）：异常与日志</h1>
+                    <h2 class="subheading">向代码致敬，寻找你的第[83]行。</h2>
+                    <span class="meta">
+                        Posted by MatthewHan on
+                        2019-10-10
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><blockquote>
+<p>良好的编码风格和完善统一的规约是最高效的方式。</p>
+</blockquote>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本篇汲取了本书中较为精华的知识要点和实践经验加上读者整理，作为本系列里的第三篇章：异常与日志篇。</p>
+<p><strong>本系列目录</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/0bdf0b10-c25b-11e9-9d06-1f20e5bd3f76/">《码出高效》系列笔记（一）：面向对象中的类</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/b1acf8e0-c89b-11e9-9ee1-01379c6f9115/">《码出高效》系列笔记（一）：面向对象中的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/3239f2f0-c89d-11e9-89c4-bd64deffb20f/">《码出高效》系列笔记（一）：面向对象中的其他知识点</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d5aea070-d2ac-11e9-ab1f-f97e9fd39695/">《码出高效》系列笔记（二）：代码风格</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/43892940-eb34-11e9-8e01-011debd967415/">《码出高效》系列笔记（三）：异常与日志</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
+</ul>
+<h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><p>处理异常程序时，需要解决以下3个问题：</p>
+<ol>
+<li>哪里发生异常</li>
+<li>谁来处理异常</li>
+<li>如何处理异常</li>
+</ol>
+<p><strong>无论采用哪种方式处理异常，都严禁捕获异常后什么都不做或打印一行日志了事</strong>。</p>
+<p>学会对任何事情提出质疑；思考问题相比之前会更加多维度的切入；工作上做一件事会考虑它的责任划分、职能问题、；更加谨慎了（也不知道是好是坏）</p>
+<h1 id="异常分类"><a href="#异常分类" class="headerlink" title="异常分类"></a>异常分类</h1><p>JDK中定义了一套完整的异常机制，所有异常都是Throwable的子类，分为Error（致命异常）和Exception（非致命异常）。其中Exception又分为checked（受检型异常）和unchecked（非受检型异常）。</p>
+<h2 id="checked异常与unchecked异常"><a href="#checked异常与unchecked异常" class="headerlink" title="checked异常与unchecked异常"></a>checked异常与unchecked异常</h2><p><strong>checked异常是需要在代码中显示处理的异常，否则会编译出错。</strong></p>
+<ul>
+<li>力所能及、坦然处置型。如发生未授权异常（UnAuthorizedException），程序可以跳转至权限申请页面。</li>
+</ul>
+<p>unchecked异常是运行时异常，它们是都继承自RuntimeException，不需要程序进行显式的捕捉和处理，该类异常可以分为以下3类：</p>
+<ul>
+<li>可预测型异常（Predicted Exception）：常见的大家都很熟悉包括IndexOutOfBoundsException、NullPointException等，此类异常不应该产生或者抛出，而应该提前做好边界检查、空指针判断处理等。显式的声明<strong>很蠢</strong>。</li>
+<li>需捕捉异常（Caution Exception）：例如在使用Dubbo框架在进行RPC调用时产生的远程服务超时异常DubboTimeoutException，此类异常是客户端必须显示处理的异常，不应该出现因产生该异常而导致不可用的情况，一般处理方法是重试或者降级处理。</li>
+<li>可透出异常（Ignored Exception）：主要是指框架或系统产生的且会自动处理的异常，而程序无需关心。例如Spring框架中抛出的NoSuchRequestHandlingMethodException异常，Spring框架会自己完成异常的处理，默认将自身抛出的异常自动映射到合适的状态码，比如启动防护机制跳转到404页面。</li>
+</ul>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%BC%82%E5%B8%B8%E5%88%86%E7%B1%BB%E7%BB%93%E6%9E%84.png/wm" alt="异常分类结构"></p>
+<p>针对上图的结构，下面结合旅行的实例来说明一下异常分类。</p>
+<p>第一，机场地震，属于不可抗力，对应异常分类中的Error。平时在出行时无需考虑该因素。</p>
+<p>第二，堵车属于checked异常，应对这种异常，我们可以提前出发，或者改签机票。而飞机延误异常，虽然也需要check，但是我们无能为力，只能持续关注航班动态。</p>
+<p>第三，忘带护照，可提前预测的异常，在出发前检查避免。去机场路上厕纸抛锚，突发异常难以预料，但是必须处理，属于需要捕获的异常，可以通过更换交通工具应对。检票机器故障属于可透出型异常，交由航空公司处理，我们无须关心。</p>
+<h1 id="try代码块"><a href="#try代码块" class="headerlink" title="try代码块"></a>try代码块</h1><p><code>try-catch-finally</code>是处理程序异常的三部曲。当存在try时，可以只有catch代码块，也可以只有finally代码块，就是不能单独只有try这个光杆司令。</p>
+<ol>
+<li>try代码块：监视代码执行过程，一旦发现发现异常则直接跳转至catch，如果没有catch，则直接跳转至finally。</li>
+<li>catch代码块：可选执行的代码块，如果没有异常发生则不会执行；如果发现异常则进行处理或向上抛出。这一切都在catch代码块中执行。</li>
+<li>finally代码块：必选执行的代码块，不管是否有异常产生，即使发生OutOfMemoryError也会执行，通常用于处理善后清理工作。如果finally代码块没有执行，那么有三种可能：<ul>
+<li>没有进入try代码块</li>
+<li>进入try代码块，但是代码运行中出现了死循环或死锁状态</li>
+<li>进入try代码块，但是执行了System.exit()操作</li>
+</ul>
+</li>
+</ol>
+<h2 id="和return的关系"><a href="#和return的关系" class="headerlink" title="和return的关系"></a>和return的关系</h2><p>finally是在return表达式运行后执行的，此时将要return的结果已经被暂存起来，待finally代码块执行结束后再将之前的暂存的结果返回。</p>
+<p>打印的结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">value = <span class="number">101</span></span><br><span class="line">x = <span class="number">1</span></span><br><span class="line">y = <span class="number">11</span></span><br><span class="line">z = <span class="number">101</span></span><br></pre></td></tr></table></figure>
+
+<p>以上的结果说明：</p>
+<ol>
+<li><font color = #FF8C00>最后return的动作是由finally代码块中的<code>return ++z</code>完成的，所以方法返回的结果101。</font></li>
+<li><font color = #FF8C00>语句<code>return ++x</code>中的<code>++x</code>被成功执行，所以运行结果是2。</font></li>
+<li><font color = #FF8C00>如果有异常抛出，那么运行结果将会是y&#x3D;11，而x&#x3D;1。</font></li>
+</ol>
+<p>finally代码块中使用return语句，使返回值的判断变得复杂，所以避免返回值不可控，我们不要在finally代码块中使用return语句。</p>
+<h2 id="try与锁的关系"><a href="#try与锁的关系" class="headerlink" title="try与锁的关系"></a>try与锁的关系</h2><p>lock方法可能会抛出unchecked异常，如果放在try中，必然触发finally中的unlock方法执行。对未加锁的对象解锁会抛出unchecked异常。所以在try代码块之前调用lock方法，避免由于加锁失败导致finally调用unlock抛出异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Lock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">XxxLock</span>();</span><br><span class="line">preDo();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="comment">// 无论加锁是否成功，unlock都会被执行。</span></span><br><span class="line">  lock.lock();</span><br><span class="line">  doSomething();</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">  lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以在try代码块之前调用lock方法，避免由于加锁失败导致finally调用unlock方法抛出异常。<code>lock.lock();</code>这段代码应该移到try的上方。</p>
+<h1 id="异常的抛与接"><a href="#异常的抛与接" class="headerlink" title="异常的抛与接"></a>异常的抛与接</h1><ul>
+<li>对外提供的开放接口，使用错误码；</li>
+<li>公司内部跨应用远程服务调用优先考虑使用Result对象来封装错误码、错误描述、栈信息；</li>
+<li>应用内部者推荐直接抛出异常对象。</li>
+</ul>
+<p>个人习惯：无论是否自定义了异常类或者 handle，都应该做两点：根据实际情况选择是否输出、保留原始栈信息；向上转型成分类好的错误码和简要描述。</p>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><blockquote>
+<p>日志有什么用就不用多说了吧</p>
+</blockquote>
+<h2 id="日志规范"><a href="#日志规范" class="headerlink" title="日志规范"></a>日志规范</h2><p>推荐的日志的命名方式：<code>appName_logType_logName.log</code>，其中<code>logType</code>位日志类型，推荐分类有status、monitor、visit等，<code>logName</code>为日志描述。<br>日志的保存至少在15天，当然还是以实际情况为准。</p>
+<p>日志的级别由低到高排序：</p>
+<ul>
+<li>DEBUG：记录对调试程序有帮助的信息。</li>
+<li>INFO：记录程序运行现场，一般作用于对其他错误的指导意义。</li>
+<li>WARN：也可记录程序运行现场，但是更偏向于表明此处有出现潜在错误的可能。</li>
+<li>ERROR：表明此处发生了错误，需要被关注，但是当前发生的错误，并未影响系统的运行。</li>
+<li>FATAL：表明当前程序运行出现了严重的错误事件，并且将会导致应用程序中断。</li>
+</ul>
+<p>不同的级别，要有不同的处理方式。</p>
+<ol>
+<li><p>预先判断日志的级别<br>使用占位符的形式打印，避免字符串的拼接输出信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logger.info(<span class="string">&quot;id = &#123;&#125; and symbol = &#123;&#125;&quot;</span>, id, symbol);</span><br></pre></td></tr></table></figure></li>
+<li><p>避免无效日志打印<br>生产环境禁止DEBUG日志打印且有选择的输出INFO日志。<br>避免重复打印，设置additivity&#x3D;false，示例如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span> = <span class="string">&quot;com.xxx.xxx.config&quot;</span> <span class="attr">additivity</span>=<span class="string">&quot;false&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>区别对待错误日志<br>一般设定ERROR级别的日志需要人为介入</p>
+</li>
+<li><p>保证记录内容完整</p>
+<ul>
+<li>记录异常时一定要输出异常堆栈，例如<code>logger.error(&quot;xxx&quot; + e.getMessage(), e);</code>。</li>
+<li>日志中如果输出对象实例，要确保实例类重写了toString方法，否则只会输出对象的hashCode的值，没有实际意义。</li>
+</ul>
+</li>
+</ol>
+<h2 id="日志框架"><a href="#日志框架" class="headerlink" title="日志框架"></a>日志框架</h2><blockquote>
+<p>现在ELK也非常流行，功能比较强大。</p>
+</blockquote>
+<ol>
+<li><p>日志门面<br>门面设计模式是面向对象设计模式中的一种，类似JDBC的概念。提供一套接口规范，本身不具备实现，目的是让使用者不用关注底层是哪个日志库。最广泛的有两种：slf4j和commons-logging。</p>
+</li>
+<li><p>日志库<br>它是具体实现日志的相关功能，主流有三个，分别是log4j、log-jdk、logback。logback最晚出现，和log4j是同一个作者，是它的升级版并且本身就实现了slf4j的接口。</p>
+</li>
+</ol>
+<p>业界标准门面模式：slf4j+logback组合。</p>
+<p><strong>日志打印规范如下</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(Xxx.class);</span><br></pre></td></tr></table></figure>
+<p>logger被定义为static变量，是因为与当前的类绑定，避免每次都new一个新的对象，造成资源浪费，甚至引发OOM问题。</p>
+<p>另外注意日志库冲突。例如：页面出现500错误，但是整个系统中未发现任务异常日志。由于是log4j作为当前日志库，但是间接地引入了logback日志库，导致打印日志的logger引用实际指向<code>ch.qos.logback.classic.Logger</code>对象，冲突导致日志打印失效。</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/post/ebad3220-f600-11e9-a320-89dae6093596/" data-toggle="tooltip" data-placement="top" title="什么是领域模型？我们常用的贫血模型是否已经过时？">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/post/3eb24080-e357-11e9-bc83-959f5ffb326a/" data-toggle="tooltip" data-placement="top" title="2019.09.30">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#笔记" title="笔记">笔记</a>
+                        
+                          <a class="tag" href="/tags/#异常" title="异常">异常</a>
+                        
+                          <a class="tag" href="/tags/#日志" title="日志">日志</a>
+                        
+                          <a class="tag" href="/tags/#Easy Coding" title="Easy Coding">Easy Coding</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://danic.tech/" target="_blank">Danic</a></li>
+                    
+                        <li><a href="https://immyw.com/" target="_blank">JerryC</a></li>
+                    
+                        <li><a href="https://www.ad-s.cn/" target="_blank">冰峰博客</a></li>
+                    
+                        <li><a href="https://www.skypyb.com/" target="_blank">编码妙♂妙♂屋</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "MatthewHan";
+    var disqus_identifier = "https://matthew-han.github.io/post/43892940-eb34-11e9-8e01-011debd96741/";
+    var disqus_url = "https://matthew-han.github.io/post/43892940-eb34-11e9-8e01-011debd96741/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/_yuanmo_">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/han-ming-chu-99">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/matthewhan96">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/Matthew-Han">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Espada 2025 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://Matthew-Han.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'e931d9fd561eb5e97f275886f3d82c3a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://Matthew-Han.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
