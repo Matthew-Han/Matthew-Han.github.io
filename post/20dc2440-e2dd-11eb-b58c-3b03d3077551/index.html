@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -206,7 +206,7 @@
 <li>主从节点：主库生成、传输 RDB 文件，从库接收 RDB 文件、清空数据库、加载 RDB 文件；</li>
 <li>切片集群实例：向其他实例传输哈希槽信息，数据迁移。</li>
 </ol>
-<img src="https://static001.geekbang.org/resource/image/6c/22/6ce8abb76b3464afe1c4cb3bbe426922.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-65fb622ac8af7fb29b8a40d875fc07bd9500966f.jpg" alt="img" style="zoom:15%;" />
 
 <h4 id="0-和客户端交互时的阻塞点"><a href="#0-和客户端交互时的阻塞点" class="headerlink" title="0. 和客户端交互时的阻塞点"></a>0. 和客户端交互时的阻塞点</h4><p>网络 IO 有时候会比较慢，但是 Redis 使用了 IO 多路复用机制，避免了主线程一直处在等待网络连接或请求到来的状态，所以，网络 IO 不是导致 Redis 阻塞的因素。</p>
 <p>Redis 中涉及集合的操作复杂度通常为 $O(N)$，我们要在使用时重视起来。例如集合元素全量查询操作 HGETALL、SMEMBERS，以及集合的聚合统计操作，例如求交、并和差集。这些操作可以作为 Redis 的第一个阻塞点：<strong>集合全量查询和聚合操作</strong>。</p>
@@ -224,14 +224,14 @@
 <li>从库加载 RDB 文件。</li>
 </ol>
 <h3 id="哪些阻塞点可以异步执行？"><a href="#哪些阻塞点可以异步执行？" class="headerlink" title="哪些阻塞点可以异步执行？"></a>哪些阻塞点可以异步执行？</h3><p>如果一个操作能被异步执行，就意味着，它并不是 Redis 主线程的关键路径上的操作。我再解释下关键路径上的操作是啥。这就是说，客户端把请求发送给 Redis 后，等着 Redis 返回数据结果的操作。</p>
-<img src="https://static001.geekbang.org/resource/image/f1/61/f196035e3d2ba65257b211ed436b0b61.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-c24c620a61da2f7fb089987c99d79c0f9bfe1a26.jpg" alt="img" style="zoom:15%;" />
 
 <p>对于 Redis 来说，<strong>读操作是典型的关键路径操作</strong>，因为客户端发送了读操作之后，就会等待读取的数据返回，以便进行后续的数据处理。而 Redis 的第一个阻塞点“集合全量查询和聚合操作”都涉及到了读操作，所以，它们是不能进行异步操作了。</p>
 <p>我们再来看看删除操作。删除操作并不需要给客户端返回具体的数据结果，所以不算是关键路径操作。而我们刚才总结的第二个阻塞点“bigkey 删除”，和第三个阻塞点“清空数据库”，都是对数据做删除，并不在关键路径上。因此，我们可以使用后台子线程来异步执行删除操作。</p>
 <p>对于第四个阻塞点“AOF 日志同步写”来说，为了保证数据可靠性，Redis 实例需要保证 AOF 日志中的操作记录已经落盘，这个操作虽然需要实例等待，但它并不会返回具体的数据结果给实例。所以，我们也可以启动一个子线程来执行 AOF 日志的同步写，而不用让主线程等待 AOF 日志的写完成。</p>
 <p><strong>对于 Redis 的五大阻塞点来说，除了“集合全量查询和聚合操作”和“从库加载 RDB 文件”，其他三个阻塞点涉及的操作都不在关键路径上，所以，我们可以使用 Redis 的异步子线程机制来实现 bigkey 删除，清空数据库，以及 AOF 日志同步写。</strong></p>
 <h3 id="异步的子线程机制"><a href="#异步的子线程机制" class="headerlink" title="异步的子线程机制"></a>异步的子线程机制</h3><p>Redis 主线程启动后，会使用操作系统提供的 pthread_create 函数创建 3 个子线程，分别由它们负责 AOF 日志写操作、键值对删除以及文件关闭的异步执行。</p>
-<img src="https://static001.geekbang.org/resource/image/ae/69/ae004728bfe6d3771c7424e4161e7969.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-9e362e8f1902958f3abfcc63cc1f9ffe75bc2c95.jpg" alt="img" style="zoom:15%;" />
 
 <p>异步的键值对删除和数据库清空操作是 Redis 4.0 后提供的功能，Redis 也提供了新的命令来执行这两个操作。</p>
 <ul>
@@ -242,12 +242,12 @@
 </ul>
 <h2 id="Q：CPU-与-Redis"><a href="#Q：CPU-与-Redis" class="headerlink" title="Q：CPU 与 Redis"></a>Q：CPU 与 Redis</h2><h3 id="主流的-CPU-架构"><a href="#主流的-CPU-架构" class="headerlink" title="主流的 CPU 架构"></a>主流的 CPU 架构</h3><p>一个 CPU 处理器中一般有多个运行核心，我们把一个运行核心称为一个物理核，每个物理核都可以运行应用程序。每个物理核都拥有私有的一级缓存（Level 1 cache，简称 L1 cache），包括一级指令缓存和一级数据缓存，以及私有的二级缓存（Level 2 cache，简称 L2 cache）。不同的物理核还会共享一个共同的三级缓存（Level 3 cache，简称为 L3 cache）。</p>
 <p>另外，现在主流的 CPU 处理器中，每个物理核通常都会运行两个超线程，也叫作逻辑核。同一个物理核的逻辑核会共享使用 L1、L2 缓存。</p>
-<img src="https://static001.geekbang.org/resource/image/d9/09/d9689a38cbe67c3008d8ba99663c2f09.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-268b727271cd8da1cf2db62c8620805c13d87c7e.jpg" alt="img" style="zoom:15%;" />
 
 
 
 <p>在主流的服务器上，一个 CPU 处理器会有 10 到 20 多个物理核。同时，为了提升服务器的处理能力，服务器上通常还会有多个 CPU 处理器（也称为多 CPU Socket），每个处理器有自己的物理核（包括 L1、L2 缓存），L3 缓存，以及连接的内存，同时，不同处理器间通过总线连接。</p>
-<img src="https://static001.geekbang.org/resource/image/5c/3d/5ceb2ab6f61c064284c8f8811431bc3d.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-64cab13df3aa69439287b908360c8da6dac29edd.jpg" alt="img" style="zoom:15%;" />
 
 <p>在多 CPU 架构上，应用程序可以在不同的处理器上运行。在刚才的图中，Redis 可以先在 Socket 1 上运行一段时间，然后再被调度到 Socket 2 上运行。</p>
 <p>但是，有个地方需要你注意一下：如果应用程序先在一个 Socket 上运行，并且把数据保存到了内存，然后被调度到另一个 Socket 上运行，此时，应用程序再进行内存访问时，就需要访问之前 Socket 上连接的内存，这种访问属于远端内存访问。和访问 Socket 直接连接的内存相比，远端内存访问会增加应用程序的延迟。</p>

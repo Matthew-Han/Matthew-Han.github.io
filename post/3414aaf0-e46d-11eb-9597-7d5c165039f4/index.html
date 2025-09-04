@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -232,7 +232,7 @@
 <li>如何判断 Redis 是不是真的变慢了。一个最直接的方法，<strong>就是查看 Redis 的响应延迟。</strong></li>
 <li><strong>看基线性能。</strong>基于当前环境下的 Redis 基线性能做判断。所谓的基线性能呢，也就是一个系统在低压力、无干扰下的基本性能，这个性能只由当前的软硬件配置决定。</li>
 </ol>
-<h3 id="如何应对-Redis-变慢？"><a href="#如何应对-Redis-变慢？" class="headerlink" title="如何应对 Redis 变慢？"></a>如何应对 Redis 变慢？</h3><img src="https://static001.geekbang.org/resource/image/cd/06/cd026801924e197f5c79828c368cd706.jpg" alt="img" style="zoom:15%;" />
+<h3 id="如何应对-Redis-变慢？"><a href="#如何应对-Redis-变慢？" class="headerlink" title="如何应对 Redis 变慢？"></a>如何应对 Redis 变慢？</h3><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-9fa20e213cd4bd80a6d464fdb25d3a4e520a7f68.jpg" alt="img" style="zoom:15%;" />
 
 <h4 id="Redis-自身操作特性的影响"><a href="#Redis-自身操作特性的影响" class="headerlink" title="Redis 自身操作特性的影响"></a>Redis 自身操作特性的影响</h4><ol start="0">
 <li><p><strong>慢查询命令</strong></p>
@@ -290,7 +290,7 @@
 <li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
 <li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
 </ul>
-<img src="https://static001.geekbang.org/resource/image/04/f6/04bdd13b760016ec3b30f4b02e133df6.jpg" alt="img" style="zoom:30%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-dc8c6cac077386a7e3ea23bcd4de3059a3718e5f.jpg" alt="img" style="zoom:30%;" />
 
 <p>3.0 之后的默认情况下，Redis 在使用的内存空间超过 maxmemory 值时，并不会淘汰数据，也就是设定的 <strong>noeviction</strong> 策略。对应到 Redis 缓存，也就是指，一旦缓存被写满了，再有写请求来时，Redis 不再提供服务，而是直接返回错误。</p>
 <p><em><em>volatile</em> 这种淘汰策略。它们筛选的候选数据范围，被限制在已经设置了过期时间的键值对上。</em>*</p>

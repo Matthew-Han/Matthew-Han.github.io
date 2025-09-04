@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -206,13 +206,13 @@
 <li>读操作：主库、从库都可以接收；</li>
 <li>写操作：首先到主库执行，然后，主库将写操作同步给从库。</li>
 </ul>
-<img src="https://static001.geekbang.org/resource/image/80/2f/809d6707404731f7e493b832aa573a2f.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-f6b36750619c4a34b531c6beeb5f6107b8705ed7.jpg" alt="img" style="zoom:15%;" />
 
 <h2 id="Q：主从之间什么时候进行第一次同步"><a href="#Q：主从之间什么时候进行第一次同步" class="headerlink" title="Q：主从之间什么时候进行第一次同步"></a>Q：主从之间什么时候进行第一次同步</h2><p>当我们启动多个 Redis 实例的时候，它们相互之间就可以通过 replicaof（Redis 5.0 之前使用 slaveof）命令形成主库和从库的关系，之后会按照三个阶段完成数据的第一次同步。</p>
 <p>例如，现在有实例 1（ip：172.16.19.3）和实例 2（ip：172.16.19.5），我们在实例 2 上执行以下这个命令后，实例 2 就变成了实例 1 的从库，并从实例 1 上复制数据：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof 172.16.19.3 6379</span><br></pre></td></tr></table></figure>
 
-<img src="https://static001.geekbang.org/resource/image/63/a1/63d18fd41efc9635e7e9105ce1c33da1.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-5f7f97d340f941db18d36b83b7d761a4b14d0cd3.jpg" alt="img" style="zoom:15%;" />
 
 <p>简单来说就是以下流程：</p>
 <ol start="0">
@@ -229,19 +229,19 @@
 <p>主 - 从 - 从模式。这个过程也称为基于长连接的命令传播，可以避免频繁建立连接的开销。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof 所选从库的IP 6379</span><br></pre></td></tr></table></figure>
 
-<img src="https://static001.geekbang.org/resource/image/40/45/403c2ab725dca8d44439f8994959af45.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-3d64bc4ebc575fbf4625e7416cbe700d95c5126d.jpg" alt="img" style="zoom:15%;" />
 
 <h2 id="Q：主从库间网络断了怎么办？"><a href="#Q：主从库间网络断了怎么办？" class="headerlink" title="Q：主从库间网络断了怎么办？"></a>Q：主从库间网络断了怎么办？</h2><p>采用增量模式同步</p>
 <p>当主从库断连后，主库会把断连期间收到的写操作命令，写入 replication buffer，同时也会把这些操作命令也写入 repl_backlog_buffer 这个缓冲区。</p>
 <p>repl_backlog_buffer 是一个环形缓冲区，主库会记录自己写到的位置，从库则会记录自己已经读到的位置。</p>
-<img src="https://static001.geekbang.org/resource/image/13/37/13f26570a1b90549e6171ea24554b737.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-b527fa3a57208c9d98e80b5e47c155deed6034c2.jpg" alt="img" style="zoom:15%;" />
 
 <p>不过，有一个地方我要强调一下，因为 repl_backlog_buffer 是一个环形缓冲区，所以在缓冲区写满后，主库会继续写入，此时，就会覆盖掉之前写入的操作。如果从库的读取速度比较慢，就有可能导致从库还未读取的操作被主库新写的操作覆盖了，这会导致主从库间的数据不一致。</p>
-<img src="https://static001.geekbang.org/resource/image/20/16/20e233bd30c3dacb0221yy0c77780b16.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-cfb066dafe6cd4a1a9abb9ab740b9012f643a5fc.jpg" alt="img" style="zoom:15%;" />
 
 <p>所以恢复的过程精髓在于 repl_backlog_buffer，对于该值不能太小，导致圆环被覆写。</p>
 <h2 id="Q：哨兵机制的基本流程"><a href="#Q：哨兵机制的基本流程" class="headerlink" title="Q：哨兵机制的基本流程"></a>Q：哨兵机制的基本流程</h2><p>哨兵主要负责的就是三个任务：监控、选主（选择主库）和通知。</p>
-<img src="https://static001.geekbang.org/resource/image/ef/a1/efcfa517d0f09d057be7da32a84cf2a1.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-9431ebeb5f750462fa55476508d7f58970e47d3d.jpg" alt="img" style="zoom:15%;" />
 
 <p>在监控和选主这两个任务中，哨兵需要做出两个决策：</p>
 <ul>
@@ -251,7 +251,7 @@
 <h3 id="主观下线与客观下线"><a href="#主观下线与客观下线" class="headerlink" title="主观下线与客观下线"></a>主观下线与客观下线</h3><p>哨兵进程会使用 PING 命令检测它自己和主、从库的网络连接情况，用来判断实例的状态。如果哨兵发现主库或从库对 PING 命令的响应超时了，那么，哨兵就会先把它标记为“主观下线”。</p>
 <p>哨兵机制通常会采用多实例组成的集群模式进行部署，这也被称为哨兵集群。引入多个哨兵实例一起来判断，就可以避免单个哨兵因为自身网络状况不好，而误判主库下线的情况。</p>
 <p>在判断主库是否下线时，不能由一个哨兵说了算，只有大多数的哨兵实例，都判断主库已经“主观下线”了，主库才会被标记为“客观下线”</p>
-<img src="https://static001.geekbang.org/resource/image/19/0d/1945703abf16ee14e2f7559873e4e60d.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-450fda1ef8def065305ce5b0399898df76d8f29b.jpg" alt="img" style="zoom:15%;" />
 
 <p>简单来说，“客观下线”的标准就是，当有 N 个哨兵实例时，最好要有 N&#x2F;2 + 1 个实例判断主库为“主观下线”，才能最终判定主库为“客观下线”。</p>
 <p>所以最好采用奇数个（大于等于 3）个哨兵节点。</p>
@@ -262,7 +262,7 @@
 </li>
 <li>和旧主库同步程度最接近的从库得分高。<ol>
 <li>repl_backlog_buffer 中的位置，而从库会用 slave_repl_offset 这个值记录当前的复制进度。就像下图所示，旧主库的 master_repl_offset 是 1000，从库 1、2 和 3 的 slave_repl_offset 分别是 950、990 和 900，那么，从库 2 就应该被选为新主库。</li>
-<li>如右图：<img src="https://static001.geekbang.org/resource/image/62/df/626yy88853a2d15b5196b922367140df.jpg" alt="img" style="zoom:15%;" /></li>
+<li>如右图：<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-3add115cf107998d46fe4d2557eb413c187a868a.jpg" alt="img" style="zoom:15%;" /></li>
 </ol>
 </li>
 <li>ID 号小的从库得分高。<ol>
@@ -274,11 +274,11 @@
 <h2 id="Q：哨兵之间的选举"><a href="#Q：哨兵之间的选举" class="headerlink" title="Q：哨兵之间的选举"></a>Q：哨兵之间的选举</h2><h3 id="基于-pub-sub-机制的哨兵集群组成"><a href="#基于-pub-sub-机制的哨兵集群组成" class="headerlink" title="基于 pub&#x2F;sub 机制的哨兵集群组成"></a>基于 pub&#x2F;sub 机制的哨兵集群组成</h3><p>哨兵实例之间可以相互发现，要归功于 Redis 提供的 pub&#x2F;sub 机制，也就是发布 &#x2F; 订阅机制。</p>
 <p>只有订阅了同一个频道的应用，才能通过发布的消息进行信息交换。</p>
 <p>在主从集群中，主库上有一个名为 <code>__sentinel__:hello</code> 的频道，不同哨兵就是通过它来相互发现，实现互相通信的。</p>
-<img src="https://static001.geekbang.org/resource/image/ca/b1/ca42698128aa4c8a374efbc575ea22b1.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-1445b2836e76b28630155c904f2719081b472358.jpg" alt="img" style="zoom:15%;" />
 
 <p>这样哨兵节点之间就完成了彼此的通信建立。</p>
 <h3 id="基于-pub-sub-机制的哨兵集群与主从库连接"><a href="#基于-pub-sub-机制的哨兵集群与主从库连接" class="headerlink" title="基于 pub&#x2F;sub 机制的哨兵集群与主从库连接"></a>基于 pub&#x2F;sub 机制的哨兵集群与主从库连接</h3><p>这是由哨兵向主库发送 INFO 命令来完成的。就像下图所示，哨兵 2 给主库发送 INFO 命令，主库接受到这个命令后，就会把从库列表返回给哨兵。接着，哨兵就可以根据从库列表中的连接信息，和每个从库建立连接，并在这个连接上持续地对从库进行监控。哨兵 1 和 3 可以通过相同的方法和从库建立连接。</p>
-<img src="https://static001.geekbang.org/resource/image/88/e0/88fdc68eb94c44efbdf7357260091de0.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-c56175b0ddb16be4a21802fbf1ad6d57e23b66ae.jpg" alt="img" style="zoom:15%;" />
 
 <h3 id="基于-pub-sub-机制的客户端事件通知"><a href="#基于-pub-sub-机制的客户端事件通知" class="headerlink" title="基于 pub&#x2F;sub 机制的客户端事件通知"></a>基于 pub&#x2F;sub 机制的客户端事件通知</h3><p>哨兵就是一个运行在特定模式下的 Redis 实例，只不过它并不服务请求操作，只是完成监控、选主和通知的任务。所以，每个哨兵实例也提供 pub&#x2F;sub 机制，客户端可以从哨兵订阅消息。哨兵提供的消息订阅频道有很多，不同频道包含了主从库切换过程中的不同关键事件。</p>
 <p>有了 pub&#x2F;sub 机制，哨兵和哨兵之间、哨兵和从库之间、哨兵和客户端之间就都能建立起连接了。</p>

@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -211,13 +211,13 @@
 <li>要求一：分布式锁的加锁和释放锁的过程，涉及多个操作。所以，在实现分布式锁时，我们需要保证这些锁操作的原子性；</li>
 <li>要求二：共享存储系统保存了锁变量，如果共享存储系统发生故障或宕机，那么客户端也就无法进行锁操作了。在实现分布式锁时，我们需要考虑保证共享存储系统的可靠性，进而保证锁的可靠性。</li>
 </ul>
-<h2 id="Q：基于单个-Redis-节点实现分布式锁"><a href="#Q：基于单个-Redis-节点实现分布式锁" class="headerlink" title="Q：基于单个 Redis 节点实现分布式锁"></a>Q：基于单个 Redis 节点实现分布式锁</h2><img src="https://static001.geekbang.org/resource/image/1d/45/1d18742c1e5fc88835ec27f1becfc145.jpg?wh=2820*2250" alt="img" style="zoom:15%;" />
+<h2 id="Q：基于单个-Redis-节点实现分布式锁"><a href="#Q：基于单个-Redis-节点实现分布式锁" class="headerlink" title="Q：基于单个 Redis 节点实现分布式锁"></a>Q：基于单个 Redis 节点实现分布式锁</h2><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-363a31c71fc91f862b2702c906d2860605fe2bfc.jpg?wh=2820*2250" alt="img" style="zoom:15%;" />
 
 
 
 <p>在图中，客户端 A 和 C 同时请求加锁。因为 Redis 使用单线程处理请求，所以，即使客户端 A 和 C 同时把加锁请求发给了 Redis，Redis 也会串行处理它们的请求。</p>
 <p>我们假设 Redis 先处理客户端 A 的请求，读取 lock_key 的值，发现 lock_key 为 0，所以，Redis 就把 lock_key 的 value 置为 1，表示已经加锁了。紧接着，Redis 处理客户端 C 的请求，此时，Redis 会发现 lock_key 的值已经为 1 了，所以就返回加锁失败的信息。</p>
-<img src="https://static001.geekbang.org/resource/image/c7/82/c7c413b47d42f06f08fce92404f31e82.jpg?wh=3000*2250" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-0d88c0b64070d9e4e621835af006d68e6ae26d9b.jpg?wh=3000*2250" alt="img" style="zoom:15%;" />
 
 <p>当客户端 A 持有锁时，锁变量 lock_key 的值为 1。客户端 A 执行释放锁操作后，Redis 将 lock_key 的值置为 0，表明已经没有客户端持有锁了。</p>
 <p>要想保证操作的原子性，有两种通用的方法，分别是使用 Redis 的单命令操作和使用 Lua 脚本。</p>
@@ -280,12 +280,12 @@
 <p>WATCH 机制：在事务执行前，监控一个或多个键的值变化情况，当事务调用 EXEC 命令执行时，WATCH 机制会先检查监控的键是否被其它客户端修改了。如果修改了，就放弃事务执行，避免事务的隔离性被破坏。然后，客户端可以再次执行事务，此时，如果没有并发修改事务数据的操作了，事务就能正常执行，隔离性也得到了保证。</p>
 <ul>
 <li>情况一：一个事务的 EXEC 命令还没有执行时，事务的命令操作是暂存在命令队列中的。此时，如果有其它的并发操作，我们就需要看事务是否使用了 WATCH 机制。<ul>
-<li>开启了 WATCH 机制（可以保证隔离性）：<img src="https://static001.geekbang.org/resource/image/4f/73/4f8589410f77df16311dd29131676373.jpg" alt="img" style="zoom:15%;" /></li>
-<li>未开启 WATCH 机制（无法保证隔离性）：<img src="https://static001.geekbang.org/resource/image/8c/57/8ca37debfff91282b9c62a25fd7e9a57.jpg" alt="img" style="zoom:15%;" /></li>
+<li>开启了 WATCH 机制（可以保证隔离性）：<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-7ca1e4b12fe0dcd21ef9a9b13172ea4d044698ed.jpg" alt="img" style="zoom:15%;" /></li>
+<li>未开启 WATCH 机制（无法保证隔离性）：<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-c2252825080ed3d9a92ab17d313136202511341c.jpg" alt="img" style="zoom:15%;" /></li>
 </ul>
 </li>
 <li>情况二：并发操作在 EXEC 命令之后被服务器端接收并执行。因为 Redis 是用单线程执行命令，而且，EXEC 命令执行后，Redis 会保证先把命令队列中的所有命令执行完。所以，在这种情况下，并发操作不会破坏事务的隔离性。<ul>
-<li><img src="https://static001.geekbang.org/resource/image/11/ae/11a1eff930920a0b423a6e46c23f44ae.jpg" alt="img" style="zoom:15%;" /></li>
+<li><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-f71276031be1b7be328bd5d4af477a7e7d40fee4.jpg" alt="img" style="zoom:15%;" /></li>
 </ul>
 </li>
 </ul>
@@ -293,7 +293,7 @@
 <p>如果 Redis 采用了 AOF 模式，因为 AOF 模式的三种配置选项 no、everysec 和 always 都会存在数据丢失的情况，所以，事务的持久性属性也还是得不到保证。</p>
 <p>所以，不管 Redis 采用什么持久化模式，事务的持久性属性是得不到保证的。</p>
 <h2 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h2><p>Redis 通过 MULTI、EXEC、DISCARD 和 WATCH 四个命令来支持事务机制。</p>
-<img src="https://static001.geekbang.org/resource/image/95/50/9571308df0620214d7ccb2f2cc73a250.jpg" alt="img" style="zoom:20%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-3ca8592719eb0e01868ab0ab6398a897b64968af.jpg" alt="img" style="zoom:20%;" />
 
 
 

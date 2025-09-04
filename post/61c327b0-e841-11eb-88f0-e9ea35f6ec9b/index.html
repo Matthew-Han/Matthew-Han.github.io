@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -219,7 +219,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> r = (<span class="type">double</span>)rand()/RAND_MAX;</span><br><span class="line">...</span><br><span class="line"><span class="type">double</span> p = <span class="number">1.0</span>/(baseval*server.lfu_log_factor+<span class="number">1</span>);</span><br><span class="line"><span class="keyword">if</span> (r &lt; p) counter++;</span><br></pre></td></tr></table></figure>
 
 <p>以下是记录了当 lfu_log_factor 取不同值时，在不同的实际访问次数情况下，计数器的值是如何变化的。</p>
-<img src="https://static001.geekbang.org/resource/image/8e/3e/8eafa57112b01ba0yyf93034ca109f3e.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-3062001c9c445f09a748198bbad85a925124591e.jpg" alt="img" style="zoom:15%;" />
 
 <p>正是因为使用了<strong>非线性递增的计数器方法</strong>，即使缓存数据的访问次数成千上万，LFU 策略也可以有效地区分不同的访问次数，从而进行合理的数据筛选。从刚才的表中，我们可以看到，当 lfu_log_factor 取值为 10 时，百、千、十万级别的访问次数对应的 counter 值已经有明显的区分了。</p>
 <p>我们在应用 LFU 策略时，一般可以将 lfu_log_factor 取值为 10。</p>
@@ -233,7 +233,7 @@
 <li>客户端修改完数据后，再写回 Redis。</li>
 </ol>
 <p>我们把这个流程叫做“读取 - 修改 - 写回”操作（Read-Modify-Write，简称为 RMW 操作）。当有多个客户端对同一份数据执行 RMW 操作的话，我们就需要让 RMW 操作涉及的代码以原子性方式执行。访问同一份数据的 RMW 操作代码，就叫做临界区代码。</p>
-<img src="https://static001.geekbang.org/resource/image/dc/5c/dce821cd00c1937b4aab1f130424335c.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-60369294d82adaa9e2f69a3a5c5185c14f12d55a.jpg" alt="img" style="zoom:15%;" />
 
 <p>可以看到，客户端 A 在 t1 时读取库存值 10 并扣减 1，在 t2 时，客户端 A 还没有把扣减后的库存值 9 写回 Redis，而在此时，客户端 B 读到库存值 10，也扣减了 1，B 记录的库存值也为 9 了。等到 t3 时，A 往 Redis 写回了库存值 9，而到 t4 时，B 也写回了库存值 9。如果按正确的逻辑处理，客户端 A 和 B 对库存值各做了一次扣减，库存值应该为 8。所以，这里的库存值明显更新错了。</p>
 <h3 id="Redis-的两种原子操作方法"><a href="#Redis-的两种原子操作方法" class="headerlink" title="Redis 的两种原子操作方法"></a>Redis 的两种原子操作方法</h3><p>为了实现并发控制要求的临界区代码互斥执行，Redis 的原子操作采用了两种方法：</p>

@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
@@ -215,16 +215,16 @@
 <h4 id="新增数据"><a href="#新增数据" class="headerlink" title="新增数据"></a>新增数据</h4><p>如果是新增数据，数据会直接写到数据库中，不用对缓存做任何操作，此时，缓存中本身就没有新增数据，而数据库中是最新值，这种情况符合我们刚刚所说的一致性的第 2 种情况，所以，此时，缓存和数据库的数据是一致的。</p>
 <h4 id="删改数据"><a href="#删改数据" class="headerlink" title="删改数据"></a>删改数据</h4><p>情况一：</p>
 <p>我们假设应用先删除缓存，再更新数据库，如果缓存删除成功，但是数据库更新失败，那么，应用再访问数据时，缓存中没有数据，就会发生缓存缺失。然后，应用再访问数据库，但是数据库中的值为旧值，应用就访问到旧值了。</p>
-<img src="https://static001.geekbang.org/resource/image/b3/ae/b305a6355c9da145e4d1f86d23f4f0ae.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-854bce262c60eb54ec8b66c63ef2ad7486d73ef7.jpg" alt="img" style="zoom:15%;" />
 
 <p>应用要把数据 X 的值从 10 更新为 3，先在 Redis 缓存中删除了 X 的缓存值，但是更新数据库却失败了。如果此时有其他并发的请求访问 X，会发现 Redis 中缓存缺失，紧接着，请求就会访问数据库，读到的却是旧值 10。</p>
 <p>情况二：</p>
 <p>我们先更新数据库，再删除缓存中的值。应用要把数据 X 的值从 10 更新为 3，先成功更新了数据库，然后在 Redis 缓存中删除 X 的缓存，但是这个操作却失败了，这个时候，数据库中 X 的新值为 3，Redis 中的 X 的缓存值为 10，这肯定是不一致的。如果刚好此时有其他客户端也发送请求访问 X，会先在 Redis 中查询，该客户端会发现缓存命中，但是读到的却是旧值 10。</p>
-<img src="https://static001.geekbang.org/resource/image/76/77/767b4b2b1bafffd9a4b6368f05930a77.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-e3435dcb86f9e2d236ec15f049b6e8192b775d72.jpg" alt="img" style="zoom:15%;" />
 
 <p>总结：</p>
 <p>在更新数据库和删除缓存值的过程中，无论这两个操作的执行顺序谁先谁后，只要有一个操作失败了，就会导致客户端读取到旧值。</p>
-<img src="https://static001.geekbang.org/resource/image/2c/ac/2c376b536aff9d14d8606499f401cdac.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-9f4855399ff31fee5a5ac407a59e62d897644818.jpg" alt="img" style="zoom:15%;" />
 
 
 
@@ -233,7 +233,7 @@
 </blockquote>
 <h4 id="重试机制"><a href="#重试机制" class="headerlink" title="重试机制"></a>重试机制</h4><p>具体来说，可以把要删除的缓存值或者是要更新的数据库值暂存到消息队列中（例如使用 Kafka 消息队列）。当应用没有能够成功地删除缓存值或者是更新数据库值时，可以从消息队列中重新读取这些值，然后再次进行删除或更新。</p>
 <p>如果能够成功地删除或更新，我们就要把这些值从消息队列中去除，以免重复操作，此时，我们也可以保证数据库和缓存的数据一致了。否则的话，我们还需要再次进行重试。如果重试超过的一定次数，还是没有成功，我们就需要向业务层发送报错信息了。</p>
-<img src="https://static001.geekbang.org/resource/image/74/ab/74a66b9ce185d7c5b53986fc522dfcab.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-4b56b498c159cecba3c57006c5fe47999794b5c7.jpg" alt="img" style="zoom:15%;" />
 
 <p>说白了就是把需要更新的数据的消息存在 MQ 中，只有成功操作了（更新 Redis、数据库），才在 MQ 中消费弹出。</p>
 <p>当然引进了 MQ 是为了解决一致性的问题，但是还是会引来新的问题，就是 MQ 的消费与执行的一致性。。。</p>
@@ -245,7 +245,7 @@
 <h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>缓存雪崩是指大量的应用请求无法在 Redis 缓存中进行处理，紧接着，应用将大量请求发送到数据库层，导致数据库层的压力激增。</p>
 <p><strong>说白了就是大量 kv 在同一时刻过期，而该时刻正是业务高峰期。</strong></p>
 <p><strong>当然 Redis 的突然宕机也会造成缓存雪崩。</strong></p>
-<img src="https://static001.geekbang.org/resource/image/74/2e/74bb1aa4b2213e3ff29e2ee701e8f72e.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-03e2219415811640c931ab71fdcaeb6a86bee38f.jpg" alt="img" style="zoom:15%;" />
 
 <h4 id="事前应对"><a href="#事前应对" class="headerlink" title="事前应对"></a>事前应对</h4><ul>
 <li>避免给大量的数据设置相同的过期时间。如果业务层的确要求有些数据同时失效。</li>
@@ -264,12 +264,12 @@
 </ul>
 <h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p>缓存击穿是指，针对某个访问非常频繁的热点数据的请求，无法在缓存中进行处理，紧接着，访问该数据的大量请求，一下子都发送到了后端数据库，导致了数据库压力激增，会影响数据库处理其他请求。缓存击穿的情况，经常发生在热点数据过期失效时。</p>
 <p>说白了就是热点 key，本身的流量就大，但是 Redis 里却没有数据</p>
-<img src="https://static001.geekbang.org/resource/image/d4/4b/d4c77da4yy7d6e34aca460642923ab4b.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-b9e9d004817c8b84cb1e1d8aeb19d0580d2e712a.jpg" alt="img" style="zoom:15%;" />
 
 <h4 id="如何对敌？"><a href="#如何对敌？" class="headerlink" title="如何对敌？"></a>如何对敌？</h4><p>为了避免缓存击穿给数据库带来的激增压力，我们的解决方法也比较直接，<strong>对于访问特别频繁的热点数据，我们就不设置过期时间了。</strong>这样一来，对热点数据的访问请求，都可以在缓存中进行处理，而 Redis 数万级别的高吞吐量可以很好地应对大量的并发请求访问。</p>
 <h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>缓存穿透是指要访问的数据既不在 Redis 缓存中，也不在数据库中，导致请求在访问缓存时，发生缓存缺失，再去访问数据库时，发现数据库中也没有要访问的数据。</p>
 <p>跟缓存雪崩、缓存击穿这两类问题相比，缓存穿透的影响更大一些。</p>
-<img src="https://static001.geekbang.org/resource/image/46/2e/46c49dd155665579c5204a66da8ffc2e.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-73a11dbf64448ffcb0e793a789ed67515caf9ac9.jpg" alt="img" style="zoom:15%;" />
 
 <p>那么，缓存穿透会发生在什么时候呢？一般来说，有两种情况。</p>
 <ul>
@@ -279,12 +279,12 @@
 <h4 id="如何对敌？-1"><a href="#如何对敌？-1" class="headerlink" title="如何对敌？"></a>如何对敌？</h4><p><strong>第一种方案是，缓存空值或缺省值。</strong></p>
 <p>一旦发生缓存穿透，我们就可以针对查询的数据，在 Redis 中缓存一个空值或是和业务层协商确定的缺省值（例如，库存的缺省值可以设为 0）。紧接着，应用发送的后续请求再进行查询时，就可以直接从 Redis 中读取空值或缺省值，返回给业务应用了，避免了把大量请求发送给数据库处理，保持了数据库的正常运行。</p>
 <p><strong>使用布隆过滤器快速判断数据是否存在</strong></p>
-<img src="https://static001.geekbang.org/resource/image/98/68/98f7d32499e4386b40aebc3622aa7268.jpg" alt="img" style="zoom:15%;" />
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-416bdd26610adf1ac6cfbc3e600fcbe512eb72b5.jpg" alt="img" style="zoom:15%;" />
 
 <p>我们可以在把数据写入数据库时，使用布隆过滤器做个标记。当缓存缺失后，应用查询数据库时，可以通过查询布隆过滤器快速判断数据是否存在。如果不存在，就不用再去数据库中查询了。</p>
 <p><strong>在请求入口的前端进行请求检测</strong></p>
 <p>前端拦截恶意的请求</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><img src="https://static001.geekbang.org/resource/image/b5/e1/b5bd931239be18bef24b2ef36c70e9e1.jpg" alt="img" style="zoom:25%;" />
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-2ff5c4527331cecaff4a44e62ea5149d215b9780.jpg" alt="img" style="zoom:25%;" />
 
 <ul>
 <li>针对缓存雪崩，合理地设置数据过期时间，以及搭建高可靠缓存集群；</li>
