@@ -771,6 +771,8 @@
     .modal-search-input::placeholder{color:#8e8e93;font-family:Menlo,Monaco,Consolas,"Courier New",monospace}
     .modal-search-input:focus{box-shadow:none}
     .modal-search-result{max-height:64vh;overflow-y:auto;overflow-x:hidden;margin:0;border:none;border-radius:0;background:transparent;box-shadow:none;overscroll-behavior:contain}
+    .search-modal, .search-modal *{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .modal-search-result{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
     .modal-search-result a{white-space:normal;word-break:break-word;overflow-wrap:anywhere}
     .modal-search-result .hit-title,.modal-search-result .hit-excerpt{white-space:normal;word-break:break-word;overflow-wrap:anywhere}
     /* 可见内置滚动条（右侧） */
@@ -781,13 +783,15 @@
     .modal-search-result ul{list-style:none;margin:0;padding:0}
     .modal-search-result li:first-child{border-top:none}
     .modal-search-result, .modal-search-result *{box-shadow:none !important}
-    .modal-search-result li{padding:12px 14px;border-bottom:1px solid #f2f2f7}
+    .modal-search-result li{padding:14px 16px;border-bottom:1px solid #eee}
     .modal-search-result li:last-child{border-bottom:none}
-    .modal-search-result a{color:#1c1c1e;text-decoration:none;display:block}
-    .modal-search-result a:hover{background:#f7f7f8}
-    .modal-search-result .hit-title{font-weight:600}
-    .modal-search-result .hit-excerpt{font-size:13px;color:#6b7280;margin-top:4px}
-    .modal-search-result .hit-tags{margin-top:6px;font-size:12px;color:#8e8e93}
+    .modal-search-result a{color:#111827;text-decoration:none;display:block;border-radius:0;transition:background .15s ease;padding:0;background:transparent}
+    .modal-search-result li:hover{background:#f8fafc;border-bottom-color:transparent}
+    .modal-search-result .hit-title{font-size:16.5px;font-weight:600;letter-spacing:.2px;color:#111827}
+    .modal-search-result .hit-excerpt{font-size:14px;line-height:1.7;color:#6b7280;margin-top:4px}
+    .modal-search-result .hit-tags{margin-top:6px;font-size:12.5px;color:#9ca3af}
+    .modal-search-result mark{background:linear-gradient(180deg, rgba(255,230,150,.0) 40%, rgba(255,230,150,.7) 40%);color:inherit;padding:0 .5px;border-radius:2px}
+    .modal-search-result li.empty{text-align:center;color:#9aa0a6;font-size:14.5px;padding:20px 0;border-bottom:none}
     @media (max-width: 768px){ .search-modal .search-dialog{margin:8vh 12px} }
   </style>
 </div>
@@ -851,7 +855,7 @@
       }
     });
     results = results.slice(0, 12);
-    var html = '<ul>' + (results.length? '' : '<li>没有找到结果，人生也是。</li>');
+    var html = '<ul>' + (results.length? '' : '<li class="empty">没有找到结果，人生也是。</li>');
     results.forEach(function(r){
       var href = (r.url||'');
       if(href && href.indexOf('http') !== 0){ href = '/' + href.replace(/^\//,''); }
@@ -877,6 +881,29 @@
   .page-animated{ opacity:0; transform: translateY(6px); animation: page-fade .18s ease-out forwards; }
   @keyframes page-fade{ to{ opacity:1; transform: translateY(0); } }
 </style>
+
+
+<!-- MathJax v3 (official) conditional -->
+
+
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+      skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+    }
+  };
+  // 如果页面有动态内容，可在需要时调用：MathJax.typesetPromise();
+  document.addEventListener('DOMContentLoaded', function(){
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise();
+    }
+  });
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 
 
