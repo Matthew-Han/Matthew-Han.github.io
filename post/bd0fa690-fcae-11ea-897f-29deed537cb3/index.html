@@ -173,11 +173,11 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                          <a class="tag" href="/tags/#GC" title="GC">GC</a>
+                        
                           <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
                         
                           <a class="tag" href="/tags/#Java" title="Java">Java</a>
-                        
-                          <a class="tag" href="/tags/#GC" title="GC">GC</a>
                         
                     </div>
                     <h1>走进JVM之GC</h1>
@@ -212,7 +212,7 @@
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/025b9630-626f-11ea-8f75-554d885c423a/">《码出高效》系列笔记（四）：数据结构与集合的框架</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/d6e37130-64cb-11ea-a19c-b3eaacf8ea9d/">《码出高效》系列笔记（四）：数据结构与集合的数组和泛型</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/31c8add0-69af-11ea-ad58-59a2dd622848/">《码出高效》系列笔记（四）：元素的比较</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内部布局</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/5a0667d0-fd7d-11ea-ad87-11fe3cadc827/">走进JVM之内存布局</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/132bab40-fcc4-11ea-ab6f-7dc412045e4d/">走进JVM之字节码与类加载</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.yuanmo.xyz/post/bd0fa690-fcae-11ea-897f-29deed537cb3/">走进JVM之GC</a></li>
 </ul>
@@ -269,7 +269,7 @@
 </ul>
 <h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结   "></a>5.总结   <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-d4f0e48ab917264c4f23749b438e9cf67ae9b39f.png" alt="内存"></h3><p>先Minor GC（Young GC），再Major GC（Full GC）。S0&#x2F;S1交换14次后晋升至老年代（Java8之后是元空间，位于本地内存），jvm默认值是15。</p>
 <p>一般来说OOM是内存耗尽，也有超大内存（不多）的情况。</p>
-<p>   <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/gc/gc%20flow.png" alt="gc-flow"></p>
+<p>   <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/gc/java8_gc.svg" alt="gc-flow"></p>
 <p>以上是我画的图，其中少了一步，当新生代晋升至老年代的时候失败怎么办？其实这里是执行Major GC，也就是走下面的那条流程。</p>
 <h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>可以简单理解成新生代搞一个收集器，老年代搞一个收集器，Java8默认的就是Parallel + Parallel Old收集器</p>
 <ol>
@@ -298,47 +298,54 @@
 <table>
 <thead>
 <tr>
-<th>参数</th>
+<th align="left">参数</th>
 <th align="left">新生代</th>
 <th>新生代算法</th>
-<th>老年代（元空间）</th>
-<th>老年代算法</th>
+<th>老年代</th>
+<th align="left">老年代算法</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>-xx:+UseSerialGC</td>
+<td align="left">-xx:+UseSerialGC</td>
 <td align="left">Serial</td>
 <td>复制</td>
 <td>Serial old</td>
-<td>标记整理</td>
+<td align="left">标记整理</td>
 </tr>
 <tr>
-<td>-xx:+UseParNewGC</td>
+<td align="left">-xx:+UseParNewGC（已废弃）</td>
 <td align="left">ParNew</td>
 <td>复制</td>
 <td>Serial old</td>
-<td>标记整理</td>
+<td align="left">标记整理</td>
 </tr>
 <tr>
-<td>-xx:+UseParallelGC</td>
+<td align="left">-xx:+UseParallelGC</td>
 <td align="left">Parallel</td>
 <td>复制</td>
 <td>Parallel old</td>
-<td>标记整理</td>
+<td align="left">标记整理</td>
 </tr>
 <tr>
-<td>-xx:+UseConcMarkSweepGC</td>
+<td align="left">-xx:+UseConcMarkSweepGC</td>
 <td align="left">ParNew</td>
 <td>复制</td>
 <td>CMS &#x2F; Serial old</td>
-<td>标记清除</td>
+<td align="left">标记清除</td>
 </tr>
 <tr>
-<td>-xx:+UseG1GC</td>
+<td align="left">-xx:+UseG1GC</td>
 <td align="left">G1</td>
-<td>不区别新老年代，整体是标记整理</td>
-<td>局部是赋值算法</td>
-<td></td>
+<td>复制（不区别新老年代）</td>
+<td>G1 Old Region</td>
+<td align="left">标记整理</td>
+</tr>
+<tr>
+<td align="left">-XX:+UseZGC</td>
+<td align="left">ZGC</td>
+<td>并发标记 + 并发重定位</td>
+<td>不区分</td>
+<td align="left">并发压缩</td>
 </tr>
 </tbody></table>
 <p>G1和CMS的区别：</p>
@@ -409,11 +416,11 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
+                          <a class="tag" href="/tags/#GC" title="GC">GC</a>
+                        
                           <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
                         
                           <a class="tag" href="/tags/#Java" title="Java">Java</a>
-                        
-                          <a class="tag" href="/tags/#GC" title="GC">GC</a>
                         
                     </div>
                 </section>
