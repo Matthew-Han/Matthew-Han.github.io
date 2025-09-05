@@ -94,28 +94,19 @@
                     </li>
 
                     
-
                         
-                        <li>
-                            <a href="/archives/">archives</a>
-                        </li>
+                            <li><a href="/archives/">archives</a></li>
                         
-                    
-
+                            <li><a href="/tags/">tags</a></li>
                         
-                        <li>
-                            <a href="/about/">about</a>
-                        </li>
+                            <li><a href="/about/">about</a></li>
                         
                     
-
-                        
-                        <li>
-                            <a href="/tags/">tags</a>
-                        </li>
-                        
-                    
-                    
+                    <li>
+                        <a href="javascript:void(0)" id="open-search" title="搜索">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -680,17 +671,81 @@
         $('.catalog-body').onePageNav({
             currentClass: "active",
             changeHash: !1,
-            easing: "swing",
+            easing: "linear",
             filter: "",
-            scrollSpeed: 700,
-            scrollOffset: 0,
-            scrollThreshold: .2,
+            scrollSpeed: 200,
+            scrollOffset: 72,
+            scrollThreshold: .1,
             begin: null,
             end: null,
             scrollChange: null,
             padding: 80
         });
     });
+
+    // JS fallback: keep right-side catalog fixed on scroll (stable width)
+    (function(){
+        var $catalog = $('.catalog-container .side-catalog');
+        if ($catalog.length === 0) return;
+        var $container = $catalog.closest('.catalog-container');
+        var fixTop = 80; // distance from top considering header/nav
+
+        var baseline = { leftPx: 0, widthPx: 0, originTop: 0 };
+
+        function measure(){
+            var wasFixed = ($catalog.css('position') === 'fixed');
+            if (wasFixed) {
+                // temporarily restore to static to measure true width/left according to CSS (incl. percentage widths)
+                $catalog.css({ position: 'static', top: '', left: '', width: '', 'max-height': '', 'overflow-y': '' });
+            }
+            var rect = $catalog[0].getBoundingClientRect();
+            var docLeft = (window.pageXOffset || document.documentElement.scrollLeft || 0);
+            baseline.leftPx = rect.left + docLeft;
+            baseline.widthPx = $catalog.outerWidth(); // include padding/border
+            baseline.originTop = $container.offset().top;
+            if (wasFixed) {
+                // re-apply fixed immediately if needed
+                applyFixed();
+            }
+        }
+
+        function applyFixed(){
+            $catalog.css({
+                position: 'fixed',
+                top: fixTop + 'px',
+                left: baseline.leftPx + 'px',
+                width: baseline.widthPx + 'px',
+                'max-height': (window.innerHeight - fixTop - 20) + 'px',
+                'overflow-y': 'auto'
+            });
+        }
+
+        function clearFixed(){
+            $catalog.css({ position: 'static', top: '', left: '', width: '', 'max-height': '', 'overflow-y': '' });
+        }
+
+        function update(){
+            var st = $(window).scrollTop();
+            if (st > baseline.originTop - fixTop){
+                applyFixed();
+            } else {
+                clearFixed();
+            }
+        }
+
+        // initial measure and bind
+        measure();
+        $(window).on('scroll', update);
+        $(window).on('resize', function(){
+            // re-measure under static layout to keep width consistent with CSS (% widths etc.)
+            var needRefix = ($catalog.css('position') === 'fixed');
+            if (needRefix) clearFixed();
+            measure();
+            if (needRefix) applyFixed();
+            update();
+        });
+        update();
+    })();
 
 
 
@@ -714,6 +769,135 @@
     })();
 </script>
 
+
+<!-- Search Modal + Logic (search.xml) -->
+<div class="search-modal" id="search-modal" style="display:none;">
+  <div class="search-backdrop"></div>
+  <div class="search-dialog" role="dialog" aria-modal="true">
+    <div class="search-body">
+      <input type="search" id="modal-search-input" class="modal-search-input" placeholder="(base) ➜  ~" autocomplete="off" />
+      <div class="modal-search-result" id="modal-search-result"></div>
+    </div>
+  </div>
+  
+  <style>
+    .search-modal{position:fixed;inset:0;z-index:10000}
+    .search-modal .search-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(4px);opacity:0;transition:opacity .25s ease}
+    .search-modal.show .search-backdrop{opacity:1}
+    /* 极简：仅保留输入框，无圆角矩形容器与边框 */
+    .search-modal .search-dialog{position:relative;max-width:880px;margin:12vh auto;background:transparent;backdrop-filter:none;border-radius:0;box-shadow:none;transform:translateY(-8px) scale(.98);opacity:0;transition:transform .25s ease,opacity .25s ease}
+    .search-modal.show .search-dialog{transform:translateY(0) scale(1);opacity:1}
+    .search-body{padding:0;background:#fff;border-radius:16px;box-shadow:none;overflow:hidden}
+    .modal-search-input{width:100%;height:56px;line-height:56px;border:none;border-radius:0;padding:0 16px;font-size:18px;background:transparent;outline:none;box-shadow:none;border-bottom:none}
+    .modal-search-input::placeholder{color:#8e8e93;font-family:Menlo,Monaco,Consolas,"Courier New",monospace}
+    .modal-search-input:focus{box-shadow:none}
+    .modal-search-result{max-height:64vh;overflow-y:auto;overflow-x:hidden;margin:0;border:none;border-radius:0;background:transparent;box-shadow:none;overscroll-behavior:contain}
+    .modal-search-result a{white-space:normal;word-break:break-word;overflow-wrap:anywhere}
+    .modal-search-result .hit-title,.modal-search-result .hit-excerpt{white-space:normal;word-break:break-word;overflow-wrap:anywhere}
+    /* 可见内置滚动条（右侧） */
+    .modal-search-result{scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.25) transparent}
+    .modal-search-result::-webkit-scrollbar{width:10px}
+    .modal-search-result::-webkit-scrollbar-track{background:transparent}
+    .modal-search-result::-webkit-scrollbar-thumb{background:rgba(0,0,0,.18);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+    .modal-search-result ul{list-style:none;margin:0;padding:0}
+    .modal-search-result li:first-child{border-top:none}
+    .modal-search-result, .modal-search-result *{box-shadow:none !important}
+    .modal-search-result li{padding:12px 14px;border-bottom:1px solid #f2f2f7}
+    .modal-search-result li:last-child{border-bottom:none}
+    .modal-search-result a{color:#1c1c1e;text-decoration:none;display:block}
+    .modal-search-result a:hover{background:#f7f7f8}
+    .modal-search-result .hit-title{font-weight:600}
+    .modal-search-result .hit-excerpt{font-size:13px;color:#6b7280;margin-top:4px}
+    .modal-search-result .hit-tags{margin-top:6px;font-size:12px;color:#8e8e93}
+    @media (max-width: 768px){ .search-modal .search-dialog{margin:8vh 12px} }
+  </style>
+</div>
+
+<script>
+(function(){
+  var $open = $('#open-search');
+  var $modal = $('#search-modal');
+  var $backdrop = $modal.find('.search-backdrop');
+  var $input = $('#modal-search-input');
+  var $panel = $('#modal-search-result');
+  var index = null;
+
+  function openModal(){ $modal.show(); requestAnimationFrame(function(){ $modal.addClass('show'); }); setTimeout(function(){ $input.trigger('focus'); }, 10); }
+  function closeModal(){ $modal.removeClass('show'); setTimeout(function(){ $modal.hide(); }, 200); $panel.empty(); $input.val(''); }
+
+  function fetchIndex(done){
+    if(index){ done && done(); return; }
+    $.ajax({ url: '/search.xml', dataType: 'xml' })
+      .done(function(xml){
+        index = [];
+        $(xml).find('entry').each(function(){
+          var $e = $(this);
+          var title = ($e.find('title').text() || '').trim();
+          var url = ($e.find('url').text() || '').trim() || ($e.find('link').attr('href') || '').trim();
+          var contentHtml = $e.find('content').text() || '';
+          var content = $('<div>').html(contentHtml).text().replace(/\s+/g,' ').trim();
+          var tags = [];
+          $e.find('tag').each(function(){ tags.push(($(this).text()||'').trim()); });
+          index.push({ title: title, url: url, content: content, tags: tags });
+        });
+        done && done();
+      });
+  }
+
+  function escapeRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+  function highlight(text, query){ if(!text || !query) return text; var re = new RegExp('(' + escapeRe(query) + ')','ig'); return text.replace(re,'<mark>$1</mark>'); }
+
+  var debounceTimer = null;
+  function searchNow(q){
+    q = (q||'').trim();
+    if(!q){ $panel.html(''); return; }
+    var keywords = q.toLowerCase().split(/\s+/);
+    var results = [];
+    index.forEach(function(item){
+      var hay = (item.title + ' ' + item.content + ' ' + (item.tags||[]).join(' ')).toLowerCase();
+      var ok = keywords.every(function(kw){ return hay.indexOf(kw) !== -1; });
+      if(ok){
+        var pos = item.content.toLowerCase().indexOf(keywords[0]);
+        var excerpt = item.content;
+        if(pos > -1){
+          var start = Math.max(0, pos - 50);
+          var end = Math.min(item.content.length, pos + 150);
+          excerpt = item.content.substring(start, end);
+          if(start > 0) excerpt = '... ' + excerpt;
+          if(end < item.content.length) excerpt += ' ...';
+        } else {
+          excerpt = item.content.substring(0, 200) + (item.content.length>200?'...':'');
+        }
+        results.push({ title: item.title, url: item.url, excerpt: excerpt, tags: item.tags });
+      }
+    });
+    results = results.slice(0, 12);
+    var html = '<ul>' + (results.length? '' : '<li>没有找到结果，人生也是。</li>');
+    results.forEach(function(r){
+      var href = (r.url||'');
+      if(href && href.indexOf('http') !== 0){ href = '/' + href.replace(/^\//,''); }
+      html += '<li><a href="'+ href +'">'
+        + '<div class="hit-title">'+ highlight(r.title, q) +'</div>'
+        + '<div class="hit-excerpt">'+ highlight(r.excerpt, q) +'</div>'
+        + ((r.tags&&r.tags.length)? '<div class="hit-tags"># ' + r.tags.join(' # ') + '</div>' : '')
+        + '</a></li>';
+    });
+    html += '</ul>';
+    $panel.html(html);
+  }
+
+  $open.on('click', function(){ openModal(); fetchIndex(); });
+  $backdrop.on('click', closeModal);
+  $(document).on('keydown', function(e){ if(e.key === 'Escape'){ closeModal(); }});
+  $input.on('input', function(){ var q = this.value; clearTimeout(debounceTimer); debounceTimer = setTimeout(function(){ fetchIndex(function(){ searchNow(q); }); }, 120); });
+})();
+</script>
+
+<!-- Global quick page fade-up animation for list/sections -->
+<style>
+  .page-animated{ opacity:0; transform: translateY(6px); animation: page-fade .18s ease-out forwards; }
+  @keyframes page-fade{ to{ opacity:1; transform: translateY(0); } }
+</style>
 
 
 
