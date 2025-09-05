@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -212,7 +212,7 @@
 <p>看起来说前缀和搞不定的可以用树状数组来解决。</p>
 <p>那么，树状数组是一种什么样的结构呢？首先它本身还是数组，不是像二叉树、字典树那样真正意义上的树了。因为没有必要做成那样的数据结构，它本身就是利用二进制的特性的来实现<strong>查询</strong>和<strong>更新</strong>操作的，数组结构已经完成可以满足<strong>分块</strong>处理的需求（太强了）。</p>
 <p>假设有一个数组 <code>arr = &#123;1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11, 12, 13, 14, 15, 16&#125;</code>，那么树状数组 <code>tree</code> 在实际的结构中可能存储的是如下的数据：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200717113256650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jlc3Rzb3J0,size_16,color_FFFFFF,t_70" alt="img"></p>
+<p><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/BinaryIndexedTree/tree-array.png" alt="img"></p>
 <p>他看来还是像一颗二叉树，其中（下标从 <code>1</code> 开始）</p>
 <ul>
 <li><code>tree[1] = arr[1]</code></li>
@@ -306,7 +306,7 @@
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">CATALOG</a>
+                        <a class="catalog-toggle" href="#">目录</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
@@ -492,6 +492,9 @@
     </div>
 </footer>
 
+<!-- Back to Top -->
+<a href="#" id="back-to-top" title="回到顶部">▲</a>
+
 <!-- jQuery -->
 
 <script src="/js/jquery.min.js"></script>
@@ -570,9 +573,9 @@
 <!-- Baidu Tongji -->
 
 
-<!-- Side Catalog -->
-
+<!-- Side Catalog & Back-to-top -->
 <script type="text/javascript">
+
     function generateCatalog (selector) {
         var P = $('div.post-container'),a,n,t,l,i,c;
         a = P.find('h1,h2,h3,h4,h5,h6');
@@ -614,6 +617,27 @@
             padding: 80
         });
     });
+
+
+
+    // back-to-top
+    (function(){
+        var $btn = $('#back-to-top');
+        if(!$btn.length){ return; }
+        var toggle = function(){
+            if($(window).scrollTop() > 200){
+                $btn.addClass('show');
+            } else {
+                $btn.removeClass('show');
+            }
+        };
+        $(window).on('scroll', toggle);
+        toggle();
+        $btn.on('click', function(e){
+            e.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 400);
+        });
+    })();
 </script>
 
 

@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -384,7 +384,7 @@ System.out.println(&quot;容量大小为：&quot; + capacity.invoke(map));
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">CATALOG</a>
+                        <a class="catalog-toggle" href="#">目录</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
@@ -576,6 +576,9 @@ System.out.println(&quot;容量大小为：&quot; + capacity.invoke(map));
     </div>
 </footer>
 
+<!-- Back to Top -->
+<a href="#" id="back-to-top" title="回到顶部">▲</a>
+
 <!-- jQuery -->
 
 <script src="/js/jquery.min.js"></script>
@@ -654,9 +657,9 @@ System.out.println(&quot;容量大小为：&quot; + capacity.invoke(map));
 <!-- Baidu Tongji -->
 
 
-<!-- Side Catalog -->
-
+<!-- Side Catalog & Back-to-top -->
 <script type="text/javascript">
+
     function generateCatalog (selector) {
         var P = $('div.post-container'),a,n,t,l,i,c;
         a = P.find('h1,h2,h3,h4,h5,h6');
@@ -698,6 +701,27 @@ System.out.println(&quot;容量大小为：&quot; + capacity.invoke(map));
             padding: 80
         });
     });
+
+
+
+    // back-to-top
+    (function(){
+        var $btn = $('#back-to-top');
+        if(!$btn.length){ return; }
+        var toggle = function(){
+            if($(window).scrollTop() > 200){
+                $btn.addClass('show');
+            } else {
+                $btn.removeClass('show');
+            }
+        };
+        $(window).on('scroll', toggle);
+        toggle();
+        $btn.on('click', function(e){
+            e.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 400);
+        });
+    })();
 </script>
 
 

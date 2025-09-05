@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -332,8 +332,10 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
             
             Q：Redis 变慢的原因一
 
-这里存在一个问题，哈希冲突链上的元素只能通过指针逐一查找再操作。如果哈希表里写入的数据越来越多，哈希冲突可能也会越来越多，这就会导致某些哈希冲突链过长，进而导致这个链上的元素查找耗时长，效率降低。对于追求“快”的 Redis 来说，这是不太能接受的。
-所以，Re...
+
+类似 Java GC  S0&amp;#x2F;S1 的复制算法
+
+这里存在一个问题，哈希冲突链上的元素只能通过指针逐一查找再操作。如果哈希表里写入的数据越来越多，哈希冲突可能也会越来越多，这就会导致某些哈希冲突链过长，进而导致这个链上的元素查找耗时长，效率降低。对于...
         </div>
     </a>
     <p class="post-meta">
@@ -513,6 +515,10 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
+                            <a href="/tags/#leetcode" title="leetcode" rel="17">leetcode</a>
+                            
+                        
+                            
                             <a href="/tags/#栈" title="栈" rel="4">栈</a>
                             
                         
@@ -521,21 +527,17 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
-                            <a href="/tags/#leetcode" title="leetcode" rel="17">leetcode</a>
+                            <a href="/tags/#动态规划" title="动态规划" rel="2">动态规划</a>
+                            
+                        
+                            
+                            <a href="/tags/#记忆化递归" title="记忆化递归" rel="2">记忆化递归</a>
                             
                         
                             
                             <a href="/tags/#队列" title="队列" rel="3">队列</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#动态规划" title="动态规划" rel="2">动态规划</a>
-                            
-                        
-                            
-                            <a href="/tags/#记忆化递归" title="记忆化递归" rel="2">记忆化递归</a>
                             
                         
                             
@@ -577,15 +579,11 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
-                            <a href="/tags/#Redis" title="Redis" rel="11">Redis</a>
+                            <a href="/tags/#Redis" title="Redis" rel="12">Redis</a>
                             
                         
                             
                             <a href="/tags/#Shiro" title="Shiro" rel="3">Shiro</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -621,17 +619,19 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
+                        
+                            
                             <a href="/tags/#集合" title="集合" rel="3">集合</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#泛型" title="泛型" rel="2">泛型</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -693,9 +693,9 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
                             
                         
                             
-                        
-                            
                             <a href="/tags/#树" title="树" rel="2">树</a>
+                            
+                        
                             
                         
                             
@@ -906,6 +906,9 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
     </div>
 </footer>
 
+<!-- Back to Top -->
+<a href="#" id="back-to-top" title="回到顶部">▲</a>
+
 <!-- jQuery -->
 
 <script src="/js/jquery.min.js"></script>
@@ -984,7 +987,29 @@ AOF 重写问题，比如设置了 everysec ，上一次还妹写完，下一次
 <!-- Baidu Tongji -->
 
 
-<!-- Side Catalog -->
+<!-- Side Catalog & Back-to-top -->
+<script type="text/javascript">
+
+
+    // back-to-top
+    (function(){
+        var $btn = $('#back-to-top');
+        if(!$btn.length){ return; }
+        var toggle = function(){
+            if($(window).scrollTop() > 200){
+                $btn.addClass('show');
+            } else {
+                $btn.removeClass('show');
+            }
+        };
+        $(window).on('scroll', toggle);
+        toggle();
+        $btn.on('click', function(e){
+            e.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 400);
+        });
+    })();
+</script>
 
 
 

@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -526,6 +526,10 @@ Shiro的Session：定义好的一个...
                             
                         
                             
+                            <a href="/tags/#leetcode" title="leetcode" rel="17">leetcode</a>
+                            
+                        
+                            
                             <a href="/tags/#栈" title="栈" rel="4">栈</a>
                             
                         
@@ -534,21 +538,17 @@ Shiro的Session：定义好的一个...
                             
                         
                             
-                            <a href="/tags/#leetcode" title="leetcode" rel="17">leetcode</a>
+                            <a href="/tags/#动态规划" title="动态规划" rel="2">动态规划</a>
+                            
+                        
+                            
+                            <a href="/tags/#记忆化递归" title="记忆化递归" rel="2">记忆化递归</a>
                             
                         
                             
                             <a href="/tags/#队列" title="队列" rel="3">队列</a>
                             
                         
-                            
-                        
-                            
-                            <a href="/tags/#动态规划" title="动态规划" rel="2">动态规划</a>
-                            
-                        
-                            
-                            <a href="/tags/#记忆化递归" title="记忆化递归" rel="2">记忆化递归</a>
                             
                         
                             
@@ -590,15 +590,11 @@ Shiro的Session：定义好的一个...
                             
                         
                             
-                            <a href="/tags/#Redis" title="Redis" rel="11">Redis</a>
+                            <a href="/tags/#Redis" title="Redis" rel="12">Redis</a>
                             
                         
                             
                             <a href="/tags/#Shiro" title="Shiro" rel="3">Shiro</a>
-                            
-                        
-                            
-                        
                             
                         
                             
@@ -634,17 +630,19 @@ Shiro的Session：定义好的一个...
                             
                         
                             
+                        
+                            
                             <a href="/tags/#集合" title="集合" rel="3">集合</a>
                             
                         
                             
                         
                             
-                        
-                            
-                        
-                            
                             <a href="/tags/#泛型" title="泛型" rel="2">泛型</a>
+                            
+                        
+                            
+                        
                             
                         
                             
@@ -706,9 +704,9 @@ Shiro的Session：定义好的一个...
                             
                         
                             
-                        
-                            
                             <a href="/tags/#树" title="树" rel="2">树</a>
+                            
+                        
                             
                         
                             
@@ -919,6 +917,9 @@ Shiro的Session：定义好的一个...
     </div>
 </footer>
 
+<!-- Back to Top -->
+<a href="#" id="back-to-top" title="回到顶部">▲</a>
+
 <!-- jQuery -->
 
 <script src="/js/jquery.min.js"></script>
@@ -997,7 +998,29 @@ Shiro的Session：定义好的一个...
 <!-- Baidu Tongji -->
 
 
-<!-- Side Catalog -->
+<!-- Side Catalog & Back-to-top -->
+<script type="text/javascript">
+
+
+    // back-to-top
+    (function(){
+        var $btn = $('#back-to-top');
+        if(!$btn.length){ return; }
+        var toggle = function(){
+            if($(window).scrollTop() > 200){
+                $btn.addClass('show');
+            } else {
+                $btn.removeClass('show');
+            }
+        };
+        $(window).on('scroll', toggle);
+        toggle();
+        $btn.on('click', function(e){
+            e.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 400);
+        });
+    })();
+</script>
 
 
 

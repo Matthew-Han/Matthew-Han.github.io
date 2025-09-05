@@ -1,3 +1,4 @@
+
 @media (min-width: 1200px) {
   .post-container,
   .sidebar-container {
@@ -849,6 +850,16 @@ body {
 }
 /* Tags support End*/
 /* Hux make all img responsible in post-container */
+.catalog-container .side-catalog h5 { text-align: center; }
+.catalog-container .side-catalog h5 a { display: inline-block; }
+.catalog-container .catalog-body li a {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .post-container img {
   display: block;
   max-width: 100%;
@@ -860,6 +871,26 @@ body {
 .navbar-default .navbar-toggle:hover {
   background-color: inherit;
 }
+/* Back to Top Button */
+#back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border-radius: 50%;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, background .2s ease;
+  z-index: 9999;
+}
+#back-to-top:hover { background: rgba(0,0,0,0.6); }
+#back-to-top.show { opacity: 1; pointer-events: auto; }
 .navbar-default .navbar-toggle:active {
   background-color: rgba(255, 255, 255, 0.25);
 }
@@ -951,3 +982,5 @@ body {
 .page-fullscreen footer .copyright a:hover {
   color: #ddd;
 }
+
+

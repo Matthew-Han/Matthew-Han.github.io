@@ -97,14 +97,14 @@
 
                         
                         <li>
-                            <a href="/about/">about</a>
+                            <a href="/archives/">archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archives/">archives</a>
+                            <a href="/about/">about</a>
                         </li>
                         
                     
@@ -1463,6 +1463,9 @@
     </div>
 </footer>
 
+<!-- Back to Top -->
+<a href="#" id="back-to-top" title="回到顶部">▲</a>
+
 <!-- jQuery -->
 
 <script src="/js/jquery.min.js"></script>
@@ -1541,7 +1544,29 @@
 <!-- Baidu Tongji -->
 
 
-<!-- Side Catalog -->
+<!-- Side Catalog & Back-to-top -->
+<script type="text/javascript">
+
+
+    // back-to-top
+    (function(){
+        var $btn = $('#back-to-top');
+        if(!$btn.length){ return; }
+        var toggle = function(){
+            if($(window).scrollTop() > 200){
+                $btn.addClass('show');
+            } else {
+                $btn.removeClass('show');
+            }
+        };
+        $(window).on('scroll', toggle);
+        toggle();
+        $btn.on('click', function(e){
+            e.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 400);
+        });
+    })();
+</script>
 
 
 
