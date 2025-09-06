@@ -197,7 +197,7 @@
 <p>初步了解这个事情，感到十分痛心和无奈。</p>
 <p>在全国各地正如火如荼的进行网课教育并且还催生出一堆捧腹的段子的时候，我就时常会想到那些非常贫困的学生们。虽然是2020年了，几乎是人人都应该有一部智能手机的时候。他们可能没有条件做到能够全天按照学校安排的课程进行网络学习。更可能的情况是家里没有有线宽带，无法支撑他们持续数个月的高强度直播、视频学习。即使是数据流量对于一个贫困的家庭来说是一个不小的负担。全班一起上直播的网课，同时他们还要考虑很多关于同学之间的<strong>面子</strong>问题。</p>
 <p><strong>对于他们在心理上的关心和引导我觉得才是真真正正最需要关注的点。</strong></p>
-<p>古话教导我们「儿不嫌母丑，狗不嫌家贫。」正确的思想观念是应该从小灌输的，我们不可能剥离需要面对的现实而单独生长在只有超我的世界。未出社会的小孩子很难真正体会父母的辛酸与艰难，什么狗屁人生道理靠别人总结好送给你的永远记不住，而是根据自己的经验一点点悟出来的。如果平时父母没有定期和孩子交流双方的心里话的习惯，非常不好，尤其是一些外出打工的家庭。相对这类家庭来说父母对子女的关注度不够或者是十分片面的，仅仅只是学习和吃饱穿暖其实完全不够。在孩子成长初期应该多去深入交流，多了解孩子的内心世界，是缺少了什么渴望着什么还是有什么不满，双方都能无保留的表达出想法才可以让家长进一步判断这个阶段忽略了什么，孩子又陷入了什么走不开的死胡同。许多影响极度恶劣的重案的犯罪者，有相当多的比例都拥有了一个不太美好的童年，所以造成的一些比较奇怪性格品行往往会伴随其一生。</p>
+<p>未出社会的小孩子很难真正体会父母的辛酸与艰难，什么狗屁人生道理靠别人总结好送给你的永远记不住，而是根据自己的经验一点点悟出来的。如果平时父母没有定期和孩子交流双方的心里话的习惯，非常不好，尤其是一些外出打工的家庭。相对这类家庭来说父母对子女的关注度不够或者是十分片面的，仅仅只是学习和吃饱穿暖其实完全不够。在孩子成长初期应该多去深入交流，多了解孩子的内心世界，是缺少了什么渴望着什么还是有什么不满，双方都能无保留的表达出想法才可以让家长进一步判断这个阶段忽略了什么，孩子又陷入了什么走不开的死胡同。许多影响极度恶劣的重案的犯罪者，有相当多的比例都拥有了一个不太美好的童年，所以造成的一些比较奇怪性格品行往往会伴随其一生。</p>
 <p>学校和老师也要担责，作为网课的具体实行者，不确定有没有事先调查好其下的学生的上网课的具备条件（估计学校也应该是让老师发表格之类的调查过，小女孩出于自尊心之类的传达了可以接受网课的形式教学），不确定任课教师有没有因为学生落下的进度问题而过分苛责。老师班主任对于学生的家庭条件和心理情况了解程度还是不够，可能还是需要人民教师再心细敏感一些吧（教师当然也不好当）。</p>
 <p>出现这种问题一方面确实是我国区域发展不均衡以及经济差距过大，很多人忽略了那些人的生活条件真的比你想象的艰难。</p>
 <h1 id="2"><a href="#2" class="headerlink" title="# 2"></a># 2</h1><blockquote>
@@ -218,7 +218,7 @@
                     
                     
                         <li class="next">
-                            <a href="/post/24ffa600-367c-11ea-ba8c-fb7580846ffa/" data-toggle="tooltip" data-placement="top" title="多线程之竞争与锁">Next Post &rarr;</a>
+                            <a href="/post/9dca78f0-32ab-11ea-a0c0-0fee95c51c98/" data-toggle="tooltip" data-placement="top" title="张小龙的微信公开课">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -388,15 +388,6 @@
                 
 
                 
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/MatthewHan">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -419,7 +410,7 @@
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-link"></i>
                     </span>
-                    Ported by Kaijun
+                    Ported by <a target="_blank" rel="noopener" href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-heart"></i>
                     </span>
@@ -646,6 +637,12 @@
             e.preventDefault();
             $('html, body').animate({scrollTop: 0}, 400);
         });
+    })();
+
+    // tags page: revert to original (anchor jump only)
+    (function(){
+        var cloud = document.getElementById('tag_cloud');
+        if(!cloud){ return; }
     })();
 </script>
 

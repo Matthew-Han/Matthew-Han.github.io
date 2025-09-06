@@ -629,15 +629,6 @@
                 
 
                 
-                    <li>
-                        <a target="_blank" href="https://www.facebook.com/MatthewHan">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </a>
-                    </li>
-                
 
                 
                     <li>
@@ -660,7 +651,7 @@
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-link"></i>
                     </span>
-                    Ported by Kaijun
+                    Ported by <a target="_blank" rel="noopener" href="https://github.com/Kaijun/hexo-theme-huxblog">Kaijun</a>
                     <span style="display: inline-block; margin: 0 5px;">
                         <i class="fa fa-heart"></i>
                     </span>
@@ -887,6 +878,12 @@
             e.preventDefault();
             $('html, body').animate({scrollTop: 0}, 400);
         });
+    })();
+
+    // tags page: revert to original (anchor jump only)
+    (function(){
+        var cloud = document.getElementById('tag_cloud');
+        if(!cloud){ return; }
     })();
 </script>
 
