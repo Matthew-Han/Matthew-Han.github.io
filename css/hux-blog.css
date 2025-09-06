@@ -888,6 +888,7 @@ body {
   list-style: none;
   padding-left: 0;
   margin: 0;
+  font-size: 0.85em;
 }
 .catalog-container .catalog-body li a {
   padding: 6px 12px;
@@ -914,6 +915,12 @@ body {
 .catalog-container .catalog-body li.h4_nav a { padding-left: 50px; }
 .catalog-container .catalog-body li.h5_nav a { padding-left: 60px; }
 .catalog-container .catalog-body li.h6_nav a { padding-left: 70px; }
+
+/* smaller font for deeper headings in catalog (H3-H6) */
+.catalog-container .catalog-body li.h3_nav a { font-size: 0.85em; }
+.catalog-container .catalog-body li.h4_nav a { font-size: 0.8em; }
+.catalog-container .catalog-body li.h5_nav a { font-size: 0.8em; }
+.catalog-container .catalog-body li.h6_nav a { font-size: 0.8em; }
 
 /* catalog full border */
 .catalog-container .side-catalog {
