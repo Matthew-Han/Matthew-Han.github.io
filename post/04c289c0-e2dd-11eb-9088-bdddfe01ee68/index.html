@@ -190,18 +190,18 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Q：万金油的-String-不一定好用"><a href="#Q：万金油的-String-不一定好用" class="headerlink" title="Q：万金油的 String 不一定好用"></a>Q：万金油的 String 不一定好用</h2><p>场景：</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="Q：万金油的-String-不一定好用"><a href="#Q：万金油的-String-不一定好用" class="headerlink" title="Q：万金油的 String 不一定好用"></a>Q：万金油的 String 不一定好用</h1><p>场景：</p>
 <p>开发一个图片存储系统，要求这个系统能快速地记录图片 ID 和图片在存储系统中保存时的 ID（可以直接叫作图片存储对象 ID）。同时，还要能够根据图片 ID 快速查找到图片存储对象 ID。</p>
 <p>用 10 位数来表示图片 ID 和图片存储对象 ID，例如，图片 ID 为 1101000051，它在存储系统中对应的 ID 号是 3301000051。</p>
 <p><strong>初始设计：</strong></p>
 <p>图片 ID 和图片存储对象 ID 正好一一对应，是典型的“键 - 单值”模式。所谓的“单值”，就是指键值对中的值就是一个值，而不是一个集合，这和 String 类型提供的“一个键对应一个值的数据”的保存形式刚好契合。</p>
 <p>刚开始，我们保存了 1 亿张图片，大约用了 6.4GB 的内存。但是，随着图片数据量的不断增加，我们的 Redis 内存使用量也在增加，结果就遇到了大内存 Redis 实例因为生成 RDB 而响应变慢的问题。很显然，String 类型并不是一种好的选择，我们还需要进一步寻找能节省内存开销的数据类型方案。</p>
-<h3 id="内存使用量大的原因"><a href="#内存使用量大的原因" class="headerlink" title="内存使用量大的原因"></a>内存使用量大的原因</h3><p>String 类型并不是适用于所有场合的，它有一个明显的短板，就是它保存数据时所消耗的内存空间较多。</p>
+<h2 id="内存使用量大的原因"><a href="#内存使用量大的原因" class="headerlink" title="内存使用量大的原因"></a>内存使用量大的原因</h2><p>String 类型并不是适用于所有场合的，它有一个明显的短板，就是它保存数据时所消耗的内存空间较多。</p>
 <p>其实，除了记录实际数据，String 类型还需要额外的内存空间记录数据长度、空间使用等信息，这些信息也叫作元数据。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-0f63d2438a538cc91cd4fdc033c87f9dff484657.jpg" alt="img" style="zoom:15%;" />
 
 <p>反正就是除了本身的应存的数据之外，还保留很多其他的元数据，所以占用内存较大。</p>
-<h3 id="如何优化"><a href="#如何优化" class="headerlink" title="如何优化"></a>如何优化</h3><p>在保存单值的键值对时，可以采用基于 Hash 类型的二级编码方法。这里说的二级编码，就是把一个单值的数据拆分成两部分，前一部分作为 Hash 集合的 key，后一部分作为 Hash 集合的 value，这样一来，我们就可以把单值数据保存到 Hash 集合中了。</p>
+<h2 id="如何优化"><a href="#如何优化" class="headerlink" title="如何优化"></a>如何优化</h2><p>在保存单值的键值对时，可以采用基于 Hash 类型的二级编码方法。这里说的二级编码，就是把一个单值的数据拆分成两部分，前一部分作为 Hash 集合的 key，后一部分作为 Hash 集合的 value，这样一来，我们就可以把单值数据保存到 Hash 集合中了。</p>
 <p>以图片 ID 1101000060 和图片存储对象 ID 3302000080 为例，我们可以把图片 ID 的前 7 位（1101000）作为 Hash 类型的键，把图片 ID 的最后 3 位（060）和图片存储对象 ID 分别作为 Hash 类型值中的 key 和 value。</p>
 <p>二级编码一定要把图片 ID 的前 7 位作为 Hash 类型的键，把最后 3 位作为 Hash 类型值中的 key 吗？其实，二级编码方法中采用的 ID 长度是有讲究的。</p>
 <p>Redis Hash 类型的两种底层实现结构，分别是压缩列表和哈希表。那么，Hash 类型底层结构什么时候使用压缩列表，什么时候使用哈希表呢？其实，Hash 类型设置了用压缩列表保存数据时的两个阈值，一旦超过了阈值，Hash 类型就会用哈希表来保存数据了。</p>
@@ -214,16 +214,16 @@
 </ul>
 <p>如果我们往 Hash 集合中写入的元素个数超过了 hash-max-ziplist-entries，或者写入的单个元素大小超过了 hash-max-ziplist-value，Redis 就会自动把 Hash 类型的实现结构由压缩列表转为哈希表。一旦从压缩列表转为了哈希表，Hash 类型就会一直用哈希表进行保存，而不会再转回压缩列表了。在节省内存空间方面，哈希表就没有压缩列表那么高效了。</p>
 <p>为了能充分使用压缩列表的精简内存布局，我们一般要控制保存在 Hash 集合中的元素个数。所以，在刚才的二级编码中，我们只用图片 ID 最后 3 位作为 Hash 集合的 key，也就保证了 Hash 集合的元素个数不超过 1000，同时，我们把 hash-max-ziplist-entries 设置为 1000，这样一来，Hash 集合就可以一直使用压缩列表来节省内存空间了。</p>
-<h3 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h3><p>这篇就是说了 String 在大量的键值对方面内存容量上有点拉胯，可以抽取出这些 key 的共性，再搞一个集合类型作为 value。当然如果 key 各个都不太一样就不太好搞了。</p>
+<h2 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h2><p>这篇就是说了 String 在大量的键值对方面内存容量上有点拉胯，可以抽取出这些 key 的共性，再搞一个集合类型作为 value。当然如果 key 各个都不太一样就不太好搞了。</p>
 <p>另外，教你了怎么采用压缩列表能够更大程度的节省空间。然后这个何时采用压缩列表何时采用其他的数据结构，配置项可配的。</p>
 <p>另外，压缩列表是一块连续内存，对 CPU cache 也友好，CPU 命中率也不错，所以读取速度也非常快。</p>
-<h2 id="Q：有一亿个keys要统计，应该用哪种集合"><a href="#Q：有一亿个keys要统计，应该用哪种集合" class="headerlink" title="Q：有一亿个keys要统计，应该用哪种集合"></a>Q：有一亿个keys要统计，应该用哪种集合</h2><ul>
+<h1 id="Q：有一亿个keys要统计，应该用哪种集合"><a href="#Q：有一亿个keys要统计，应该用哪种集合" class="headerlink" title="Q：有一亿个keys要统计，应该用哪种集合"></a>Q：有一亿个keys要统计，应该用哪种集合</h1><ul>
 <li>在移动应用中，需要统计每天的新增用户数和第二天的留存用户数；</li>
 <li>在电商网站的商品评论中，需要统计评论列表中的最新评论；</li>
 <li>在签到打卡中，需要统计一个月内连续打卡的用户数；</li>
 <li>在网页访问记录中，需要统计独立访客（Unique Visitor，UV）量。</li>
 </ul>
-<h3 id="聚合统计"><a href="#聚合统计" class="headerlink" title="聚合统计"></a>聚合统计</h3><blockquote>
+<h2 id="聚合统计"><a href="#聚合统计" class="headerlink" title="聚合统计"></a>聚合统计</h2><blockquote>
 <p>统计手机 App 每天的新增用户数和第二天的留存用户数</p>
 </blockquote>
 <p>所谓的聚合统计，就是指统计多个集合元素的聚合结果，包括：统计多个集合的共有元素（交集统计）；把两个集合相比，统计其中一个集合独有的元素（差集统计）；统计多个集合的所有元素（并集统计）。</p>
@@ -234,8 +234,8 @@
 <p>执行的命令如下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SINTERSTORE user:id:rem user:id:20200803 user:id:20200804</span><br></pre></td></tr></table></figure>
 
-<p>Set 的差集、并集和交集的计算复杂度较高，在数据量较大的情况下，如果直接执行这些计算，会导致 Redis 实例阻塞。所以，我给你分享一个小建议：<strong>你可以从主从集群中选择一个从库，让它专门负责聚合计算，或者是把数据读取到客户端，在客户端来完成聚合统计</strong>，这样就可以规避阻塞主库实例和其他从库实例的风险了。</p>
-<h3 id="排序统计"><a href="#排序统计" class="headerlink" title="排序统计"></a>排序统计</h3><blockquote>
+<p>Set 的差集、并集和交集的计算复杂度较高，在数据量较大的情况下，如果直接执行这些计算，会导致 Redis 实例阻塞。所以，分享一个小建议：<strong>你可以从主从集群中选择一个从库，让它专门负责聚合计算，或者是把数据读取到客户端，在客户端来完成聚合统计</strong>，这样就可以规避阻塞主库实例和其他从库实例的风险了。</p>
+<h2 id="排序统计"><a href="#排序统计" class="headerlink" title="排序统计"></a>排序统计</h2><blockquote>
 <p>电商网站上提供最新评论列表</p>
 </blockquote>
 <p>List 是按照元素进入 List 的顺序进行排序的，而 Sorted Set 可以根据元素的权重来排序，我们可以自己来决定每个元素的权重值。比如说，我们可以根据元素插入 Sorted Set 的时间确定权重值，先插入的元素权重小，后插入的元素权重大。</p>
@@ -243,7 +243,7 @@
 <p><strong>如果不想出现这样的情况，就用 Sorted Set，因为他的取的权重还是老的，所以不会出现新的元素。除非你又获取了新的元素，拿到的新的权重，不然就是老的权重。</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZRANGEBYSCORE comments N-9 N</span><br></pre></td></tr></table></figure>
 
-<h3 id="二值状态统计"><a href="#二值状态统计" class="headerlink" title="二值状态统计"></a>二值状态统计</h3><blockquote>
+<h2 id="二值状态统计"><a href="#二值状态统计" class="headerlink" title="二值状态统计"></a>二值状态统计</h2><blockquote>
 <p>签到打卡的场景</p>
 </blockquote>
 <p>Bitmap 提供了 GETBIT&#x2F;SETBIT 操作，使用一个偏移值 offset 对 bit 数组的某一个 bit 位进行读和写。不过，需要注意的是，Bitmap 的偏移量是从 0 开始算的，也就是说 offset 的最小值是 0。当使用 SETBIT 对一个 bit 位进行写操作时，这个 bit 位会被设置为 1。Bitmap 还提供了 BITCOUNT 操作，用来统计这个 bit 数组中所有“1”的个数。</p>
@@ -259,7 +259,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BITCOUNT uid:sign:3000:202008</span><br></pre></td></tr></table></figure>
 
 <p>所以，如果只需要统计数据的二值状态，例如商品有没有、用户在不在等，就可以使用 Bitmap，因为它只用一个 bit 位就能表示 0 或 1。在记录海量数据时，Bitmap 能够有效地节省内存空间。</p>
-<h3 id="基数统计"><a href="#基数统计" class="headerlink" title="基数统计"></a>基数统计</h3><blockquote>
+<h2 id="基数统计"><a href="#基数统计" class="headerlink" title="基数统计"></a>基数统计</h2><blockquote>
 <p>统计网页的 UV</p>
 </blockquote>
 <p>网页 UV 的统计有个独特的地方，就是需要去重，一个用户一天内的多次访问只能算作一次。在 Redis 的集合类型中，Set 类型默认支持去重，所以看到有去重需求时，我们可能第一时间就会想到用 Set 类型。</p>
@@ -279,7 +279,7 @@
 
 
 
-<h2 id="Q：GEO-是怎么搞定位置信息服务的"><a href="#Q：GEO-是怎么搞定位置信息服务的" class="headerlink" title="Q：GEO 是怎么搞定位置信息服务的"></a>Q：GEO 是怎么搞定位置信息服务的</h2><p>实际上，GEO 类型的底层数据结构就是用 Sorted Set 来实现的。</p>
+<h1 id="Q：GEO-是怎么搞定位置信息服务的"><a href="#Q：GEO-是怎么搞定位置信息服务的" class="headerlink" title="Q：GEO 是怎么搞定位置信息服务的"></a>Q：GEO 是怎么搞定位置信息服务的</h1><p>实际上，GEO 类型的底层数据结构就是用 Sorted Set 来实现的。</p>
 <p>为了能高效地对经纬度进行比较，Redis 采用了业界广泛使用的 GeoHash 编码方法，这个方法的基本原理就是“二分区间，区间编码”。</p>
 <p>就是每次划分成两个区间，左 0 右 1。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-087bd587b868ff5cdac6653f2641c76ea1d0284a.jpg" alt="img" style="zoom:15%;" />
@@ -299,7 +299,7 @@
 <p>不同位的做 GEOHASH 编码，可以得到精度不同的方格。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-ebc4cadde7c394f18ffe17cd251725a9d30435e3.jpg" alt="img" style="zoom:15%;" />
 
-<h3 id="如何操作-GEO-类型？"><a href="#如何操作-GEO-类型？" class="headerlink" title="如何操作 GEO 类型？"></a>如何操作 GEO 类型？</h3><p>在使用 GEO 类型时，我们经常会用到两个命令，分别是 GEOADD 和 GEORADIUS。</p>
+<h2 id="如何操作-GEO-类型？"><a href="#如何操作-GEO-类型？" class="headerlink" title="如何操作 GEO 类型？"></a>如何操作 GEO 类型？</h2><p>在使用 GEO 类型时，我们经常会用到两个命令，分别是 GEOADD 和 GEORADIUS。</p>
 <p>GEOADD 命令：用于把一组经纬度信息和相对应的一个 ID 记录到 GEO 类型集合中；</p>
 <p>GEORADIUS 命令：会根据输入的经纬度位置，查找以这个经纬度为中心的一定范围内的其他元素。</p>
 <p>以叫车应用的车辆匹配场景为例，假设车辆 ID 是 33，经纬度位置是（116.034579，39.030452），我们可以用一个 GEO 集合保存所有车辆的经纬度，集合 key 是 cars:locations。执行下面的这个命令，就可以把 ID 号为 33 的车辆的当前经纬度位置存入 GEO 集合中：</p>
@@ -354,7 +354,7 @@
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">目录</a>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
@@ -497,6 +497,15 @@
                     </li>
                 
 
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/MatthewHan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -667,7 +676,8 @@
         var $catalog = $('.catalog-container .side-catalog');
         if ($catalog.length === 0) return;
         var $container = $catalog.closest('.catalog-container');
-        var fixTop = 80; // distance from top considering header/nav
+        var fixTop = 10; // distance from top considering header/nav (increased to match CSS margin-top:40px)
+        var fixMinScroll = 240; // minimal scroll px before sticking to avoid immediate fixed on load
 
         var baseline = { leftPx: 0, widthPx: 0, originTop: 0 };
 
@@ -705,7 +715,8 @@
 
         function update(){
             var st = $(window).scrollTop();
-            if (st > baseline.originTop - fixTop){
+            var triggerTop = Math.max(baseline.originTop - fixTop, fixMinScroll);
+            if (st > triggerTop){
                 applyFixed();
             } else {
                 clearFixed();

@@ -190,21 +190,21 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Q：什么是内存碎片"><a href="#Q：什么是内存碎片" class="headerlink" title="Q：什么是内存碎片"></a>Q：什么是内存碎片</h2><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-b7e68251e007c60af39783483e9f7a7e1e93d3f5.jpg" alt="img" style="zoom:15%;" />
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="Q：什么是内存碎片"><a href="#Q：什么是内存碎片" class="headerlink" title="Q：什么是内存碎片"></a>Q：什么是内存碎片</h1><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-b7e68251e007c60af39783483e9f7a7e1e93d3f5.jpg" alt="img" style="zoom:15%;" />
 
-<p>我们可以把这些分散的空座位叫作“车厢座位碎片”，知道了这一点，操作系统的内存碎片就很容易理解了。虽然操作系统的剩余内存空间总量足够，<strong>但是应用申请的是一块连续地址空间的 N 字节</strong>，但在剩余的内存空间中，没有大小为 N 字节的连续空间了，那么，这些剩余空间就是内存碎片（比如上图中的“空闲 2 字节”和“空闲 1 字节”，就是这样的碎片）。</p>
-<h2 id="Q：内存碎片是如何形成的"><a href="#Q：内存碎片是如何形成的" class="headerlink" title="Q：内存碎片是如何形成的"></a>Q：内存碎片是如何形成的</h2><p>其实，内存碎片的形成有内因和外因两个层面的原因。简单来说，内因是操作系统的内存分配机制，外因是 Redis 的负载特征。</p>
-<h3 id="内因：内存分配器的分配策略"><a href="#内因：内存分配器的分配策略" class="headerlink" title="内因：内存分配器的分配策略"></a>内因：内存分配器的分配策略</h3><p>Redis 可以使用 libc、jemalloc、tcmalloc 多种内存分配器来分配内存，默认使用 jemalloc。</p>
+<p>我们可以把这些分散的空座位叫作“车厢座位碎片”，知道了这一点，操作系统的内存碎片就很容易理解了。虽然操作系统的剩余内存空间总量足够，<strong>但是应用申请的是一块连续地址空间的 N 字节</strong>，但在剩余的内存空间中，没有大小为 <strong>N</strong> 字节的连续空间了，那么，这些剩余空间就是内存碎片（比如上图中的“空闲 2 字节”和“空闲 1 字节”，就是这样的碎片）。</p>
+<h1 id="Q：内存碎片是如何形成的"><a href="#Q：内存碎片是如何形成的" class="headerlink" title="Q：内存碎片是如何形成的"></a>Q：内存碎片是如何形成的</h1><p>其实，内存碎片的形成有内因和外因两个层面的原因。简单来说，内因是操作系统的内存分配机制，外因是 Redis 的负载特征。</p>
+<h2 id="内因：内存分配器的分配策略"><a href="#内因：内存分配器的分配策略" class="headerlink" title="内因：内存分配器的分配策略"></a>内因：内存分配器的分配策略</h2><p>Redis 可以使用 libc、jemalloc、tcmalloc 多种内存分配器来分配内存，默认使用 jemalloc。</p>
 <p>jemalloc 的分配策略之一，是按照一系列固定的大小划分内存空间，例如 8 字节、16 字节、32 字节、48 字节，…, 2KB、4KB、8KB 等。当程序申请的内存最接近某个固定值时，jemalloc 会给它分配相应大小的空间。</p>
 <p>这样的分配方式本身是为了减少分配次数。例如，Redis 申请一个 20 字节的空间保存数据，jemalloc 就会分配 32 字节，此时，如果应用还要写入 10 字节的数据，Redis 就不用再向操作系统申请空间了，因为刚才分配的 32 字节已经够用了，这就避免了一次分配操作。</p>
-<h3 id="外因：键值对大小不一样和删改操作"><a href="#外因：键值对大小不一样和删改操作" class="headerlink" title="外因：键值对大小不一样和删改操作"></a>外因：键值对大小不一样和删改操作</h3><p>应用 A 保存 6 字节数据，jemalloc 按分配策略分配 8 字节。如果应用 A 不再保存新数据，那么，这里多出来的 2 字节空间就是内存碎片了。</p>
+<h2 id="外因：键值对大小不一样和删改操作"><a href="#外因：键值对大小不一样和删改操作" class="headerlink" title="外因：键值对大小不一样和删改操作"></a>外因：键值对大小不一样和删改操作</h2><p>应用 A 保存 6 字节数据，jemalloc 按分配策略分配 8 字节。如果应用 A 不再保存新数据，那么，这里多出来的 2 字节空间就是内存碎片了。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-9e03668425b59fa47a79ca78645c4d916780e2ff.jpg" alt="img" style="zoom:15%;" />
 
 <p>第二个外因是，这些键值对会被修改和删除，这会导致空间的扩容和释放。具体来说，一方面，如果修改后的键值对变大或变小了，就需要占用额外的空间或者释放不用的空间。另一方面，删除的键值对就不再需要内存空间了，此时，就会把空间释放出来，形成空闲空间。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-cd062c22994d9906bb53ae0112ed2e5e79f4b7e9.jpg" alt="img" style="zoom:15%;" />
 
 <p>一开始，应用 A、B、C、D 分别保存了 3、1、2、4 字节的数据，并占据了相应的内存空间。然后，应用 D 删除了 1 个字节，这个 1 字节的内存空间就空出来了。紧接着，应用 A 修改了数据，从 3 字节变成了 4 字节。为了保持 A 数据的空间连续性，操作系统就需要把 B 的数据拷贝到别的空间，比如拷贝到 D 刚刚释放的空间中。此时，应用 C 和 D 也分别删除了 2 字节和 1 字节的数据，整个内存空间上就分别出现了 2 字节和 1 字节的空闲碎片。如果应用 E 想要一个 3 字节的连续空间，显然是不能得到满足的。因为，虽然空间总量够，但却是碎片空间，并不是连续的。</p>
-<h3 id="如何判断是否有内存碎片？"><a href="#如何判断是否有内存碎片？" class="headerlink" title="如何判断是否有内存碎片？"></a>如何判断是否有内存碎片？</h3><p>Redis 自身提供了 INFO 命令</p>
+<h2 id="如何判断是否有内存碎片？"><a href="#如何判断是否有内存碎片？" class="headerlink" title="如何判断是否有内存碎片？"></a>如何判断是否有内存碎片？</h2><p>Redis 自身提供了 INFO 命令</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">INFO memory</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Memory</span></span><br><span class="line">used_memory:1073741736</span><br><span class="line">used_memory_human:1024.00M</span><br><span class="line">used_memory_rss:1997159792</span><br><span class="line">used_memory_rss_human:1.86G</span><br><span class="line">…</span><br><span class="line">mem_fragmentation_ratio:1.86</span><br></pre></td></tr></table></figure>
 
 <p>这里有一个 mem_fragmentation_ratio 的指标，它表示的就是 Redis 当前的内存碎片率。那么，这个碎片率是怎么计算的呢？其实，就是上面的命令中的两个指标 used_memory_rss 和 used_memory 相除的结果。</p>
@@ -215,27 +215,24 @@
 </ul>
 <p>经验之谈：</p>
 <ul>
-<li>mem_fragmentation_ratio 大于 1 但小于 1.5。这种情况是合理的。这是因为，刚才我介绍的那些因素是难以避免的。毕竟，内因的内存分配器是一定要使用的，分配策略都是通用的，不会轻易修改；而外因由 Redis 负载决定，也无法限制。所以，存在内存碎片也是正常的。</li>
+<li>mem_fragmentation_ratio 大于 1 但小于 1.5。这种情况是合理的。这是因为，刚才介绍的那些因素是难以避免的。毕竟，内因的内存分配器是一定要使用的，分配策略都是通用的，不会轻易修改；而外因由 Redis 负载决定，也无法限制。所以，存在内存碎片也是正常的。</li>
 <li>mem_fragmentation_ratio 大于 1.5 。这表明内存碎片率已经超过了 50%。一般情况下，这个时候，我们就需要采取一些措施来降低内存碎片率了。</li>
 <li>mem_fragmentation_ratio 小于 1，发生了 swap</li>
 </ul>
 <blockquote>
 <p>Matthew Han：mem_fragmentation_ratio 小于 1的情况，还可能会触发内存淘汰机制，删除大量的 key，阻塞主线程。</p>
 </blockquote>
-<h3 id="如何清理内存碎片？"><a href="#如何清理内存碎片？" class="headerlink" title="如何清理内存碎片？"></a>如何清理内存碎片？</h3><ol start="0">
+<h1 id="如何清理内存碎片？"><a href="#如何清理内存碎片？" class="headerlink" title="如何清理内存碎片？"></a>如何清理内存碎片？</h1><ol start="0">
 <li>直接重启 Redis 实例（但是没有持久化AOF、RDB，数据就会丢失）</li>
 <li>从 4.0-RC3 版本以后，Redis 自身提供了一种内存碎片自动清理的方法。</li>
 </ol>
 <p>内存碎片清理，简单来说，就是“搬家让位，合并空间”。</p>
 <blockquote>
-<p>Matthew Han：沾点 JVM GC 的标记 -清除了</p>
+<p>Matthew Han：沾点 JVM GC 的标记 -整理了</p>
 </blockquote>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-2d9ed7f9b6be42e8e45a92e7d69a07dd2091c6b2.jpg" alt="img" style="zoom:15%;" />
 
 <p>需要注意的是：<strong>碎片清理是有代价的</strong>，操作系统需要把多份数据拷贝到新位置，把原有空间释放出来，这会带来时间开销。</p>
-<blockquote>
-<p>Matthew Han：时间换空间了属实是</p>
-</blockquote>
 <p>首先，Redis 需要启用自动内存碎片清理，可以把 activedefrag 配置项设置为 yes，命令如下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config set activedefrag yes</span><br></pre></td></tr></table></figure>
 
@@ -250,30 +247,30 @@
 <li>active-defrag-cycle-min 25： 表示自动清理过程所用 CPU 时间的比例不低于 25%，保证清理能正常开展；</li>
 <li>active-defrag-cycle-max 75：表示自动清理过程所用 CPU 时间的比例不高于 75%，一旦超过，就停止清理，从而避免在清理时，大量的内存拷贝阻塞 Redis，导致响应延迟升高。</li>
 </ul>
-<h2 id="Q：缓冲区引发的惨案"><a href="#Q：缓冲区引发的惨案" class="headerlink" title="Q：缓冲区引发的惨案"></a>Q：缓冲区引发的惨案</h2><h3 id="客户端输入和输出缓冲区"><a href="#客户端输入和输出缓冲区" class="headerlink" title="客户端输入和输出缓冲区"></a>客户端输入和输出缓冲区</h3><p>为了避免客户端和服务器端的请求发送和处理速度不匹配，服务器端给每个连接的客户端都设置了一个输入缓冲区和输出缓冲区，我们称之为客户端输入缓冲区和输出缓冲区。</p>
+<h1 id="Q：缓冲区引发的惨案"><a href="#Q：缓冲区引发的惨案" class="headerlink" title="Q：缓冲区引发的惨案"></a>Q：缓冲区引发的惨案</h1><h2 id="客户端输入和输出缓冲区"><a href="#客户端输入和输出缓冲区" class="headerlink" title="客户端输入和输出缓冲区"></a>客户端输入和输出缓冲区</h2><p>为了避免客户端和服务器端的请求发送和处理速度不匹配，服务器端给每个连接的客户端都设置了一个输入缓冲区和输出缓冲区，我们称之为客户端输入缓冲区和输出缓冲区。</p>
 <p>输入缓冲区会先把客户端发送过来的命令暂存起来，Redis 主线程再从输入缓冲区中读取命令，进行处理。当 Redis 主线程处理完数据后，会把结果写入到输出缓冲区，再通过输出缓冲区返回给客户端。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-74493064a498e0d1b5514152b723f98269b44e41.jpg" alt="img" style="zoom:15%;" />
 
-<h3 id="如何应对输入缓冲区溢出？"><a href="#如何应对输入缓冲区溢出？" class="headerlink" title="如何应对输入缓冲区溢出？"></a>如何应对输入缓冲区溢出？</h3><ul>
+<h2 id="如何应对输入缓冲区溢出？"><a href="#如何应对输入缓冲区溢出？" class="headerlink" title="如何应对输入缓冲区溢出？"></a>如何应对输入缓冲区溢出？</h2><ul>
 <li>写入了 bigkey，比如一下子写入了多个百万级别的集合类型数据；</li>
 <li>服务器端处理请求的速度过慢，例如，Redis 主线程出现了间歇性阻塞，无法及时处理正常发送的请求，导致客户端发送的请求在缓冲区越积越多。</li>
 </ul>
 <p>避免输入缓冲区溢出。我们可以从两个角度去考虑如何避免，一是把缓冲区调大，二是从数据命令的发送和处理速度入手。</p>
 <p><strong>输入缓冲区没法调大</strong></p>
-<h3 id="如何应对输出缓冲区溢出？"><a href="#如何应对输出缓冲区溢出？" class="headerlink" title="如何应对输出缓冲区溢出？"></a>如何应对输出缓冲区溢出？</h3><ul>
+<h2 id="如何应对输出缓冲区溢出？"><a href="#如何应对输出缓冲区溢出？" class="headerlink" title="如何应对输出缓冲区溢出？"></a>如何应对输出缓冲区溢出？</h2><ul>
 <li>服务器端返回 bigkey 的大量结果；</li>
 <li>执行了 MONITOR 命令；</li>
 <li>缓冲区大小设置得不合理。</li>
 </ul>
 <p>和输入缓冲区不同，我们可以通过 client-output-buffer-limit 配置项，来设置输出缓冲区的大小。</p>
-<h3 id="主从集群中的缓冲区"><a href="#主从集群中的缓冲区" class="headerlink" title="主从集群中的缓冲区"></a>主从集群中的缓冲区</h3><blockquote>
+<h2 id="主从集群中的缓冲区"><a href="#主从集群中的缓冲区" class="headerlink" title="主从集群中的缓冲区"></a>主从集群中的缓冲区</h2><blockquote>
 <p>全量同步</p>
 </blockquote>
 <p>在全量复制过程中，主节点在向从节点传输 RDB 文件的同时，会继续接收客户端发送的写命令请求。这些写命令就会先保存在复制缓冲区中，等 RDB 文件传输完成后，再发送给从节点去执行。主节点上会为每个从节点都维护一个复制缓冲区，来保证主从节点间的数据同步。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-fd374c2d1c0d9102a97268ce7e05a83242a5d929.jpg" alt="img" style="zoom:15%;" />
 
 <p>复制缓冲区一旦发生溢出，主节点也会直接关闭和从节点进行复制操作的连接，导致全量复制失败。</p>
-<h3 id="复制积压缓冲区的溢出问题"><a href="#复制积压缓冲区的溢出问题" class="headerlink" title="复制积压缓冲区的溢出问题"></a>复制积压缓冲区的溢出问题</h3><blockquote>
+<h2 id="复制积压缓冲区的溢出问题"><a href="#复制积压缓冲区的溢出问题" class="headerlink" title="复制积压缓冲区的溢出问题"></a>复制积压缓冲区的溢出问题</h2><blockquote>
 <p>增量同步</p>
 </blockquote>
 <p>我们再来看下增量复制时使用的缓冲区，这个缓冲区称为复制积压缓冲区。主节点在把接收到的写命令同步给从节点时，同时会把这些写命令写入复制积压缓冲区。一旦从节点发生网络闪断，再次和主节点恢复连接后，从节点就会从复制积压缓冲区中，读取断连期间主节点接收到的写命令，进而进行增量同步。</p>
@@ -320,7 +317,7 @@
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">目录</a>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
@@ -463,6 +460,15 @@
                     </li>
                 
 
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/MatthewHan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -633,7 +639,8 @@
         var $catalog = $('.catalog-container .side-catalog');
         if ($catalog.length === 0) return;
         var $container = $catalog.closest('.catalog-container');
-        var fixTop = 80; // distance from top considering header/nav
+        var fixTop = 10; // distance from top considering header/nav (increased to match CSS margin-top:40px)
+        var fixMinScroll = 240; // minimal scroll px before sticking to avoid immediate fixed on load
 
         var baseline = { leftPx: 0, widthPx: 0, originTop: 0 };
 
@@ -671,7 +678,8 @@
 
         function update(){
             var st = $(window).scrollTop();
-            if (st > baseline.originTop - fixTop){
+            var triggerTop = Math.max(baseline.originTop - fixTop, fixMinScroll);
+            if (st > triggerTop){
                 applyFixed();
             } else {
                 clearFixed();

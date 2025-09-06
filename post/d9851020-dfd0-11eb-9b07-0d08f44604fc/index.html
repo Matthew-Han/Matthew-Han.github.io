@@ -190,7 +190,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Q：什么是主从模式"><a href="#Q：什么是主从模式" class="headerlink" title="Q：什么是主从模式"></a>Q：什么是主从模式</h2><p>那我们总说的 Redis 具有高可靠性，又是什么意思呢？</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="Q：什么是主从模式"><a href="#Q：什么是主从模式" class="headerlink" title="Q：什么是主从模式"></a>Q：什么是主从模式</h1><p>那我们总说的 Redis 具有高可靠性，又是什么意思呢？</p>
 <p>其实，这里有两层含义：一是数据尽量少丢失，二是服务尽量少中断。AOF 和 RDB 保证了前者，而对于后者，Redis 的做法就是增加副本冗余量，将一份数据同时保存在多个实例上。即使有一个实例出现了故障，需要过一段时间才能恢复，其他实例也可以对外提供服务，不会影响业务使用。</p>
 <p>实际上，Redis 提供了主从库模式，以保证数据副本的一致，主从库之间采用的是读写分离的方式。</p>
 <ul>
@@ -199,7 +199,7 @@
 </ul>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-f6b36750619c4a34b531c6beeb5f6107b8705ed7.jpg" alt="img" style="zoom:15%;" />
 
-<h2 id="Q：主从之间什么时候进行第一次同步"><a href="#Q：主从之间什么时候进行第一次同步" class="headerlink" title="Q：主从之间什么时候进行第一次同步"></a>Q：主从之间什么时候进行第一次同步</h2><p>当我们启动多个 Redis 实例的时候，它们相互之间就可以通过 replicaof（Redis 5.0 之前使用 slaveof）命令形成主库和从库的关系，之后会按照三个阶段完成数据的第一次同步。</p>
+<h1 id="Q：主从之间什么时候进行第一次同步"><a href="#Q：主从之间什么时候进行第一次同步" class="headerlink" title="Q：主从之间什么时候进行第一次同步"></a>Q：主从之间什么时候进行第一次同步</h1><p>当我们启动多个 Redis 实例的时候，它们相互之间就可以通过 replicaof（Redis 5.0 之前使用 slaveof）命令形成主库和从库的关系，之后会按照三个阶段完成数据的第一次同步。</p>
 <p>例如，现在有实例 1（ip：172.16.19.3）和实例 2（ip：172.16.19.5），我们在实例 2 上执行以下这个命令后，实例 2 就变成了实例 1 的从库，并从实例 1 上复制数据：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof 172.16.19.3 6379</span><br></pre></td></tr></table></figure>
 
@@ -215,14 +215,14 @@
 </li>
 </ol>
 <p>也就是说从库全量复制完了之后，之后都是增量同步。查考下文的<code>repl_backlog_buffer</code>。</p>
-<h2 id="Q：主从级联模式分担全量复制时的主库压力"><a href="#Q：主从级联模式分担全量复制时的主库压力" class="headerlink" title="Q：主从级联模式分担全量复制时的主库压力"></a>Q：主从级联模式分担全量复制时的主库压力</h2><p>一主多从的模式下，所有的从库都要和主库进行全量复制的话，就会导致主库忙于 fork 子进程生成 RDB 文件，进行数据全量同步。fork 这个操作会阻塞主线程处理正常请求，从而导致主库响应应用程序的请求速度变慢。此外，传输 RDB 文件也会占用主库的网络带宽，同样会给主库的资源使用带来压力。</p>
+<h1 id="Q：主从级联模式分担全量复制时的主库压力"><a href="#Q：主从级联模式分担全量复制时的主库压力" class="headerlink" title="Q：主从级联模式分担全量复制时的主库压力"></a>Q：主从级联模式分担全量复制时的主库压力</h1><p>一主多从的模式下，所有的从库都要和主库进行全量复制的话，就会导致主库忙于 fork 子进程生成 RDB 文件，进行数据全量同步。fork 这个操作会阻塞主线程处理正常请求，从而导致主库响应应用程序的请求速度变慢。此外，传输 RDB 文件也会占用主库的网络带宽，同样会给主库的资源使用带来压力。</p>
 <p>那么，有没有好的解决方法可以分担主库压力呢？</p>
 <p>主 - 从 - 从模式。这个过程也称为基于长连接的命令传播，可以避免频繁建立连接的开销。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof 所选从库的IP 6379</span><br></pre></td></tr></table></figure>
 
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-3d64bc4ebc575fbf4625e7416cbe700d95c5126d.jpg" alt="img" style="zoom:15%;" />
 
-<h2 id="Q：主从库间网络断了怎么办？"><a href="#Q：主从库间网络断了怎么办？" class="headerlink" title="Q：主从库间网络断了怎么办？"></a>Q：主从库间网络断了怎么办？</h2><p>采用增量模式同步</p>
+<h1 id="Q：主从库间网络断了怎么办？"><a href="#Q：主从库间网络断了怎么办？" class="headerlink" title="Q：主从库间网络断了怎么办？"></a>Q：主从库间网络断了怎么办？</h1><p>采用增量模式同步</p>
 <p>当主从库断连后，主库会把断连期间收到的写操作命令，写入 replication buffer，同时也会把这些操作命令也写入 repl_backlog_buffer 这个缓冲区。</p>
 <p>repl_backlog_buffer 是一个环形缓冲区，主库会记录自己写到的位置，从库则会记录自己已经读到的位置。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-b527fa3a57208c9d98e80b5e47c155deed6034c2.jpg" alt="img" style="zoom:15%;" />
@@ -231,7 +231,7 @@
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-cfb066dafe6cd4a1a9abb9ab740b9012f643a5fc.jpg" alt="img" style="zoom:15%;" />
 
 <p>所以恢复的过程精髓在于 repl_backlog_buffer，对于该值不能太小，导致圆环被覆写。</p>
-<h2 id="Q：哨兵机制的基本流程"><a href="#Q：哨兵机制的基本流程" class="headerlink" title="Q：哨兵机制的基本流程"></a>Q：哨兵机制的基本流程</h2><p>哨兵主要负责的就是三个任务：监控、选主（选择主库）和通知。</p>
+<h1 id="Q：哨兵机制的基本流程"><a href="#Q：哨兵机制的基本流程" class="headerlink" title="Q：哨兵机制的基本流程"></a>Q：哨兵机制的基本流程</h1><p>哨兵主要负责的就是三个任务：监控、选主（选择主库）和通知。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-9431ebeb5f750462fa55476508d7f58970e47d3d.jpg" alt="img" style="zoom:15%;" />
 
 <p>在监控和选主这两个任务中，哨兵需要做出两个决策：</p>
@@ -239,14 +239,14 @@
 <li>在监控任务中，哨兵需要判断主库是否处于下线状态；</li>
 <li>在选主任务中，哨兵也要决定选择哪个从库实例作为主库。</li>
 </ul>
-<h3 id="主观下线与客观下线"><a href="#主观下线与客观下线" class="headerlink" title="主观下线与客观下线"></a>主观下线与客观下线</h3><p>哨兵进程会使用 PING 命令检测它自己和主、从库的网络连接情况，用来判断实例的状态。如果哨兵发现主库或从库对 PING 命令的响应超时了，那么，哨兵就会先把它标记为“主观下线”。</p>
+<h2 id="主观下线与客观下线"><a href="#主观下线与客观下线" class="headerlink" title="主观下线与客观下线"></a>主观下线与客观下线</h2><p>哨兵进程会使用 PING 命令检测它自己和主、从库的网络连接情况，用来判断实例的状态。如果哨兵发现主库或从库对 PING 命令的响应超时了，那么，哨兵就会先把它标记为“主观下线”。</p>
 <p>哨兵机制通常会采用多实例组成的集群模式进行部署，这也被称为哨兵集群。引入多个哨兵实例一起来判断，就可以避免单个哨兵因为自身网络状况不好，而误判主库下线的情况。</p>
 <p>在判断主库是否下线时，不能由一个哨兵说了算，只有大多数的哨兵实例，都判断主库已经“主观下线”了，主库才会被标记为“客观下线”</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-450fda1ef8def065305ce5b0399898df76d8f29b.jpg" alt="img" style="zoom:15%;" />
 
 <p>简单来说，“客观下线”的标准就是，当有 N 个哨兵实例时，最好要有 N&#x2F;2 + 1 个实例判断主库为“主观下线”，才能最终判定主库为“客观下线”。</p>
 <p>所以最好采用奇数个（大于等于 3）个哨兵节点。</p>
-<h3 id="如何筛选-打分？"><a href="#如何筛选-打分？" class="headerlink" title="如何筛选 + 打分？"></a>如何筛选 + 打分？</h3><ol>
+<h2 id="如何筛选-打分？"><a href="#如何筛选-打分？" class="headerlink" title="如何筛选 + 打分？"></a>如何筛选 + 打分？</h2><ol>
 <li>选择优先级最高的<ol>
 <li>用户可以通过 slave-priority 配置项，给不同的从库设置不同优先级。比如，你有两个从库，它们的内存大小不一样，你可以手动给内存大的实例设置一个高优先级。在选主时，哨兵会给优先级高的从库打高分，如果有一个从库优先级最高，那么它就是新主库了。如果从库的优先级都一样，那么哨兵开始第二轮打分。</li>
 </ol>
@@ -262,18 +262,18 @@
 </ol>
 </li>
 </ol>
-<h2 id="Q：哨兵之间的选举"><a href="#Q：哨兵之间的选举" class="headerlink" title="Q：哨兵之间的选举"></a>Q：哨兵之间的选举</h2><h3 id="基于-pub-sub-机制的哨兵集群组成"><a href="#基于-pub-sub-机制的哨兵集群组成" class="headerlink" title="基于 pub&#x2F;sub 机制的哨兵集群组成"></a>基于 pub&#x2F;sub 机制的哨兵集群组成</h3><p>哨兵实例之间可以相互发现，要归功于 Redis 提供的 pub&#x2F;sub 机制，也就是发布 &#x2F; 订阅机制。</p>
+<h1 id="Q：哨兵之间的选举"><a href="#Q：哨兵之间的选举" class="headerlink" title="Q：哨兵之间的选举"></a>Q：哨兵之间的选举</h1><h2 id="基于-pub-sub-机制的哨兵集群组成"><a href="#基于-pub-sub-机制的哨兵集群组成" class="headerlink" title="基于 pub&#x2F;sub 机制的哨兵集群组成"></a>基于 pub&#x2F;sub 机制的哨兵集群组成</h2><p>哨兵实例之间可以相互发现，要归功于 Redis 提供的 pub&#x2F;sub 机制，也就是发布 &#x2F; 订阅机制。</p>
 <p>只有订阅了同一个频道的应用，才能通过发布的消息进行信息交换。</p>
 <p>在主从集群中，主库上有一个名为 <code>__sentinel__:hello</code> 的频道，不同哨兵就是通过它来相互发现，实现互相通信的。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-1445b2836e76b28630155c904f2719081b472358.jpg" alt="img" style="zoom:15%;" />
 
 <p>这样哨兵节点之间就完成了彼此的通信建立。</p>
-<h3 id="基于-pub-sub-机制的哨兵集群与主从库连接"><a href="#基于-pub-sub-机制的哨兵集群与主从库连接" class="headerlink" title="基于 pub&#x2F;sub 机制的哨兵集群与主从库连接"></a>基于 pub&#x2F;sub 机制的哨兵集群与主从库连接</h3><p>这是由哨兵向主库发送 INFO 命令来完成的。就像下图所示，哨兵 2 给主库发送 INFO 命令，主库接受到这个命令后，就会把从库列表返回给哨兵。接着，哨兵就可以根据从库列表中的连接信息，和每个从库建立连接，并在这个连接上持续地对从库进行监控。哨兵 1 和 3 可以通过相同的方法和从库建立连接。</p>
+<h2 id="基于-pub-sub-机制的哨兵集群与主从库连接"><a href="#基于-pub-sub-机制的哨兵集群与主从库连接" class="headerlink" title="基于 pub&#x2F;sub 机制的哨兵集群与主从库连接"></a>基于 pub&#x2F;sub 机制的哨兵集群与主从库连接</h2><p>这是由哨兵向主库发送 INFO 命令来完成的。就像下图所示，哨兵 2 给主库发送 INFO 命令，主库接受到这个命令后，就会把从库列表返回给哨兵。接着，哨兵就可以根据从库列表中的连接信息，和每个从库建立连接，并在这个连接上持续地对从库进行监控。哨兵 1 和 3 可以通过相同的方法和从库建立连接。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-c56175b0ddb16be4a21802fbf1ad6d57e23b66ae.jpg" alt="img" style="zoom:15%;" />
 
-<h3 id="基于-pub-sub-机制的客户端事件通知"><a href="#基于-pub-sub-机制的客户端事件通知" class="headerlink" title="基于 pub&#x2F;sub 机制的客户端事件通知"></a>基于 pub&#x2F;sub 机制的客户端事件通知</h3><p>哨兵就是一个运行在特定模式下的 Redis 实例，只不过它并不服务请求操作，只是完成监控、选主和通知的任务。所以，每个哨兵实例也提供 pub&#x2F;sub 机制，客户端可以从哨兵订阅消息。哨兵提供的消息订阅频道有很多，不同频道包含了主从库切换过程中的不同关键事件。</p>
+<h2 id="基于-pub-sub-机制的客户端事件通知"><a href="#基于-pub-sub-机制的客户端事件通知" class="headerlink" title="基于 pub&#x2F;sub 机制的客户端事件通知"></a>基于 pub&#x2F;sub 机制的客户端事件通知</h2><p>哨兵就是一个运行在特定模式下的 Redis 实例，只不过它并不服务请求操作，只是完成监控、选主和通知的任务。所以，每个哨兵实例也提供 pub&#x2F;sub 机制，客户端可以从哨兵订阅消息。哨兵提供的消息订阅频道有很多，不同频道包含了主从库切换过程中的不同关键事件。</p>
 <p>有了 pub&#x2F;sub 机制，哨兵和哨兵之间、哨兵和从库之间、哨兵和客户端之间就都能建立起连接了。</p>
-<h3 id="由哪个哨兵执行主从切换？"><a href="#由哪个哨兵执行主从切换？" class="headerlink" title="由哪个哨兵执行主从切换？"></a>由哪个哨兵执行主从切换？</h3><p>切换新主库需要选出一个 leader 来进行操作。</p>
+<h2 id="由哪个哨兵执行主从切换？"><a href="#由哪个哨兵执行主从切换？" class="headerlink" title="由哪个哨兵执行主从切换？"></a>由哪个哨兵执行主从切换？</h2><p>切换新主库需要选出一个 leader 来进行操作。</p>
 <p>具体步骤（个人总结）：</p>
 <ol>
 <li>先判断主观下线，发送主观下线的命令，等待其他哨兵节点回应。</li>
@@ -301,15 +301,15 @@
 </li>
 </ul>
 <p>最后，一个经验：要保证所有哨兵实例的配置是一致的，尤其是主观下线的判断值 down-after-milliseconds。在项目中，因为这个值在不同的哨兵实例上配置不一致，导致哨兵集群一直没有对有故障的主库形成共识，也就没有及时切换主库，最终的结果就是集群服务不稳定。</p>
-<h2 id="Q：切片集群（Redis-官网集群模式）"><a href="#Q：切片集群（Redis-官网集群模式）" class="headerlink" title="Q：切片集群（Redis 官网集群模式）"></a>Q：切片集群（Redis 官网集群模式）</h2><h3 id="Redis-如何保存更多数据？"><a href="#Redis-如何保存更多数据？" class="headerlink" title="Redis 如何保存更多数据？"></a>Redis 如何保存更多数据？</h3><ul>
+<h1 id="Q：切片集群（Redis-官网集群模式）"><a href="#Q：切片集群（Redis-官网集群模式）" class="headerlink" title="Q：切片集群（Redis 官网集群模式）"></a>Q：切片集群（Redis 官网集群模式）</h1><h2 id="Redis-如何保存更多数据？"><a href="#Redis-如何保存更多数据？" class="headerlink" title="Redis 如何保存更多数据？"></a>Redis 如何保存更多数据？</h2><ul>
 <li>纵向扩展：升级单个 Redis 实例的资源配置，包括增加内存容量、增加磁盘容量、使用更高配置的 CPU。就像下图中，原来的实例内存是 8GB，硬盘是 50GB，纵向扩展后，内存增加到 24GB，磁盘增加到 150GB。</li>
 <li>横向扩展：横向增加当前 Redis 实例的个数，就像下图中，原来使用 1 个 8GB 内存、50GB 磁盘的实例，现在使用三个相同配置的实例。</li>
 </ul>
-<h3 id="数据切片和实例的对应分布关系"><a href="#数据切片和实例的对应分布关系" class="headerlink" title="数据切片和实例的对应分布关系"></a>数据切片和实例的对应分布关系</h3><p>具体来说，Redis Cluster 方案采用哈希槽（Hash Slot，接下来我会直接称之为 Slot），来处理数据和实例之间的映射关系。在 Redis Cluster 方案中，一个切片集群共有 16384 个哈希槽，这些哈希槽类似于数据分区，每个键值对都会根据它的 key，被映射到一个哈希槽中。</p>
+<h2 id="数据切片和实例的对应分布关系"><a href="#数据切片和实例的对应分布关系" class="headerlink" title="数据切片和实例的对应分布关系"></a>数据切片和实例的对应分布关系</h2><p>具体来说，Redis Cluster 方案采用哈希槽（Hash Slot，接下来我会直接称之为 Slot），来处理数据和实例之间的映射关系。在 Redis Cluster 方案中，一个切片集群共有 16384 个哈希槽，这些哈希槽类似于数据分区，每个键值对都会根据它的 key，被映射到一个哈希槽中。</p>
 <p>具体的映射过程分为两大步：首先根据键值对的 key，按照CRC16 算法计算一个 16 bit 的值；然后，再用这个 16bit 值对 16384 取模，得到 0~16383 范围内的模数，每个模数代表一个相应编号的哈希槽。</p>
 <p>手动指定每个实例上的哈希槽数量：使用 cluster meet 命令手动建立实例间的连接，形成集群，再使用 cluster addslots 命令，指定每个实例上的哈希槽个数。</p>
 <p><strong>在手动分配哈希槽时，需要把 16384 个槽都分配完，否则 Redis 集群无法正常工作。</strong></p>
-<h3 id="客户端如何定位数据？"><a href="#客户端如何定位数据？" class="headerlink" title="客户端如何定位数据？"></a>客户端如何定位数据？</h3><p>Redis 实例会把自己的哈希槽信息发给和它相连接的其它实例，来完成哈希槽分配信息的扩散。当实例之间相互连接后，每个实例就有所有哈希槽的映射关系了。</p>
+<h2 id="客户端如何定位数据？"><a href="#客户端如何定位数据？" class="headerlink" title="客户端如何定位数据？"></a>客户端如何定位数据？</h2><p>Redis 实例会把自己的哈希槽信息发给和它相连接的其它实例，来完成哈希槽分配信息的扩散。当实例之间相互连接后，每个实例就有所有哈希槽的映射关系了。</p>
 <p>客户端收到哈希槽信息后，会把哈希槽信息缓存在本地。当客户端请求键值对时，会先计算键所对应的哈希槽，然后就可以给相应的实例发送请求了。</p>
 <p>在集群中，实例和哈希槽的对应关系并不是一成不变的，最常见的变化有两个：</p>
 <ul>
@@ -320,17 +320,17 @@
 <p>说白了就是，客户端先存一个默认值（默认该值在某个实例上），但是哈希槽会移动，所以请求的结果不一定会直接得到数据，需要对返回的结果进行二次请求。</p>
 </blockquote>
 <p>Redis Cluster 方案提供了一种重定向机制，所谓的“重定向”，就是指，客户端给一个实例发送数据读写操作时，这个实例上并没有相应的数据，客户端要再给一个新实例发送操作命令。</p>
-<h4 id="MOVED命令"><a href="#MOVED命令" class="headerlink" title="MOVED命令"></a>MOVED命令</h4><p>实例给客户端返回下面的 MOVED 命令响应结果，这个结果中就包含了新实例的访问地址：</p>
+<h3 id="MOVED命令"><a href="#MOVED命令" class="headerlink" title="MOVED命令"></a>MOVED命令</h3><p>实例给客户端返回下面的 MOVED 命令响应结果，这个结果中就包含了新实例的访问地址：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET hello:key</span><br><span class="line">(error) MOVED 13320 172.16.19.5:6379</span><br></pre></td></tr></table></figure>
 
 <p>其中，MOVED 命令表示，客户端请求的键值对所在的哈希槽 13320，实际是在 172.16.19.5 这个实例上。通过返回的 MOVED 命令，就相当于把哈希槽所在的新实例的信息告诉给客户端了。这样一来，客户端就可以直接和 172.16.19.5 连接，并发送操作请求了。</p>
 <p><strong>会改变本地缓存，下次会直接请求正确的实例，如果哈希槽没变的话。</strong></p>
-<h4 id="ASK-命令"><a href="#ASK-命令" class="headerlink" title="ASK 命令"></a>ASK 命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET hello:key</span><br><span class="line">(error) ASK 13320 172.16.19.5:6379</span><br></pre></td></tr></table></figure>
+<h3 id="ASK-命令"><a href="#ASK-命令" class="headerlink" title="ASK 命令"></a>ASK 命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET hello:key</span><br><span class="line">(error) ASK 13320 172.16.19.5:6379</span><br></pre></td></tr></table></figure>
 
 <p>这个结果中的 ASK 命令就表示，客户端请求的键值对所在的哈希槽 13320，在 172.16.19.5 这个实例上，但是这个哈希槽正在迁移。此时，客户端需要先给 172.16.19.5 这个实例发送一个 ASKING 命令。这个命令的意思是，让这个实例允许执行客户端接下来发送的命令。然后，客户端再向这个实例发送 GET 命令，以读取数据。</p>
 <p>不同点：</p>
 <p>客户端ASK重定向命令和 MOVED 命令不同，ASK 命令并不会更新客户端缓存的哈希槽分配信息。所以，在上图中，如果客户端再次请求 Slot 2 中的数据，它还是会给实例 2 发送请求。这也就是说，<strong>ASK 命令的作用只是让客户端能给新实例发送一次请求，而不像 MOVED 命令那样，会更改本地缓存，让后续所有命令都发往新实例</strong>。</p>
-<h3 id="Redis-Cluster不采用把key直接映射到实例的方式，而采用哈希槽的方式原因"><a href="#Redis-Cluster不采用把key直接映射到实例的方式，而采用哈希槽的方式原因" class="headerlink" title="Redis Cluster不采用把key直接映射到实例的方式，而采用哈希槽的方式原因"></a>Redis Cluster不采用把key直接映射到实例的方式，而采用哈希槽的方式原因</h3><blockquote>
+<h2 id="Redis-Cluster-不采用把-key-直接映射到实例的方式，而采用哈希槽的方式原因"><a href="#Redis-Cluster-不采用把-key-直接映射到实例的方式，而采用哈希槽的方式原因" class="headerlink" title="Redis Cluster 不采用把 key 直接映射到实例的方式，而采用哈希槽的方式原因"></a>Redis Cluster 不采用把 key 直接映射到实例的方式，而采用哈希槽的方式原因</h2><blockquote>
 <p>摘自评论区 @Kaito</p>
 </blockquote>
 <ol start="0">
@@ -380,7 +380,7 @@
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">目录</a>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
@@ -523,6 +523,15 @@
                     </li>
                 
 
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/MatthewHan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -693,7 +702,8 @@
         var $catalog = $('.catalog-container .side-catalog');
         if ($catalog.length === 0) return;
         var $container = $catalog.closest('.catalog-container');
-        var fixTop = 80; // distance from top considering header/nav
+        var fixTop = 10; // distance from top considering header/nav (increased to match CSS margin-top:40px)
+        var fixMinScroll = 240; // minimal scroll px before sticking to avoid immediate fixed on load
 
         var baseline = { leftPx: 0, widthPx: 0, originTop: 0 };
 
@@ -731,7 +741,8 @@
 
         function update(){
             var st = $(window).scrollTop();
-            if (st > baseline.originTop - fixTop){
+            var triggerTop = Math.max(baseline.originTop - fixTop, fixMinScroll);
+            if (st > triggerTop){
                 applyFixed();
             } else {
                 clearFixed();

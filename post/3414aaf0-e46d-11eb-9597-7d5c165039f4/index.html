@@ -219,13 +219,13 @@
 <li>是否运行了 Redis 主从集群？如果是的话，把主库实例的数据量大小控制在 2~4GB，以免主从复制时，从库因加载大的 RDB 文件而阻塞。</li>
 <li>是否使用了多核 CPU 或 NUMA 架构的机器运行 Redis 实例？使用多核 CPU 时，可以给 Redis 实例绑定物理核；使用 NUMA 架构时，注意把 Redis 实例和网络中断处理程序运行在同一个 CPU Socket 上。</li>
 </ol>
-<h2 id="Q：如何应对变慢的Redis（SUB：Redis-自身）"><a href="#Q：如何应对变慢的Redis（SUB：Redis-自身）" class="headerlink" title="Q：如何应对变慢的Redis（SUB：Redis 自身）"></a>Q：如何应对变慢的Redis（SUB：Redis 自身）</h2><ol start="0">
+<h1 id="Q：如何应对变慢的Redis（SUB：Redis-自身）"><a href="#Q：如何应对变慢的Redis（SUB：Redis-自身）" class="headerlink" title="Q：如何应对变慢的Redis（SUB：Redis 自身）"></a>Q：如何应对变慢的Redis（SUB：Redis 自身）</h1><ol start="0">
 <li>如何判断 Redis 是不是真的变慢了。一个最直接的方法，<strong>就是查看 Redis 的响应延迟。</strong></li>
-<li><strong>看基线性能。</strong>基于当前环境下的 Redis 基线性能做判断。所谓的基线性能呢，也就是一个系统在低压力、无干扰下的基本性能，这个性能只由当前的软硬件配置决定。</li>
+<li><strong>看基线性能。</strong>基于当前环境下的 Redis 基线性能做判断。所谓的基线性能，就是一个系统在低压力、无干扰下的基本性能，这个性能只由当前的软硬件配置决定。</li>
 </ol>
-<h3 id="如何应对-Redis-变慢？"><a href="#如何应对-Redis-变慢？" class="headerlink" title="如何应对 Redis 变慢？"></a>如何应对 Redis 变慢？</h3><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-9fa20e213cd4bd80a6d464fdb25d3a4e520a7f68.jpg" alt="img" style="zoom:15%;" />
+<h2 id="如何应对-Redis-变慢？"><a href="#如何应对-Redis-变慢？" class="headerlink" title="如何应对 Redis 变慢？"></a>如何应对 Redis 变慢？</h2><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-9fa20e213cd4bd80a6d464fdb25d3a4e520a7f68.jpg" alt="img" style="zoom:15%;" />
 
-<h4 id="Redis-自身操作特性的影响"><a href="#Redis-自身操作特性的影响" class="headerlink" title="Redis 自身操作特性的影响"></a>Redis 自身操作特性的影响</h4><ol start="0">
+<h3 id="Redis-自身操作特性的影响"><a href="#Redis-自身操作特性的影响" class="headerlink" title="Redis 自身操作特性的影响"></a>Redis 自身操作特性的影响</h3><ol start="0">
 <li><p><strong>慢查询命令</strong></p>
 <ol>
 <li><p>例子：Value 类型为 String 时，GET&#x2F;SET 操作主要就是操作 Redis 的哈希表索引。这个操作复杂度基本是固定的，即 $O(1)$。但是，当 Value 类型为 Set 时，SORT、SUNION&#x2F;SMEMBERS 操作复杂度分别为 $O(N+M*log(M))$ 和 $O(N)$。其中，$N$ 为 Set 中的元素个数，$M$ 为 SORT 操作返回的元素个数。这个复杂度就增加了很多。</p>
@@ -260,24 +260,24 @@
 </blockquote>
 </li>
 </ol>
-<h2 id="Q：如何应对变慢的Redis（SUB：文件系统：AOF）"><a href="#Q：如何应对变慢的Redis（SUB：文件系统：AOF）" class="headerlink" title="Q：如何应对变慢的Redis（SUB：文件系统：AOF）"></a>Q：如何应对变慢的Redis（SUB：文件系统：AOF）</h2><p><strong>always 策略并不使用后台子线程来执行。</strong></p>
+<h1 id="Q：如何应对变慢的Redis（SUB：文件系统：AOF）"><a href="#Q：如何应对变慢的Redis（SUB：文件系统：AOF）" class="headerlink" title="Q：如何应对变慢的Redis（SUB：文件系统：AOF）"></a>Q：如何应对变慢的Redis（SUB：文件系统：AOF）</h1><p><strong>always 策略并不使用后台子线程来执行。</strong></p>
 <p>当主线程使用后台子线程执行了一次 fsync，需要再次把新接收的操作记录写回磁盘时，如果主线程发现上一次的 fsync 还没有执行完，那么它就会阻塞。所以，如果后台子线程执行的 fsync 频繁阻塞的话（比如 AOF 重写占用了大量的磁盘 IO 带宽），主线程也会阻塞，导致 Redis 性能变慢。</p>
-<h2 id="Q：如何应对变慢的Redis（SUB：操作系统-swap）"><a href="#Q：如何应对变慢的Redis（SUB：操作系统-swap）" class="headerlink" title="Q：如何应对变慢的Redis（SUB：操作系统 swap）"></a>Q：如何应对变慢的Redis（SUB：操作系统 swap）</h2><p>内存 swap 是操作系统里将内存数据在内存和磁盘间来回换入和换出的机制。</p>
+<h1 id="Q：如何应对变慢的Redis（SUB：操作系统-swap）"><a href="#Q：如何应对变慢的Redis（SUB：操作系统-swap）" class="headerlink" title="Q：如何应对变慢的Redis（SUB：操作系统 swap）"></a>Q：如何应对变慢的Redis（SUB：操作系统 swap）</h1><p>内存 swap 是操作系统里将内存数据在内存和磁盘间来回换入和换出的机制。</p>
 <p>通常，触发 swap 的原因主要是物理机器内存不足，对于 Redis 而言，有两种常见的情况：</p>
 <ul>
 <li>Redis 实例自身使用了大量的内存，导致物理机器的可用内存不足；</li>
 <li>Redis 实例在同一台机器上运行的其他进程，在进行大量的文件读写操作。文件读写本身会占用系统内存，这会导致分配给 Redis 实例的内存量变少，进而触发 Redis 发生 swap。</li>
 </ul>
 <p>针对这个问题，我也给你提供一个解决思路：增加机器的内存或者使用 Redis 集群。</p>
-<h2 id="Q：如何应对变慢的Redis（SUB：操作系统内存大页）"><a href="#Q：如何应对变慢的Redis（SUB：操作系统内存大页）" class="headerlink" title="Q：如何应对变慢的Redis（SUB：操作系统内存大页）"></a>Q：如何应对变慢的Redis（SUB：操作系统内存大页）</h2><p>除了内存 swap，还有一个和内存相关的因素，即内存大页机制（Transparent Huge Page, THP），也会影响 Redis 性能。</p>
+<h1 id="Q：如何应对变慢的Redis（SUB：操作系统内存大页）"><a href="#Q：如何应对变慢的Redis（SUB：操作系统内存大页）" class="headerlink" title="Q：如何应对变慢的Redis（SUB：操作系统内存大页）"></a>Q：如何应对变慢的Redis（SUB：操作系统内存大页）</h1><p>除了内存 swap，还有一个和内存相关的因素，即内存大页机制（Transparent Huge Page, THP），也会影响 Redis 性能。</p>
 <p>Linux 内核从 2.6.38 开始支持内存大页机制，该机制支持 2MB 大小的内存页分配，而常规的内存页分配是按 4KB 的粒度来执行的。</p>
 <p>如果采用了内存大页，那么，即使客户端请求只修改 100B 的数据，Redis 也需要拷贝 2MB 的大页。相反，如果是常规内存页机制，只用拷贝 4KB。两者相比，你可以看到，当客户端请求修改或新写入数据较多时，内存大页机制将导致大量的拷贝，这就会影响 Redis 正常的访存操作，最终导致性能变慢。</p>
 <p>出现问题之后该机制可以关闭。</p>
-<h2 id="Q：缓存满了怎么办"><a href="#Q：缓存满了怎么办" class="headerlink" title="Q：缓存满了怎么办"></a>Q：缓存满了怎么办</h2><p>Redis 有一个重要机制，即缓存数据的淘汰机制。</p>
+<h1 id="Q：缓存满了怎么办"><a href="#Q：缓存满了怎么办" class="headerlink" title="Q：缓存满了怎么办"></a>Q：缓存满了怎么办</h1><p>Redis 有一个重要机制，即缓存数据的淘汰机制。</p>
 <p>可以设置一个最大容量</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG SET maxmemory 4gb</span><br></pre></td></tr></table></figure>
 
-<h3 id="Redis-缓存有哪些淘汰策略？"><a href="#Redis-缓存有哪些淘汰策略？" class="headerlink" title="Redis 缓存有哪些淘汰策略？"></a>Redis 缓存有哪些淘汰策略？</h3><ul>
+<h2 id="Redis-缓存有哪些淘汰策略？"><a href="#Redis-缓存有哪些淘汰策略？" class="headerlink" title="Redis 缓存有哪些淘汰策略？"></a>Redis 缓存有哪些淘汰策略？</h2><ul>
 <li>在设置了过期时间的数据中进行淘汰，包括 volatile-random、volatile-ttl、volatile-lru、volatile-lfu（Redis 4.0 后新增）四种。</li>
 <li>在所有数据范围内进行淘汰，包括 allkeys-lru、allkeys-random、allkeys-lfu（Redis 4.0 后新增）三种。</li>
 </ul>
@@ -338,7 +338,7 @@
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">目录</a>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
@@ -481,6 +481,15 @@
                     </li>
                 
 
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/MatthewHan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -651,7 +660,8 @@
         var $catalog = $('.catalog-container .side-catalog');
         if ($catalog.length === 0) return;
         var $container = $catalog.closest('.catalog-container');
-        var fixTop = 80; // distance from top considering header/nav
+        var fixTop = 10; // distance from top considering header/nav (increased to match CSS margin-top:40px)
+        var fixMinScroll = 240; // minimal scroll px before sticking to avoid immediate fixed on load
 
         var baseline = { leftPx: 0, widthPx: 0, originTop: 0 };
 
@@ -689,7 +699,8 @@
 
         function update(){
             var st = $(window).scrollTop();
-            if (st > baseline.originTop - fixTop){
+            var triggerTop = Math.max(baseline.originTop - fixTop, fixMinScroll);
+            if (st > triggerTop){
                 applyFixed();
             } else {
                 clearFixed();

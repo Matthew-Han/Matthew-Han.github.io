@@ -555,6 +555,8 @@ pre code {
   font-size: 13px;
   font-style: italic;
   color: #a3a3a3;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 .post-content-preview:hover {
   color: #0085a1;
@@ -913,6 +915,18 @@ body {
 .catalog-container .catalog-body li.h5_nav a { padding-left: 60px; }
 .catalog-container .catalog-body li.h6_nav a { padding-left: 70px; }
 
+/* catalog full border */
+.catalog-container .side-catalog {
+  border: none;
+  padding: 16px;
+  background: #fff;
+  margin-top: 30px;
+}
+.catalog-container .side-catalog hr {
+  display: block;
+  margin: 0 0 10px;
+}
+
 .post-container img {
   display: block;
   max-width: 100%;
@@ -924,25 +938,32 @@ body {
 .navbar-default .navbar-toggle:hover {
   background-color: inherit;
 }
-/* Back to Top Button */
+/* Back to Top Button — Circle, black/white only */
 #back-to-top {
   position: fixed;
-  right: 36px;
-  bottom: 40px;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  right: 50px;
+  bottom: 50px;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
   text-align: center;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.56);
   color: #fff;
   border-radius: 50%;
   text-decoration: none;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .2s ease, background .2s ease;
+  transition: transform .25s ease, box-shadow .25s ease, background .2s ease, opacity .2s ease;
   z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.18);
+  font-weight: 700;
 }
-#back-to-top:hover { background: rgba(0,0,0,0.6); }
+#back-to-top:hover {
+  background: rgba(0,0,0,0.72);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.22);
+}
 #back-to-top.show { opacity: 1; pointer-events: auto; }
 .navbar-default .navbar-toggle:active {
   background-color: rgba(255, 255, 255, 0.25);

@@ -190,7 +190,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Q：Redis-变慢的原因一"><a href="#Q：Redis-变慢的原因一" class="headerlink" title="Q：Redis 变慢的原因一"></a>Q：Redis 变慢的原因一</h2><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-4cf5fc6e06152e409de6fa33b92b4445745aa77e.jpg" alt="img" style="zoom: 25%;" />
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="Q：Redis-变慢的原因一"><a href="#Q：Redis-变慢的原因一" class="headerlink" title="Q：Redis 变慢的原因一"></a>Q：Redis 变慢的原因一</h1><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-4cf5fc6e06152e409de6fa33b92b4445745aa77e.jpg" alt="img" style="zoom: 25%;" />
 
 <blockquote>
 <p>类似 Java GC  S0&#x2F;S1 的复制算法</p>
@@ -202,16 +202,16 @@
 <p>把哈希表 1 中的数据重新映射并拷贝到哈希表 2 中；</p>
 <p>释放哈希表 1 的空间。</p>
 <p>到此，我们就可以从哈希表 1 切换到哈希表 2，用增大的哈希表 2 保存更多数据，而原来的哈希表 1 留作下一次 rehash 扩容备用。</p>
-<h2 id="Q：渐进式-rehash-拷贝"><a href="#Q：渐进式-rehash-拷贝" class="headerlink" title="Q：渐进式 rehash 拷贝"></a>Q：渐进式 rehash 拷贝</h2><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-d050b609a1772189306e6bd2d584dab60549b591.jpg" alt="img" style="zoom: 25%;" />
+<h1 id="Q：渐进式-rehash-拷贝"><a href="#Q：渐进式-rehash-拷贝" class="headerlink" title="Q：渐进式 rehash 拷贝"></a>Q：渐进式 rehash 拷贝</h1><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-d050b609a1772189306e6bd2d584dab60549b591.jpg" alt="img" style="zoom: 25%;" />
 
 <p>简单来说就是在第二步拷贝数据时，Redis 仍然正常处理客户端请求，每处理一个请求时，从哈希表 1 中的第一个索引位置开始，顺带着将这个索引位置上的所有 entries 拷贝到哈希表 2 中；等处理下一个请求时，再顺带拷贝哈希表 1 中的下一个索引位置的 entries。</p>
 <p>因为在进行渐进式 rehash 的过程中， 字典会同时使用 ht[0] 和 ht[1] 两个哈希表， 所以在渐进式 rehash 进行期间， 字典的删除（delete）、查找（find）、更新（update）等操作会在两个哈希表上进行： 比如说， 要在字典里面查找一个键的话， 程序会先在 ht[0] 里面进行查找， 如果没找到的话， 就会继续到 ht[1] 里面进行查找， 诸如此类。</p>
 <p>另外， 在渐进式 rehash 执行期间， 新添加到字典的键值对一律会被保存到 ht[1] 里面， 而 ht[0] 则不再进行任何添加操作： 这一措施保证了 ht[0] 包含的键值对数量会只减不增， 并随着 rehash 操作的执行而最终变成空表。</p>
 <p><strong>Redis 会执行定时任务，定时任务中就包含了 rehash 操作。所谓的定时任务，就是按照一定频率（例如每 100ms&#x2F; 次）执行的任务。</strong></p>
-<h2 id="Q：Redis-的几种数据结构"><a href="#Q：Redis-的几种数据结构" class="headerlink" title="Q：Redis 的几种数据结构"></a>Q：Redis 的几种数据结构</h2><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/image-20210706164818950.png" alt="image-20210706164818950" style="zoom:25%;" />
+<h1 id="Q：Redis-的几种数据结构"><a href="#Q：Redis-的几种数据结构" class="headerlink" title="Q：Redis 的几种数据结构"></a>Q：Redis 的几种数据结构</h1><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/image-20210706164818950.png" alt="image-20210706164818950" style="zoom:25%;" />
 
 <p>大类型下对应多种实现转换规则是基于一个key的数据大小和元素个数，配置文件中可配。</p>
-<h2 id="Q：为什么说-Redis-单线程这么快"><a href="#Q：为什么说-Redis-单线程这么快" class="headerlink" title="Q：为什么说 Redis 单线程这么快"></a>Q：为什么说 Redis 单线程这么快</h2><p>我们通常说，Redis 是单线程，主要是指 Redis 的网络 IO 和键值对读写是由一个线程来完成的，这也是 Redis 对外提供键值存储服务的主要流程。但 Redis 的其他功能，比如持久化、异步删除、集群数据同步等，其实是由额外的线程执行的。</p>
+<h1 id="Q：为什么说-Redis-单线程这么快"><a href="#Q：为什么说-Redis-单线程这么快" class="headerlink" title="Q：为什么说 Redis 单线程这么快"></a>Q：为什么说 Redis 单线程这么快</h1><p>我们通常说，Redis 是单线程，主要是指 Redis 的网络 IO 和键值对读写是由一个线程来完成的，这也是 Redis 对外提供键值存储服务的主要流程。但 Redis 的其他功能，比如持久化、异步删除、集群数据同步等，其实是由额外的线程执行的。</p>
 <p>多线程的坏处：</p>
 <ol start="0">
 <li><p>为了保证共享资源的正确性，就需要有额外的机制进行保证，而这个额外的机制，就会带来额外的开销。</p>
@@ -224,16 +224,16 @@
 <li>高效的数据结构（哈希表、跳表）</li>
 <li>多路复用机制</li>
 </ol>
-<h3 id="什么是多路复用机制？"><a href="#什么是多路复用机制？" class="headerlink" title="什么是多路复用机制？"></a>什么是多路复用机制？</h3><p>基本 IO 模型与阻塞点：以 Get 请求为例，为了处理一个 Get 请求，需要监听客户端请求（bind&#x2F;listen），和客户端建立连接（accept），从 socket 中读取请求（recv），解析客户端发送请求（parse），根据请求类型读取键值数据（get），最后给客户端返回结果，即向 socket 中写回数据（send）。</p>
+<h2 id="什么是多路复用机制？"><a href="#什么是多路复用机制？" class="headerlink" title="什么是多路复用机制？"></a>什么是多路复用机制？</h2><p>基本 IO 模型与阻塞点：以 Get 请求为例，为了处理一个 Get 请求，需要监听客户端请求（bind&#x2F;listen），和客户端建立连接（accept），从 socket 中读取请求（recv），解析客户端发送请求（parse），根据请求类型读取键值数据（get），最后给客户端返回结果，即向 socket 中写回数据（send）。</p>
 <p>但是，在这里的网络 IO 操作中，有潜在的阻塞点，分别是 accept() 和 recv()。当 Redis 监听到一个客户端有连接请求，但一直未能成功建立起连接时，会阻塞在 accept() 函数这里，导致其他客户端无法和 Redis 建立连接。类似的，当 Redis 通过 recv() 从一个客户端读取数据时，如果数据一直没有到达，Redis 也会一直阻塞在 recv()。</p>
 <p>这就导致 Redis 整个线程阻塞，无法处理其他客户端请求，效率很低。不过，幸运的是，socket 网络模型本身支持<strong>非阻塞模式</strong>。</p>
 <p>针对监听套接字，我们可以设置非阻塞模式：当 Redis 调用 accept() 但一直未有连接请求到达时，Redis 线程可以返回处理其他操作，而不用一直等待。但是，你要注意的是，调用 accept() 时，已经存在监听套接字了。</p>
 <p>Linux 中的 IO 多路复用机制是指一个线程处理多个 IO 流，就是我们经常听到的 select&#x2F;epoll 机制。简单来说，在 Redis 只运行单线程的情况下，该机制允许内核中，同时存在多个监听套接字和已连接套接字。内核会一直监听这些套接字上的连接请求或数据请求。一旦有请求到达，就会交给 Redis 线程处理，这就实现了一个 Redis 线程处理多个 IO 流的效果。</p>
 <p>也就是说，不会阻塞在某一个特定的客户端请求处理上。正因为此，Redis 可以同时和多个客户端连接并处理请求，从而提升并发性。</p>
 <p>现在，我们知道了，Redis 单线程是指它对网络 IO 和数据读写的操作采用了一个线程，而采用单线程的一个核心原因是避免多线程开发的并发控制问题。单线程的 Redis 也能获得高性能，跟多路复用的 IO 模型密切相关，因为这避免了 accept() 和 send()&#x2F;recv() 潜在的网络 IO 操作阻塞点。</p>
-<h2 id="Q：AOF"><a href="#Q：AOF" class="headerlink" title="Q：AOF"></a>Q：AOF</h2><p>AOF 写日志是主线程发起，在命令执行后才记录日志，所以不会阻塞当前的写操作。</p>
+<h1 id="Q：AOF"><a href="#Q：AOF" class="headerlink" title="Q：AOF"></a>Q：AOF</h1><p>AOF 写日志是主线程发起，在命令执行后才记录日志，所以不会阻塞当前的写操作。</p>
 <p>其次，AOF 虽然避免了对当前命令的阻塞，但可能会给下一个操作带来阻塞风险。这是因为，AOF 日志也是在主线程中执行的，如果在把日志文件写入磁盘时，磁盘写压力大，就会导致写盘很慢，进而导致后续的操作也无法执行了。</p>
-<h3 id="三种写回策略"><a href="#三种写回策略" class="headerlink" title="三种写回策略"></a>三种写回策略</h3><p>也就是 AOF 配置项 appendfsync 的三个可选值。</p>
+<h2 id="三种写回策略"><a href="#三种写回策略" class="headerlink" title="三种写回策略"></a>三种写回策略</h2><p>也就是 AOF 配置项 appendfsync 的三个可选值。</p>
 <ul>
 <li>Always，同步写回：每个写命令执行完，立马同步地将日志写回磁盘；</li>
 <li>Everysec，每秒写回：每个写命令执行完，只是先把日志写到 AOF 文件的内存缓冲区，每隔一秒把缓冲区中的内容写入磁盘；</li>
@@ -245,7 +245,7 @@
 
 
 
-<h3 id="AOF-重写会阻塞吗？"><a href="#AOF-重写会阻塞吗？" class="headerlink" title="AOF 重写会阻塞吗？"></a>AOF 重写会阻塞吗？</h3><p><strong>和 AOF 日志由主线程写回不同</strong>，重写过程是由后台子进程 bgrewriteaof 来完成的，这也是为了避免阻塞主线程，导致数据库性能下降。</p>
+<h2 id="AOF-重写会阻塞吗？"><a href="#AOF-重写会阻塞吗？" class="headerlink" title="AOF 重写会阻塞吗？"></a>AOF 重写会阻塞吗？</h2><p><strong>和 AOF 日志由主线程写回不同</strong>，重写过程是由后台子进程 bgrewriteaof 来完成的，这也是为了避免阻塞主线程，导致数据库性能下降。</p>
 <p>我把重写的过程总结为“一个拷贝，两处日志”。</p>
 <p>“一个拷贝”就是指，每次执行重写时，主线程 fork 出后台的 bgrewriteaof 子进程。此时，fork 会把主线程的内存拷贝一份给 bgrewriteaof 子进程，这里面就包含了数据库的最新数据。然后，bgrewriteaof 子进程就可以在不影响主线程的情况下，逐一把拷贝的数据写成操作，记入重写日志。</p>
 <p>“两处日志”又是什么呢？</p>
@@ -254,7 +254,7 @@
 <p><strong>主线程 fork 子线程的一瞬间是会发生阻塞的</strong></p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-474b0b86db4987b658825492e6597c29ad491413.jpg" alt="img" style="zoom:15%;" />
 
-<h2 id="Q：RDB（Redis-DataBase）-快照"><a href="#Q：RDB（Redis-DataBase）-快照" class="headerlink" title="Q：RDB（Redis DataBase） 快照"></a>Q：RDB（Redis DataBase） 快照</h2><h3 id="RDB-重写会阻塞吗？如何做快照？"><a href="#RDB-重写会阻塞吗？如何做快照？" class="headerlink" title="RDB 重写会阻塞吗？如何做快照？"></a>RDB 重写会阻塞吗？如何做快照？</h3><p>Redis 提供了两个命令来生成 RDB 文件，分别是 save 和 bgsave。</p>
+<h1 id="Q：RDB（Redis-DataBase）-快照"><a href="#Q：RDB（Redis-DataBase）-快照" class="headerlink" title="Q：RDB（Redis DataBase） 快照"></a>Q：RDB（Redis DataBase） 快照</h1><h2 id="RDB-重写会阻塞吗？如何做快照？"><a href="#RDB-重写会阻塞吗？如何做快照？" class="headerlink" title="RDB 重写会阻塞吗？如何做快照？"></a>RDB 重写会阻塞吗？如何做快照？</h2><p>Redis 提供了两个命令来生成 RDB 文件，分别是 save 和 bgsave。</p>
 <ul>
 <li>save：在主线程中执行，会导致阻塞；</li>
 <li>bgsave：创建一个子进程，专门用于写入 RDB 文件，避免了主线程的阻塞，这也是 Redis RDB 文件生成的默认配置。</li>
@@ -267,7 +267,7 @@
 <p>这里对数据的快照，我觉得很妙。</p>
 <p>当存在在「快照备份的过程」中（T 时刻），如果是读操作无所谓，写操作的话，需要先将该数据复制一份副本，然后主线程在该副本上进行修改，这样子线程存储的数据则是「老」的数据，这样的话，在「快照备份的过程中」能保证快照的数据都是 T 时刻的数据了，无论该过程结束的时间是 T + N 秒。</p>
 </blockquote>
-<h3 id="多久做快照？"><a href="#多久做快照？" class="headerlink" title="多久做快照？"></a>多久做快照？</h3><p>虽然 bgsave 执行时不阻塞主线程，但是，如果频繁地执行全量快照，也会带来两方面的开销。</p>
+<h2 id="多久做快照？"><a href="#多久做快照？" class="headerlink" title="多久做快照？"></a>多久做快照？</h2><p>虽然 bgsave 执行时不阻塞主线程，但是，如果频繁地执行全量快照，也会带来两方面的开销。</p>
 <p>一方面，频繁将全量数据写入磁盘，会给磁盘带来很大压力，多个快照竞争有限的磁盘带宽，前一个快照还没有做完，后一个又开始做了，容易造成恶性循环。</p>
 <p>另一方面，bgsave 子进程需要通过 fork 操作从主线程创建出来。虽然，子进程在创建后不会再阻塞主线程，但是，fork 这个创建过程本身会阻塞主线程，而且主线程的内存越大，阻塞时间越长。如果频繁 fork 出 bgsave 子进程，这就会频繁阻塞主线程了（所以，在 Redis 中如果有一个 bgsave 在运行，就不会再启动第二个 bgsave 子进程）</p>
 <blockquote>
@@ -276,7 +276,7 @@
 <p>优化</p>
 <p>Redis 4.0 中提出了一个混合使用 AOF 日志和内存快照的方法。简单来说，内存快照以一定的频率执行，在两次快照之间，使用 AOF 日志记录这期间的所有命令操作。混</p>
 <p>合使用 RDB 和 AOF，正好可以取两者之长，避两者之短，以较小的性能开销保证数据可靠性和性能。</p>
-<h3 id="关于混合使用个人感想"><a href="#关于混合使用个人感想" class="headerlink" title="关于混合使用个人感想"></a>关于混合使用个人感想</h3><blockquote>
+<h2 id="关于混合使用个人感想"><a href="#关于混合使用个人感想" class="headerlink" title="关于混合使用个人感想"></a>关于混合使用个人感想</h2><blockquote>
 <p>By Matthew Han</p>
 </blockquote>
 <p>关于 AOF 和 RDB，AOF 有点像一个软件的小版本升级，version 1.1 &#x3D;&#x3D;&gt; version 1.2，可能只有几条数据的更新，此时采用 AOF 进行数据更新比较好，但是到了一个大的版本，比如 version 3.8，此时最好重新下一个最新版本的客户端了，所以对于 Redis 来说利用 RDB 比较好。</p>
@@ -325,7 +325,7 @@
                 <div class="side-catalog">
                     <hr class="hidden-sm hidden-xs">
                     <h5>
-                        <a class="catalog-toggle" href="#">目录</a>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
                     </h5>
                     <ul class="catalog-body"></ul>
                 </div>
@@ -468,6 +468,15 @@
                     </li>
                 
 
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/MatthewHan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
                 
 
                 
@@ -638,7 +647,8 @@
         var $catalog = $('.catalog-container .side-catalog');
         if ($catalog.length === 0) return;
         var $container = $catalog.closest('.catalog-container');
-        var fixTop = 80; // distance from top considering header/nav
+        var fixTop = 10; // distance from top considering header/nav (increased to match CSS margin-top:40px)
+        var fixMinScroll = 240; // minimal scroll px before sticking to avoid immediate fixed on load
 
         var baseline = { leftPx: 0, widthPx: 0, originTop: 0 };
 
@@ -676,7 +686,8 @@
 
         function update(){
             var st = $(window).scrollTop();
-            if (st > baseline.originTop - fixTop){
+            var triggerTop = Math.max(baseline.originTop - fixTop, fixMinScroll);
+            if (st > triggerTop){
                 applyFixed();
             } else {
                 clearFixed();
