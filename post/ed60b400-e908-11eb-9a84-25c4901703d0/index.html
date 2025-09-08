@@ -190,7 +190,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Q：单机上的锁和分布式锁的联系与区别"><a href="#Q：单机上的锁和分布式锁的联系与区别" class="headerlink" title="Q：单机上的锁和分布式锁的联系与区别"></a>Q：单机上的锁和分布式锁的联系与区别</h2><p>对于在单机上运行的多线程程序来说，锁本身可以用一个变量表示。</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="Q：单机上的锁和分布式锁的联系与区别"><a href="#Q：单机上的锁和分布式锁的联系与区别" class="headerlink" title="Q：单机上的锁和分布式锁的联系与区别"></a>Q：单机上的锁和分布式锁的联系与区别</h1><p>对于在单机上运行的多线程程序来说，锁本身可以用一个变量表示。</p>
 <ul>
 <li>变量值为 0 时，表示没有线程获取锁；</li>
 <li>变量值为 1 时，表示已经有线程获取到锁了。</li>
@@ -202,7 +202,7 @@
 <li>要求一：分布式锁的加锁和释放锁的过程，涉及多个操作。所以，在实现分布式锁时，我们需要保证这些锁操作的原子性；</li>
 <li>要求二：共享存储系统保存了锁变量，如果共享存储系统发生故障或宕机，那么客户端也就无法进行锁操作了。在实现分布式锁时，我们需要考虑保证共享存储系统的可靠性，进而保证锁的可靠性。</li>
 </ul>
-<h2 id="Q：基于单个-Redis-节点实现分布式锁"><a href="#Q：基于单个-Redis-节点实现分布式锁" class="headerlink" title="Q：基于单个 Redis 节点实现分布式锁"></a>Q：基于单个 Redis 节点实现分布式锁</h2><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-363a31c71fc91f862b2702c906d2860605fe2bfc.jpg?wh=2820*2250" alt="img" style="zoom:15%;" />
+<h1 id="Q：基于单个-Redis-节点实现分布式锁"><a href="#Q：基于单个-Redis-节点实现分布式锁" class="headerlink" title="Q：基于单个 Redis 节点实现分布式锁"></a>Q：基于单个 Redis 节点实现分布式锁</h1><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-363a31c71fc91f862b2702c906d2860605fe2bfc.jpg?wh=2820*2250" alt="img" style="zoom:15%;" />
 
 
 
@@ -217,7 +217,7 @@
 
 <p>对于释放锁操作来说，我们可以在执行完业务逻辑后，使用 DEL 命令删除锁变量。不过，你不用担心锁变量被删除后，其他客户端无法请求加锁了。因为 SETNX 命令在执行时，如果要设置的键值对（也就是锁变量）不存在，SETNX 命令会先创建键值对，然后设置它的值。所以，释放锁之后，再有客户端请求加锁时，SETNX 命令会创建保存锁变量的键值对，并设置锁变量的值，完成加锁。</p>
 <p>总结来说，我们就可以用 SETNX 和 DEL 命令组合来实现加锁和释放锁操作。下面的伪代码示例显示了锁操作的过程，你可以看下。</p>
-<h3 id="使用-SETNX-和-DEL-命令组合实现分布锁，存在两个潜在的风险。"><a href="#使用-SETNX-和-DEL-命令组合实现分布锁，存在两个潜在的风险。" class="headerlink" title="使用 SETNX 和 DEL 命令组合实现分布锁，存在两个潜在的风险。"></a>使用 SETNX 和 DEL 命令组合实现分布锁，存在两个潜在的风险。</h3><p><strong>风险一</strong>：假如某个客户端在执行了 SETNX 命令、加锁之后，紧接着却在操作共享数据时发生了异常，结果一直没有执行最后的 DEL 命令释放锁。因此，锁就一直被这个客户端持有，其它客户端无法拿到锁，也无法访问共享数据和执行后续操作，这会给业务应用带来影响。</p>
+<h2 id="使用-SETNX-和-DEL-命令组合实现分布锁，存在两个潜在的风险。"><a href="#使用-SETNX-和-DEL-命令组合实现分布锁，存在两个潜在的风险。" class="headerlink" title="使用 SETNX 和 DEL 命令组合实现分布锁，存在两个潜在的风险。"></a>使用 SETNX 和 DEL 命令组合实现分布锁，存在两个潜在的风险。</h2><p><strong>风险一</strong>：假如某个客户端在执行了 SETNX 命令、加锁之后，紧接着却在操作共享数据时发生了异常，结果一直没有执行最后的 DEL 命令释放锁。因此，锁就一直被这个客户端持有，其它客户端无法拿到锁，也无法访问共享数据和执行后续操作，这会给业务应用带来影响。</p>
 <p><strong>解决</strong>：针对这个问题，一个有效的解决方法是，给锁变量设置一个过期时间。这样一来，即使持有锁的客户端发生了异常，无法主动地释放锁，Redis 也会根据锁变量的过期时间，在锁变量过期后，把它删除。其它客户端在锁变量过期后，就可以重新请求加锁，这就不会出现无法加锁的问题了。</p>
 <p><strong>风险二</strong>：如果客户端 A 执行了 SETNX 命令加锁后，假设客户端 B 执行了 DEL 命令释放锁，此时，客户端 A 的锁就被误释放了。如果客户端 C 正好也在申请加锁，就可以成功获得锁，进而开始操作共享数据。这样一来，客户端 A 和 C 同时在对共享数据进行操作，数据就会被修改错误，这也是业务层不能接受的。</p>
 <p><strong>解决</strong>：要能区分来自不同客户端的锁操作，可以在锁变量的值上想想办法。在使用 SETNX 命令进行加锁的方法中，我们通过把锁变量值设置为 1 或 0，表示是否加锁成功。1 和 0 只有两种状态，无法表示究竟是哪个客户端进行的锁操作。所以，我们在加锁操作时，可以让每个客户端给锁变量设置一个唯一值，这里的唯一值就可以用来标识当前操作的客户端。在释放锁操作时，客户端需要判断，当前锁变量的值是否和自己的唯一标识相等，只有在相等的情况下，才能释放锁。这样一来，就不会出现误释放锁的问题了。SET 命令在执行时还可以带上 EX 或 PX 选项，用来设置键值对的过期时间。</p>
@@ -225,7 +225,7 @@
 
 <p><strong>NX：类似 SETNX，当不存在才 set 一个 kv</strong></p>
 <p>虽然使用 SET 命令和 Lua 脚本在 Redis 单节点上实现分布式锁。但是现在只用了一个 Redis 实例来保存锁变量，如果这个 Redis 实例发生故障宕机了，那么锁变量就没有了。此时，客户端也无法进行锁操作了，这就会影响到业务的正常执行。所以，我们在实现分布式锁时，还需要保证锁的可靠性。那怎么提高呢？这就要提到基于多个 Redis 节点实现分布式锁的方式了。</p>
-<h3 id="基于多个-Redis-节点实现高可靠的分布式锁"><a href="#基于多个-Redis-节点实现高可靠的分布式锁" class="headerlink" title="基于多个 Redis 节点实现高可靠的分布式锁"></a>基于多个 Redis 节点实现高可靠的分布式锁</h3><p>Redlock 算法的基本思路，是让客户端和多个独立的 Redis 实例依次请求加锁，如果客户端能够和半数以上的实例成功地完成加锁操作，那么我们就认为，客户端成功地获得分布式锁了，否则加锁失败。这样一来，即使有单个 Redis 实例发生故障，因为锁变量在其它实例上也有保存，所以，客户端仍然可以正常地进行锁操作，锁变量并不会丢失。</p>
+<h2 id="基于多个-Redis-节点实现高可靠的分布式锁"><a href="#基于多个-Redis-节点实现高可靠的分布式锁" class="headerlink" title="基于多个 Redis 节点实现高可靠的分布式锁"></a>基于多个 Redis 节点实现高可靠的分布式锁</h2><p>Redlock 算法的基本思路，是让客户端和多个独立的 Redis 实例依次请求加锁，如果客户端能够和半数以上的实例成功地完成加锁操作，那么我们就认为，客户端成功地获得分布式锁了，否则加锁失败。这样一来，即使有单个 Redis 实例发生故障，因为锁变量在其它实例上也有保存，所以，客户端仍然可以正常地进行锁操作，锁变量并不会丢失。</p>
 <p><strong>第一步是，客户端获取当前时间。</strong></p>
 <p><strong>第二步是，客户端按顺序依次向 N 个 Redis 实例执行加锁操作。</strong></p>
 <p>这里的加锁操作和在单实例上执行的加锁操作一样，使用 SET 命令，带上 NX，EX&#x2F;PX 选项，以及带上客户端的唯一标识。当然，如果某个 Redis 实例发生故障了，为了保证在这种情况下，Redlock 算法能够继续运行，我们需要给加锁操作设置一个超时时间。</p>
@@ -233,17 +233,17 @@
 <p><strong>第三步是，一旦客户端完成了和所有 Redis 实例的加锁操作，客户端就要计算整个加锁过程的总耗时。</strong></p>
 <p>客户端只有在满足下面的这两个条件时，才能认为是加锁成功。</p>
 <ul>
-<li>条件一：客户端从超过半数（大于等于 N&#x2F;2+1）的 Redis 实例上成功获取到了锁；</li>
+<li>条件一：客户端从超过半数（大于等于 $N&#x2F;2 + 1$）的 Redis 实例上成功获取到了锁；</li>
 <li>条件二：客户端获取锁的总耗时没有超过锁的有效时间。</li>
 </ul>
 <p>在满足了这两个条件后，我们需要重新计算这把锁的有效时间，计算的结果是锁的最初有效时间减去客户端为获取锁的总耗时。</p>
-<h2 id="Q：Redis-与事务"><a href="#Q：Redis-与事务" class="headerlink" title="Q：Redis 与事务"></a>Q：Redis 与事务</h2><p>事务的执行过程包含三个步骤，Redis 提供了 MULTI、EXEC 两个命令来完成这三个步骤。</p>
+<h1 id="Q：Redis-与事务"><a href="#Q：Redis-与事务" class="headerlink" title="Q：Redis 与事务"></a>Q：Redis 与事务</h1><p>事务的执行过程包含三个步骤，Redis 提供了 MULTI、EXEC 两个命令来完成这三个步骤。</p>
 <p>第一步，客户端要使用一个命令显式地表示一个事务的开启。在 Redis 中，这个命令就是 MULTI。</p>
 <p>第二步，客户端把事务中本身要执行的具体操作（例如增删改数据）发送给服务器端。这些操作就是 Redis 本身提供的数据读写命令，例如 GET、SET 等。不过，这些命令虽然被客户端发送到了服务器端，但 Redis 实例只是把这些命令暂存到一个命令队列中，并不会立即执行。</p>
 <p>第三步，客户端向服务器端发送提交事务的命令，让数据库实际执行第二步中发送的具体操作。Redis 提供的 EXEC 命令就是执行事务提交的。当服务器端收到 EXEC 命令后，才会实际执行命令队列中的所有命令。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">开启事务</span></span><br><span class="line">127.0.0.1:6379&gt; MULTI</span><br><span class="line">OK</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将a:stock减1，</span></span><br><span class="line">127.0.0.1:6379&gt; DECR a:stock</span><br><span class="line">QUEUED</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将b:stock减1</span></span><br><span class="line">127.0.0.1:6379&gt; DECR b:stock</span><br><span class="line">QUEUED</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">实际执行事务</span></span><br><span class="line">127.0.0.1:6379&gt; EXEC</span><br><span class="line">1) (integer) 4</span><br><span class="line">2) (integer) 9</span><br></pre></td></tr></table></figure>
 
-<h2 id="Q：Redis-与原子性"><a href="#Q：Redis-与原子性" class="headerlink" title="Q：Redis 与原子性"></a>Q：Redis 与原子性</h2><p>先说个结论：虽然在这门课中声称是事务，但是 Redis 有个锤子的事务，原子性说白了也没法保障的，拉的一批。</p>
+<h1 id="Q：Redis-与原子性"><a href="#Q：Redis-与原子性" class="headerlink" title="Q：Redis 与原子性"></a>Q：Redis 与原子性</h1><p>先说个结论：虽然在这门课中声称是事务，但是 Redis 有个锤子的事务，原子性说白了也没法保障的，拉的一批。</p>
 <ul>
 <li><p>情况一：在执行 EXEC 命令前，客户端发送的操作命令本身就有错误（比如语法错误，使用了不存在的命令），在命令入队时就被 Redis 实例判断出来了。<strong>那么整个事务就会被放弃，这个勉强算半个事务。</strong></p>
 </li>
@@ -261,34 +261,33 @@
 <blockquote>
 <p>总结：你看这个 Redis 啊？才搞几个命令就不回滚了，真的太逊了。这个 Redis 就是逊啦。</p>
 </blockquote>
-<h2 id="Q：Redis-与一致性"><a href="#Q：Redis-与一致性" class="headerlink" title="Q：Redis 与一致性"></a>Q：Redis 与一致性</h2><p>可以理解一致性就是，应用系统从一个正确的状态到另一个正确的状态，而 ACID 就是说事务能够通过 AID 来保证这个 C 的过程。C 是目的，AID 都是手段。</p>
+<h1 id="Q：Redis-与一致性"><a href="#Q：Redis-与一致性" class="headerlink" title="Q：Redis 与一致性"></a>Q：Redis 与一致性</h1><p>可以理解一致性就是，应用系统从一个正确的状态到另一个正确的状态，而 ACID 就是说事务能够通过 AID 来保证这个 C 的过程。C 是目的，AID 都是手段。</p>
 <p>所以个人感觉一致性拉胯</p>
-<h2 id="Q：Redis-与隔离性"><a href="#Q：Redis-与隔离性" class="headerlink" title="Q：Redis 与隔离性"></a>Q：Redis 与隔离性</h2><p>事务的隔离性保证，会受到和事务一起执行的并发操作的影响。而事务执行又可以分成命令入队（EXEC 命令执行前）和命令实际执行（EXEC 命令执行后）两个阶段，所以，我们就针对这两个阶段，分成两种情况来分析：</p>
+<h1 id="Q：Redis-与隔离性"><a href="#Q：Redis-与隔离性" class="headerlink" title="Q：Redis 与隔离性"></a>Q：Redis 与隔离性</h1><p>事务的隔离性保证，会受到和事务一起执行的并发操作的影响。而事务执行又可以分成命令入队（EXEC 命令执行前）和命令实际执行（EXEC 命令执行后）两个阶段，所以，我们就针对这两个阶段，分成两种情况来分析：</p>
 <ul>
 <li>并发操作在 EXEC 命令前执行，此时，隔离性的保证要使用 WATCH 机制来实现，否则隔离性无法保证；</li>
 <li>并发操作在 EXEC 命令后执行，此时，隔离性可以保证。</li>
 </ul>
 <p>WATCH 机制：在事务执行前，监控一个或多个键的值变化情况，当事务调用 EXEC 命令执行时，WATCH 机制会先检查监控的键是否被其它客户端修改了。如果修改了，就放弃事务执行，避免事务的隔离性被破坏。然后，客户端可以再次执行事务，此时，如果没有并发修改事务数据的操作了，事务就能正常执行，隔离性也得到了保证。</p>
 <ul>
-<li>情况一：一个事务的 EXEC 命令还没有执行时，事务的命令操作是暂存在命令队列中的。此时，如果有其它的并发操作，我们就需要看事务是否使用了 WATCH 机制。<ul>
+<li><p>情况一：一个事务的 EXEC 命令还没有执行时，事务的命令操作是暂存在命令队列中的。此时，如果有其它的并发操作，我们就需要看事务是否使用了 WATCH 机制。</p>
+<ul>
 <li>开启了 WATCH 机制（可以保证隔离性）：<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-7ca1e4b12fe0dcd21ef9a9b13172ea4d044698ed.jpg" alt="img" style="zoom:15%;" /></li>
 <li>未开启 WATCH 机制（无法保证隔离性）：<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-c2252825080ed3d9a92ab17d313136202511341c.jpg" alt="img" style="zoom:15%;" /></li>
 </ul>
 </li>
-<li>情况二：并发操作在 EXEC 命令之后被服务器端接收并执行。因为 Redis 是用单线程执行命令，而且，EXEC 命令执行后，Redis 会保证先把命令队列中的所有命令执行完。所以，在这种情况下，并发操作不会破坏事务的隔离性。<ul>
-<li><img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-f71276031be1b7be328bd5d4af477a7e7d40fee4.jpg" alt="img" style="zoom:15%;" /></li>
+<li><p>情况二：并发操作在 EXEC 命令之后被服务器端接收并执行。因为 Redis 是用单线程执行命令，而且，EXEC 命令执行后，Redis 会保证先把命令队列中的所有命令执行完。所以，在这种情况下，并发操作不会破坏事务的隔离性。</p>
+<img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-f71276031be1b7be328bd5d4af477a7e7d40fee4.jpg" alt="img" style="zoom:15%;" /></li>
 </ul>
-</li>
-</ul>
-<h2 id="Q：Redis-与持久性"><a href="#Q：Redis-与持久性" class="headerlink" title="Q：Redis 与持久性"></a>Q：Redis 与持久性</h2><p>如果 Redis 没有使用 RDB 或 AOF，那么事务的持久化属性肯定得不到保证。如果 Redis 使用了 RDB 模式，那么，在一个事务执行后，而下一次的 RDB 快照还未执行前，如果发生了实例宕机，这种情况下，事务修改的数据也是不能保证持久化的。</p>
+<h1 id="Q：Redis-与持久性"><a href="#Q：Redis-与持久性" class="headerlink" title="Q：Redis 与持久性"></a>Q：Redis 与持久性</h1><p>如果 Redis 没有使用 RDB 或 AOF，那么事务的持久化属性肯定得不到保证。如果 Redis 使用了 RDB 模式，那么，在一个事务执行后，而下一次的 RDB 快照还未执行前，如果发生了实例宕机，这种情况下，事务修改的数据也是不能保证持久化的。</p>
 <p>如果 Redis 采用了 AOF 模式，因为 AOF 模式的三种配置选项 no、everysec 和 always 都会存在数据丢失的情况，所以，事务的持久性属性也还是得不到保证。</p>
 <p>所以，不管 Redis 采用什么持久化模式，事务的持久性属性是得不到保证的。</p>
-<h2 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h2><p>Redis 通过 MULTI、EXEC、DISCARD 和 WATCH 四个命令来支持事务机制。</p>
+<h1 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h1><p>Redis 通过 MULTI、EXEC、DISCARD 和 WATCH 四个命令来支持事务机制。</p>
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-3ca8592719eb0e01868ab0ab6398a897b64968af.jpg" alt="img" style="zoom:20%;" />
 
 
 
-<h3 id="小问题"><a href="#小问题" class="headerlink" title="小问题"></a>小问题</h3><p>Q：在执行事务时，如果 Redis 实例发生故障，而 Redis 使用了 RDB 机制，那么，事务的原子性还能得到保证吗？</p>
+<h2 id="小问题"><a href="#小问题" class="headerlink" title="小问题"></a>小问题</h2><p>Q：在执行事务时，如果 Redis 实例发生故障，而 Redis 使用了 RDB 机制，那么，事务的原子性还能得到保证吗？</p>
 <p>A：可能能，RDB一般没这么快生成，所以理论上可以回滚到上一个 RDB 的版本。</p>
 
 
@@ -751,7 +750,7 @@
     .search-modal .search-dialog{position:relative;max-width:880px;margin:12vh auto;background:transparent;backdrop-filter:none;border-radius:0;box-shadow:none;transform:translateY(-8px) scale(.98);opacity:0;transition:transform .25s ease,opacity .25s ease}
     .search-modal.show .search-dialog{transform:translateY(0) scale(1);opacity:1}
     .search-body{padding:0;background:#fff;border-radius:0;box-shadow:none;overflow:hidden}
-    .modal-search-input{width:100%;height:56px;line-height:56px;border:none;border-radius:0;padding:0 16px;font-size:18px;background:transparent;outline:none;box-shadow:none;border-bottom:none}
+    .modal-search-input{width:100%;height:56px;line-height:56px;border:none;border-radius:0;padding:0 16px;font-size:18px;font-weight:600;letter-spacing:.2px;background:transparent;outline:none;box-shadow:none;border-bottom:none}
     .modal-search-input::placeholder{color:#8e8e93;font-family:Menlo,Monaco,Consolas,"Courier New",monospace}
     .modal-search-input:focus{box-shadow:none}
     .modal-search-result{max-height:64vh;overflow-y:auto;overflow-x:hidden;margin:0;border:none;border-radius:0;background:transparent;box-shadow:none;overscroll-behavior:contain}
@@ -767,13 +766,13 @@
     .modal-search-result ul{list-style:none;margin:0;padding:0}
     .modal-search-result li:first-child{border-top:none}
     .modal-search-result, .modal-search-result *{box-shadow:none !important}
-    .modal-search-result li{padding:14px 16px;border-bottom:1px solid #eee}
+    .modal-search-result li{padding:12px 16px 14px;border-bottom:1px solid #f2f4f7;transition:transform .15s ease}
     .modal-search-result li:last-child{border-bottom:none}
-    .modal-search-result a{color:#111827;text-decoration:none;display:block;border-radius:0;transition:background .15s ease;padding:0;background:transparent}
-    .modal-search-result li:hover{background:#f8fafc;border-bottom-color:transparent}
-    .modal-search-result .hit-title{font-size:16.5px;font-weight:600;letter-spacing:.2px;color:#111827}
-    .modal-search-result .hit-excerpt{font-size:14px;line-height:1.7;color:#6b7280;margin-top:4px}
-    .modal-search-result .hit-tags{margin-top:6px;font-size:12.5px;color:#9ca3af}
+    .modal-search-result a{color:#111827;text-decoration:none;display:block;border-radius:8px;transition:background .15s ease,transform .15s ease;padding:2px 0;background:transparent}
+    .modal-search-result li:hover{background:#f8fafc;border-bottom-color:transparent;transform:translateX(2px);box-shadow:inset 2px 0 0 #0085a1}
+    .modal-search-result .hit-title{font-size:17px;line-height:1.35;font-weight:700;letter-spacing:.2px;color:#111827;margin-bottom:2px}
+    .modal-search-result .hit-excerpt{font-size:14px;line-height:1.7;color:#475569;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .modal-search-result .hit-tags{margin-top:6px;font-size:12.5px;color:#9ca3af;letter-spacing:.1px}
     .modal-search-result mark{background:linear-gradient(180deg, rgba(255,230,150,.0) 40%, rgba(255,230,150,.7) 40%);color:inherit;padding:0 .5px;border-radius:2px}
     .modal-search-result li.empty{text-align:center;color:#9aa0a6;font-size:14.5px;padding:20px 0;border-bottom:none}
     @media (max-width: 768px){ .search-modal .search-dialog{margin:8vh 12px} }

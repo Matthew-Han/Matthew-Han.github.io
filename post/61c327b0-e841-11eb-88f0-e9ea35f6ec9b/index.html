@@ -190,9 +190,9 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Q：什么是缓存污染"><a href="#Q：什么是缓存污染" class="headerlink" title="Q：什么是缓存污染"></a>Q：什么是缓存污染</h2><p>那什么是缓存污染呢？在一些场景下，有些数据被访问的次数非常少，甚至只会被访问一次。当这些数据服务完访问请求后，如果还继续留存在缓存中的话，就只会白白占用缓存空间。这种情况，就是缓存污染。</p>
-<h3 id="如何解决缓存污染？"><a href="#如何解决缓存污染？" class="headerlink" title="如何解决缓存污染？"></a>如何解决缓存污染？</h3><h4 id="LRU-的不足："><a href="#LRU-的不足：" class="headerlink" title="LRU 的不足："></a>LRU 的不足：</h4><p>因为只看数据的访问时间，使用 LRU 策略在处理扫描式单次查询操作时，无法解决缓存污染。所谓的扫描式单次查询操作，就是指应用对大量的数据进行一次全体读取，每个数据都会被读取，而且只会被读取一次。此时，因为这些被查询的数据刚刚被访问过，所以 LRU 字段值都很大。</p>
-<h4 id="LFU-的优化"><a href="#LFU-的优化" class="headerlink" title="LFU 的优化"></a>LFU 的优化</h4><p>LFU 缓存策略是在 LRU 策略基础上，为每个数据增加了一个计数器，来统计这个数据的访问次数。</p>
+                <link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h1 id="Q：什么是缓存污染"><a href="#Q：什么是缓存污染" class="headerlink" title="Q：什么是缓存污染"></a>Q：什么是缓存污染</h1><p>那什么是缓存污染呢？在一些场景下，有些数据被访问的次数非常少，甚至只会被访问一次。当这些数据服务完访问请求后，如果还继续留存在缓存中的话，就只会白白占用缓存空间。这种情况，就是缓存污染。</p>
+<h2 id="如何解决缓存污染？"><a href="#如何解决缓存污染？" class="headerlink" title="如何解决缓存污染？"></a>如何解决缓存污染？</h2><h3 id="LRU-的不足："><a href="#LRU-的不足：" class="headerlink" title="LRU 的不足："></a>LRU 的不足：</h3><p>因为只看数据的访问时间，使用 LRU 策略在处理扫描式单次查询操作时，无法解决缓存污染。所谓的扫描式单次查询操作，就是指应用对大量的数据进行一次全体读取，每个数据都会被读取，而且只会被读取一次。此时，因为这些被查询的数据刚刚被访问过，所以 LRU 字段值都很大。</p>
+<h3 id="LFU-的优化"><a href="#LFU-的优化" class="headerlink" title="LFU 的优化"></a>LFU 的优化</h3><p>LFU 缓存策略是在 LRU 策略基础上，为每个数据增加了一个计数器，来统计这个数据的访问次数。</p>
 <p>当使用 LFU 策略筛选淘汰数据时，首先会根据数据的访问次数进行筛选，把访问次数最低的数据淘汰出缓存。如果两个数据的访问次数相同，LFU 策略再比较这两个数据的访问时效性，把距离上一次访问时间更久的数据淘汰出缓存。</p>
 <p>为了避免操作链表的开销，Redis 在实现 LRU 策略时使用了两个近似方法：</p>
 <ul>
@@ -205,7 +205,7 @@
 <li>counter 值：lru 字段的后 8bit，表示数据的访问次数。</li>
 </ol>
 <p><strong>总结一下：当 LFU 策略筛选数据时，Redis 会在候选集合中，根据数据 lru 字段的后 8bit 选择访问次数最少的数据进行淘汰。当访问次数相同时，再根据 lru 字段的前 16bit 值大小，选择访问时间最久远的数据进行淘汰。</strong></p>
-<h4 id="Redis-只使用了-8bit-记录数据的访问次数，而-8bit-记录的最大值是-255"><a href="#Redis-只使用了-8bit-记录数据的访问次数，而-8bit-记录的最大值是-255" class="headerlink" title="Redis 只使用了 8bit 记录数据的访问次数，而 8bit 记录的最大值是 255"></a>Redis 只使用了 8bit 记录数据的访问次数，而 8bit 记录的最大值是 255</h4><p>Redis 也注意到了这个问题。因此，在实现 LFU 策略时，Redis 并没有采用数据每被访问一次，就给对应的 counter 值加 1 的计数规则，而是采用了一个更优化的计数规则。</p>
+<h3 id="Redis-只使用了-8bit-记录数据的访问次数，而-8bit-记录的最大值是-255"><a href="#Redis-只使用了-8bit-记录数据的访问次数，而-8bit-记录的最大值是-255" class="headerlink" title="Redis 只使用了 8bit 记录数据的访问次数，而 8bit 记录的最大值是 255"></a>Redis 只使用了 8bit 记录数据的访问次数，而 8bit 记录的最大值是 255</h3><p>Redis 也注意到了这个问题。因此，在实现 LFU 策略时，Redis 并没有采用数据每被访问一次，就给对应的 counter 值加 1 的计数规则，而是采用了一个更优化的计数规则。</p>
 <p>简单来说，LFU 策略实现的计数规则是：每当数据被访问一次时，首先，用计数器当前的值乘以配置项 lfu_log_factor 再加 1，再取其倒数，得到一个 p 值；然后，把这个 p 值和一个取值范围在（0，1）间的随机数 r 值比大小，只有 p 值大于 r 值时，计数器才加 1。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> r = (<span class="type">double</span>)rand()/RAND_MAX;</span><br><span class="line">...</span><br><span class="line"><span class="type">double</span> p = <span class="number">1.0</span>/(baseval*server.lfu_log_factor+<span class="number">1</span>);</span><br><span class="line"><span class="keyword">if</span> (r &lt; p) counter++;</span><br></pre></td></tr></table></figure>
 
@@ -215,10 +215,10 @@
 <p>正是因为使用了<strong>非线性递增的计数器方法</strong>，即使缓存数据的访问次数成千上万，LFU 策略也可以有效地区分不同的访问次数，从而进行合理的数据筛选。从刚才的表中，我们可以看到，当 lfu_log_factor 取值为 10 时，百、千、十万级别的访问次数对应的 counter 值已经有明显的区分了。</p>
 <p>我们在应用 LFU 策略时，一般可以将 lfu_log_factor 取值为 10。</p>
 <p>在实际业务应用中，LRU 和 LFU 两个策略都有应用。LRU 和 LFU 两个策略关注的数据访问特征各有侧重，LRU 策略更加关注数据的时效性，而 LFU 策略更加关注数据的访问频次。通常情况下，实际应用的负载具有较好的时间局部性，所以 LRU 策略的应用会更加广泛。但是，在扫描式查询的应用场景中，LFU 策略就可以很好地应对缓存污染问题了。</p>
-<h2 id="Q：Redis如何应对并发访问"><a href="#Q：Redis如何应对并发访问" class="headerlink" title="Q：Redis如何应对并发访问"></a>Q：Redis如何应对并发访问</h2><p>这里是指的是多条 Redis 命令不具备原子性，Redis 是单线程执行单条指令时当然不会被发生竞争的问题。</p>
+<h1 id="Q：Redis如何应对并发访问"><a href="#Q：Redis如何应对并发访问" class="headerlink" title="Q：Redis如何应对并发访问"></a>Q：Redis如何应对并发访问</h1><p>这里是指的是多条 Redis 命令不具备原子性，Redis 是单线程执行单条指令时当然不会被发生竞争的问题。</p>
 <p>为了保证并发访问的正确性，Redis 提供了两种方法，分别是加锁和原子操作。</p>
 <p>原子操作是另一种提供并发访问控制的方法。原子操作是指执行过程保持原子性的操作，而且原子操作执行时并不需要再加锁，实现了无锁操作。这样一来，既能保证并发控制，还能减少对系统并发性能的影响。</p>
-<h3 id="并发访问中需要对什么进行控制？"><a href="#并发访问中需要对什么进行控制？" class="headerlink" title="并发访问中需要对什么进行控制？"></a>并发访问中需要对什么进行控制？</h3><p>并发访问控制对应的操作主要是数据修改操作。当客户端需要修改数据时，基本流程分成两步：</p>
+<h2 id="并发访问中需要对什么进行控制？"><a href="#并发访问中需要对什么进行控制？" class="headerlink" title="并发访问中需要对什么进行控制？"></a>并发访问中需要对什么进行控制？</h2><p>并发访问控制对应的操作主要是数据修改操作。当客户端需要修改数据时，基本流程分成两步：</p>
 <ol start="0">
 <li>客户端先把数据读取到本地，在本地进行修改；</li>
 <li>客户端修改完数据后，再写回 Redis。</li>
@@ -227,7 +227,7 @@
 <img src="https://hexo-espada.oss-cn-hangzhou.aliyuncs.com/Espada/blog_pictures/redis/redis-60369294d82adaa9e2f69a3a5c5185c14f12d55a.jpg" alt="img" style="zoom:15%;" />
 
 <p>可以看到，客户端 A 在 t1 时读取库存值 10 并扣减 1，在 t2 时，客户端 A 还没有把扣减后的库存值 9 写回 Redis，而在此时，客户端 B 读到库存值 10，也扣减了 1，B 记录的库存值也为 9 了。等到 t3 时，A 往 Redis 写回了库存值 9，而到 t4 时，B 也写回了库存值 9。如果按正确的逻辑处理，客户端 A 和 B 对库存值各做了一次扣减，库存值应该为 8。所以，这里的库存值明显更新错了。</p>
-<h3 id="Redis-的两种原子操作方法"><a href="#Redis-的两种原子操作方法" class="headerlink" title="Redis 的两种原子操作方法"></a>Redis 的两种原子操作方法</h3><p>为了实现并发控制要求的临界区代码互斥执行，Redis 的原子操作采用了两种方法：</p>
+<h2 id="Redis-的两种原子操作方法"><a href="#Redis-的两种原子操作方法" class="headerlink" title="Redis 的两种原子操作方法"></a>Redis 的两种原子操作方法</h2><p>为了实现并发控制要求的临界区代码互斥执行，Redis 的原子操作采用了两种方法：</p>
 <ol start="0">
 <li>把多个操作在 Redis 中实现成一个操作，也就是单命令操作；</li>
 <li>把多个操作写到一个 Lua 脚本中，以原子性方式执行单个 Lua 脚本。</li>
@@ -235,7 +235,7 @@
 <p>我们先来看下 Redis 本身的单命令操作。Redis 是使用单线程来串行处理客户端的请求操作命令的，所以，当 Redis 执行某个命令操作时，其他命令是无法执行的，这相当于命令操作是互斥执行的。当然，Redis 的快照生成、AOF 重写这些操作，可以使用后台线程或者是子进程执行，也就是和主线程的操作并行执行。不过，这些操作只是读取数据，不会修改数据，所以，我们并不需要对它们做并发控制。</p>
 <p><strong>Redis 提供了 INCR&#x2F;DECR 命令，把这三个操作转变为一个原子操作了。INCR&#x2F;DECR 命令可以对数据进行增值 &#x2F; 减值操作，而且它们本身就是单个命令操作，Redis 在执行它们时，本身就具有互斥性。</strong></p>
 <p>所以，如果我们执行的 RMW 操作是对数据进行增减值的话，Redis 提供的原子操作 INCR 和 DECR 可以直接帮助我们进行并发控制。</p>
-<h3 id="lua-脚本"><a href="#lua-脚本" class="headerlink" title="lua 脚本"></a>lua 脚本</h3><p>Redis 的 Lua 脚本可以包含多个操作，这些操作都会以原子性的方式执行，绕开了单命令操作的限制。不过，如果把很多操作都放在 Lua 脚本中原子执行，会导致 Redis 执行脚本的时间增加，同样也会降低 Redis 的并发性能。所以建议在编写 Lua 脚本时，避免把不需要做并发控制的操作写入脚本中。</p>
+<h2 id="lua-脚本"><a href="#lua-脚本" class="headerlink" title="lua 脚本"></a>lua 脚本</h2><p>Redis 的 Lua 脚本可以包含多个操作，这些操作都会以原子性的方式执行，绕开了单命令操作的限制。不过，如果把很多操作都放在 Lua 脚本中原子执行，会导致 Redis 执行脚本的时间增加，同样也会降低 Redis 的并发性能。所以建议在编写 Lua 脚本时，避免把不需要做并发控制的操作写入脚本中。</p>
 
 
                 <hr>
@@ -697,7 +697,7 @@
     .search-modal .search-dialog{position:relative;max-width:880px;margin:12vh auto;background:transparent;backdrop-filter:none;border-radius:0;box-shadow:none;transform:translateY(-8px) scale(.98);opacity:0;transition:transform .25s ease,opacity .25s ease}
     .search-modal.show .search-dialog{transform:translateY(0) scale(1);opacity:1}
     .search-body{padding:0;background:#fff;border-radius:0;box-shadow:none;overflow:hidden}
-    .modal-search-input{width:100%;height:56px;line-height:56px;border:none;border-radius:0;padding:0 16px;font-size:18px;background:transparent;outline:none;box-shadow:none;border-bottom:none}
+    .modal-search-input{width:100%;height:56px;line-height:56px;border:none;border-radius:0;padding:0 16px;font-size:18px;font-weight:600;letter-spacing:.2px;background:transparent;outline:none;box-shadow:none;border-bottom:none}
     .modal-search-input::placeholder{color:#8e8e93;font-family:Menlo,Monaco,Consolas,"Courier New",monospace}
     .modal-search-input:focus{box-shadow:none}
     .modal-search-result{max-height:64vh;overflow-y:auto;overflow-x:hidden;margin:0;border:none;border-radius:0;background:transparent;box-shadow:none;overscroll-behavior:contain}
@@ -713,13 +713,13 @@
     .modal-search-result ul{list-style:none;margin:0;padding:0}
     .modal-search-result li:first-child{border-top:none}
     .modal-search-result, .modal-search-result *{box-shadow:none !important}
-    .modal-search-result li{padding:14px 16px;border-bottom:1px solid #eee}
+    .modal-search-result li{padding:12px 16px 14px;border-bottom:1px solid #f2f4f7;transition:transform .15s ease}
     .modal-search-result li:last-child{border-bottom:none}
-    .modal-search-result a{color:#111827;text-decoration:none;display:block;border-radius:0;transition:background .15s ease;padding:0;background:transparent}
-    .modal-search-result li:hover{background:#f8fafc;border-bottom-color:transparent}
-    .modal-search-result .hit-title{font-size:16.5px;font-weight:600;letter-spacing:.2px;color:#111827}
-    .modal-search-result .hit-excerpt{font-size:14px;line-height:1.7;color:#6b7280;margin-top:4px}
-    .modal-search-result .hit-tags{margin-top:6px;font-size:12.5px;color:#9ca3af}
+    .modal-search-result a{color:#111827;text-decoration:none;display:block;border-radius:8px;transition:background .15s ease,transform .15s ease;padding:2px 0;background:transparent}
+    .modal-search-result li:hover{background:#f8fafc;border-bottom-color:transparent;transform:translateX(2px);box-shadow:inset 2px 0 0 #0085a1}
+    .modal-search-result .hit-title{font-size:17px;line-height:1.35;font-weight:700;letter-spacing:.2px;color:#111827;margin-bottom:2px}
+    .modal-search-result .hit-excerpt{font-size:14px;line-height:1.7;color:#475569;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .modal-search-result .hit-tags{margin-top:6px;font-size:12.5px;color:#9ca3af;letter-spacing:.1px}
     .modal-search-result mark{background:linear-gradient(180deg, rgba(255,230,150,.0) 40%, rgba(255,230,150,.7) 40%);color:inherit;padding:0 .5px;border-radius:2px}
     .modal-search-result li.empty{text-align:center;color:#9aa0a6;font-size:14.5px;padding:20px 0;border-bottom:none}
     @media (max-width: 768px){ .search-modal .search-dialog{margin:8vh 12px} }
